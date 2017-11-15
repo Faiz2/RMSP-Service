@@ -31,6 +31,7 @@
             $content.html(r);
         });
     }
+
     var replace_style = function (doc) {
         var cur_li = doc.parent().not('.treeview');
         var li = $('.sidebar-menu').find('li').not('.header').not('.treeview');
