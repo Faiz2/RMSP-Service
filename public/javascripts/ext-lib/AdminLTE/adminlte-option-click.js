@@ -4,9 +4,10 @@
         var li_filter = $(this).attr('pharbers-filter');
         switch (li_filter) {
             case 'market-info':
-                replace_page("test");
+                replace_page("market_info");
                 break;
             case 'brd':
+
                 break;
             case 'product-info':
                 break;
