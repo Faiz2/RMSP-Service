@@ -7,5 +7,6 @@
 GET     /                           controllers.RMSPRoutesController.index
 GET     /market_info                controllers.RMSPRoutesController.marketInfo
 GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
+GET     /product_info               controllers.RMSPRoutesController.productInfo
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

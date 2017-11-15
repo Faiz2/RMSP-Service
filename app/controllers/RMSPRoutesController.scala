@@ -25,4 +25,8 @@ class RMSPRoutesController extends Controller {
 	def brdInfo = Action {
 		Ok(views.html.Module.Brd.brd_home())
 	}
+	
+	def productInfo = Action {
+		Ok(views.html.Module.Product.product_home())
+	}
 }

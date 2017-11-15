@@ -10,6 +10,7 @@
                 replace_page("brd_info");
                 break;
             case 'product-info':
+                replace_page("product_info");
                 break;
             case 'business-decisions':
                 break;
