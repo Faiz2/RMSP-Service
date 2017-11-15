@@ -1,53 +1,57 @@
 @()
 <div class="box-body">
     <h4><strong>团队能力指数：59</strong></h4>
-    <table class="table table-striped table-hover" role="grid">
-        <caption></caption>
-        <thead>
-            <tr role="row">
-                <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 100px;">业务代表</th>
-                <th class="sorting_disabled dt-left" rowspan="1" colspan="1" style="width: 100px;"></th>
-                <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售技巧</th>
-                <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">产品知识</th>
-                <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">工作积极性</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr role="row">
-                <td class=" dt-center">小宋</td>
-                <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep1.jpg")" height="100"></td>
-                <td class=" dt-center">8年销售经验，在各类医院和产品的销售中积累了丰富的经验。善于发现客户需求，善于探查客户心理</td>
-                <td class=" dt-center">医学院校临床专业毕业，对疾病知识有一定的基础，工作中积累了丰富的产品知识</td>
-                <td class=" dt-center">加入公司3年，没有得到升职，最近由于同事得到提升而垂头丧气，对个人未来发展感到茫然</td>
-            </tr>
-            <tr role="row">
-                <td class=" dt-center">小兰</td>
-                <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep2.jpg")" height="100"></td>
-                <td class=" dt-center">5年销售经验，熟练运用拜访技巧，善于发现客户需求，可以敏锐的发现业务机会</td>
-                <td class=" dt-center">化学专业毕业，有较强的学习能力，工作中积累了丰富的产品知识</td>
-                <td class=" dt-center">加入公司2年，工作积极认真，希望在公司长期发展</td>
-            </tr>
-            <tr role="row">
-                <td class=" dt-center">小木</td>
-                <td class=" dt-left"><img src=".@routes.Assets.versioned("images/Reps/rep3.jpg")" height="100"></td>
-                <td class=" dt-center">3年销售经验，一对一拜访技巧上比较简单，只关注产品宣传和会议活动，但人际敏感度较低</td>
-                <td class=" dt-center">药学专业研究生毕业，有一定学习能力</td>
-                <td class=" dt-center">加入公司不到1年，工作积极主动，做事认真可靠</td>
-            </tr>
-            <tr role="row">
-                <td class=" dt-center">小白</td>
-                <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep4.jpg")" height="100"></td>
-                <td class=" dt-center">2年销售经验，以前的公司没有提供系统的销售培训，拜访技巧上比较随意，只关注客户关系，缺乏专业推广的能力</td>
-                <td class=" dt-center">英语专业毕业，有较强的学习能力，很聪明</td>
-                <td class=" dt-center">加入公司不到1年，认为目前的公司是个人发展的很好的平台，愿意接受挑战</td>
-            </tr>
-            <tr role="row">
-                <td class=" dt-center">小青</td>
-                <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep5.jpg")" height="100"></td>
-                <td class=" dt-center">5年销售经验，善于发现客户需求，并利用各种沟通方式实现销售</td>
-                <td class=" dt-center">生物专业毕业，工作中积累了丰富的产品知识</td>
-                <td class=" dt-center">加入公司2年多，工作态度时好时坏，不愿意承担压力</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="sales_rep_info" style="width: 100%; height: auto; visibility: inherit;" class="datatables html-widget html-widget-output shiny-bound-output">
+        <div class="dataTables_wrapper no-footer">
+            <table class="display dataTable no-footer" role="grid"> <!-- table table-striped table-hover -->
+                <caption></caption>
+                <thead>
+                    <tr role="row">
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 100px;">业务代表</th>
+                        <th class="sorting_disabled dt-left" rowspan="1" colspan="1" style="width: 100px;"></th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售技巧</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">产品知识</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">工作积极性</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr role="row">
+                        <td class=" dt-center">小宋</td>
+                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep1.jpg")" height="100"></td>
+                        <td class=" dt-center">8年销售经验，在各类医院和产品的销售中积累了丰富的经验。善于发现客户需求，善于探查客户心理</td>
+                        <td class=" dt-center">医学院校临床专业毕业，对疾病知识有一定的基础，工作中积累了丰富的产品知识</td>
+                        <td class=" dt-center">加入公司3年，没有得到升职，最近由于同事得到提升而垂头丧气，对个人未来发展感到茫然</td>
+                    </tr>
+                    <tr role="row">
+                        <td class=" dt-center">小兰</td>
+                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep2.jpg")" height="100"></td>
+                        <td class=" dt-center">5年销售经验，熟练运用拜访技巧，善于发现客户需求，可以敏锐的发现业务机会</td>
+                        <td class=" dt-center">化学专业毕业，有较强的学习能力，工作中积累了丰富的产品知识</td>
+                        <td class=" dt-center">加入公司2年，工作积极认真，希望在公司长期发展</td>
+                    </tr>
+                    <tr role="row">
+                        <td class=" dt-center">小木</td>
+                        <td class=" dt-left"><img src=".@routes.Assets.versioned("images/Reps/rep3.jpg")" height="100"></td>
+                        <td class=" dt-center">3年销售经验，一对一拜访技巧上比较简单，只关注产品宣传和会议活动，但人际敏感度较低</td>
+                        <td class=" dt-center">药学专业研究生毕业，有一定学习能力</td>
+                        <td class=" dt-center">加入公司不到1年，工作积极主动，做事认真可靠</td>
+                    </tr>
+                    <tr role="row">
+                        <td class=" dt-center">小白</td>
+                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep4.jpg")" height="100"></td>
+                        <td class=" dt-center">2年销售经验，以前的公司没有提供系统的销售培训，拜访技巧上比较随意，只关注客户关系，缺乏专业推广的能力</td>
+                        <td class=" dt-center">英语专业毕业，有较强的学习能力，很聪明</td>
+                        <td class=" dt-center">加入公司不到1年，认为目前的公司是个人发展的很好的平台，愿意接受挑战</td>
+                    </tr>
+                    <tr role="row">
+                        <td class=" dt-center">小青</td>
+                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep5.jpg")" height="100"></td>
+                        <td class=" dt-center">5年销售经验，善于发现客户需求，并利用各种沟通方式实现销售</td>
+                        <td class=" dt-center">生物专业毕业，工作中积累了丰富的产品知识</td>
+                        <td class=" dt-center">加入公司2年多，工作态度时好时坏，不愿意承担压力</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

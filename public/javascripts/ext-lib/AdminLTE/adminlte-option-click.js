@@ -7,7 +7,7 @@
                 replace_page("market_info");
                 break;
             case 'brd':
-
+                replace_page("brd_info");
                 break;
             case 'product-info':
                 break;
