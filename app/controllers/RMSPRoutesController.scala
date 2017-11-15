@@ -17,8 +17,4 @@ class RMSPRoutesController extends Controller {
 	def index = Action {
 		Ok(views.html.Home.home())
 	}
-
-	def test = Action {
-		Ok(views.html.test())
-	}
 }
