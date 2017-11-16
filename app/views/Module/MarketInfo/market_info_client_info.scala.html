@@ -1,6 +1,21 @@
 @()
 <div class="tab-pane" role="tabpanel" data-value="客户信息" id="tab-2685-2">
     <section class="content container-fluid">
-        <h1>This is My Page. <font color="red">Fuck</font></h1>
+        <div class="row clean-bootstrap-col-padding-all">
+            <div class="col-sm-2" title="周期列表">
+                <button class="btn btn-default " type="submit">周期1:客户信息</button>
+                <br>
+                <br>
+                <button class="btn btn-default disabled " type="submit">周期2:客户信息</button>
+            </div>
+            <div class="col-sm-10">
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">客户潜力信息</h3>
+                    </div>
+                    @Module.MarketInfo.market_info_client_info_content()
+                </div>
+            </div>
+        </div>
     </section>
 </div>

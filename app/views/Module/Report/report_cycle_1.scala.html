@@ -1,0 +1,91 @@
+@()
+<div class="tab-pane active" role="tabpanel" data-value="周期1" id="tab-2688-1">
+    <section class=" clean-bootstrap-col-padding-all"><!--content container-fluid-->
+        <div id="download-report-cycle1">
+            <br>
+            <div class="row ">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-default disabled"><i class="fa fa-download"></i>下载周期1报告</button>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div id="market-sales-report-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                     <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">市场销售报告</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.market_sales_report()
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delegate-report-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">代表报告</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.delegate_report()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="manager-report-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">经理报告</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.manager_report()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div id="allot-report-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">分配报告</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.allot_report()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div id="sales-details-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">销售明细</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.sales_details()
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sales-details-cycle1">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">销售报告</h3>
+                        </div>
+                        @Module.Report.ReportCycle1Content.sales_report()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

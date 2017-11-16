@@ -17,6 +17,7 @@
             case 'management-decisions':
                 break;
             case 'report':
+                replace_page("report");
                 break;
             case 'help':
                 break;
