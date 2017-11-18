@@ -2,11 +2,11 @@ package module.marketinfo.MarketInfoData
 
 trait MarketInfoData {
 	
-	def setHospitalHtmlData(lst: List[Map[String, String]]): Unit = {
-	
+	def setHospitalHtmlData(lst: List[String Map String]): play.twirl.api.HtmlFormat.Appendable = {
+		views.html.Module.MarketInfo.market_info_news_content(lst)
 	}
 	
-	def setClientInfoHtmlData(lst: List[Map[String, String]]): Unit = {
-	
+	def setClientInfoHtmlData(map: String Map List[String Map String]): play.twirl.api.HtmlFormat.Appendable = {
+		views.html.Module.MarketInfo.market_info_client_info_content(map)
 	}
 }
