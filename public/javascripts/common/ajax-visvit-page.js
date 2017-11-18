@@ -1,4 +1,6 @@
-(function($, w){
+(function($, w) {
+
+
     $('ul[class="sidebar-menu"] li a').click(function(){
         replace_style($(this));
         var li_filter = $(this).attr('pharbers-filter');
@@ -29,7 +31,7 @@
 
     var replace_page = function(link) {
         $.get("/" + link, {}, function(r){
-            var $content = $('div[pharbers-filter="div-content"]');
+            var $content = $('div[pharbers-filter="'+ AjaxVisVit.config.Body_Id +'"]');
             $content.empty();
             $content.html(r);
         });

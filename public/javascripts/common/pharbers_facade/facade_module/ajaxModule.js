@@ -1,11 +1,9 @@
 var AjaxCall = function () {};
 
 AjaxCall.prototype.baseCall = function (url, data, type, successFun, errorFun, beforeFun, completeFun) {
-    var errorFun = errorFun || function (e) {
-            console.error(e)
-    };
-    var beforeFun = beforeFun || function () {};
-    var completeFun = completeFun || function () {};
+    var errorFunction = errorFun || function (e) {console.error(e)};
+    var beforeFunction = beforeFun || function () {};
+    var completeFunction = completeFun || function (e) {};
     $.ajax({
         type: type,
         url: url,
@@ -14,18 +12,10 @@ AjaxCall.prototype.baseCall = function (url, data, type, successFun, errorFun, b
         data: data,
         contentType: "application/json,charset=utf-8",
         Accept: "application/json,charset=utf-8",
-        success: function (data) {
-            successFun(data)
-        },
-        error: function (e) {
-            errorFun(e)
-        },
-        beforeSend : function () {
-            beforeFun();
-        },
-        complete : function () {
-            completeFun();
-        }
+        success: function (data) {successFun(data)},
+        error: errorFunction,
+        beforeSend : beforeFunction,
+        complete : completeFunction
     });
 
 };
