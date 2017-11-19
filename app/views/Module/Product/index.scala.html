@@ -1,0 +1,9 @@
+@()
+<div>
+    @Module.Product.product_home() {
+        <script>
+            $.getScript('@routes.Assets.versioned("javascripts/business-lib/product-info/product-info.js")');
+        </script>
+        @*<script src="@routes.Assets.versioned("javascripts/business-lib/product-info/product-info.js")" type="text/javascript" defer="defer"></script>*@
+    }
+</div>

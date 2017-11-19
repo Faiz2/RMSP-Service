@@ -1,4 +1,4 @@
-@()
+@()(script: Html)
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
@@ -6,8 +6,10 @@
                 <div class="box-header">
                     <h3 class="box-title">销售产品介绍</h3>
                 </div>
-                @Module.Product.product_content()
+                <div id="product-info-content"></div>
+                @* @Module.Product.product_content() *@
             </div>
         </div>
     </div>
+    @script
 </section>

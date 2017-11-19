@@ -1,4 +1,4 @@
-@()
+@(data: List[String Map String])
 <div class="box-body">
     <div id="products_info" style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output shiny-bound-output">
         <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
@@ -14,49 +14,24 @@
                         <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">单位成本</th>
                         <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">医保</th>
                         <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">类型</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">竞品信息</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr role="row">
-                        <td class=" dt-center">美素</td>
-                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug1.jpg")" height="100"></td>
-                        <td class=" dt-center">口服抗生素</td>
-                        <td class=" dt-center">2000</td>
-                        <td class=" dt-center">89</td>
-                        <td class=" dt-center">44</td>
-                        <td class=" dt-center">甲类</td>
-                        <td class=" dt-center">首仿</td>
-                    </tr>
-                    <tr role="row">
-                        <td class=" dt-center">美平</td>
-                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug2.jpg")" height="100"></td>
-                        <td class=" dt-center">一代降糖药</td>
-                        <td class=" dt-center">2003</td>
-                        <td class=" dt-center">65</td>
-                        <td class=" dt-center">31</td>
-                        <td class=" dt-center">乙类</td>
-                        <td class=" dt-center">首仿</td>
-                    </tr>
-                    <tr role="row">
-                        <td class=" dt-center">美乐</td>
-                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug3.jpg")" height="100"></td>
-                        <td class=" dt-center">三代降糖药</td>
-                        <td class=" dt-center">2011</td>
-                        <td class=" dt-center">95</td>
-                        <td class=" dt-center">30</td>
-                        <td class=" dt-center">乙类</td>
-                        <td class=" dt-center">首仿</td>
-                    </tr>
-                    <tr role="row">
-                        <td class=" dt-center">美通</td>
-                        <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug4.jpg")" height="100"></td>
-                        <td class=" dt-center">皮肤药</td>
-                        <td class=" dt-center">2017</td>
-                        <td class=" dt-center">55</td>
-                        <td class=" dt-center">11</td>
-                        <td class=" dt-center">自费</td>
-                        <td class=" dt-center">原研</td>
-                    </tr>
+                    @for(prod <- data.zipWithIndex) {
+                        <tr role="row">
+                            <td class=" dt-center">@{prod._1.getOrElse("品牌", "")}</td>
+                            <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug"+ {prod._2 + 1} +".jpg")" height="100"></td>
+                            <td class=" dt-center">@{prod._1.getOrElse("类别", "")}</td>
+                            <td class=" dt-center">@{prod._1.getOrElse("上市时间", "")}</td>
+                            <td class=" dt-center">@{prod._1.getOrElse("单价（公司考核价）", "")}</td>
+                            <td class=" dt-center">@{prod._1.getOrElse("单位成本", "")}</td>
+                            <td class=" dt-center">@{prod._1.getOrElse("医保", "")}</td>
+                            <td class=" dt-center">@(prod._1.getOrElse("类型", ""))</td>
+                            <td class=" dt-center">@(prod._1.getOrElse("竞品信息", ""))</td>
+                        </tr>
+                    }
+
                 </tbody>
             </table>
         </div>

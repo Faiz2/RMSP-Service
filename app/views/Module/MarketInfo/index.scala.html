@@ -4,6 +4,9 @@
         @Module.MarketInfo.market_info_news()
         @Module.MarketInfo.market_info_client_info()
     } {
-        <script src="@routes.Assets.versioned("javascripts/business-lib/market-info/market-info.js")" type="text/javascript" defer="defer"></script>
+        <script>
+            $.getScript('@routes.Assets.versioned("javascripts/business-lib/market-info/market-info.js")');
+        </script>
+        @*<script src="@routes.Assets.versioned("javascripts/business-lib/market-info/market-info.js")" type="text/javascript" defer="defer"></script>*@
     }
 </div>

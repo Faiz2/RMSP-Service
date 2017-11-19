@@ -1,4 +1,10 @@
 @()
 <div class="box-body">
-    <h1>暂无销售报告！</h1>
+    @Module.Report.hospital_select()
+    @Module.Report.product_select()
+    <br/>
+    <br/>
+    <br/>
+    @Module.Report.people_select()
+    @Module.Report.product_select()
 </div>
