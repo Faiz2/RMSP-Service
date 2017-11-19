@@ -5,7 +5,13 @@
 
 
 
+#GET     /page/:link                controllers.RMSPRoutesController.page(link: String)
+#GET     /page/                      controllers.RMSPRoutesController.page(link: String = "home")
+#GET     /page                       controllers.RMSPRoutesController.page(link: String = "home")
+
+
 GET     /                           controllers.RMSPRoutesController.index
+
 GET     /market_info                controllers.RMSPRoutesController.marketInfo
 GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
 GET     /product_info               controllers.RMSPRoutesController.productInfo
