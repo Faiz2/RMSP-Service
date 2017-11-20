@@ -19,23 +19,30 @@
                 $client_content.html('<h1 style="color: red">Error.</h1>');
             }
             $.each($('.news tr'), function(i, v) {
-                var last_td = $(v).find('td:last');
-                var num = f.thousandsModule.formatNum(last_td.text());
-                last_td.text(num);
+                var $tds = $(v).find('td:gt(2)');
+                $.each($tds, function(j, k) {
+                    var $td = $(k);
+                    $td.text(f.thousandsModule.formatNum($td.text()))
+                });
             });
             $.each($('.client tr'), function(i, v) {
-                var last_td_3 = $(v).find('td').eq(3);
-                var last_td_4 = $(v).find('td').eq(4);
-                var last_td_5 = $(v).find('td').eq(5);
-                var last_td_6 = $(v).find('td').eq(6);
-                var num_td_3 = f.thousandsModule.formatNum(last_td_3.text().split(".")[0]);
-                var num_td_4 = f.thousandsModule.formatNum(last_td_4.text().split(".")[0]);
-                var num_td_5 = f.thousandsModule.formatNum(last_td_5.text().split(".")[0]);
-                var num_td_6 = f.thousandsModule.formatNum(last_td_6.text().split(".")[0]);
-                last_td_3.text(num_td_3);
-                last_td_4.text(num_td_4);
-                last_td_5.text(num_td_5);
-                last_td_6.text(num_td_6);
+                var $tds = $(v).find('td:gt(2)');
+                $.each($tds, function (j, k) {
+                    var $td = $(k);
+                    $td.text(f.thousandsModule.formatNum($td.text().split(".")[0]))
+                });
+                // var last_td_3 = $(v).find('td').eq(3);
+                // var last_td_4 = $(v).find('td').eq(4);
+                // var last_td_5 = $(v).find('td').eq(5);
+                // var last_td_6 = $(v).find('td').eq(6);
+                // var num_td_3 = f.thousandsModule.formatNum(last_td_3.text().split(".")[0]);
+                // var num_td_4 = f.thousandsModule.formatNum(last_td_4.text().split(".")[0]);
+                // var num_td_5 = f.thousandsModule.formatNum(last_td_5.text().split(".")[0]);
+                // var num_td_6 = f.thousandsModule.formatNum(last_td_6.text().split(".")[0]);
+                // last_td_3.text(num_td_3);
+                // last_td_4.text(num_td_4);
+                // last_td_5.text(num_td_5);
+                // last_td_6.text(num_td_6);
             });
         }, function(e){console.info(e)})
     }

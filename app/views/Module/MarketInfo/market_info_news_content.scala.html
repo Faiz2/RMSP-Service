@@ -10,6 +10,10 @@
                         <th class="sorting_disabled dt-left" rowspan="1" colspan="1" style="width: 80px;"></th>
                         <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">快报</th>
                         <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">上期销售额(元)</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">口服抗生素</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">一代降糖药</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">三代降糖药</th>
+                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">皮肤药</th>
                     </tr>
                 </thead>
                 <tbody class="news">
@@ -17,8 +21,12 @@
                         <tr role="row" >
                             <td class=" dt-center">@{his._1("hospname")}</td>
                             <td class=" dt-left"><img src="@routes.Assets.versioned("images/Hospitals/hosp"+{his._2 + 1}+".png")" height="52"></td>
-                            <td class=" dt-center">@{his._1("letters")}</td>
-                            <td class=" dt-center">@{his._1("periodsales")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("letters", "")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("periodsales", "0")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("口服抗生素", "0")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("一代降糖药", "0")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("三代降糖药", "0")}</td>
+                            <td class=" dt-center">@{his._1.getOrElse("皮肤药", "0")}</td>
                         </tr>
                     }
                 </tbody>
