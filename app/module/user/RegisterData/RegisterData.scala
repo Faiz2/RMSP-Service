@@ -1,0 +1,32 @@
+package module.user.RegisterData
+
+import java.util.Date
+
+import com.mongodb.casbah.Imports.{DBObject, _}
+import play.api.libs.json.JsValue
+
+
+object State {
+	sealed class UserState(val s: Boolean, val n: Int)
+	case class UserNormal() extends UserState(true, 0)
+	case class UserLocked() extends UserState(false, 1)
+}
+
+trait RegisterData {
+	
+	implicit val m2d: JsValue => DBObject = { jv =>
+		val builder = MongoDBObject.newBuilder
+		builder += "user" -> (jv \ "user" \ "account").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "pw" -> (jv \ "user" \ "password").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "corperation" -> (jv \ "user" \ "corperation").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "department" -> (jv \ "user" \ "department").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "title" -> (jv \ "user" \ "title").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "mobile_phone" -> (jv \ "user" \ "mobile_phone").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "email" -> (jv \ "user" \ "email").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "age" -> (jv \ "user" \ "age").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "timestamp" -> (jv \ "user" \ "timestamp").asOpt[String].getOrElse(new Date().getTime.toString)
+		builder += "locked_out" -> State.UserNormal().s
+		builder += "times" -> 0
+		builder.result
+	}
+}

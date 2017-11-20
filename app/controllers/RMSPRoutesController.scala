@@ -25,14 +25,12 @@ trait RoutesFilter extends TokenCheck { this: Controller =>
 			case _ => ???
 		}
 	}
-
-
 }
 
-class RMSPRoutesController @Inject()(as_inject : ActorSystem,  att : AuthTokenTrait) extends Controller with RoutesFilter {
+class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait) extends Controller with RoutesFilter {
 
-	implicit val as = as_inject
-//	implicit val db_basic : DBTrait = dbt.queryDBInstance("cli").get
+	implicit val as: ActorSystem = as_inject
+	implicit val db_basic : DBTrait = dbt.queryDBInstance("stp").get
 	implicit val attoken: AuthTokenTrait = att
 
 	def page(link: String) = Action { implicit request =>

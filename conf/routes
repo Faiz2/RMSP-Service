@@ -22,6 +22,11 @@ POST    /market_info                controllers.marketinfo.MarketInfoController.
 POST    /brd_info                   controllers.brdinfo.BrdInfoController.alOutExcelValueWithHtml
 POST    /product_info               controllers.productinfo.ProductInfoController.alOutExcelValueWithHtml
 
+# 用户注册
+POST    /user/register              controllers.user.RegisterController.registerUser
+
+# 用户登入
+POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

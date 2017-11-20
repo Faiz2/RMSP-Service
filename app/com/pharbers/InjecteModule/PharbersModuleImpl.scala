@@ -9,4 +9,7 @@ import com.pharbers.token.tokenImpl.TokenImplTrait
 class PharbersInjectDBManager extends dbInstanceManager
 
 @Singleton
-class PharbersInjectTokenModule extends TokenImplTrait
+class PharbersInjectTokenModule extends TokenImplTrait {
+	privateKey
+	publicKey
+}
