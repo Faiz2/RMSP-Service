@@ -14,10 +14,24 @@ object RegisterModule extends ModuleTrait with RegisterData {
 	def dispatchMsg(msg: MessageDefines)
 	               (pr: Option[String Map JsValue])
 	               (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = msg match {
+		case MsgCheckRepeatRegisterUser(data) => checkRegisterUser(data)
 		case MsgRegisterUser(data) => registerUser(data)
 		case _ => throw new Exception("function is not impl")
 	}
 	
+	def checkRegisterUser(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
+			val db = conn.queryDBInstance("stp").get
+			val o = m2d(data)
+			db.queryObject(o, "register") match {
+				case None => (Some(Map("data" -> toJson(Map("flag" -> toJson(true) )))), None)
+				case Some(_) => throw new Exception("user is repeat")
+			}
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
 	
 	def registerUser(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {

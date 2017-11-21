@@ -20,6 +20,7 @@ class RegisterController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManage
 	
 	def registerUser = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("registerUser"))), jv)
+			:: MsgCheckRepeatRegisterUser(jv)
 			:: MsgRegisterUser(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
