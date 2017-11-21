@@ -1,0 +1,120 @@
+@(data: String Map List[String Map String], pepole: List[String Map String])
+<div class="row ">
+    @for(hosp <- data.toList.zipWithIndex) {
+        <div class="col-sm-12">
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">@{{hosp._2 + 1} + ". " + hosp._1._1}</h3>
+                </div>
+                <div class="box-body">
+                    <div>
+                        <div style="display:inline-block;vertical-align:middle;margin-left:18%;width:18%;text-align:center">口服抗生素</div>
+                        <div style="display:inline-block;width:18%;text-align:center;vertical-align:middle;margin-left:10px">一代降糖药</div>
+                        <div style="display:inline-block;width:18%;text-align:center;vertical-align:middle;margin-left:10px">三代降糖药</div>
+                        <div style="display:inline-block;width:18%;text-align:center;vertical-align:middle;margin-left:10px">皮肤药</div>
+                    </div>
+                    <br>
+                    <div class="hospital-num">
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">潜力(元)</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_potential_sales_hosp1_1" class="noplaceholder">@{ hosp._1._2.find(f => f.contains("口服抗生素")).map(x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")).getOrElse("0")}</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_potential_sales_hosp1_2" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("一代降糖药")).map(x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")).getOrElse("0") }</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_potential_sales_hosp1_3" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("三代降糖药")).map(x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")).getOrElse("0") }</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_potential_sales_hosp1_4" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("皮肤药")).map(x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")).getOrElse("0") }</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的总推广预算(%)</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_promotional_budget_hosp1" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">上期销售额(元)</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_current_sales_hosp1_1" class=" noplaceholder ">313,621</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_current_sales_hosp1_2" class=" noplaceholder ">194,220</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_current_sales_hosp1_3" class=" noplaceholder ">207,356</pre>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
+                            <pre pharbers-type="p1_current_sales_hosp1_4" class=" noplaceholder ">0</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">销售指标设定(元)</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_sales_target_1" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_sales_target_2" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_sales_target_3" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container shinyjs-disabled disabled" disabled="disabled">
+                                <input pharbers-type="p1_hosp1_sales_target_4" type="text" class="form-control shiny-bound-input shinyjs-resettable disabled" value="" disabled="">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">分派业务代表</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <div>
+                                    <select pharbers-type="p1_sr_hosp1" class="form-control selectized shiny-bound-input shinyjs-resettable" tabindex="-1"  >
+                                        <option value="" >请选择</option>
+                                        @for(p <- pepole) {
+                                            <option value="@{p("people")}">@{p("people")}</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的医院拜访时间(%)</div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_worktime_1" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_worktime_2" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;" >
+                            <div class="form-group shiny-input-container">
+                                <input pharbers-type="p1_hosp1_worktime_3" type="text" class="form-control shiny-bound-input shinyjs-resettable" value="" >
+                            </div>
+                        </div>
+                        <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
+                            <div class="form-group shiny-input-container shinyjs-disabled disabled" disabled="disabled">
+                                <input pharbers-type="p1_hosp1_worktime_4" type="text" class="form-control shiny-bound-input shinyjs-resettable disabled" value="" disabled="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

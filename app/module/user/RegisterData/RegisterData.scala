@@ -4,6 +4,7 @@ import java.util.Date
 
 import com.mongodb.casbah.Imports.{DBObject, _}
 import play.api.libs.json.JsValue
+import play.api.libs.json.Json._
 
 
 object State {
@@ -13,6 +14,16 @@ object State {
 }
 
 trait RegisterData {
+	
+	def validationUser(jv: JsValue): DBObject ={
+		val builder = MongoDBObject.newBuilder
+		builder += "user" -> (jv \ "user" \ "account").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder.result
+	}
+	
+	implicit val d2m: DBObject => String Map JsValue = { obj =>
+		Map("user" -> toJson(obj.getAs[String]("user").getOrElse("")))
+	}
 	
 	implicit val m2d: JsValue => DBObject = { jv =>
 		val builder = MongoDBObject.newBuilder

@@ -55,6 +55,10 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	def productInfo = Action {
 		Ok(views.html.Module.Product.index())
 	}
+	
+	def businessDecision = Action {
+		Ok(views.html.Module.Decision.BusinessDecision.index())
+	}
 
 	def report = Action {
 		Ok(views.html.Module.Report.report_home())

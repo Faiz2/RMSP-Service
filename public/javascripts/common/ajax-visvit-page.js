@@ -14,9 +14,10 @@
             case 'product-info':
                 replace_page("product_info");
                 break;
-            case 'business-decisions':
+            case 'business-decision':
+                replace_page("business_decision");
                 break;
-            case 'management-decisions':
+            case 'management-decision':
                 break;
             case 'report':
                 replace_page("report");

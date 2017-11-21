@@ -6,7 +6,7 @@ class TestCallCmdWithR extends PlaySpec {
 	"Test Call R" must {
 		"Run Call R With Scala And Paly" in{
 			try {
-				val cmd = "Rscript /Users/qianpeng/Desktop/R/interface_test.R /Users/qianpeng/Desktop/R/test.json"
+				val cmd = "Rscript /Users/qianpeng/Desktop/stp_handler.R /Users/qianpeng/Desktop/pre_data_linux.RData /Users/qianpeng/Desktop/test.json"
 				println(s"cmd=$cmd")
 				
 				val process = new ProcessBuilder("/bin/bash", "-c", cmd).start()

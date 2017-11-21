@@ -1,0 +1,9 @@
+@()
+@Module.Decision.BusinessDecision.business_decision_home() {
+    @Module.Decision.BusinessDecision.business_decision_cycle1()
+    @Module.Decision.BusinessDecision.business_decision_cycle2()
+} {
+    <script>
+         $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/business-info.js")');
+    </script>
+}
