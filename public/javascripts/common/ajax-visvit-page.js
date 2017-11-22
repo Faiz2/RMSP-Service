@@ -18,6 +18,7 @@
                 replace_page("business_decision");
                 break;
             case 'management-decision':
+                replace_page('management_decision');
                 break;
             case 'report':
                 replace_page("report");

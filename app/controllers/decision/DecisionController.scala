@@ -18,10 +18,16 @@ class DecisionController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManage
 	implicit val as: ActorSystem = as_inject
 	
 	def alOutSumPromoBudgetExcelValueWithHtml = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutSumPromoBudgetExcelValueWithHtml"))), jv)
 			:: alReadExcel(jv)
 			:: MsgOutSumPromoBudgetExcelWithHtml(jv)
 			:: MsgOutHospitalExcelWithHtml(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+	
+	def alOutManagementExcelValueWithHtml = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutManagementExcelValueWithHtml"))), jv)
+			:: alReadExcel(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }

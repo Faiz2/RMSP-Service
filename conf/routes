@@ -16,6 +16,7 @@ GET     /market_info                controllers.RMSPRoutesController.marketInfo
 GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
 GET     /product_info               controllers.RMSPRoutesController.productInfo
 GET     /business_decision          controllers.RMSPRoutesController.businessDecision
+GET     /management_decision          controllers.RMSPRoutesController.managementDecision
 
 GET     /report                     controllers.RMSPRoutesController.report
 
@@ -23,6 +24,8 @@ POST    /market_info                controllers.marketinfo.MarketInfoController.
 POST    /brd_info                   controllers.brdinfo.BrdInfoController.alOutExcelValueWithHtml
 POST    /product_info               controllers.productinfo.ProductInfoController.alOutExcelValueWithHtml
 POST    /business_decision          controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
+
+POST    /management_decision        controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
