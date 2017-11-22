@@ -45,7 +45,8 @@ libraryDependencies ++= Seq(
 	"com.pharbers" % "encrypt" % "0.1",
 	"com.pharbers" % "http" % "0.1",
 	"com.pharbers" % "errorcode" % "0.1",
-	"org.apache.commons" % "commons-email" % "1.4"
+	"org.apache.commons" % "commons-email" % "1.4",
+	"org.specs2" %% "specs2-core" % "3.9.1" % "test"
 )
 
 
