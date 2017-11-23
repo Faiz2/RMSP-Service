@@ -2,6 +2,7 @@
     var f = new Facade();
     var $content = $('#sum_promotion_budget-cycle1');
     var $content2 = $('#sum_promotion_budget-cycle2');
+
     $(function () {
         $('#p1_go_decision').click(function() {
             click_next_button_cycle1();
@@ -23,7 +24,7 @@
         var $inputs = $content.find('div input:not([disabled="true"]):not(.disabled)');
         var $select = $content.find('div select');
         return_cycle1_json($inputs, $select);
-    }
+    };
 
     var return_cycle1_json = function(inputsObj, selectsObj) {
         var json = {"phase":[1]};
@@ -38,13 +39,17 @@
             json[key] = [select.val()];
         });
         next_save_cycle1_business_decision_json_data = json;
-    }
+        // console.info(next_save_cycle1_business_decision_json_data);
+        switch_left_page('management-decision');
+        // switch_left_page('business-decision');
+
+    };
 
     var click_next_button_cycle2 = function() {
         var $inputs = $content2.find('div input:not([disabled="true"]):not(.disabled)');
         var $select = $content2.find('div select');
         return_cycle2_json($inputs, $select);
-    }
+    };
 
     var return_cycle2_json = function(inputsObj, selectsObj) {
         var json = {"phase":[2]};
@@ -59,12 +64,19 @@
             json[key] = [select.val()];
         });
         next_save_cycle2_business_decision_json_data = json;
-    }
+        switch_left_page('management-decision')
+    };
 
     // 判断切换周期
     var switch_cycle_page = function() {
 
-    }
+    };
+
+    var switch_left_page = function(page) {
+        var $li = $('ul[class="treeview-menu"] li a[pharbers-filter=' + page + ']');
+        $li.click();
+        // console.info($li);
+    };
 
     var append_html = function(r) {
         $content.empty();
@@ -81,7 +93,7 @@
         var $hospitals =  $content.find('.hospital-num div:gt(0)');
         var $hospitals2 =  $content2.find('.hospital-num div:gt(0)');
         var $sum = $content.find('pre[pharbers-type="p1_total_promotional_budget"]');
-        var $sum2 = $content2.find('pre[pharbers-type="p1_total_promotional_budget"]');
+        var $sum2 = $content2.find('pre[pharbers-type="p2_total_promotional_budget"]');
         $sum.text(f.thousandsModule.formatNum($sum.text().split(".")[0]));
         $sum2.text(f.thousandsModule.formatNum($sum2.text().split(".")[0]));
         $.each($hospitals, function(i, v){

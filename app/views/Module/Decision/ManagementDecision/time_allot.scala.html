@@ -1,4 +1,4 @@
-@()
+@(cycle: String)
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-solid box-primary">
@@ -10,13 +10,13 @@
                     <div>
                         <div style="display:inline-block;vertical-align:middle;text-align:left;width:15%;margin-left:20px;">可供时间分配(天)</div>
                         <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:3%;width:8%;margin-right:1%">
-                            <pre pharbers-type="p1_work_time" class=" noplaceholder ">100</pre>
+                            <pre pharbers-type="p@{cycle}_work_time" class=" noplaceholder disabled" disabled="true">100</pre>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;vertical-align:middle;text-align:left;width:15%;margin-left:20px;">已分配时间 经理(天)</div>
                         <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:3%;width:8%;margin-right:1%">
-                            <pre pharbers-type="p1_arranged_time_of_flm" class=" noplaceholder ">0</pre>
+                            <pre pharbers-type="p@{cycle}_arranged_time_of_flm" class=" noplaceholder disabled" disabled="true">0</pre>
                         </div>
                     </div>
                 </div>

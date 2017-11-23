@@ -34,6 +34,11 @@ object DecisionModule extends ModuleTrait with DecisionData {
 	def outExcelValueWithHospital(data: JsValue)(pr: Option[String Map JsValue])(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			val cycle = (data \ "cycle").asOpt[String].getOrElse("周期1")
+			val cycleNum = cycle match {
+				case "周期1" => "1"
+				case "周期2" => "2"
+				case _ => "0"
+			}
 			def queryPrExcelData(key: String) = {
 				pr.get("pr").as[String Map JsValue].getOrElse("data", throw new Exception("pr data not exist")).
 					as[List[String Map List[String Map String]]].
@@ -43,8 +48,8 @@ object DecisionModule extends ModuleTrait with DecisionData {
 			val reValPeopleData = queryPrExcelData("sales_rep").flatMap(x => x.get).map(x => Map("people" -> x("业务代表")))
 			val reValSumPrompBudgetData = pr.get("data").as[String Map String].getOrElse("budget", "0")
 			
-			val reValSumPromotionHtml = setSumPromotionBudget(reValSumPrompBudgetData).toString
-			val reValHospitalHtml = setHospitalTab(reValHospitalData, reValPeopleData).toString
+			val reValSumPromotionHtml = setSumPromotionBudget(reValSumPrompBudgetData, cycleNum).toString
+			val reValHospitalHtml = setHospitalTab(reValHospitalData, reValPeopleData, cycleNum).toString
 			
 			val map = Map("reValSumPrompBudgetHtml" -> toJson(reValSumPromotionHtml),
 						  "reValHospitalHtml" -> toJson(reValHospitalHtml))

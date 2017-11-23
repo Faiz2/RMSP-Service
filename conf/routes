@@ -4,34 +4,42 @@
 # ~~~~
 
 
-
-#GET     /page/:link                controllers.RMSPRoutesController.page(link: String)
+# 失败的Filter
+#GET     /page/:link                 controllers.RMSPRoutesController.page(link: String)
 #GET     /page/                      controllers.RMSPRoutesController.page(link: String = "home")
 #GET     /page                       controllers.RMSPRoutesController.page(link: String = "home")
 
 
 GET     /                           controllers.RMSPRoutesController.index
 
+# 通过jQuery的$.get获取页面
 GET     /market_info                controllers.RMSPRoutesController.marketInfo
 GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
 GET     /product_info               controllers.RMSPRoutesController.productInfo
 GET     /business_decision          controllers.RMSPRoutesController.businessDecision
-GET     /management_decision          controllers.RMSPRoutesController.managementDecision
-
+GET     /management_decision        controllers.RMSPRoutesController.managementDecision
 GET     /report                     controllers.RMSPRoutesController.report
 
+# 都是读取Excel内容的
 POST    /market_info                controllers.marketinfo.MarketInfoController.alOutExcelValueWithHtml
 POST    /brd_info                   controllers.brdinfo.BrdInfoController.alOutExcelValueWithHtml
 POST    /product_info               controllers.productinfo.ProductInfoController.alOutExcelValueWithHtml
 POST    /business_decision          controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
-
 POST    /management_decision        controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
+
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
 
 # 用户登入
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
+
+# 用户call R
+POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
+
+# 报告查看
+#POST    /report/query
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

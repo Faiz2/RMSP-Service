@@ -1,26 +1,26 @@
-package module.writejson
+package module.callsystem
 
 import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
-import module.writejson.WriteJsonData._
-import module.writejson.WriteJsonMessage._
+import module.callsystem.CallRData.CallRLanguageData
+import module.callsystem.CallRLanguageMessage.MsgCallRLanguage
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json._
 
-object WriteJsonModule extends ModuleTrait with WriteJsonData {
+object CallRLanguageModule extends ModuleTrait with CallRLanguageData {
 	def dispatchMsg(msg: MessageDefines)
 				   (pr: Option[String Map JsValue])
 				   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = msg match {
-		case WriterJsonData(data) => writeJsonWithFile(data)
+		case MsgCallRLanguage(data) => callRLanuage(data)(pr)
 		case _ => throw new Exception("function is not impl")
 	}
 
-	def writeJsonWithFile(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+	def callRLanuage(data: JsValue)
+					(pr: Option[String Map JsValue])
+					(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			implicit val func = HandleImpl.j2s
-			wirteJson(data)
-			(Some(Map("data" -> toJson(Map("flag" -> toJson(true) )))), None)
+			(Some(Map("data" -> toJson(Map("flag" -> toJson(callR()))))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

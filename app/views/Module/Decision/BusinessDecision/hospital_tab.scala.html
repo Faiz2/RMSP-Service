@@ -1,4 +1,4 @@
-@(data: List[(String, List[String Map String])], pepole: List[String Map String])
+@(data: List[(String, List[String Map String])], pepole: List[String Map String], cycle: String)
 <div class="row ">
     @for(hosp <- data.zipWithIndex) {
         <div class="col-sm-12">
@@ -17,61 +17,61 @@
                     <div class="hospital-num">
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">潜力(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_potential_sales_hosp@{hosp._2 + 1}_1" class="noplaceholder">@{ hosp._1._2.find(f => f.contains("口服抗生素")).map(x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")).getOrElse("0")}</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_1" class="noplaceholder">@{ hosp._1._2.find(f => f.contains("口服抗生素")).map(x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")).getOrElse("0")}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_potential_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("一代降糖药")).map(x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("一代降糖药")).map(x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")).getOrElse("0") }</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_potential_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("三代降糖药")).map(x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("三代降糖药")).map(x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")).getOrElse("0") }</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_potential_sales_hosp1@{hosp._2 + 1}_4" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("皮肤药")).map(x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_4" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("皮肤药")).map(x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")).getOrElse("0") }</pre>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的总推广预算(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group shiny-input-container">
-                                <input pharbers-type="p1_promotional_budget_hosp@{hosp._2 + 1}" type="text" class="form-control"   value="0" >
+                                <input pharbers-type="p@{cycle}_promotional_budget_hosp@{hosp._2 + 1}" type="text" class="form-control"   value="0" >
                             </div>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">上期销售额(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_current_sales_hosp@{hosp._2 + 1}_1" class=" noplaceholder ">313,621</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_1" class=" noplaceholder ">313,621</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_current_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">194,220</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">194,220</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_current_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">207,356</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">207,356</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p1_current_sales_hosp@{hosp._2 + 1}_4" class=" noplaceholder ">0</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_4" class=" noplaceholder ">0</pre>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">销售指标设定(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
-                            <div class="form-group shiny-input-container">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_sales_target_1" type="text" class="form-control"  value="0" >
+                            <div class="form-group">
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_1" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            <div class="form-group shiny-input-container">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_sales_target_2" type="text" class="form-control"  value="0" >
+                            <div class="form-group">
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_2" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            <div class="form-group shiny-input-container">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_sales_target_3" type="text" class="form-control"  value="0" >
+                            <div class="form-group">
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_3" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            <div class="form-group shiny-input-container shinyjs-disabled disabled" disabled="disabled">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
+                            <div class="form-group disabled" disabled="disabled">
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group">
                                 <div>
-                                    <select pharbers-type="p1_sr_hosp@{hosp._2 + 1}" class="form-control selectized" tabindex="-1" >
+                                    <select pharbers-type="p@{cycle}_sr_hosp@{hosp._2 + 1}" class="form-control selectized" tabindex="-1" >
                                         <option value="" >请选择</option>
                                         @for(p <- pepole) {
                                             <option value="@{p("people")}">@{p("people")}</option>
@@ -94,22 +94,22 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的医院拜访时间(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_worktime_1" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_1" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_worktime_2" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_2" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;" >
                             <div class="form-group">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_worktime_3" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_3" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
                             <div class="form-group disabled" disabled="disabled">
-                                <input pharbers-type="p1_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
+                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
                             </div>
                         </div>
                     </div>
