@@ -39,18 +39,20 @@ object DecisionModule extends ModuleTrait with DecisionData {
 					as[List[String Map List[String Map String]]].
 					map(x => x.get(key)).filterNot(f => f.isEmpty)
 			}
-			val reValHospitalData = queryPrExcelData("hospital").flatMap(x => x.get).map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"))).groupBy(g => g("hospital"))
+			val reValHospitalData = queryPrExcelData("hospital").flatMap(x => x.get).map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"), "code" -> x("hosp_code"))).groupBy(g => g("hospital")).toList.sortBy(s => s._2.head("code").toInt)
 			val reValPeopleData = queryPrExcelData("sales_rep").flatMap(x => x.get).map(x => Map("people" -> x("业务代表")))
 			val reValSumPrompBudgetData = pr.get("data").as[String Map String].getOrElse("budget", "0")
 			
-			val reValSumPromotionHtml = views.html.Module.Decision.BusinessDecision.sum_promotion_budget(reValSumPrompBudgetData)
-			val reValHospitalHtml = views.html.Module.Decision.BusinessDecision.hospital_tab(reValHospitalData, reValPeopleData)
+			val reValSumPromotionHtml = setSumPromotionBudget(reValSumPrompBudgetData).toString
+			val reValHospitalHtml = setHospitalTab(reValHospitalData, reValPeopleData).toString
 			
-			val map = Map("reValSumPrompBudgetHtml" -> toJson(reValSumPromotionHtml.toString),
-						  "reValHospitalHtml" -> toJson(reValHospitalHtml.toString))
+			val map = Map("reValSumPrompBudgetHtml" -> toJson(reValSumPromotionHtml),
+						  "reValHospitalHtml" -> toJson(reValHospitalHtml))
 			(Some(Map("data" -> toJson(map))), None)
 		} catch {
-			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+			case ex: Exception =>
+				println(ex.getMessage)
+				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
 }
