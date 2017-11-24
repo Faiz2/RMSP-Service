@@ -20,7 +20,7 @@ class SubmitController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 	def submitDataCallR = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("submitDataCallR"))), jv)
 		  :: WriterJsonData(jv)
-		  :: MsgCallRLanguage(jv)
+//		  :: MsgCallRLanguage(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }

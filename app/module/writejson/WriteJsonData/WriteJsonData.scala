@@ -13,7 +13,7 @@ trait WriteJsonData {
 
 	def wirteJson(jv: JsValue)(implicit func: JsValue => String): (Boolean, String) = {
 		// TODO： 配置文件
-		val path = s"/Users/qianpeng/Desktop/${UUID.randomUUID().toString}.json"
+		val path = s"/Users/qianpeng/Desktop/json/${UUID.randomUUID().toString}.json"
 		try {
 			val w = new PrintWriter(new File(path))
 			w.write(func(jv))

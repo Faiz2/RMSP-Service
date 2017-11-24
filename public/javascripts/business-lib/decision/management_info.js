@@ -2,24 +2,51 @@
     var f = new Facade();
     var $content = $('#management-cycle1');
     var $content2 = $('#management-cycle2');
+    var $management_tab_li = $('#management_tab li');
 
     $(function () {
+        // console.info(cycle1_status)
 
-        $('#p1_go_decision').click(function() {
+        disabled_button();
+        reload_cycle_status()
+    });
+
+    function reload_cycle_status() {
+
+        if(cycle1_status) {
+            $('div').find('.cycle-style-controller').css('display', 'block');
+            $management_tab_li.eq(1).find('a').click();
+        }
+
+        $('#p1_go_decision:not(.disabled)').click(function() {
             click_submit_button_cycle1();
         });
 
-        $('#p2_go_decision').click(function() {
+        $('#p2_go_decision:not(.disabled)').click(function() {
             click_submit_button_cycle2();
         });
+    }
 
-    });
+    function disabled_button() {
+        var $p1_btn = $('#p1_go_decision');
+        var $p2_btn = $('#p2_go_decision');
+        if(cycle1_status && $p1_btn.attr("class").indexOf('disabled') < 0) {
+            $p1_btn.attr('class', $p1_btn.attr('class')+'disabled')
+        }
+
+        if(cycle2_status && $p2_btn.attr("class").indexOf('disabled') < 0) {
+            $p2_btn.attr('class', $p2_btn.attr('class')+'disabled')
+        }
+
+
+    }
 
     var click_submit_button_cycle1 = function() {
         var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
-            console.info(r)
+            // console.info(r)
+            cycle1_status = true;
         });
     };
 
@@ -27,7 +54,8 @@
         var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
-            console.info(r)
+            // console.info(r)
+            cycle2_status = true;
         });
     };
 

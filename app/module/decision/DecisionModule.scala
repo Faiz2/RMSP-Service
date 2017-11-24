@@ -19,7 +19,7 @@ object DecisionModule extends ModuleTrait with DecisionData {
 	
 	def outExcelValueWithSumPromoBudgetDecision(data: JsValue)(pr: Option[String Map JsValue])(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			val cycle = (data \ "cycle").asOpt[String].getOrElse("周期1")
+			val cycle = (data \ "condition" \ "cycle").asOpt[String].getOrElse("周期1")
 			
 			val reValSumPrompBudgetData = pr.getOrElse(throw new Exception("pr data not exist"))("data").
 										as[List[String Map List[String Map String]]].map(x => x.get("promotion_budget")).
@@ -33,7 +33,7 @@ object DecisionModule extends ModuleTrait with DecisionData {
 	
 	def outExcelValueWithHospital(data: JsValue)(pr: Option[String Map JsValue])(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			val cycle = (data \ "cycle").asOpt[String].getOrElse("周期1")
+			val cycle = (data \ "condition" \ "cycle").asOpt[String].getOrElse("周期1")
 			val cycleNum = cycle match {
 				case "周期1" => "1"
 				case "周期2" => "2"
