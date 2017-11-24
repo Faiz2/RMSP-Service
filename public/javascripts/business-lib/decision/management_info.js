@@ -16,7 +16,7 @@
     });
 
     var click_submit_button_cycle1 = function() {
-        var $inputs = $content.find('div input:not([disabled="true"]):not(.disabled)');
+        var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
             console.info(r)
@@ -24,7 +24,7 @@
     };
 
     var click_submit_button_cycle2 = function() {
-        var $inputs = $content2.find('div input:not([disabled="true"]):not(.disabled)');
+        var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
             console.info(r)
@@ -38,7 +38,7 @@
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
-            json[key] = [input.val()];
+            json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
         return JSON.stringify($.extend(temp, json));
     };
@@ -49,7 +49,7 @@
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
-            json[key] = [input.val()];
+            json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
         return JSON.stringify($.extend(temp, json));
     };

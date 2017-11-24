@@ -19,15 +19,16 @@ class TestCallCmdWithR extends Specification with WriteJsonData{
         This is a RMSP specification to check the 'conditionSearch' string
 
             The 'RMSP ' Test functions should
+                testCallR result must be "true"!                                                       ${testCallR()}
                 testWithWriteJson result must be "true"!                                                       ${testWithWriteJson()}
 
 			|This is a RMSP specification to check the 'Test' string
 			|The 'PIC ' Test functions should
 		  """
 	
-	def testCallR(): Unit = {
+	def testCallR() = {
 		try {
-			val cmd = "Rscript /Users/qianpeng/Desktop/stp_handler.R /Users/qianpeng/Desktop/pre_data_linux.RData /Users/qianpeng/Desktop/test.json"
+			val cmd = "Rscript /Users/qianpeng/Desktop/R/new/stp_handler.R /Users/qianpeng/Desktop/R/new/pre_data_linux.RData /Users/qianpeng/Desktop/ab04cdf2-b9eb-4f96-8782-4aa322886557.json"
 			println(s"cmd=$cmd")
 			
 			val process = new ProcessBuilder("/bin/bash", "-c", cmd).start()
@@ -39,9 +40,11 @@ class TestCallCmdWithR extends Specification with WriteJsonData{
 				if(line != null) result = line
 			} while (line != null)
 			println(result)
+			true must_== true
 		} catch {
 			case e : Exception =>
 				println(e.getMessage)
+				false must_== false
 		}
 	}
 	

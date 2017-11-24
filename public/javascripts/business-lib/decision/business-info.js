@@ -10,28 +10,33 @@
         $('#p2_go_decision').click(function() {
             click_next_button_cycle2();
         });
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期1"}));
-        load_business_cycle1_info(json);
+        cycle1_tab()
     });
 
-    function load_business_cycle1_info (json) {
+    function cycle1_tab() {
+        var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期1"}));
+        load_business_cycle_info(json);
+    }
+
+    function load_business_cycle_info (json) {
         f.ajaxModule.baseCall("/business_decision", json, "POST", function(r){
             append_html(r);
         }, function(e){console.info(e)})
     }
 
     var click_next_button_cycle1 = function() {
-        var $inputs = $content.find('div input:not([disabled="true"]):not(.disabled)');
+        var $inputs = $content.find('div input,pre');
         var $select = $content.find('div select');
         return_cycle1_json($inputs, $select);
     };
 
     var return_cycle1_json = function(inputsObj, selectsObj) {
+        console.info(inputsObj);
         var json = {"phase":[1]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
-            json[key] = [input.val()];
+            json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
         $.each(selectsObj, function(i, v){
             var select  = $(v);
@@ -39,14 +44,15 @@
             json[key] = [select.val()];
         });
         next_save_cycle1_business_decision_json_data = json;
-        // console.info(next_save_cycle1_business_decision_json_data);
+
         switch_left_page('management-decision');
+
         // switch_left_page('business-decision');
 
     };
 
     var click_next_button_cycle2 = function() {
-        var $inputs = $content2.find('div input:not([disabled="true"]):not(.disabled)');
+        var $inputs = $content2.find('div input,pre');
         var $select = $content2.find('div select');
         return_cycle2_json($inputs, $select);
     };
@@ -56,7 +62,7 @@
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
-            json[key] = [input.val()];
+            json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
         $.each(selectsObj, function(i, v){
             var select  = $(v);
