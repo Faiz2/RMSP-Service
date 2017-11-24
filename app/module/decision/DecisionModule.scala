@@ -44,7 +44,14 @@ object DecisionModule extends ModuleTrait with DecisionData {
 					as[List[String Map List[String Map String]]].
 					map(x => x.get(key)).filterNot(f => f.isEmpty)
 			}
-			val reValHospitalData = queryPrExcelData("hospital").flatMap(x => x.get).map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"), "code" -> x("hosp_code"))).groupBy(g => g("hospital")).toList.sortBy(s => s._2.head("code").toInt)
+			val reValPriorPeriodValue = queryPrExcelData("news").flatMap(x => x.get).map(x => Map("hospital" -> x("医院"), "口服抗生素上期" -> x("口服抗生素"), "一代降糖药上期" -> x("一代降糖药"), "三代降糖药上期" -> x("三代降糖药"), "皮肤药上期" -> x("皮肤药")))
+			val reValHospitalValue = queryPrExcelData("hospital").flatMap(x => x.get).map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"), "code" -> x("hosp_code")))
+			
+			
+			val reValHospitalData = reValPriorPeriodValue.flatMap ( hospv => reValHospitalValue.map ( x => if (hospv("hospital") == x("hospital")) x ++ hospv else Map[String, String]().empty)).
+				filterNot(x => x.isEmpty).groupBy(g => g("hospital")).toList.sortBy(s => s._2.head("code").toInt)//.map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"), "code" -> x("hosp_code"))).groupBy(g => g("hospital")).toList.sortBy(s => s._2.head("code").toInt)
+
+//			val reValHospitalData = queryPrExcelData("hospital").flatMap(x => x.get).map(x => Map(x("产品")-> x(cycle), "hospital" -> x("名称"), "code" -> x("hosp_code"))).groupBy(g => g("hospital")).toList.sortBy(s => s._2.head("code").toInt)
 			val reValPeopleData = queryPrExcelData("sales_rep").flatMap(x => x.get).map(x => Map("people" -> x("业务代表")))
 			val reValSumPrompBudgetData = pr.get("data").as[String Map String].getOrElse("budget", "0")
 			
