@@ -33,6 +33,7 @@ libraryDependencies ++= Seq(
 	"log4j" % "log4j" % "1.2.17",
 	"com.easemob" % "rest-java-sdk" % "1.0.1",
 	"com.pharbers" % "pharbers-modules" % "0.1",
+	"com.pharbers" % "pharbers-max-util" % "0.1",
 	"com.pharbers" % "pharbers-message" % "0.1",
 	"com.pharbers" % "mongodb-connect" % "0.1",
 	"com.pharbers" % "pharbers-data-parse" % "0.1",
