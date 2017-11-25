@@ -5,7 +5,6 @@
     var $business_tab_li = $('#business_tab li');
 
     $(function () {
-
         $business_tab_li.click(function() {
             if($(this).find("a").attr("pharbers-status") === "false") {
                 cycle_tab($(this).find("a").text());
@@ -56,12 +55,14 @@
     function load_business_cycle1_info (json) {
         f.ajaxModule.baseCall("/business_decision", json, "POST", function(r){
             cycle1_append_html(r);
+            w.business_event.bind_input_change($content);
         }, function(e){console.info(e)})
     }
 
     function load_business_cycle2_info (json) {
         f.ajaxModule.baseCall("/business_decision", json, "POST", function(r){
             cycle2_aapend_html(r);
+            w.business_event.bind_input_change($content2);
         }, function(e){console.info(e)})
     }
 
@@ -142,6 +143,7 @@
             $hnum.text(num);
         });
         $business_tab_li.eq(0).find("a").attr("pharbers-status", true);
+
     };
 
     var cycle2_aapend_html = function(r) {
@@ -165,6 +167,7 @@
             $hnum.text(num);
         });
         $business_tab_li.eq(1).find("a").attr("pharbers-status", true);
+
     };
 
 })(jQuery, window);
