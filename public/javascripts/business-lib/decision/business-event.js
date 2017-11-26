@@ -1,7 +1,5 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
-    var $content2 = $('#sum_promotion_budget-cycle2');
-
 
     //输入输出链表周期1
     var cycle_1_table_input = [
@@ -212,43 +210,43 @@ var business_event = (function ($, w) {
     ];
     var cycle_2_table_aggregate_sum_input = [
         {
-            "select": "p1_sr_hosp1",
-            "inputs": ["p1_hosp1_worktime_1", "p1_hosp1_worktime_2", "p1_hosp1_worktime_3", "p1_hosp1_worktime_4"]
+            "select": "p2_sr_hosp1",
+            "inputs": ["p2_hosp1_worktime_1", "p2_hosp1_worktime_2", "p2_hosp1_worktime_3", "p2_hosp1_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp2",
-            "inputs": ["p1_hosp2_worktime_1", "p1_hosp2_worktime_2", "p1_hosp2_worktime_3", "p1_hosp2_worktime_4"]
+            "select": "p2_sr_hosp2",
+            "inputs": ["p2_hosp2_worktime_1", "p2_hosp2_worktime_2", "p2_hosp2_worktime_3", "p2_hosp2_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp3",
-            "inputs": ["p1_hosp3_worktime_1", "p1_hosp3_worktime_2", "p1_hosp3_worktime_3", "p1_hosp3_worktime_4"]
+            "select": "p2_sr_hosp3",
+            "inputs": ["p2_hosp3_worktime_1", "p2_hosp3_worktime_2", "p2_hosp3_worktime_3", "p2_hosp3_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp4",
-            "inputs": ["p1_hosp4_worktime_1", "p1_hosp4_worktime_2", "p1_hosp4_worktime_3", "p1_hosp4_worktime_4"]
+            "select": "p2_sr_hosp4",
+            "inputs": ["p2_hosp4_worktime_1", "p2_hosp4_worktime_2", "p2_hosp4_worktime_3", "p2_hosp4_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp5",
-            "inputs": ["p1_hosp5_worktime_1", "p1_hosp5_worktime_2", "p1_hosp5_worktime_3", "p1_hosp5_worktime_4"]
+            "select": "p2_sr_hosp5",
+            "inputs": ["p2_hosp5_worktime_1", "p2_hosp5_worktime_2", "p2_hosp5_worktime_3", "p2_hosp5_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp6",
-            "inputs": ["p1_hosp6_worktime_1", "p1_hosp6_worktime_2", "p1_hosp6_worktime_3", "p1_hosp6_worktime_4"]
+            "select": "p2_sr_hosp6",
+            "inputs": ["p2_hosp6_worktime_1", "p2_hosp6_worktime_2", "p2_hosp6_worktime_3", "p2_hosp6_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp7",
-            "inputs": ["p1_hosp7_worktime_1", "p1_hosp7_worktime_2", "p1_hosp7_worktime_3", "p1_hosp7_worktime_4"]
+            "select": "p2_sr_hosp7",
+            "inputs": ["p2_hosp7_worktime_1", "p2_hosp7_worktime_2", "p2_hosp7_worktime_3", "p2_hosp7_worktime_4"]
         },{
-            "select": "p1_sr_hosp8",
-            "inputs": ["p1_hosp8_worktime_1", "p1_hosp8_worktime_2", "p1_hosp8_worktime_3", "p1_hosp8_worktime_4"]
+            "select": "p2_sr_hosp8",
+            "inputs": ["p2_hosp8_worktime_1", "p2_hosp8_worktime_2", "p2_hosp8_worktime_3", "p2_hosp8_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp9",
-            "inputs": ["p1_hosp9_worktime_1", "p1_hosp9_worktime_2", "p1_hosp9_worktime_3", "p1_hosp9_worktime_4"]
+            "select": "p2_sr_hosp9",
+            "inputs": ["p2_hosp9_worktime_1", "p2_hosp9_worktime_2", "p2_hosp9_worktime_3", "p2_hosp9_worktime_4"]
         },
         {
-            "select": "p1_sr_hosp10",
-            "inputs": ["p1_hosp10_worktime_1", "p1_hosp10_worktime_2", "p1_hosp10_worktime_3", "p1_hosp10_worktime_4"]
+            "select": "p2_sr_hosp10",
+            "inputs": ["p2_hosp10_worktime_1", "p2_hosp10_worktime_2", "p2_hosp10_worktime_3", "p2_hosp10_worktime_4"]
         }
     ];
 
@@ -284,41 +282,84 @@ var business_event = (function ($, w) {
 
         function select_change(lst) {
 
+            // 未封装
             $.each(lst, function(i, v){
                 var select_attr = '[pharbers-type="'+ v.select +'"]';
                 var $select = $selects.filter(select_attr);
+
+                // 下拉框时间绑定
                 $select.change(function() {
                     var that = this;
+                    var num = 0;
                     var pre_attr = '[pharbers-pepole="'+ $(that).val() +'"]';
                     var $pre = $pres.filter(pre_attr);
-                    var num = 0;
-
-                    $.each(lst, function(j, k) {
-                        var select_attr = '[pharbers-type="'+ k.select +'"]';
-                        var $select = $selects.filter(select_attr).not('[pharbers-type="'+ $(that).attr("pharbers-type") +'"]');
-                        if ($select.val() === $(that).val()) {
-                            $.each(lst, function(l, m){
-                                if ($(that).attr('pharbers-type') === m.select || $select.attr('pharbers-type') === m.select) {
-                                    $.each(m.inputs, function(g, c) {
-                                        var input_attr = '[pharbers-type="'+ c +'"]';
-                                        var $input = $inputs.filter(input_attr);
-                                        num += parseInt($input.val());
-                                    });
-                                }
-                            });
+                    $.each(lst, function(i, v2) {
+                        var select_attr = '[pharbers-type="'+ v2.select +'"]';
+                        var $select = $selects.filter(select_attr);
+                        if($(that).attr('pharbers-type') !== $select.attr('pharbers-type')) {
+                            if($(that).val() === $select.val()) {
+                                $.each(v2.inputs, function(i, v3) {
+                                    // console.info('---'+v3);
+                                    var input_attr = '[pharbers-type="'+ v3+'"]';
+                                    var $input = $inputs.filter(input_attr);
+                                    num += parseInt($input.val());
+                                });
+                            }
+                            // else {
+                            //     $.each(v2.inputs, function(i, v4) {
+                            //         console.info(v4)
+                            //         // num += parseInt(v4.val());
+                            //     });
+                            // }
+                            // console.info("select = " + $select.val() + "->" + num)
                         } else {
-                            console.info(k.inputs)
-                            // console.info(k.inputs)
-                            // $.each(k.inputs, function(l, m){
-                            //     var input_attr = '[pharbers-type="'+ m +'"]';
-                            //     var $input = $inputs.filter(input_attr);
-                            //     num += parseInt($input.val());
-                            // });
+                            $.each(v2.inputs, function(i, v5) {
+                                // console.info('***'+v5);
+                                var input_attr = '[pharbers-type="'+ v5+'"]';
+                                var $input = $inputs.filter(input_attr);
+                                num += parseInt($input.val());
+                            });
                         }
                     });
                     $pre.empty().text(num);
                 });
+
+                // input与下拉框绑定
+                $.each(v.inputs, function (i, n) {
+                    var input_attr = '[pharbers-type="'+ n +'"]';
+                    var $input = $inputs.filter(input_attr);
+                    $input.keyup(function(){
+                        var pre_attr = '[pharbers-pepole="'+ $select.val() +'"]';
+                        var $pre = $pres.filter(pre_attr);
+                        var num = 0;
+                        if ($input.val() === "") $input.val(0);
+                        $.each(lst, function(i, n2){
+                            var select_attr2 = '[pharbers-type="'+ n2.select +'"]';
+                            var $select2 = $selects.filter(select_attr2);
+                            if($select.attr('pharbers-type') !== $select2.attr('pharbers-type')) {
+                                if ($select.val() === $select2.val()) {
+                                    $.each(n2.inputs, function(i, n3) {
+                                        var input_attr = '[pharbers-type="'+ n3+'"]';
+                                        var $input = $inputs.filter(input_attr);
+                                        num += parseInt($input.val());
+                                    });
+                                    // console.info('---'+n2.inputs[0]);
+                                }
+                            }else {
+                                $.each(n2.inputs, function(i, n4) {
+                                    var input_attr = '[pharbers-type="'+ n4+'"]';
+                                    var $input = $inputs.filter(input_attr);
+                                    num += parseInt($input.val());
+                                });
+                                // console.info('***'+n2.inputs[0]);
+                            }
+                        });
+                        $pre.empty().text(num);
+                    });
+                });
+
             });
+
         }
 
         if ($business_tab_li.index() === 0) {
@@ -326,6 +367,7 @@ var business_event = (function ($, w) {
             select_change(cycle_1_table_aggregate_sum_input);
         } else if ($business_tab_li.index() === 1) {
             input_change(cycle_2_table_input);
+            select_change(cycle_2_table_aggregate_sum_input);
         } else {
             console.warn("find a lot of 'li'")
         }
