@@ -1,7 +1,8 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
 
-    //输入输出链表周期1
+    // 输入输出链表
+    // 应修改为json配置文件
     var cycle_1_table_input = [
         {"inputs":
             [
@@ -250,6 +251,7 @@ var business_event = (function ($, w) {
         }
     ];
 
+    // 未封装
     function bind_input_change(region) {
         var $business_tab_li = $('#business_tab li.active');
         var $inputs = (region || $content).find('input');
@@ -265,6 +267,7 @@ var business_event = (function ($, w) {
                     var input_attr = '[pharbers-type="'+ k +'"]';
                     var $input = $inputs.filter(input_attr);
                     $input.keyup(function(){
+                        // clean_sum_input(region);
                         if ($input.val() === "") $input.val(0);
                         if ($(this).attr('pharbers-type').indexOf(v.type) !== -1) {
                             num = 0;
@@ -281,7 +284,7 @@ var business_event = (function ($, w) {
         }
 
         function select_change(lst) {
-
+            var back = "";
             // 未封装
             $.each(lst, function(i, v){
                 var select_attr = '[pharbers-type="'+ v.select +'"]';
@@ -289,6 +292,8 @@ var business_event = (function ($, w) {
 
                 // 下拉框时间绑定
                 $select.change(function() {
+                    clean_sum_input(region, back, lst);
+
                     var that = this;
                     var num = 0;
                     var pre_attr = '[pharbers-pepole="'+ $(that).val() +'"]';
@@ -322,13 +327,15 @@ var business_event = (function ($, w) {
                         }
                     });
                     $pre.empty().text(num);
+                    back = $(that).val();
                 });
 
                 // input与下拉框绑定
                 $.each(v.inputs, function (i, n) {
                     var input_attr = '[pharbers-type="'+ n +'"]';
                     var $input = $inputs.filter(input_attr);
-                    $input.keyup(function(){
+                    $input.keyup(function() {
+                        // clean_sum_input(region);
                         var pre_attr = '[pharbers-pepole="'+ $select.val() +'"]';
                         var $pre = $pres.filter(pre_attr);
                         var num = 0;
@@ -372,6 +379,31 @@ var business_event = (function ($, w) {
             console.warn("find a lot of 'li'")
         }
     }
+
+    // 未封装
+    var clean_sum_input = function(region, back, lst) {
+        var $pres = (region || $content).find('pre');
+        var $inputs = (region || $content).find('input');
+        var $selects = (region || $content).find('select');
+        var num = 0;
+        var pre_attr = '[pharbers-pepole="'+ back +'"]';
+        var $pre = $pres.filter(pre_attr);
+        $.each(lst, function(i, v){
+            var select_attr = '[pharbers-type="'+ v.select +'"]';
+            var $select = $selects.filter(select_attr);
+            if($select.val() === back) {
+                $.each(v.inputs, function(i, v2){
+                    var input_attr = '[pharbers-type="'+ v2+'"]';
+                    var $input = $inputs.filter(input_attr);
+                    num += parseInt($input.val());
+                });
+                $pre.empty().text(num);
+            } else {
+                $pre.empty().text(num);
+            }
+        });
+
+    };
 
     return {
         "bind_input_change": bind_input_change
