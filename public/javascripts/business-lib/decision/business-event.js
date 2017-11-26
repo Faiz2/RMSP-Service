@@ -399,6 +399,7 @@ var business_event = (function ($, w) {
                 });
                 $pre.empty().text(num);
             } else {
+                console.info(num)
                 $pre.empty().text(num);
             }
         });
