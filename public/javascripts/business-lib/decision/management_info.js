@@ -8,7 +8,8 @@
         // console.info(cycle1_status)
 
         disabled_button();
-        reload_cycle_status()
+        reload_cycle_status();
+
     });
 
     function reload_cycle_status() {
@@ -37,8 +38,6 @@
         if(cycle2_status && $p2_btn.attr("class").indexOf('disabled') < 0) {
             $p2_btn.attr('class', $p2_btn.attr('class')+'disabled')
         }
-
-
     }
 
     var click_submit_button_cycle1 = function() {
@@ -82,5 +81,14 @@
         return JSON.stringify($.extend(temp, json));
     };
 
+    setTimeout(function(){
+        if ($management_tab_li.index() === 0) {
+            w.management_event.bind_input_change($content);
+        } else if ($management_tab_li.index() === 1) {
+            w.management_event.bind_input_change($content2);
+        } else {
+            console.warn("find a lot of 'li'")
+        }
+    }, 250);
 
 })(jQuery, window);

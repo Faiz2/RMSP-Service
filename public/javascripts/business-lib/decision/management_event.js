@@ -1,21 +1,10 @@
-(function ($, w) {
+var management_event = (function ($, w) {
     var $content = $('#management-cycle1');
-    var $content2 = $('#management-cycle2');
-    var $management_tab_li = $('#management_tab li.active');
+    var $management_tab_li = $('#management_tab li');
 
     $(function(){
-        // if ($management_tab_li.index() === 0) {
-        //     bind_input_change($content);
-        // } else if ($management_tab_li.index() === 1) {
-        //     bind_input_change($content2);
-        // } else {
-        //     console.warn("find a lot of 'li'")
-        // }
-
     });
 
-
-    var sum_oput = ["", "", ""];
 
     var cycle_1_inputs = {
             "ability_to_coach": { // 能力辅导
@@ -38,39 +27,42 @@
                 "inputs": ["p1_flm_admin_work"],
                 "oputs": ["p1_total_admin_work"]
             },
-            "input_sum": ["p1_total_sales_training", "p1_total_field_work", "p1_total_team_meeting", "p1_total_kpi_analysis", "p1_total_admin_work"]
+            "input_sum": ["p1_total_sales_training", "p1_total_field_work", "p1_total_team_meeting", "p1_total_kpi_analysis", "p1_total_admin_work"], // 纵列求和
+            "time_allot": ["p1_total_management", "p1_flm_management", "p1_arranged_time_of_flm"] // 总求和
         };
 
-    var cycle_2_inputs = [
-        {
+    var cycle_2_inputs = {
             "ability_to_coach": { // 能力辅导
-                "inputs": ["", "", "", "", ""],
-                "oputs": ["", ""]
+                "inputs": ["p2_sr1_sales_training", "p2_sr2_sales_training", "p2_sr3_sales_training", "p2_sr4_sales_training", "p2_sr5_sales_training"],
+                "oputs": ["p2_total_sales_training", "p2_flm_sales_training"]
             },
             "field_association_to_visit": { // 实地协访问
-                "inputs": ["", "", "", "", ""],
-                "oputs": ["", ""]
+                "inputs": ["p2_sr1_field_work", "p2_sr2_field_work", "p2_sr3_field_work", "p2_sr4_field_work", "p2_sr5_field_work"],
+                "oputs": ["p2_total_field_work", "p2_flm_field_work"]
             },
             "party_building": { // 团建
-                "inputs": [""],
-                "oputs": ["", "", "", "", "", ""]
+                "inputs": ["p2_flm_team_meeting"],
+                "oputs": ["p2_total_team_meeting", "p2_sr1_team_meeting", "p2_sr2_team_meeting", "p2_sr3_team_meeting", "p2_sr4_team_meeting", "p2_sr5_team_meeting"]
             },
             "kpi_report": { // KPI报告
-                "inputs": [""],
-                "oputs": [""]
+                "inputs": ["p2_flm_kpi_analysis"],
+                "oputs": ["p2_total_kpi_analysis"]
             },
             "administrative": { // 行政
-                "inputs": [""],
-                "oputs": [""]
-            }
-        }
-    ];
+                "inputs": ["p2_flm_admin_work"],
+                "oputs": ["p2_total_admin_work"]
+            },
+            "input_sum": ["p2_total_sales_training", "p2_total_field_work", "p2_total_team_meeting", "p2_total_kpi_analysis", "p2_total_admin_work"], // 纵列求和
+            "time_allot": ["p2_total_management", "p2_flm_management", "p2_arranged_time_of_flm"] // 总求和
+        };
 
-    var bind_input_change = function(region) {
+    function bind_input_change(region) {
 
         var $inputs = (region || $content).find('input');
         var $pres = (region || $content).find('pre');
-        function bind_input(lst) {
+
+        function bind_input(obj, key) {
+            var lst = obj[key];
             $.each(lst.inputs, function(i, v) {
                 var input_attr = '[pharbers-type="' + v + '"]';
                 var $input = $inputs.filter(input_attr);
@@ -79,26 +71,54 @@
                     $.each(lst.inputs, function(i, v2) {
                         var input_attr = '[pharbers-type="' + v2 + '"]';
                         var $input = $inputs.filter(input_attr);
+                        if ($input.val() === "") $input.val(0);
                         num += parseInt($input.val());
                     });
-                    console.info(num)
+                    $.each(lst.oputs, function(i, v2){
+                        var pre_attr = '[pharbers-type="'+ v2 +'"]';
+                        var $pre = $pres.filter(pre_attr);
+                        $pre.empty().text(num);
+                    });
+                    sum(obj);
                 });
             });
         }
 
+        function sum(obj) {
+            var lst = obj['input_sum'];
+            var time_allot = obj['time_allot'];
+            var num = 0;
+            $.each(lst, function(i, v){
+                var pre_attr = '[pharbers-type="'+ v +'"]';
+                var $pre = $pres.filter(pre_attr);
+                num += parseInt($pre.text());
+            });
+            $.each(time_allot, function(i, v){
+                var pre_attr = '[pharbers-type="'+ v +'"]';
+                var $pre = $pres.filter(pre_attr);
+                $pre.empty().text(num);
+            });
+        }
+
         if ($management_tab_li.index() === 0) {
-            bind_input(cycle_1_inputs.ability_to_coach);
-            console.info("fff")
-            // bind_input(cycle_1_inputs.field_association_to_visit);
-            // bind_input(cycle_1_inputs.party_building);
-            // bind_input(cycle_1_inputs.kpi_report);
-            // bind_input(cycle_1_inputs.administrative);
+            bind_input(cycle_1_inputs, 'ability_to_coach');
+            bind_input(cycle_1_inputs, 'field_association_to_visit');
+            bind_input(cycle_1_inputs, 'party_building');
+            bind_input(cycle_1_inputs, 'kpi_report');
+            bind_input(cycle_1_inputs, 'administrative');
         } else if ($management_tab_li.index() === 1) {
-            bind_input(cycle_2_inputs)
+            bind_input(cycle_2_inputs, 'ability_to_coach');
+            bind_input(cycle_2_inputs, 'field_association_to_visit');
+            bind_input(cycle_2_inputs, 'party_building');
+            bind_input(cycle_2_inputs, 'kpi_report');
+            bind_input(cycle_2_inputs, 'administrative');
         } else {
             console.warn("find a lot of 'li'")
         }
 
     };
 
+    return {
+        "bind_input_change" : bind_input_change
+    }
 })(jQuery, window);
