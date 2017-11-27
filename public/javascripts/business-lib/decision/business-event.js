@@ -284,7 +284,6 @@ var business_event = (function ($, w) {
         }
 
         function select_change(lst) {
-            var back = "";
             // 未封装
             $.each(lst, function(i, v){
                 var select_attr = '[pharbers-type="'+ v.select +'"]';
@@ -292,12 +291,12 @@ var business_event = (function ($, w) {
 
                 // 下拉框时间绑定
                 $select.change(function() {
-                    clean_sum_input(region, back, lst);
-
+                    clean_sum_input(region, lst);
                     var that = this;
                     var num = 0;
                     var pre_attr = '[pharbers-pepole="'+ $(that).val() +'"]';
                     var $pre = $pres.filter(pre_attr);
+
                     $.each(lst, function(i, v2) {
                         var select_attr = '[pharbers-type="'+ v2.select +'"]';
                         var $select = $selects.filter(select_attr);
@@ -326,8 +325,8 @@ var business_event = (function ($, w) {
                             });
                         }
                     });
+
                     $pre.empty().text(num);
-                    back = $(that).val();
                 });
 
                 // input与下拉框绑定
@@ -381,28 +380,90 @@ var business_event = (function ($, w) {
     }
 
     // 未封装
-    var clean_sum_input = function(region, back, lst) {
+    var clean_sum_input = function(region, lst) {
         var $pres = (region || $content).find('pre');
         var $inputs = (region || $content).find('input');
         var $selects = (region || $content).find('select');
-        var num = 0;
-        var pre_attr = '[pharbers-pepole="'+ back +'"]';
-        var $pre = $pres.filter(pre_attr);
-        $.each(lst, function(i, v){
-            var select_attr = '[pharbers-type="'+ v.select +'"]';
-            var $select = $selects.filter(select_attr);
-            if($select.val() === back) {
-                $.each(v.inputs, function(i, v2){
-                    var input_attr = '[pharbers-type="'+ v2+'"]';
-                    var $input = $inputs.filter(input_attr);
-                    num += parseInt($input.val());
-                });
-                $pre.empty().text(num);
-            } else {
-                console.info(num)
-                $pre.empty().text(num);
-            }
+        var pepole = ['小宋', '小兰', '小木', '小白', '小青'];
+
+        $.each(pepole, function(i, v) {
+            var num = 0;
+            var pre_attr = '[pharbers-pepole="'+ v +'"]';
+            var $pre = $pres.filter(pre_attr);
+            $.each(lst, function(i, v2){
+                var select_attr = '[pharbers-type="'+ v2.select +'"]';
+                var $select = $selects.filter(select_attr);
+                // debugger;
+                if($select.val() === v) {
+                    $.each(v2.inputs, function(i, v3) {
+                        var input_attr = '[pharbers-type="'+ v3 +'"]';
+                        var $input = $inputs.filter(input_attr);
+                        num += parseInt($input.val());
+                    });
+                    $pre.empty().text(num);
+                }else {
+                    $pre.empty().text(num);
+                }
+            });
         });
+
+        // 渣渣
+        // $.each(lst, function(i, v){
+        //     var select_attr = '[pharbers-type="'+ v.select +'"]';
+        //     var $select = $selects.filter(select_attr);
+        //
+        //
+        //
+        //     if( $select.val() === back /*|| cur.val() === back*/) {
+        //         // var pre_attr = '[pharbers-pepole="'+ $select.val() +'"]';
+        //         // var $pre = $pres.filter(pre_attr);
+        //
+        //         $.each(v.inputs, function(i, v2){
+        //             var input_attr = '[pharbers-type="'+ v2+'"]';
+        //             var $input = $inputs.filter(input_attr);
+        //             num += parseInt($input.val());
+        //         });
+        //
+        //         // console.info('cur.val = '+cur.val());
+        //         // console.info('back = '+ back);
+        //         // console.info('$select = '+$select.val());
+        //         // console.info('select = '+v.select);
+        //         // console.info('num = '+ num);
+        //
+        //         // $pre.empty().text(num);
+        //     } else {
+        //         $.each(pepole, function(i, v) {
+        //             var num = 0;
+        //             $.each(lst, function(i, v2){
+        //                 var select_attr = '[pharbers-type="'+ v2.select +'"]';
+        //                 var $select = $selects.filter(select_attr);
+        //                 var pre_attr = '[pharbers-pepole="'+ v +'"]';
+        //                 var $pre = $pres.filter(pre_attr);
+        //                 // debugger;
+        //                 if($select.val() === v) {
+        //                     $.each(v2.inputs, function(i, v3) {
+        //                         var input_attr = '[pharbers-type="'+ v3 +'"]';
+        //                         var $input = $inputs.filter(input_attr);
+        //                         num += parseInt($input.val());
+        //                     });
+        //                     $pre.empty().text(num);
+        //                 }else {
+        //                     $pre.empty().text(num);
+        //                 }
+        //             });
+        //         });
+        //
+        //
+        //
+        //         // console.info('select = '+v.select)
+        //         // console.info('$select = '+$select.val())
+        //         // console.info('back = '+ back)
+        //         // console.info('num = '+ num)
+        //         // console.info($pre2)
+        //
+        //
+        //     }
+        // });
 
     };
 
