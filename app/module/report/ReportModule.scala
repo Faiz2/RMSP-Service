@@ -1,5 +1,6 @@
 package module.report
 
+import com.mongodb.casbah.Imports._
 import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
@@ -22,8 +23,10 @@ object ReportModule extends ModuleTrait with ReportData {
 		try {
 			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
 			val db = conn.queryDBInstance("stp").get
+			val col = (data \ "condition" \ "cycle").asOpt[String].getOrElse(throw new Exception("wrong input"))
+//			db.queryObject(DBObject(), col)
 
-			
+
 			(Some(Map("data" -> toJson(""))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
