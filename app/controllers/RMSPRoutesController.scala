@@ -25,6 +25,14 @@ trait RoutesFilter extends TokenCheck { this: Controller =>
 			case _ => ???
 		}
 	}
+	
+	// TODO : 前端只存登入用户名，后续有权限再去掉，新增权限过滤，与整个的filter
+	def getUserCookie(request: Request[AnyContent])(page: Result): Result = {
+		request.cookies.get("user").map(x => x.value) match {
+			case None => Redirect("/")
+			case _ => page
+		}
+	}
 }
 
 class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait) extends Controller with RoutesFilter {
@@ -39,32 +47,36 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 			forward(link)
 	}
 	
-	def index = Action {
-		Ok(views.html.Home.home())
+	def index = Action { request =>
+		getUserCookie(request)(Ok(views.html.Home.home()))
 //		Redirect("/page")
 	}
 	
-	def marketInfo = Action {
-		Ok(views.html.Module.MarketInfo.index())
+	def marketInfo = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.MarketInfo.index()))
 	}
 
-	def brdInfo = Action {
-		Ok(views.html.Module.Brd.index())
+	def brdInfo = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.Brd.index()))
 	}
 
-	def productInfo = Action {
-		Ok(views.html.Module.Product.index())
+	def productInfo = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.Product.index()))
 	}
 	
-	def businessDecision = Action {
-		Ok(views.html.Module.Decision.BusinessDecision.index())
+	def businessDecision = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.Decision.BusinessDecision.index()))
 	}
 	
-	def managementDecision = Action {
-		Ok(views.html.Module.Decision.ManagementDecision.index())
+	def managementDecision = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.Decision.ManagementDecision.index()))
 	}
 
-	def report = Action {
-		Ok(views.html.Module.Report.report_home())
+	def report = Action { request =>
+		getUserCookie(request)(Ok(views.html.Module.Report.report_home()))
+	}
+	
+	def login = Action {
+		Ok(views.html.Login.login())
 	}
 }

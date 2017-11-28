@@ -61,7 +61,7 @@
     var return_cycle1_json = function(inputsObj) {
         var temp =  next_save_cycle1_business_decision_json_data;
         // TDDO： 暂时写死，测试通过后进行用户token的解析
-        var json = {"user_name": ["admin2"]};
+        var json = {"user_name": [$.cookie("user")]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
@@ -72,7 +72,7 @@
 
     var return_cycle2_json = function(inputsObj) {
         var temp =  next_save_cycle2_business_decision_json_data;
-        var json = {"user_name": ["admin2"]};
+        var json = {"user_name": [$.cookie("user")]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");

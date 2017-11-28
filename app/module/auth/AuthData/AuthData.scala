@@ -11,10 +11,10 @@ trait AuthData {
 	
 	implicit val d2m: DBObject => String Map JsValue = { obj =>
 		val account = obj.getAs[String]("user").getOrElse("")
-		val name = obj.getAs[String]("name").getOrElse("")
+//		val name = obj.getAs[String]("name").getOrElse("")
 //		val corperation = obj.getAs[String]("corperation").getOrElse("")
 //		val department = obj.getAs[String]("department").getOrElse("")
-		Map("account" -> toJson(account), "" -> toJson(name))
+		Map("account" -> toJson(account))
 	}
 	
 	implicit val m2d: JsValue => DBObject = { jv =>

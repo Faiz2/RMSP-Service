@@ -73,7 +73,6 @@
     };
 
     var return_cycle1_json = function(inputsObj, selectsObj) {
-        console.info(inputsObj);
         var json = {"phase":[1]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);

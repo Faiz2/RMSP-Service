@@ -19,18 +19,16 @@ class TestCallCmdWithR extends Specification with WriteJsonData{
         This is a RMSP specification to check the 'conditionSearch' string
 
             The 'RMSP ' Test functions should
+			    testWithWriteJson result must be "true"!                                               testWithWriteJson()
                 testCallR result must be "true"!                                                       ${testCallR()}
-                testWithWriteJson result must be "true"!                                                       ${testWithWriteJson()}
-
-			|This is a RMSP specification to check the 'Test' string
-			|The 'PIC ' Test functions should
+			This is a RMSP specification to check the 'Test' string
+			The 'PIC ' Test functions should
 		  """
 	
 	def testCallR() = {
 		try {
-			val cmd = "Rscript /Users/qianpeng/Desktop/R/new/stp_handler.R /Users/qianpeng/Desktop/R/new/pre_data_linux.RData /Users/qianpeng/Desktop/ab04cdf2-b9eb-4f96-8782-4aa322886557.json"
+			val cmd = "Rscript /Users/qianpeng/Desktop/R/new/stp_handler.R /Users/qianpeng/Desktop/R/new/pre_data_linux.RData /Users/qianpeng/Desktop/json/4b35a0dc-986a-4afc-b1e7-c92b2b386977.json"
 			println(s"cmd=$cmd")
-			
 			val process = new ProcessBuilder("/bin/bash", "-c", cmd).start()
 			val input = new LineNumberReader(new InputStreamReader(process.getInputStream()))
 			var line,result: String = ""
@@ -49,24 +47,10 @@ class TestCallCmdWithR extends Specification with WriteJsonData{
 	}
 	
 	def testWithWriteJson() = {
-//		try {
-//			val json = toJson(Map("name" -> "钱鹏", "age" -> "22", "gender" -> "Man")).toString
-//			val w = new PrintWriter(new File("/Users/qianpeng/Desktop/t.json"))
-//			w.write(json)
-//			w.close()
-//			println(json)
-//			val result = "ok"
-//			result must_== "ok"
-//		} catch {
-//			case e: Exception =>
-//				println(e.getMessage)
-//				val result = "no"
-//				result must_== "ok"
-//		}
 		implicit val func = HandleImpl.j2s
 		val json = toJson(Map("name" -> "钱鹏", "age" -> "22", "gender" -> "Man"))
 		val r = wirteJson(json)
-		r._1 must_== true
+		r.isEmpty must_== true
 	}
-
+	
 }

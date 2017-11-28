@@ -32,7 +32,7 @@ object AuthModule extends ModuleTrait with AuthData {
 				case Some(d) =>
 					val reVal = d + ("expire_in" -> toJson(date + 60 * 60 * 1000 * 24))
 					val auth_token = att.encrypt2Token(toJson(reVal))
-					(Some(Map("user_token" -> toJson(auth_token))), None)
+					(Some(Map("user_token" -> toJson(auth_token), "user" -> toJson((data \ "condition" \ "account").as[String]))), None)
 			}
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))

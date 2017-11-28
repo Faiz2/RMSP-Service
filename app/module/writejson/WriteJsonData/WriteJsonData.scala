@@ -11,14 +11,15 @@ trait WriteJsonData {
 		val j2s: JsValue => String = {_.toString}
 	}
 
-	def wirteJson(jv: JsValue)(implicit func: JsValue => String): (Boolean, String) = {
+	def wirteJson(jv: JsValue)(implicit func: JsValue => String): String = {
 		// TODO： 配置文件
-		val path = s"/Users/qianpeng/Desktop/json/${UUID.randomUUID().toString}.json"
+		val uuid = UUID.randomUUID().toString
+		val path = s"resource/json/$uuid.json"
 		try {
 			val w = new PrintWriter(new File(path))
 			w.write(func(jv))
 			w.close()
-			(true, path)
+			uuid
 		} catch {
 			case _: Exception => throw new Exception("write file error")
 		}

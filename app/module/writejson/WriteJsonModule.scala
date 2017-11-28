@@ -19,8 +19,7 @@ object WriteJsonModule extends ModuleTrait with WriteJsonData {
 	def writeJsonWithFile(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			implicit val func = HandleImpl.j2s
-			wirteJson(data)
-			(Some(Map("data" -> toJson(Map("flag" -> toJson(true) )))), None)
+			(Some(Map("data" -> toJson(Map("flag" -> toJson(true), "filename" -> toJson(wirteJson(data)) )))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

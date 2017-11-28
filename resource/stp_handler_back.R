@@ -8,18 +8,13 @@
 
 ##-- handle the exception thrown out
 
-  library(shiny)
-  library(shinydashboard)
-  library(shinyjs)
-  library(DT)
   library(plyr)
   library(dplyr)
   library(tidyr)
+  library(jsonlite)
   library(digest)
   library(openxlsx)
   library(mongolite)
-  library(jsonlite)
-  
   options(scipen=200,
           mongodb = list(
             "host" = "127.0.0.1:27017"
@@ -28,11 +23,9 @@
           ))
   
   
- argss <- commandArgs(TRUE)
- R_File_Path <- argss[1]
- R_Json_Path <- argss[2]
-  #R_File_Path <- "/Users/qianpeng/GitHub/RMSP-Service/resource/pre_data_linux.RData"
-  #R_Json_Path <- "/Users/qianpeng/GitHub/RMSP-Service/resource/json/18cd99cf-1446-4cc0-#ad72-4e8e2fe5ca06.json"
+  argss <- commandArgs(TRUE)
+  R_File_Path <- argss[1]
+  R_Json_Path <- argss[2]
   load(R_File_Path)
 
   
@@ -205,12 +198,9 @@
     get_name <- c(paste("p",phase,"_promotional_budget_hosp",hosp,sep=""),
                   paste("p",phase,"_hosp",hosp,"_sales_target_",1:4,sep=""),
                   paste("p",phase,"_hosp",hosp,"_worktime_",1:4,sep=""))
-    chk1 <- (is.null(input[[paste("p",phase,"_sr_hosp",hosp,sep="")]])|   #  check whether sr is null or ""
+    chk1 <- (is.null(input[[paste("p",phase,"_sr_hosp",hosp,sep="")]])|
                input[[paste("p",phase,"_sr_hosp",hosp,sep="")]]=="")
-    chk2 <- any(vapply(get_name,
-                       function(x) {!is.null(input[[x]])&
-                           ifelse(is.null(input[[x]]),TRUE,input[[x]]!="")&
-                           ifelse(is.null(input[[x]]),TRUE,input[[x]]!="0")},logical(1)))
+    chk2 <- any(vapply(get_name,function(x) {!is.null(input[[x]])&input[[x]]!=""},logical(1)))
     if ( !chk1) {
       return(NA)
     } else if (chk1&chk2) { return(hosp)
@@ -300,7 +290,7 @@
     
     if (sum(numberOfhosp,na.rm=T)>0) {
       
-      warning(paste("error1:","第",paste(numberOfhosp[which(!is.na(numberOfhosp))],collapse=","),"家医院未填写代表"))
+      warning("error1")
       return_value <- "error1"
     } else if (calculator_result[1]==0|
                calculator_result[2]==0|
@@ -570,8 +560,8 @@
       dplyr::group_by(phase,sales_rep) %>%
       dplyr::mutate(target_revenue_by_sr = sum(target_revenue,na.rm=T),
                     target_revenue_percent = target_revenue_by_sr/last_revenue_by_sr,
-                    bonus_factor = sapply(target_revenue_percent,function(x) {if (x==0|is.nan(x)) {
-                      0 }  else {1}}),
+                    bonus_factor = sapply(target_revenue_percent,function(x) {if (is.nan(x)|x<0.5) {
+                      0 } else if (x>=0.5 & x<1) {0.5} else {1}}),
                     real_revenue_by_sr = sum(real_revenue,na.rm=T),
                     target_revenue_realization_by_sr = round(real_revenue_by_sr/target_revenue_by_sr*100,2),
                     target_volume_by_sr = sum(target_volume,na.rm=T),
@@ -1177,19 +1167,13 @@
   
   
   if ( phase == 1 ) {
-  	if (!is.null(mongodb_con$info()$stats$count)) {
-  		mongodb_con$drop()
-  	}
-  	mongodb_con$insert(tmp_data)
-  } else {
-  	 mongodb_con$insert(tmp_data)
+    mongodb_con$drop()
   }
   
-
+  mongodb_con$insert(tmp_data)
     
  
     
   
   
 
-  

@@ -10,7 +10,9 @@
 #GET     /page                       controllers.RMSPRoutesController.page(link: String = "home")
 
 
-GET     /                           controllers.RMSPRoutesController.index
+GET     /                           controllers.RMSPRoutesController.login
+GET     /login                      controllers.RMSPRoutesController.login
+GET     /index                      controllers.RMSPRoutesController.index
 
 # 通过jQuery的$.get获取页面
 GET     /market_info                controllers.RMSPRoutesController.marketInfo
