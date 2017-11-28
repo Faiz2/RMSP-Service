@@ -16,11 +16,14 @@ object ReportModule extends ModuleTrait with ReportData {
 					(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = msg match {
 		case MsgReportMarketSales(data) => marketSalesReport(data)
 		case MsgReportDelegate(data) => delegateReport(data)
+		case MsgReportManager(data) => managerReport(data)
+		case MsgReportAllot(data) => allotReport(data)
+		case MsgReportSales(data) => salesReport(data)
 	  	case _ => throw new Exception("function is not impl")
 	 }
 
 	def marketSalesReport(data: JsValue)
-			  (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+			  			 (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
 			val db = conn.queryDBInstance("stp").get
@@ -45,7 +48,8 @@ object ReportModule extends ModuleTrait with ReportData {
 		}
 	}
 
-	def managerReport(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+	def managerReport(data: JsValue)
+					 (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			
 			(Some(Map("" -> toJson(""))), None)
@@ -54,5 +58,28 @@ object ReportModule extends ModuleTrait with ReportData {
 		}
 	}
 	
-	
+	def allotReport(data: JsValue)
+				   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+	def salesReport(data: JsValue)
+				   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+
+
+
+
 }

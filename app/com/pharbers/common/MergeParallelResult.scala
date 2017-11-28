@@ -1,4 +1,4 @@
-package com.pharbers.aqll.common
+package com.pharbers.common
 
 import play.api.libs.json.JsValue
 

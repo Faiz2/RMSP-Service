@@ -40,7 +40,16 @@ POST    /user/authpwd               controllers.auth.AuthController.authWithPass
 POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
 
 # 报告查看
-#POST    /report/query
+# 市场销售
+POST    /report/querymarketsales    controllers.report.ReportController.reportMarketSalesController
+# 代表报告
+POST    /report/querydelegate       controllers.report.ReportController.reportDelegateController
+# 经理报告
+POST    /report/querymanager        controllers.report.ReportController.reportManagerController
+# 分配报告
+POST    /report/queryaloot          controllers.report.ReportController.reportAllotController
+# 销售报告
+POST    /report/querysalse          controllers.report.ReportController.reportSalesController
 
 
 # Map static resources from the /public folder to the /assets URL path

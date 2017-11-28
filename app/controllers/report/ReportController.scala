@@ -17,9 +17,35 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 
 	implicit val as: ActorSystem = as_inject
 
-	def readExcelController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("readExcelController"))), jv)
-		  :: MsgReport(jv)
+	def reportMarketSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportMarketSalesController"))), jv)
+		  :: MsgReportMarketSales(jv)
+		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+
+	def reportDelegateController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDelegateController"))), jv)
+		  :: MsgReportDelegate(jv)
+		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+
+	def reportManagerController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportManagerController"))), jv)
+		  :: MsgReportManager(jv)
+		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+
+
+	def reportAllotController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportAllotController"))), jv)
+		  :: MsgReportAllot(jv)
+		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+
+
+	def reportSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesController"))), jv)
+		  :: MsgReportSales(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }
