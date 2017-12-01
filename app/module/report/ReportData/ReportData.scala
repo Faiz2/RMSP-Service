@@ -30,6 +30,8 @@ trait ReportData {
 
 
 	val d2mMarketSales: DBObject => String Map JsValue = { obj =>
+		val reValLst = obj.asInstanceOf[MongoDBList]
+		println(reValLst)
 		Map("" -> toJson(""))
 	}
 
