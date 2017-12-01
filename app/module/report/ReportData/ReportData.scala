@@ -6,40 +6,82 @@ import play.api.libs.json.Json._
 
 trait ReportData {
 
+	type resultType = String Map JsValue
+
 	def conditionAllot(data: JsValue): DBObject  = {
 		val builder = MongoDBObject.newBuilder
 		(data \ "condition" \ "").asOpt[String].map(x => builder += "" -> x).getOrElse(Unit)
 		builder.result
 	}
 
-	val d2mAllot: DBObject => String Map JsValue = { obj =>
-
-		Map("" -> toJson(""))
-	}
-
-	def conditionSales(data: JsValue): DBObject = {
+	def conditionSalesCustomer(data: JsValue): DBObject = {
 		val builder = MongoDBObject.newBuilder
 		(data \ "condition" \ "").asOpt[String].map(x => builder += "" -> x).getOrElse(Unit)
 		builder.result
 	}
 
-	val d2mSales: DBObject => String Map JsValue = { obj =>
-
-		Map("" -> toJson(""))
+	def conditionSalesDeputy(data: JsValue): DBObject = {
+		val builder = MongoDBObject.newBuilder
+		(data \ "condition" \ "").asOpt[String].map(x => builder += "" -> x).getOrElse(Unit)
+		builder.result
 	}
 
 
-	val d2mMarketSales: DBObject => String Map JsValue = { obj =>
-		val reValLst = obj.asInstanceOf[MongoDBList]
-		println(reValLst)
+	val d2mMarketSalesCommercialValue: DBObject => resultType = { obj =>
 		Map("" -> toJson(""))
 	}
 
-	val d2mDelegate: DBObject => String Map JsValue = { obj =>
+	val d2mMarketSalesPerformance: DBObject => resultType = { obj =>
 		Map("" -> toJson(""))
 	}
 
-	val d2mManager: DBObject => String Map JsValue = { obj =>
+	///////////////////////////////////////////////
+
+	val d2mDeputyTimerAllot: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mDeputyProductInformation: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mDeputyEmpiric: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mDeputySalesSkills: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mDeputyWorkAttitude: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	///////////////////////////////////////////////
+
+	val d2mManagerCost: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2ManagerTimerAllot: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	///////////////////////////////////////////////
+
+	val d2mAllot: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mSalesCustomer: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mSalesDeputy: DBObject => resultType = { obj =>
+		Map("" -> toJson(""))
+	}
+
+	val d2mSalesProduct: DBObject => resultType = { obj =>
 		Map("" -> toJson(""))
 	}
 }

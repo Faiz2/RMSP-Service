@@ -17,10 +17,22 @@ object ReportModule extends ModuleTrait with ReportData {
 		case MsgReportMarketSalesCommercialValue(data) => marketSalesCommercialValueReport(data)
 		case MsgReportMarketSalesPerformance(data) => marketSalesPerformanceReport(data)(pr)
 		
-		case MsgReportDelegate(data) => delegateReport(data)
-		case MsgReportManager(data) => managerReport(data)
+		case MsgReportDeputyTimerAllot(data) => deputyTimerAllotReport(data)
+		case MsgReportDeputyProductInformation(data) => deputyProductInformationReport(data)
+		case MsgReportDeputyEmpiric(data) => deputyEmpiricReport(data)
+		case MsgReportDeputySalesSkills(data) => deputySalesSkillsReport(data)
+		case MsgReportDeputyWorkAttitude(data) => deputyWorkAttitudeReport(data)
+
+		case MsgReportManagerCost(data) => managerCostReport(data)
+		case MsgReportManagerTimerAllot(data) => managerTimerAllotReport(data)
+
 		case MsgReportAllot(data) => allotReport(data)
-		case MsgReportSales(data) => salesReport(data)
+
+		case MsgReportSalesCustomer(data) => salesCustomerReport(data)
+		case MsgReportSalesDeputy(data) => salesDeputyReport(data)
+		case MsgReportSalesProduct(data) => salesProductReport(data)
+
+
 	  	case _ => throw new Exception("function is not impl")
 	 }
 
@@ -32,7 +44,7 @@ object ReportModule extends ModuleTrait with ReportData {
 			val user = (data \ "condition" \ "user").asOpt[String].getOrElse(throw new Exception("wrong input"))
 			val cycle = (data \ "condition" \ "cycle").asOpt[String].getOrElse(throw new Exception("wrong input"))
 			
-			db.queryObject(DBObject("phase" -> cycle :: Nil), user)(d2mMarketSales)
+			db.queryObject(DBObject("phase" -> cycle :: Nil), user)(d2mMarketSalesCommercialValue)
 
 
 			(Some(Map("data" -> toJson(""))), None)
@@ -56,7 +68,7 @@ object ReportModule extends ModuleTrait with ReportData {
 					one("data").asOpt[List[String Map JsValue]]
 			}
 			
-			db.queryObject(DBObject("phase" -> cycle :: Nil), user)(d2mMarketSales)
+			db.queryObject(DBObject("phase" -> cycle :: Nil), user)(d2mMarketSalesPerformance)
 			
 			(Some(Map("" -> toJson(""))), None)
 		} catch {
@@ -66,8 +78,8 @@ object ReportModule extends ModuleTrait with ReportData {
 	}
 	
 	
-	def delegateReport(data: JsValue)
-	                  (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+	def deputyTimerAllotReport(data: JsValue)
+							  (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			
 			(Some(Map("data" -> toJson(""))), None)
@@ -76,8 +88,51 @@ object ReportModule extends ModuleTrait with ReportData {
 		}
 	}
 
-	def managerReport(data: JsValue)
-					 (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+
+	def deputyProductInformationReport(data: JsValue)
+									  (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("data" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+	def deputyEmpiricReport(data: JsValue)
+						   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("data" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+	def deputySalesSkillsReport(data: JsValue)
+							   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("data" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+	def deputyWorkAttitudeReport(data: JsValue)
+							   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("data" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+
+
+	def managerCostReport(data: JsValue)
+						 (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			
 			(Some(Map("" -> toJson(""))), None)
@@ -85,7 +140,18 @@ object ReportModule extends ModuleTrait with ReportData {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
-	
+
+	def managerTimerAllotReport(data: JsValue)
+							   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+
+			(Some(Map("" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+
+
 	def allotReport(data: JsValue)
 				   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
@@ -96,8 +162,9 @@ object ReportModule extends ModuleTrait with ReportData {
 		}
 	}
 
-	def salesReport(data: JsValue)
-				   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+
+	def salesCustomerReport(data: JsValue)
+						   (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 
 			(Some(Map("" -> toJson(""))), None)
@@ -106,8 +173,24 @@ object ReportModule extends ModuleTrait with ReportData {
 		}
 	}
 
+	def salesDeputyReport(data: JsValue)
+						 (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
 
+			(Some(Map("" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
 
+	def salesProductReport(data: JsValue)
+						  (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
 
+			(Some(Map("" -> toJson(""))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
 
 }

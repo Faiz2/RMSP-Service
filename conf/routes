@@ -43,7 +43,7 @@ POST    /submit/submitdata          controllers.submit.SubmitController.submitDa
 # 市场销售
 POST    /report/querymarketsales    controllers.report.ReportController.reportMarketSalesController
 # 代表报告
-POST    /report/querydelegate       controllers.report.ReportController.reportDelegateController
+POST    /report/querydelegate       controllers.report.ReportController.reportDeputyController
 # 经理报告
 POST    /report/querymanager        controllers.report.ReportController.reportManagerController
 # 分配报告

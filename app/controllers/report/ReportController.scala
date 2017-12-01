@@ -19,19 +19,25 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 
 	def reportMarketSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportMarketSalesController"))), jv)
-		  :: MsgReportMarketSales(jv)
+		  :: MsgReportMarketSalesCommercialValue(jv)
+		  :: MsgReportMarketSalesPerformance(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
-	def reportDelegateController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDelegateController"))), jv)
-		  :: MsgReportDelegate(jv)
+	def reportDeputyController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDeputyController"))), jv)
+		  :: MsgReportDeputyTimerAllot(jv)
+		  :: MsgReportDeputyProductInformation(jv)
+		  :: MsgReportDeputyEmpiric(jv)
+		  :: MsgReportDeputySalesSkills(jv)
+		  :: MsgReportDeputyWorkAttitude(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportManagerController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportManagerController"))), jv)
-		  :: MsgReportManager(jv)
+		  :: MsgReportManagerCost(jv)
+		  :: MsgReportManagerTimerAllot(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
@@ -45,7 +51,9 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 
 	def reportSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesController"))), jv)
-		  :: MsgReportSales(jv)
+		  :: MsgReportSalesCustomer(jv)
+		  :: MsgReportSalesDeputy(jv)
+		  :: MsgReportSalesProduct(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }
