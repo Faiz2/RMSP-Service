@@ -28,9 +28,11 @@
           ))
   
   
-  argss <- commandArgs(TRUE)
-  R_File_Path <- argss[1]
-  R_Json_Path <- argss[2]
+ argss <- commandArgs(TRUE)
+ R_File_Path <- argss[1]
+ R_Json_Path <- argss[2]
+  #R_File_Path <- "/Users/qianpeng/GitHub/RMSP-Service/resource/pre_data_linux.RData"
+  #R_Json_Path <- "/Users/qianpeng/GitHub/RMSP-Service/resource/json/18cd99cf-1446-4cc0-#ad72-4e8e2fe5ca06.json"
   load(R_File_Path)
 
   
@@ -622,7 +624,7 @@
   ##--                 making reports
   ##----------------------------------------------------------------------------
   
-  report_data <- function(tmp,flm_data) {
+  report_data <- function(tmp,flm_data,null_report) {
     
     tmp1 <- tmp %>% 
       dplyr::mutate(product = factor(product,levels=c("口服抗生素",
@@ -704,6 +706,9 @@
                                 "团队能力(指数)",
                                 "得分",
                                 "累计得分") 
+    report1_mod1_tmp <- null_report
+    
+    report1_mod1_tmp[which(report1_mod1_tmp$phase==report1_mod1$phase),2:6] <- report1_mod1[1,2:6]
     
 
     
@@ -1106,42 +1111,22 @@
     
   }
   
-  data_to_use2 <- report_data(data_to_use,flm_data)
+  data_to_use2 <- report_data(data_to_use,flm_data,last_report1_1)
   
-  if (phase == 1) {
-    report1_1_tmp <- rbind(last_report1_1[1,],data_to_use2$report1_mod1)
-  } else {
-    report1_1_tmp <- rbind(last_report1_1[1:2,],data_to_use2$report1_mod1)
-  }
-  
-  
-  report1_mod1 <- report1_1_tmp %>% 
-    gather(name,`值`,-phase) %>%
+  report1_1_tmp <- data_to_use2$report1_mod1 %>% 
+    gather(variable,`值`,-phase) %>%
     spread(phase,`值`)  %>%
-    left_join(report7_mod1_rank,by="name") %>%
+    left_join(report7_mod1_rank,by="variable") %>%
     arrange(rank) %>%
-    select(-variable,-rank) %>%
-    dplyr::mutate("名称"=name) %>%
-    select(-name)
-  
-  if (phase == 1) {
-    report1_mod1 <- data.frame("名称" = report1_mod1$名称,
-                               "周期0" = report1_mod1$周期0,
-                               "周期1"= report1_mod1$周期1,
-                               "周期2"= rep("",5))
-  } else {
-    report1_mod1 <- data.frame("名称" = report1_mod1$名称,
-                               "周期0" = report1_mod1$周期0,
-                               "周期1"= report1_mod1$周期1,
-                               "周期2"= report1_mod1$周期2)
-  }
+    select(-name,-rank) %>%
+    dplyr::mutate("名称"=variable) %>%
+    select(-variable)
  
   
   if (phase==1){
     tmp_data <- list(
-    "time" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),  
     "phase" = "周期1",  
-    "p1_report1_mod1" = report1_mod1,
+    "p1_report1_mod1" = report1_1_tmp,
     "p1_report1_mod2" = data_to_use2$report1_mod2,
     "p1_report2_mod1" = data_to_use2$report2_mod1,
     "p1_report2_mod2" = data_to_use2$report2_mod2,
@@ -1155,11 +1140,10 @@
     "p1_report5_mod2" = data_to_use2$report5_mod2,
     "p1_report5_mod3" = data_to_use2$report5_mod3,
     "p1_tmp" = data_to_use,
-    "p1_report" = report1_1_tmp,
+    "p1_report" = data_to_use2$report1_mod1,
     "p1_acc_success_value" = data_to_use2$acc_success_value)
   } else {
     tmp_data <- list(
-    "time" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),
     "phase" = "周期2",
     "p2_report1_mod1" = report1_1_tmp,
     "p2_report1_mod2" = data_to_use2$report1_mod2,
@@ -1191,18 +1175,21 @@
           options()$mongodb$host,
           "STP"))
   
-
-    
+  
   if ( phase == 1 ) {
-    if (!is.null(mongodb_con$info()$stats$count)) {
-      mongodb_con$drop()
-    }
-    mongodb_con$insert(tmp_data)
+  	if (!is.null(mongodb_con$info()$stats$count)) {
+  		mongodb_con$drop()
+  	}
+  	mongodb_con$insert(tmp_data)
   } else {
-    mongodb_con$insert(tmp_data)
+  	 mongodb_con$insert(tmp_data)
   }
+  
+
+    
+ 
     
   
   
 
-
+  

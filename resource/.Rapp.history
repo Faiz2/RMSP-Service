@@ -4053,3 +4053,4 @@ mongodb_con$info()$stats$cont
 mongodb_con$info()$stats$count
 mongodb_con$insert(tmp_data)
 mongodb_con$info()$stats$count
+load("/Users/qianpeng/GitHub/RMSP-Service/resource/pre_data_linux.RData")
