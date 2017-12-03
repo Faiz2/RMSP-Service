@@ -1,11 +1,11 @@
-@()
+@()(content: Html)(script: Html)
 <section class="content">
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs" id="report-tab" role="tablist">
         <li role="presentation" class="active"><a href="#tab-2688-1" aria-controls="tab-2688-1" data-toggle="tab">周期1</a></li>
         <li role="presentation"><a href="#tab-2688-2" aria-controls="tab-2688-2" data-toggle="tab">周期2</a></li>
     </ul>
     <div class="tab-content">
-        @Module.Report.report_cycle_1()
-        @Module.Report.report_cycle_2()
+        @content
     </div>
+    @script
 </section>

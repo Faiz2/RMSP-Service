@@ -48,11 +48,20 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
+	def reportSalesCustomerController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesCustomerController"))), jv)
+		  	:: MsgReportSalesCustomer(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
 
-	def reportSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesController"))), jv)
-		  :: MsgReportSalesCustomer(jv)
-		  :: MsgReportSalesDeputy(jv)
+	def reportSalesDeputyController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesDeputyController"))), jv)
+		  	:: MsgReportSalesDeputy(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+
+	def reportSalesProductController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesProductController"))), jv)
 		  :: MsgReportSalesProduct(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})

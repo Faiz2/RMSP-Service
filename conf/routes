@@ -49,7 +49,12 @@ POST    /report/querymanager        controllers.report.ReportController.reportMa
 # 分配报告
 POST    /report/queryaloot          controllers.report.ReportController.reportAllotController
 # 销售报告
-POST    /report/querysalse          controllers.report.ReportController.reportSalesController
+# 销售额/客户
+POST    /report/querysalsecustomer  controllers.report.ReportController.reportSalesCustomerController
+# 销售额/代表
+POST    /report/querysalsedeputy    controllers.report.ReportController.reportSalesDeputyController
+# 销售额/产品
+POST    /report/querysalseproduct   controllers.report.ReportController.reportSalesProductController
 
 
 # Map static resources from the /public folder to the /assets URL path

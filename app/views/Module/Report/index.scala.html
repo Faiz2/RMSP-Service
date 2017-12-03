@@ -1,0 +1,11 @@
+@()
+<div>
+    @Module.Report.report_home() {
+        @Module.Report.report_cycle_1()
+        @Module.Report.report_cycle_2()
+    } {
+        <script defer="defer">
+            $.getScript('@routes.Assets.versioned("javascripts/business-lib/report/report.js")');
+        </script>
+    }
+</div>

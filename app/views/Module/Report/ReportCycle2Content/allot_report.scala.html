@@ -1,5 +1,43 @@
-@()
+@(m: String Map List[String Map String])
 <div class="box-body">
-    @Module.Report.hospital_select()
+    <div style="margin-left: 3%">
+        @Module.Report.hospital_select()
+    </div>
+    <div style="margin-left: 3%">
     @Module.Report.vdoing_select()
+    </div>
+
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>时间分配</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row">
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">医院</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">因素</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">口服抗生素</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">一代降糖药</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">三代降糖药</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">皮肤药</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">总体</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(vul <- m("timerallot")) {
+                        <tr role="row">
+                            <td class="dt-center">@vul("医院")</td>
+                            <td class="dt-center">@vul("因素")</td>
+                            <td class="dt-center num-format">@vul("口服抗生素")</td>
+                            <td class="dt-center num-format">@vul("一代降糖药")</td>
+                            <td class="dt-center num-format">@vul("三代降糖药")</td>
+                            <td class="dt-center num-format">@vul("皮肤药")</td>
+                            <td class="dt-center num-format">@vul("总体")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

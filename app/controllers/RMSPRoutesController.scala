@@ -21,7 +21,7 @@ trait RoutesFilter extends TokenCheck { this: Controller =>
 			case "market_info" => Ok(views.html.Module.MarketInfo.index())
 			case "brd_info" => Ok(views.html.Module.Brd.index())
 			case "product_info" => Ok(views.html.Module.Product.index())
-			case "report" => Ok(views.html.Module.Report.report_home())
+			case "report" => Ok(views.html.Module.Report.index())
 			case _ => ???
 		}
 	}
@@ -73,7 +73,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	}
 
 	def report = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.Report.report_home()))
+		getUserCookie(request)(Ok(views.html.Module.Report.index()))
 	}
 	
 	def login = Action {
