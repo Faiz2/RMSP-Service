@@ -6,7 +6,7 @@ var next_save_cycle1_business_decision_json_data;
 var next_save_cycle2_business_decision_json_data;
 
 //保存周期计算是否已经提交
-var cycle1_status = true;
+var cycle1_status = false;
 var cycle2_status = false;
 
 // form结合形成json
