@@ -3267,10 +3267,12 @@ table.text-center th {
   border-top: 0;
   color: #666;
 }
-.login-box-body .form-control-feedback,
-.register-box-body .form-control-feedback {
-  color: #777;
-}
+
+/*.login-box-body .form-control-feedback,*/
+/*.register-box-body .form-control-feedback {*/
+  /*color: #777;*/
+/*}*/
+
 .login-box-msg,
 .register-box-msg {
   margin: 0;

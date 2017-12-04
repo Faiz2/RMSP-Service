@@ -21,7 +21,7 @@ object MarketInfoModule extends ModuleTrait with MarketInfoData {
 	                         (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		
 		try {
-			val cycle = (data \ "cycle").asOpt[String].getOrElse("周期1")
+			val cycle = (data \ "condition" \ "cycle").asOpt[String].getOrElse("周期1")
 			val reValHostitalData = pr.getOrElse(throw new Exception("pr data not exist"))("data").
 			  						as[List[String Map List[String Map String]]].map(x => x.get("news")).
 			  						filterNot(f => f.isEmpty).flatMap(x => x.get).map(x => Map("letters" -> x(cycle),

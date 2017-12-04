@@ -93,7 +93,7 @@
                    $td.text(f.thousandsModule.formatNum($td.text().split('.')[0]));
                });
            }else {
-               $zone.find('div[name="market-sales"]').empty().html('<h1 style="color: red">Error.</h1>')
+               $zone.find('div[name="market-sales"]').empty().html('<h4 style="">暂无数据！</h4>')
            }
        });
    }
@@ -108,7 +108,7 @@
                var html = r.result.data.deputyreport;
                $zone.find('div[name="deputy"]').empty().html(html);
            }else {
-               $zone.find('div[name="deputy"]').empty().html('<h1 style="color: red">Error.</h1>')
+               $zone.find('div[name="deputy"]').empty().html('<h4 style="">暂无数据！</h4>')
            }
        });
    }
@@ -128,7 +128,7 @@
                    $td.text(f.thousandsModule.formatNum($td.text().split('.')[0]));
                });
            }else {
-               $zone.find('div[name="manager"]').empty().html('<h1 style="color: red">Error.</h1>')
+               $zone.find('div[name="manager"]').empty().html('<h4 style="">暂无数据！</h4>')
            }
        });
    }
@@ -153,7 +153,7 @@
                });
                allot_select_change(hospital, dimension);
            }else {
-               $zone.find('div[name="allot"]').empty().html('<h1 style="color: red">Error.</h1>')
+               $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
            }
        });
 
@@ -179,7 +179,7 @@
                 });
                 sales_customer_select_change(hospital, product);
             }else {
-                $zone.find('div[name="allot"]').empty().html('<h1 style="color: red">Error.</h1>')
+                $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
             }
         });
     }
@@ -204,7 +204,7 @@
                 });
                 sales_deputy_select_change(people, product);
             }else {
-                $zone.find('div[name="allot"]').empty().html('<h1 style="color: red">Error.</h1>')
+                $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
             }
         });
     }
@@ -224,7 +224,7 @@
                     $td.text(f.thousandsModule.formatNum($td.text().split('%')[0]));
                 });
             }else {
-                $zone.find('div[name="sales-porduct"]').empty().html('<h1 style="color: red">Error.</h1>')
+                $zone.find('div[name="sales-porduct"]').empty().html('<h4 style="">暂无数据！</h4>')
             }
         });
     }

@@ -4,4 +4,5 @@ var Facade = function () {
     this.cookieModule = new CookieHandler();
     this.parameterPrefixModule = new ParameterPrefix();
     this.thousandsModule = new Thousands();
+    this.alert = new Alert();
 };

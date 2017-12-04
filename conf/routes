@@ -12,6 +12,7 @@
 
 GET     /                           controllers.RMSPRoutesController.login
 GET     /login                      controllers.RMSPRoutesController.login
+GET     /register                   controllers.RMSPRoutesController.register
 GET     /index                      controllers.RMSPRoutesController.index
 
 # 通过jQuery的$.get获取页面

@@ -1,11 +1,41 @@
 (function($, w){
     var f = new Facade();
     $(function () {
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期1"}));
-        load_market_info(json);
+
+
+        var $cycle1_news = $('#cycle1-news');
+        var $cycle2_news = $('#cycle2-news');
+        var $cycle1_client = $('#cycle1-client');
+        var $cycle2_client = $('#cycle2-client');
+
+        $cycle1_news.click(function() {
+            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期1"}));
+            load_market_cycle1_info(json);
+        });
+
+        $cycle1_client.click(function() {
+            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期1"}));
+            load_market_cycle1_info(json);
+        });
+
+        $cycle2_news.click(function() {
+            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
+            load_market_cycle2_info(json);
+        });
+
+        $cycle2_client.click(function() {
+            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
+            load_market_cycle2_info(json);
+        });
+
+        if(cycle1_status) {
+            $cycle2_news.attr('class', 'btn btn-default');
+            $cycle2_client.attr('class', 'btn btn-default');
+        }
+        $cycle1_news.click();
     });
 
-    function load_market_info (json) {
+    function load_market_cycle1_info (json) {
         f.ajaxModule.baseCall("/market_info", json, "POST", function(r){
             var $new_content = $('#market-info-new-content');
             var $client_content = $('#market-info-client-info-content');
@@ -31,19 +61,41 @@
                     var $td = $(k);
                     $td.text(f.thousandsModule.formatNum($td.text().split(".")[0]))
                 });
-                // var last_td_3 = $(v).find('td').eq(3);
-                // var last_td_4 = $(v).find('td').eq(4);
-                // var last_td_5 = $(v).find('td').eq(5);
-                // var last_td_6 = $(v).find('td').eq(6);
-                // var num_td_3 = f.thousandsModule.formatNum(last_td_3.text().split(".")[0]);
-                // var num_td_4 = f.thousandsModule.formatNum(last_td_4.text().split(".")[0]);
-                // var num_td_5 = f.thousandsModule.formatNum(last_td_5.text().split(".")[0]);
-                // var num_td_6 = f.thousandsModule.formatNum(last_td_6.text().split(".")[0]);
-                // last_td_3.text(num_td_3);
-                // last_td_4.text(num_td_4);
-                // last_td_5.text(num_td_5);
-                // last_td_6.text(num_td_6);
             });
-        }, function(e){console.info(e)})
+        })
+    }
+
+    function load_market_cycle2_info (json) {
+        f.ajaxModule.baseCall("/market_info", json, "POST", function(r){
+            var $new_content = $('#market-info-new-content');
+            var $client_content = $('#market-info-client-info-content');
+            $new_content.empty();
+            $client_content.empty();
+            if (r.status === 'ok') {
+                $new_content.html(r.result.data.news);
+                $client_content.html(r.result.data.clientInfo);
+                $new_content.find('th[name="show-switch"]').hide();
+                $new_content.find('td[name="show-switch"]').hide();
+                $client_content.find('th[name="show-switch"]').hide();
+                $client_content.find('td[name="show-switch"]').hide();
+            } else {
+                $new_content.html('<h1 style="color: red">Error.</h1>');
+                $client_content.html('<h1 style="color: red">Error.</h1>');
+            }
+            $.each($('.news tr'), function(i, v) {
+                var $tds = $(v).find('td:gt(2)');
+                $.each($tds, function(j, k) {
+                    var $td = $(k);
+                    $td.text(f.thousandsModule.formatNum($td.text()))
+                });
+            });
+            $.each($('.client tr'), function(i, v) {
+                var $tds = $(v).find('td:gt(2)');
+                $.each($tds, function (j, k) {
+                    var $td = $(k);
+                    $td.text(f.thousandsModule.formatNum($td.text().split(".")[0]))
+                });
+            });
+        })
     }
 })(jQuery, window);
