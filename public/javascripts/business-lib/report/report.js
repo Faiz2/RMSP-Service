@@ -16,13 +16,26 @@
     };
 
     $(function() {
-        market_sales();
-        deputy_report();
-        manager_report();
-        allot_report();
-        sales_customer();
-        sales_deputy();
-        sales_product();
+
+        $report_tab_li.click(function() {
+            market_sales($(this).find('a').text());
+            deputy_report($(this).find('a').text());
+            manager_report($(this).find('a').text());
+            allot_report($(this).find('a').text());
+            sales_customer($(this).find('a').text());
+            sales_deputy($(this).find('a').text());
+            sales_product($(this).find('a').text());
+        });
+
+        if (cycle1_status) {
+            $('div[name="cycle1-style-controller"]').show();
+            $report_tab_li.eq(0).click();
+        }
+        if (cycle2_status) {
+            $('div[name="cycle2-style-controller"]').show();
+            $report_tab_li.eq(1).click();
+        }
+
     });
 
     function allot_select_change(hk, dk) {
@@ -34,12 +47,12 @@
         $dimension_select.find('option[value="'+ dk +'"]').attr('selected', true);
 
         $hospital_select.change(function () {
-            allot_report($(this).val(), $dimension_select.val());
+            allot_report(li_text, $(this).val(), $dimension_select.val());
 
         });
 
         $dimension_select.change(function () {
-            allot_report($hospital_select.val(), $(this).val());
+            allot_report(li_text, $hospital_select.val(), $(this).val());
         });
     }
 
@@ -52,12 +65,12 @@
         $product_select.find('option[value="'+ pk +'"]').attr('selected', true);
 
         $hospital_select.change(function () {
-            sales_customer($(this).val(), $product_select.val());
+            sales_customer(li_text, $(this).val(), $product_select.val());
 
         });
 
         $product_select.change(function () {
-            sales_customer($hospital_select.val(), $(this).val());
+            sales_customer(li_text, $hospital_select.val(), $(this).val());
         });
     }
 
@@ -70,19 +83,19 @@
         $product_select.find('option[value="'+ pk +'"]').attr('selected', true);
 
         $people_select.change(function () {
-            sales_deputy($(this).val(), $product_select.val());
+            sales_deputy(li_text, $(this).val(), $product_select.val());
 
         });
 
         $product_select.change(function () {
-            sales_deputy($people_select.val(), $(this).val());
+            sales_deputy(li_text, $people_select.val(), $(this).val());
         });
     }
 
-    function market_sales() {
-       var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('market-sales-report-cycle', li_text));
+    function market_sales(text) {
+       // var li_text = $report_tab_li.filter('.active').find('a').text();
+       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
+       var $zone = $('#' + phase_switch('market-sales-report-cycle', text));
        f.ajaxModule.baseCall('report/querymarketsales', json, 'POST', function(r) {
            if(r.status === 'ok') {
                var html = r.result.data.marketsalesreport;
@@ -98,10 +111,10 @@
        });
    }
    
-    function deputy_report() {
-       var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('delegate-report-cycle', li_text));
+    function deputy_report(text) {
+       // var li_text = $report_tab_li.filter('.active').find('a').text();
+       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
+       var $zone = $('#' + phase_switch('delegate-report-cycle', text));
 
        f.ajaxModule.baseCall('report/querydelegate', json, 'POST', function(r) {
            if(r.status === 'ok') {
@@ -113,10 +126,10 @@
        });
    }
 
-    function manager_report() {
-       var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('manager-report-cycle', li_text));
+    function manager_report(text) {
+       // var li_text = $report_tab_li.filter('.active').find('a').text();
+       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
+       var $zone = $('#' + phase_switch('manager-report-cycle', text));
 
        f.ajaxModule.baseCall('report/querymanager', json, 'POST', function(r) {
            if(r.status === 'ok') {
@@ -133,14 +146,14 @@
        });
    }
 
-    function allot_report(hospital, dimension) {
-       var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text,
+    function allot_report(text, hospital, dimension) {
+       // var li_text = $report_tab_li.filter('.active').find('a').text();
+       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
            'user': $.cookie('user'),
            'hospital': hospital === '' ? undefined : hospital,
            'dimension': dimension === '' ? undefined : dimension
        }));
-       var $zone = $('#' + phase_switch('allot-report-cycle', li_text));
+       var $zone = $('#' + phase_switch('allot-report-cycle', text));
 
        f.ajaxModule.baseCall('report/queryaloot', json, 'POST', function(r) {
            if(r.status === 'ok') {
@@ -159,14 +172,14 @@
 
    }
     
-    function sales_customer(hospital, product) {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text,
+    function sales_customer(text, hospital, product) {
+        // var li_text = $report_tab_li.filter('.active').find('a').text();
+        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
             'user': $.cookie('user'),
             'hospital': hospital === '' ? undefined : hospital,
             'product': product === '' ? undefined : product
         }));
-        var $zone = $('#' + phase_switch('sales-details-cycle', li_text));
+        var $zone = $('#' + phase_switch('sales-details-cycle', text));
 
         f.ajaxModule.baseCall('report/querysalsecustomer', json, 'POST', function(r) {
             if(r.status === 'ok') {
@@ -184,14 +197,14 @@
         });
     }
 
-    function sales_deputy(people, product) {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text,
+    function sales_deputy(text, people, product) {
+        // var li_text = $report_tab_li.filter('.active').find('a').text();
+        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
             'user': $.cookie('user'),
             'people': people === '' ? undefined : people,
             'product': product === '' ? undefined : product
         }));
-        var $zone = $('#' + phase_switch('sales-details-cycle', li_text));
+        var $zone = $('#' + phase_switch('sales-details-cycle', text));
 
         f.ajaxModule.baseCall('report/querysalsedeputy', json, 'POST', function(r) {
             if(r.status === 'ok') {
@@ -209,10 +222,10 @@
         });
     }
 
-    function sales_product() {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': li_text, 'user': $.cookie('user')}));
-        var $zone = $('#' + phase_switch('sales-details-cycle', li_text));
+    function sales_product(text) {
+        // var li_text = $report_tab_li.filter('.active').find('a').text();
+        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
+        var $zone = $('#' + phase_switch('sales-details-cycle', text));
 
         f.ajaxModule.baseCall('report/querysalseproduct', json, 'POST', function(r) {
             if(r.status === 'ok') {

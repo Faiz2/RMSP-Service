@@ -32,11 +32,13 @@
         var $p1_btn = $('#p1_go_decision');
         var $p2_btn = $('#p2_go_decision');
         if(cycle1_status && $p1_btn.attr("class").indexOf('disabled') < 0) {
-            $p1_btn.attr('class', $p1_btn.attr('class')+'disabled')
+            $p1_btn.attr('class', $p1_btn.attr('class')+'disabled');
+            $content.find('input').attr("disabled", true);
         }
 
         if(cycle2_status && $p2_btn.attr("class").indexOf('disabled') < 0) {
             $p2_btn.attr('class', $p2_btn.attr('class')+'disabled')
+            $content2.find('input').attr("disabled", true);
         }
     }
 
@@ -82,13 +84,14 @@
     };
 
     setTimeout(function(){
-        if ($management_tab_li.index() === 0) {
+        var active = $management_tab_li.filter('[class="active"]');
+        if (active.index() === 0) {
             w.management_event.bind_input_change($content);
-        } else if ($management_tab_li.index() === 1) {
+        } else if (active.index() === 1) {
             w.management_event.bind_input_change($content2);
         } else {
             console.warn("find a lot of 'li'")
         }
-    }, 250);
+    }, 300);
 
 })(jQuery, window);

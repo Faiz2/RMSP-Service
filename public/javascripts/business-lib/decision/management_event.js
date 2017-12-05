@@ -57,7 +57,6 @@ var management_event = (function ($, w) {
         };
 
     function bind_input_change(region) {
-
         var $inputs = (region || $content).find('input');
         var $pres = (region || $content).find('pre');
 
@@ -100,13 +99,14 @@ var management_event = (function ($, w) {
             });
         }
 
-        if ($management_tab_li.index() === 0) {
+        var active = $management_tab_li.filter('[class="active"]');
+        if (active.index() === 0) {
             bind_input(cycle_1_inputs, 'ability_to_coach');
             bind_input(cycle_1_inputs, 'field_association_to_visit');
             bind_input(cycle_1_inputs, 'party_building');
             bind_input(cycle_1_inputs, 'kpi_report');
             bind_input(cycle_1_inputs, 'administrative');
-        } else if ($management_tab_li.index() === 1) {
+        } else if (active.index() === 1) {
             bind_input(cycle_2_inputs, 'ability_to_coach');
             bind_input(cycle_2_inputs, 'field_association_to_visit');
             bind_input(cycle_2_inputs, 'party_building');

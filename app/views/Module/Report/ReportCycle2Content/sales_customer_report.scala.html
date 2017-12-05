@@ -18,21 +18,23 @@
                             <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">上期销售额</th>
                             <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">当期销售额</th>
                             <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售额增长</th>
-                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售额增长率</th>
-                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售额达成率</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售额增长率(%)</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">销售额达成率(%)</th>
                         </tr>
                     </thead>
                     <tbody>
+                    @for(vul <- m("salescustomer")) {
                         <tr role="row">
-                            <td class="dt-center">人民医院</td>
-                            <td class="dt-center">口服抗生素</td>
-                            <td class="dt-center">10</td>
-                            <td class="dt-center">557,714</td>
-                            <td class="dt-center">726,739</td>
-                            <td class="dt-center">169,025</td>
-                            <td class="dt-center">30.31%</td>
-                            <td class="dt-center">7,267,390%</td>
+                            <td class="dt-center">@vul("医院")</td>
+                            <td class="dt-center">@vul("产品")</td>
+                            <td class="dt-center num-format">@vul("当期销售指标")</td>
+                            <td class="dt-center num-format">@vul("上期销售额")</td>
+                            <td class="dt-center num-format">@vul("当期销售额")</td>
+                            <td class="dt-center num-format">@vul("销售额增长")</td>
+                            <td class="dt-center num-format">@vul("销售额增长率")</td>
+                            <td class="dt-center num-format">@vul("销售额达成率")</td>
                         </tr>
+                    }
                     </tbody>
                 </table>
             </div>

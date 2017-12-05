@@ -2,8 +2,8 @@
 <div class="box-body">
     <div style="text-align: left;margin-left: 3%">
         <div id="p1_report7_1" style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
-            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
-                <table class="display dataTable no-footer" id="DataTables_Table_1" role="grid">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
                     <caption>商业价值</caption>
                     <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
                         <tr role="row">
@@ -14,35 +14,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" class="odd">
-                            <td class=" dt-center">总销售(元)</td>
-                            <td class=" dt-center">5,620,365</td>
-                            <td class=" dt-center">3,950,090</td>
-                            <td class=" dt-center"></td>
-                        </tr>
-                        <tr role="row" class="even">
-                            <td class=" dt-center">总利润(元)</td>
-                            <td class=" dt-center">2,349,027</td>
-                            <td class=" dt-center">1,832,880</td>
-                            <td class=" dt-center"></td>
-                        </tr>
-                        <tr role="row" class="odd">
-                            <td class=" dt-center">团队能力(指数)</td>
-                            <td class=" dt-center">52</td>
-                            <td class=" dt-center">56</td>
-                            <td class=" dt-center"></td>
-                        </tr>
-                        <tr role="row" class="even">
-                            <td class=" dt-center">得分</td>
-                            <td class=" dt-center"></td>
-                            <td class=" dt-center">18</td>
-                            <td class=" dt-center"></td>
-                        </tr>
-                        <tr role="row" class="odd"><td class=" dt-center">累计得分</td>
-                            <td class=" dt-center"></td>
-                            <td class=" dt-center">18</td>
-                            <td class=" dt-center"></td>
-                        </tr>
+                        @for(vul <- m("commercialvalue")) {
+                            <tr role="row" >
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("周期0")</td>
+                                <td class="dt-center num-format">@vul("周期1")</td>
+                                <td class="dt-center num-format">@vul("周期2")</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -53,8 +32,8 @@
     <br>
     <div style="text-align: left;margin-left: 3%">
         <div id="p1_report7_2" style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
-            <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper no-footer">
-                <table class="display dataTable no-footer" id="DataTables_Table_2" role="grid">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
                     <caption>销售业绩</caption>
                     <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
                         <tr role="row">
@@ -64,16 +43,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" class="odd">
-                            <td class=" dt-center">人民医院</td>
-                            <td class=" dt-center">959,290</td>
-                            <td class=" dt-center">1,257,899</td>
+                    @for(vul <- m("performance")) {
+                        <tr role="row" >
+                            <td class="dt-center">@vul("医院")</td>
+                            <td class="dt-center num-format">@vul("上期总销售(元)")</td>
+                            <td class="dt-center num-format">@vul("当期总销售(元)")</td>
                         </tr>
-                        <tr role="row" class="even">
-                            <td class=" dt-center">军区医院</td>
-                            <td class=" dt-center">412,673</td>
-                            <td class=" dt-center">554,103</td>
-                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>

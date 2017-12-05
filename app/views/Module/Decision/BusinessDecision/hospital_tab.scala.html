@@ -70,9 +70,15 @@
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            <div class="form-group disabled" disabled="disabled">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
-                            </div>
+                            @if((hosp._1._1 == "人民医院" || hosp._1._1 == "军区医院" || hosp._1._1 == "中日医院" || hosp._1._1 == "西河医院") && cycle == "2") {
+                                <div class="form-group">
+                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled"  value="0">
+                                </div>
+                            } else {
+                                <div class="form-group disabled" disabled="disabled">
+                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
+                                </div>
+                            }
                         </div>
                     </div>
                     <div>
@@ -108,9 +114,15 @@
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            <div class="form-group disabled" disabled="disabled">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
-                            </div>
+                            @if((hosp._1._1 == "人民医院" || hosp._1._1 == "军区医院" || hosp._1._1 == "中日医院" || hosp._1._1 == "西河医院") && cycle == "2") {
+                                <div class="form-group">
+                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control" value="0">
+                                </div>
+                            } else {
+                                <div class="form-group disabled" disabled="disabled">
+                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
