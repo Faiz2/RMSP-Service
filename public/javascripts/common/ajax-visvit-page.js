@@ -37,7 +37,7 @@
             $content.empty();
             $content.html(r);
         });
-    }
+    };
 
     var replace_style = function (doc) {
         var cur_li = doc.parent().not('.treeview');
