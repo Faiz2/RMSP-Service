@@ -36,6 +36,14 @@
             $report_tab_li.eq(1).click();
         }
 
+
+        $('#cycle1-dow').click(function() {
+
+        });
+
+        $('#cycle2-dow').click(function() {
+
+        })
     });
 
     function allot_select_change(hk, dk) {

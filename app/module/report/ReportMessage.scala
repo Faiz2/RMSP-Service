@@ -22,4 +22,6 @@ object ReportMessage {
 	case class MsgReportSalesCustomer(data: JsValue) extends MsgReportCommand // 销售报告-销售额/顾客
 	case class MsgReportSalesDeputy(data: JsValue) extends MsgReportCommand // 销售报告-销售额/代表
 	case class MsgReportSalesProduct(data: JsValue) extends MsgReportCommand // 销售报告-销售额/产品
+	
+	case class MsgDownReport
 }

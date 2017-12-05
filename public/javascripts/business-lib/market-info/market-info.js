@@ -19,13 +19,17 @@
         });
 
         $cycle2_news.click(function() {
-            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
-            load_market_cycle2_info(json);
+            if($(this).attr('class').indexOf('disabled') < 0) {
+                var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
+                load_market_cycle2_info(json);
+            }
         });
 
         $cycle2_client.click(function() {
-            var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
-            load_market_cycle2_info(json);
+            if($(this).attr('class').indexOf('disabled') < 0) {
+                var json = JSON.stringify(f.parameterPrefixModule.conditions({"cycle": "周期2"}));
+                load_market_cycle2_info(json);
+            }
         });
 
         if(cycle1_status) {

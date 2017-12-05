@@ -65,4 +65,10 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 		  :: MsgReportSalesProduct(jv)
 		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
+	
+	def reportDownController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDownController"))), jv)
+			
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
 }

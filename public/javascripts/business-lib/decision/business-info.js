@@ -10,21 +10,25 @@
                 cycle_tab($(this).find("a").text());
             }
         });
+
+        disabled_button();
+        reload_cycle_status();
+
+    });
+
+    //当做完一次计算操作时，需要禁用一些操作与展示一些历史数据
+    function reload_cycle_status() {
+
         if(cycle1_status) {
             $business_tab_li.eq(1).find('a').click();
         } else {
             $business_tab_li.eq(0).find('a').click();
         }
-        reload_cycle_status();
-    });
 
-    //当做完一次计算操作时，需要禁用一些操作与展示一些历史数据
-    function reload_cycle_status() {
-        disabled_button();
-        $('#p1_go_decision:not(.disabled)').click(function() {
+        $('#p1_go_decision:not(".disabled")').click(function() {
             click_next_button_cycle1();
         });
-        $('#p2_go_decision:not(.disabled)').click(function() {
+        $('#p2_go_decision:not(".disabled")').click(function() {
             click_next_button_cycle2();
         });
     }
@@ -33,10 +37,14 @@
         var $p1_btn = $('#p1_go_decision');
         var $p2_btn = $('#p2_go_decision');
         if(cycle1_status && $p1_btn.attr("class").indexOf('disabled') < 0) {
-            $p1_btn.attr('class', $p1_btn.attr('class')+'disabled')
+            $p1_btn.attr('class', $p1_btn.attr('class')+'disabled');
+        } else if(cycle1_status) {
+            $content.find('input').attr("disabled", true);
         }
         if(cycle2_status && $p2_btn.attr("class").indexOf('disabled') < 0) {
-            $p2_btn.attr('class', $p2_btn.attr('class')+'disabled')
+            $p2_btn.attr('class', $p2_btn.attr('class')+'disabled');
+        } else if(cycle2_status) {
+            $content2.find('input').attr("disabled", true);
         }
     }
 
@@ -56,6 +64,7 @@
         f.ajaxModule.baseCall("/business_decision", json, "POST", function(r){
             cycle1_append_html(r);
             w.business_event.bind_input_change($content);
+            disabled_button()
         }, function(e){console.info(e)})
     }
 
@@ -147,7 +156,7 @@
 
     var cycle2_aapend_html = function(r) {
         if(cycle1_status)
-            $('div').find('.cycle-style-controller').css('display', 'block')
+            $('div').find('.cycle-style-controller').css('display', 'block');
 
         $content2.empty();
         if (r.status === 'ok') {
