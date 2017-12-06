@@ -31,9 +31,87 @@
   argss <- commandArgs(TRUE)
   R_File_Path <- argss[1]
   R_Json_Path <- argss[2]
+  file <- argss[3]
   load(R_File_Path)
 
+  ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ##                              write function
+  ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
+  writeDown <- function(report){
+    
+    wb <- createWorkbook()
+    
+    ## 1
+    addWorksheet(wb, rsd_sheet_names[1])
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, tibble(商业价值 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report7_1 <- report$report1_mod1
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, report7_1,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, tibble(销售业绩 = " "),
+                   startCol = 1,startRow = 8,rowNames = F,colNames = T)
+    report7_2 <- report$report1_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, report7_2,
+                   startCol = 2,startRow = 8,rowNames = F,colNames = T)
+    
+    ## 2
+    addWorksheet(wb, rsd_sheet_names[2])
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, tibble(时间分配 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report1_1 <- report$report2_mod1
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, report1_1,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, tibble(各项指标 = " "),
+                   startCol = 1,startRow = 8,rowNames = F,colNames = T)
+    report1_2 <- rbind(report$report2_mod2,
+                       report$report2_mod3,
+                       report$report2_mod4,
+                       report$report2_mod5)
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, report1_2,
+                   startCol = 2,startRow = 8,rowNames = F,colNames = T)
+    
+    ## 3
+    addWorksheet(wb, rsd_sheet_names[3])
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, tibble(职员成本 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report2_1 <- report$report3_mod1
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, report2_1,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, tibble(时间分配 = " "),
+                   startCol = 1,startRow = 9,rowNames = F,colNames = T)
+    report2_2 <- report$report3_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, report2_2,
+                   startCol = 2,startRow = 9,rowNames = F,colNames = T)
+    
+    ## 4
+    addWorksheet(wb, rsd_sheet_names[4])
+    writeDataTable(wb, sheet = rsd_sheet_names[4],withFilter = F, tibble(时间分配 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report3_1 <- report$report4_mod1
+    writeDataTable(wb, sheet = rsd_sheet_names[4],withFilter = F, report3_1,
+                   startCol = 2,rowNames = F,colNames = T)
+    
+    
+    
+    ## 7
+    addWorksheet(wb, rsd_sheet_names[5])
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/客户" = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report6_1 <- report$report5_mod1
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_1,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/代表" = " "),
+                   startCol = 1,startRow = 53,rowNames = F,colNames = T)
+    report6_2 <-report$report5_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_2,
+                   startCol = 2,startRow = 53,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/产品" = " "),
+                   startCol = 1,startRow = sum(53,3,nrow(report6_2)),rowNames = F,colNames = T)
+    report6_3 <- report$report5_mod3
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_3,
+                   startCol = 2,startRow = sum(53,3,nrow(report6_2)),rowNames = F,colNames = T)
+    return(wb)}
   
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##                              curve function
@@ -773,7 +851,13 @@
       left_join(report2_rank1,by="variable") %>%
       arrange(rank) %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-rank,-variable)
+      dplyr::select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
+      
   
     
     
@@ -793,7 +877,12 @@
       gather(variable,`值`,-`销售代表`) %>%
       spread(`销售代表`,`值`) %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-variable)
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 2——3
@@ -811,7 +900,12 @@
       gather(variable,`值`,-`销售代表`) %>%
       spread(`销售代表`,`值`)  %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-variable)
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
    
     
@@ -828,7 +922,12 @@
       gather(variable,`值`,-`销售代表`) %>%
       spread(`销售代表`,`值`) %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-variable)
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 2——5
@@ -844,7 +943,12 @@
       gather(variable,`值`,-`销售代表`) %>%
       spread(`销售代表`,`值`) %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-variable)
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 3——1
@@ -891,7 +995,8 @@
     report3_mod2 <- report3_mod2 %>%
       gather(variable,`值`)  %>%
       dplyr::mutate("名称"=variable) %>%
-      select(-variable)
+      select(`名称`,
+             `值`)
     
     
     
@@ -1204,5 +1309,9 @@
     
   
   
+  saveWorkbook(writeDown(tmp_data),
+               file,
+               overwrite = T)
+  
 
-
+  

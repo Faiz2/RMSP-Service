@@ -46,8 +46,16 @@
         var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
-            // console.info(r)
-            cycle1_status = true;
+            if(r.status === 'ok') {
+                f.cookieModule.setCookie('reportname1', r.result.data.reportname);
+                cycle1_status = true;
+                var $report = $('#left-page li a[pharbers-filter="report"]');
+                $report.click();
+            } else {
+                f.cookieModule.setCookie('reportname1', '');
+                cycle1_status = false;
+                f.alert.alert_error('提交', '出现未知错误！');
+            }
         });
     };
 
@@ -55,8 +63,16 @@
         var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
-            // console.info(r)
-            cycle2_status = true;
+            if(r.status === 'ok') {
+                f.cookieModule.setCookie('reportname2', r.result.data.reportname);
+                cycle2_status = true;
+                var $report = $('#left-page li a[pharbers-filter="report"]');
+                $report.click();
+            } else {
+                f.cookieModule.setCookie('reportname2', '');
+                cycle2_status = true;
+                f.alert.alert_error('提交', '出现未知错误！');
+            }
         });
     };
 

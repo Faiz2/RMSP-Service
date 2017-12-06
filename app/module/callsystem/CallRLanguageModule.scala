@@ -21,7 +21,8 @@ object CallRLanguageModule extends ModuleTrait with CallRLanguageData {
 					(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 
 		try {
-			(Some(Map("data" -> toJson(Map("flag" -> toJson(callR(pr)))))), None)
+			val reportFileName = (pr.get("data") \ "reportfilename").as[String]
+			(Some(Map("data" -> toJson(Map("flag" -> toJson(callR(pr)), "reportname" -> toJson(reportFileName) )))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

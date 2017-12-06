@@ -1,5 +1,7 @@
 package module.writejson
 
+import java.util.UUID
+
 import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
@@ -19,7 +21,8 @@ object WriteJsonModule extends ModuleTrait with WriteJsonData {
 	def writeJsonWithFile(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 			implicit val func = HandleImpl.j2s
-			(Some(Map("data" -> toJson(Map("flag" -> toJson(true), "filename" -> toJson(wirteJson(data)) )))), None)
+			val reportFileName = s"${UUID.randomUUID().toString}.xlsx"
+			(Some(Map("data" -> toJson(Map("flag" -> toJson(true), "jsonfilename" -> toJson(wirteJson(data)), "reportfilename" -> toJson(reportFileName) )))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

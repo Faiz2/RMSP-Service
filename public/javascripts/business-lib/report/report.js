@@ -37,12 +37,14 @@
         }
 
 
-        $('#cycle1-dow').click(function() {
-
+        $('#cycle1-down').click(function() {
+            var name = $.cookie('reportname1');
+            w.location = '/report/download/' + name;
         });
 
-        $('#cycle2-dow').click(function() {
-
+        $('#cycle2-down').click(function() {
+            var name = $.cookie('reportname2');
+            w.location = '/report/download/' + name;
         })
     });
 

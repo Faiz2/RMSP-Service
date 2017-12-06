@@ -19,56 +19,84 @@ class ReportController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager,
 
 	def reportMarketSalesController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportMarketSalesController"))), jv)
-		  :: MsgReportMarketSalesCommercialValue(jv)
-		  :: MsgReportMarketSalesPerformance(jv)
-		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+		    :: MsgReportMarketSalesCommercialValue(jv)
+		    :: MsgReportMarketSalesPerformance(jv)
+			:: MsgReportMarketSales(jv)
+		    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportDeputyController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDeputyController"))), jv)
-		  :: MsgReportDeputyTimerAllot(jv)
-		  :: MsgReportDeputyProductInformation(jv)
-		  :: MsgReportDeputyEmpiric(jv)
-		  :: MsgReportDeputySalesSkills(jv)
-		  :: MsgReportDeputyWorkAttitude(jv)
-		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+		    :: MsgReportDeputyTimerAllot(jv)
+		    :: MsgReportDeputyProductInformation(jv)
+		    :: MsgReportDeputyEmpiric(jv)
+		    :: MsgReportDeputySalesSkills(jv)
+		    :: MsgReportDeputyWorkAttitude(jv)
+			:: MsgReportDeputy(jv)
+		    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportManagerController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportManagerController"))), jv)
-		  :: MsgReportManagerCost(jv)
-		  :: MsgReportManagerTimerAllot(jv)
-		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+			:: MsgReportManagerCost(jv)
+			:: MsgReportManagerTimerAllot(jv)
+			:: MsgReportManager(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
-
-
+	
 	def reportAllotController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportAllotController"))), jv)
-		  :: MsgReportAllot(jv)
-		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+		    :: MsgReportAllot(jv)
+			:: MsgReportAllotView(jv)
+		    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportSalesCustomerController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesCustomerController"))), jv)
-		  	:: MsgReportSalesCustomer(jv)
+	        :: MsgReportSalesCustomer(jv)
+			:: MsgReportSalesCustomerMerge(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportSalesDeputyController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesDeputyController"))), jv)
 		  	:: MsgReportSalesDeputy(jv)
+			:: MsgReportSalesDeputyMerge(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 
 	def reportSalesProductController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportSalesProductController"))), jv)
-		  :: MsgReportSalesProduct(jv)
-		  :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+		    :: MsgReportSalesProduct(jv)
+			:: MsgReportSalesProductMerge(jv)
+		    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 	
+	// 留着以后把报告接入到自己的系统中
 	def reportDownController = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("reportDownController"))), jv)
-			
+//			:: MsgReportMarketSalesCommercialValue(jv)
+//			:: MsgReportMarketSalesPerformance(jv)
+//
+//			:: MsgReportDeputyTimerAllot(jv)
+//			:: MsgReportDeputyProductInformation(jv)
+//			:: MsgReportDeputyEmpiric(jv)
+//			:: MsgReportDeputySalesSkills(jv)
+//			:: MsgReportDeputyWorkAttitude(jv)
+//
+//			:: MsgReportManagerCost(jv)
+//			:: MsgReportManagerTimerAllot(jv)
+//
+//			:: MsgReportAllot(jv)
+//
+//			:: MsgReportSalesCustomer(jv)
+//
+//			:: MsgReportSalesDeputy(jv)
+//
+//			:: MsgReportSalesProduct(jv)
+//
+//
+//			:: MsgDownReport(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }
