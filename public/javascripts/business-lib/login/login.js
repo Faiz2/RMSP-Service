@@ -8,7 +8,7 @@
                     f.cookieModule.setCookie("user", r.result.user);
                     w.location = '/index';
                 } else {
-
+                    f.alert.alert_warn('登入信息', '登入失败，请检查用户名与密码是否正确！');
                 }
             });
         });

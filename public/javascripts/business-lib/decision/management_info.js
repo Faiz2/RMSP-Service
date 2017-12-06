@@ -45,16 +45,19 @@
     var click_submit_button_cycle1 = function() {
         var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
+        layer.load();
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
             if(r.status === 'ok') {
                 f.cookieModule.setCookie('reportname1', r.result.data.reportname);
                 cycle1_status = true;
                 var $report = $('#left-page li a[pharbers-filter="report"]');
                 $report.click();
+                layer.closeAll('loading');
             } else {
                 f.cookieModule.setCookie('reportname1', '');
                 cycle1_status = false;
                 f.alert.alert_error('提交', '出现未知错误！');
+                layer.closeAll('loading');
             }
         });
     };
@@ -62,16 +65,19 @@
     var click_submit_button_cycle2 = function() {
         var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
+        layer.load();
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
             if(r.status === 'ok') {
                 f.cookieModule.setCookie('reportname2', r.result.data.reportname);
                 cycle2_status = true;
                 var $report = $('#left-page li a[pharbers-filter="report"]');
                 $report.click();
+                layer.closeAll('loading');
             } else {
                 f.cookieModule.setCookie('reportname2', '');
                 cycle2_status = true;
                 f.alert.alert_error('提交', '出现未知错误！');
+                layer.closeAll('loading');
             }
         });
     };
