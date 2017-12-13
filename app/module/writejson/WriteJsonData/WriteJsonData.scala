@@ -1,6 +1,6 @@
 package module.writejson.WriteJsonData
 
-import java.io.{File, PrintWriter}
+import java.io._
 import java.util.UUID
 
 import play.api.libs.json.JsValue
@@ -16,7 +16,7 @@ trait WriteJsonData {
 		val uuid = UUID.randomUUID().toString
 		val path = s"resource/json/$uuid.json"
 		try {
-			val w = new PrintWriter(new File(path))
+			val w =new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(path)),"ISO-8859-1"))
 			w.write(func(jv))
 			w.close()
 			uuid

@@ -250,6 +250,11 @@ var business_event = (function ($, w) {
             "inputs": ["p2_hosp10_worktime_1", "p2_hosp10_worktime_2", "p2_hosp10_worktime_3", "p2_hosp10_worktime_4"]
         }
     ];
+    /**
+     *
+     * @type {Array}
+     */
+    var time_pres=new Array();
 
     // 未封装
     function bind_input_change(region) {
@@ -262,6 +267,7 @@ var business_event = (function ($, w) {
             $.each(lst, function(i, v) {
                 var pre_attr = '[pharbers-type="' + v.oput + '"]';
                 var $pre = $pres.filter(pre_attr);
+
                 var num = 0;
                 $.each(v.inputs, function(j ,k){
                     var input_attr = '[pharbers-type="'+ k +'"]';
@@ -275,9 +281,11 @@ var business_event = (function ($, w) {
                                 var input_attr = '[pharbers-type="'+ w +'"]';
                                 var $input = $inputs.filter(input_attr);
                                 num += parseInt($input.val());
+
                             });
                         }
                         $pre.empty().text(num);
+                        time_pres.push($pre.text());
                     });
                 });
             });
@@ -468,7 +476,8 @@ var business_event = (function ($, w) {
     };
 
     return {
-        "bind_input_change": bind_input_change
+        "bind_input_change": bind_input_change,
+        "time_pres" : time_pres
     }
 
 })(jQuery, window);

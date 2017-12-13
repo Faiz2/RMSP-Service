@@ -22,7 +22,9 @@ object ReadExcelModule extends ModuleTrait with ReadExcalFileData {
 		try {
 			(Some(Map("data" -> readSourceWithExcel)), None)
 		} catch {
-			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+			case ex: Exception => 
+				println(ex.getMessage)
+				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
 }

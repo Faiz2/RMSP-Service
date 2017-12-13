@@ -8,10 +8,14 @@
 
 ##-- handle the exception thrown out
 
+  library(shiny)
+  library(shinydashboard)
+  library(shinyjs)
   library(DT)
   library(plyr)
   library(dplyr)
   library(tidyr)
+  library(digest)
   library(openxlsx)
   library(mongolite)
   library(jsonlite)
@@ -40,64 +44,73 @@
     
     ## 1
     addWorksheet(wb, rsd_sheet_names[1])
-    report7_1 <- cbind("name"="",report$report1_mod1)
-    colnames(report7_1)[1] <- report_sep_names[1]
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, tibble(商业价值 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report7_1 <- report$report1_mod1
     writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, report7_1,
-                   startCol = 1,rowNames = F,colNames = T)
-    report7_2 <- cbind("name"="",report$report1_mod2)
-    colnames(report7_2)[1] <- report_sep_names[2]
-    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, report7_2,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, tibble(销售业绩 = " "),
                    startCol = 1,startRow = 8,rowNames = F,colNames = T)
+    report7_2 <- report$report1_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[1],withFilter = F, report7_2,
+                   startCol = 2,startRow = 8,rowNames = F,colNames = T)
     
     ## 2
     addWorksheet(wb, rsd_sheet_names[2])
-    report1_1 <- cbind("name"="",report$report2_mod1)
-    colnames(report1_1)[1] <- report_sep_names[3]
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, tibble(时间分配 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report1_1 <- report$report2_mod1
     writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, report1_1,
-                   startCol = 1,rowNames = F,colNames = T)
-    report1_2 <- bind_rows(report$report2_mod2,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, tibble(各项指标 = " "),
+                   startCol = 1,startRow = 8,rowNames = F,colNames = T)
+    report1_2 <- rbind(report$report2_mod2,
                        report$report2_mod3,
                        report$report2_mod4,
                        report$report2_mod5)
-    report1_2 <- cbind("name"="",report1_2)
-    colnames(report1_2)[1] <- report_sep_names[4]
     writeDataTable(wb, sheet = rsd_sheet_names[2],withFilter = F, report1_2,
-                   startCol = 1,startRow = 8,rowNames = F,colNames = T)
+                   startCol = 2,startRow = 8,rowNames = F,colNames = T)
     
     ## 3
     addWorksheet(wb, rsd_sheet_names[3])
-    report2_1 <- cbind("name"="",report$report3_mod1)
-    colnames(report2_1)[1] <- report_sep_names[5]
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, tibble(职员成本 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report2_1 <- report$report3_mod1
     writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, report2_1,
-                   startCol = 1,rowNames = F,colNames = T)
-    report2_2 <- cbind("name"="",report$report3_mod2)
-    colnames(report2_2)[1] <- report_sep_names[6]
-    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, report2_2,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, tibble(时间分配 = " "),
                    startCol = 1,startRow = 9,rowNames = F,colNames = T)
+    report2_2 <- report$report3_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[3],withFilter = F, report2_2,
+                   startCol = 2,startRow = 9,rowNames = F,colNames = T)
     
     ## 4
     addWorksheet(wb, rsd_sheet_names[4])
-    report3_1 <- cbind("name"="",report$report4_mod1)
-    colnames(report3_1)[1] <- report_sep_names[7]
+    writeDataTable(wb, sheet = rsd_sheet_names[4],withFilter = F, tibble(时间分配 = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report3_1 <- report$report4_mod1
     writeDataTable(wb, sheet = rsd_sheet_names[4],withFilter = F, report3_1,
-                   startCol = 1,rowNames = F,colNames = T)
+                   startCol = 2,rowNames = F,colNames = T)
     
     
     
     ## 7
     addWorksheet(wb, rsd_sheet_names[5])
-    report6_1 <- cbind("name"=rep("",50),report$report5_mod1)
-    colnames(report6_1)[1] <- report_sep_names[8]
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/客户" = " "),
+                   startRow = 1,rowNames = F,colNames = T)
+    report6_1 <- report$report5_mod1
     writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_1,
-                   startCol = 1,rowNames = F,colNames = T)
-    report6_2 <-cbind("name"=rep("",nrow(report$report5_mod2)),report$report5_mod2)
-    colnames(report6_2)[1] <- report_sep_names[9]
-    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_2,
+                   startCol = 2,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/代表" = " "),
                    startCol = 1,startRow = 53,rowNames = F,colNames = T)
-    report6_3 <- cbind("name"="",report$report5_mod3)
-    colnames(report6_3)[1] <- report_sep_names[10]
-    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_3,
+    report6_2 <-report$report5_mod2
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_2,
+                   startCol = 2,startRow = 53,rowNames = F,colNames = T)
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, tibble("销售额/产品" = " "),
                    startCol = 1,startRow = sum(53,3,nrow(report6_2)),rowNames = F,colNames = T)
+    report6_3 <- report$report5_mod3
+    writeDataTable(wb, sheet = rsd_sheet_names[5],withFilter = F, report6_3,
+                   startCol = 2,startRow = sum(53,3,nrow(report6_2)),rowNames = F,colNames = T)
     return(wb)}
   
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,13 +154,13 @@
     
     for (j in 1:10) {
       for (q in 1:4){
-        name.phase = as.character(paste("phase",phase,sep=""))
-        name.hospital = as.character(unique(hospital_info$name)[j])
-        name.product = as.character(product_info$product[q])
+        name.phase = as.character(paste("周期",phase,sep=""))
+        name.hospital = as.character(unique(hospital_info$名称)[j])
+        name.product = as.character(product_info$类别[q])
         name.sales_rep <- as.character(input[[paste("p",phase,"_sr_hosp",j,sep="")]])
         value.sales_target <- as.numeric(input[[paste("p",phase,"_hosp",j,"_sales_target_",q,sep="")]])
         value.promotional_budget <- as.numeric(input[[paste("p",phase,"_promotional_budget_hosp",j,sep="")]])/100*
-          total_promotional_budget[which(total_promotional_budget$phase==paste(phase_ch,phase,sep="")),]$budget
+          total_promotional_budget[which(total_promotional_budget$phase==paste("周期",phase,sep="")),]$budget
         value.sr_time_proportion <- as.numeric(input[[paste("p",phase,"_hosp",j,"_worktime_",q,sep="")]])/100
         
         
@@ -157,9 +170,9 @@
           sales_rep = ifelse(name.sales_rep=="",0,name.sales_rep), 
           product = name.product,
           sales_target = ifelse(is.na(value.sales_target),0,value.sales_target),
-          potential_revenue = as.numeric(hospital_info[which(hospital_info$phase==paste(phase_ch,phase,sep="")&
-                                                               hospital_info$name==name.hospital&
-                                                               hospital_info$product==name.product),]$potential),
+          potential_revenue = as.numeric(hospital_info[which(hospital_info$phase==name.phase&
+                                                               hospital_info$名称==name.hospital&
+                                                               hospital_info$产品==name.product),]$`潜力(元)`),
           promotional_budget = ifelse(is.na(value.promotional_budget),0,value.promotional_budget),
           sr_time_proportion = ifelse(is.null(name.sales_rep)|is.na(value.sr_time_proportion),
                                       0,value.sr_time_proportion)
@@ -199,7 +212,7 @@
       
       if (name.sales_rep==""){
         data_decision2 <- plyr::rbind.fill(data_decision2,data.frame(
-          phase = as.character(paste(phase_ch,phase,sep="")),
+          phase = as.character(paste("周期",phase,sep="")),
           sales_rep = 0,
           sales_training = 0,
           product_training = 0,
@@ -211,7 +224,7 @@
       } else{
         
         data_decision2 <- plyr::rbind.fill(data_decision2,data.frame(
-          phase = as.character(paste("phase",phase,sep="")),
+          phase = as.character(paste("周期",phase,sep="")),
           sales_rep = name.sales_rep,
           sales_training = ifelse(is.na(value.sales_training),0,value.sales_training),
           product_training = ifelse(is.na(value.product_training),0,value.product_training),
@@ -363,7 +376,7 @@
     
     if (sum(numberOfhosp,na.rm=T)>0) {
       
-      warning(paste("error1:",warning_ch[1],paste(numberOfhosp[which(!is.na(numberOfhosp))],collapse=","),warning_ch[2]))
+      warning(paste("error1:","第",paste(numberOfhosp[which(!is.na(numberOfhosp))],collapse=","),"家医院未填写代表"))
       return_value <- "error1"
     } else if (calculator_result[1]==0|
                calculator_result[2]==0|
@@ -500,7 +513,7 @@
                     kpi_analysis = ifelse(sr_time_proportion==0,0,kpi_analysis),
                     admin_work = ifelse(sr_time_proportion==0,0,admin_work),
                     work_time = ifelse(sr_time_proportion==0,0,work_time)) %>%
-      dplyr::mutate(product_price = sapply(product,function(x) product_info[which(product_info$product==x),]$price),
+      dplyr::mutate(product_price = sapply(product,function(x) product_info[which(product_info$类别==x),]$`单价（公司考核价）`),
                     target_revenue= sales_target,
                     target_volume = round(target_revenue/product_price)) %>%
       group_by(phase,sales_rep) %>%
@@ -548,9 +561,9 @@
                         x==as.character(product_info_list$product[3])) {
                         curve(curve37,y)} else if (x==as.character(product_info_list$product[4])) {
                           curve(curve38,y)} else if (x==as.character(product_info_list$product[1])&
-                                                     z %in% big_hos_list){
+                                                     z %in% c("人民医院","中日医院")){
                             curve(curve39,y)} else if (x==as.character(product_info_list$product[1])&
-                                                       z ==big_big_hos_list){
+                                                       z =="大学医院"){
                               curve(curve39_1,y)}else{curve(curve35,y)}},
                       product,real_sr_time,hospital)) %>%
       dplyr::mutate(sr_sales_performance =
@@ -690,10 +703,17 @@
   report_data <- function(tmp,flm_data) {
     
     tmp1 <- tmp %>% 
-      dplyr::mutate(product = factor(product,levels=product_level)) 
+      dplyr::mutate(product = factor(product,levels=c("口服抗生素",
+                                                      "一代降糖药",
+                                                      "三代降糖药",
+                                                      "皮肤药"))) 
     tmp2 <- tmp %>%
       filter(sales_rep!="0") %>%
-      dplyr::mutate(sales_rep=factor(sales_rep,levels = sr_rep_level))
+      dplyr::mutate(sales_rep=factor(sales_rep,levels = c("小宋",
+                                                          "小兰",
+                                                          "小木",
+                                                          "小白",
+                                                          "小青")))
     
     ## report 1——1
     profit_tmp <- tmp1 %>%
@@ -701,7 +721,7 @@
              real_volume,
              promotional_budget,
              product) %>%
-      dplyr::mutate(production_cost = sapply(product,function(x)product_info[which(product_info$product==x),]$cost),
+      dplyr::mutate(production_cost = sapply(product,function(x)product_info[which(product_info$类别==x),]$单位成本),
                     production_fee = round(production_cost*real_volume),
                     total_revenue =round(sum(real_revenue,na.rm=T)),
                     total_production_fee =round(sum(production_fee,na.rm=T)),
@@ -743,8 +763,8 @@
                     inter3=(weightage$success_value)$contribution_margin*curve(curve49,profit),
                     success_value = round(inter1+inter2+inter3),
                     acc_success_value = success_value + pp_acc_success_value) %>%
-      dplyr::mutate(success_value = ifelse(phase==paste(phase_ch,"0",sep=""),"",success_value),
-                    acc_success_value = ifelse(phase==paste(phase_ch,"0",sep=""),"",acc_success_value)) %>%
+      dplyr::mutate(success_value = ifelse(phase=="周期0","",success_value),
+                    acc_success_value = ifelse(phase=="周期0","",acc_success_value)) %>%
       select(phase,
              total_revenue,
              profit,
@@ -756,7 +776,12 @@
     acc_success_value <- ifelse(is.na(as.numeric(report1_mod1$acc_success_value)),0,
                                 as.numeric(report1_mod1$acc_success_value))
     
-    colnames(report1_mod1) <- colname_1_1
+    colnames(report1_mod1) <- c("phase",
+                                "总销售(元)",
+                                "总利润(元)",
+                                "团队能力(指数)",
+                                "得分",
+                                "累计得分") 
     
 
     
@@ -779,7 +804,9 @@
       arrange(hosp_code) %>%
       select(-hosp_code)
     
-    colnames(report1_mod2) <- colname_1_2
+    colnames(report1_mod2) <- c("医院",
+                                "上期总销售(元)",
+                                "当期总销售(元)")
 
     
     ## report 2——1
@@ -799,14 +826,23 @@
              sales_rep) %>%
       distinct()
     
-    colnames(report2_mod1) <- colname_2_1
+    colnames(report2_mod1) <- c("日常事物(天)",
+                                "产品培训(天)",
+                                "团队会议(天)",
+                                "医院拜访(天)",
+                                "总工作时间(天)",
+                                "销售代表")
     
     report2_mod1 <- report2_mod1 %>%
-      gather(variable,value,-sr_rep) %>%
-      spread(sr_rep,value) 
+      gather(variable,`值`,-`销售代表`) %>%
+      spread(`销售代表`,`值`) 
     
     report2_rank1 <- data.frame(
-      variable=colname_2_1[1:5],
+      variable=c("日常事物(天)",
+                 "产品培训(天)",
+                 "团队会议(天)",
+                 "医院拜访(天)",
+                 "总工作时间(天)"),
       rank=1:5,
       stringsAsFactors = F
     )
@@ -814,10 +850,13 @@
     report2_mod1 <- report2_mod1 %>%
       left_join(report2_rank1,by="variable") %>%
       arrange(rank) %>%
-      dplyr::select(variable,
-             one_of(sr_rep_level))
-    
-    colnames(report2_mod1) <- c(name_ch,sr_rep_level)
+      dplyr::mutate("名称"=variable) %>%
+      dplyr::select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
       
   
     
@@ -830,15 +869,20 @@
              product_knowledge_index) %>%
       distinct()
     
-    colnames(report2_mod2) <- colnames_2_2
+    colnames(report2_mod2) <- c("销售代表",
+                                "前期产品知识(指数)",
+                                "当期产品知识(指数)")
     
     report2_mod2 <- report2_mod2 %>%
-      gather(variable,value,-sr_rep) %>%
-      spread(sr_rep,value) %>%
-      select(variable,
-            one_of(sr_rep_level))
-    
-    colnames(report2_mod2) <- c(name_ch,sr_rep_level)
+      gather(variable,`值`,-`销售代表`) %>%
+      spread(`销售代表`,`值`) %>%
+      dplyr::mutate("名称"=variable) %>%
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 2——3
@@ -848,15 +892,20 @@
              sales_rep) %>%
       distinct()
     
-    colnames(report2_mod3) <- colnames_2_3
+    colnames(report2_mod3) <- c("前期经验",
+                                "当期经验",
+                                "销售代表")
     
     report2_mod3 <- report2_mod3 %>%
-      gather(variable,value,-sr_rep) %>%
-      spread(sr_rep,value)  %>%
-      select(variable,
-             one_of(sr_rep_level))
-    
-    colnames(report2_mod3) <- c(name_ch,sr_rep_level)
+      gather(variable,`值`,-`销售代表`) %>%
+      spread(`销售代表`,`值`)  %>%
+      dplyr::mutate("名称"=variable) %>%
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
    
     
@@ -866,16 +915,19 @@
              pp_sales_skills_index,
              sales_skills_index) %>%
       distinct()
-    
-    colnames(report2_mod4) <- colnames_2_4
-    
+    colnames(report2_mod4) <- c("销售代表",
+                                "前期销售技巧(指数)",
+                                "当期销售技巧(指数)")
     report2_mod4 <- report2_mod4 %>%
-      gather(variable,value,-sr_rep) %>%
-      spread(sr_rep,value)  %>%
-      select(variable,
-             one_of(sr_rep_level))
-    
-    colnames(report2_mod4) <- c(name_ch,sr_rep_level)
+      gather(variable,`值`,-`销售代表`) %>%
+      spread(`销售代表`,`值`) %>%
+      dplyr::mutate("名称"=variable) %>%
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 2——5
@@ -884,16 +936,19 @@
              pp_motivation_index,
              motivation_index) %>%
       distinct()  
-    
-    colnames(report2_mod5) <- colnames_2_5
-    
+    colnames(report2_mod5) <- c("销售代表",
+                                "前期工作积极性(指数)",
+                                "当期工作积极性(指数)")
     report2_mod5 <- report2_mod5 %>%
-      gather(variable,value,-sr_rep) %>%
-      spread(sr_rep,value)  %>%
-      select(variable,
-             one_of(sr_rep_level))
-    
-    colnames(report2_mod5) <- c(name_ch,sr_rep_level)
+      gather(variable,`值`,-`销售代表`) %>%
+      spread(`销售代表`,`值`) %>%
+      dplyr::mutate("名称"=variable) %>%
+      select(`名称`,
+             `小宋`,
+             `小兰`,
+             `小木`,
+             `小白`,
+             `小青`)
     
     
     ## report 3——1
@@ -917,28 +972,48 @@
       filter(sales_rep!=0) %>%
       select(sales_rep,bonus) %>%
       distinct() %>%
-      dplyr::mutate(sales_rep=factor(sales_rep,levels = sr_rep_level)) %>%
-      do(plyr::rbind.fill(.,data.frame(sales_rep=over_ch,
+      dplyr::mutate(sales_rep=factor(sales_rep,levels = c("小宋",
+                                                          "小兰",
+                                                          "小白",
+                                                          "小木",
+                                                          "小青"))) %>%
+      do(plyr::rbind.fill(.,data.frame(sales_rep="总体",
                                        bonus = sum(.$bonus)))) %>%
       arrange(sales_rep) 
     
-    colnames(report3_mod1) <- colnames_3_1
+    colnames(report3_mod1) <- c("销售代表","绩效奖金(元)")
     
     report3_mod2 <- flm_report %>%
       select(-all_sr_bonus) 
     
-    colnames(report3_mod2) <- colnames_3_2
-    
+    colnames(report3_mod2) <- c("能力辅导(天)",
+                                "经理随访(天)",
+                                "团队会议(天)",
+                                "KPI分析(天)",
+                                "行政工作(天)",
+                                "总工作时间(天)")
     report3_mod2 <- report3_mod2 %>%
-      gather(variable,value)  %>%
-      select(variable,
-             value)
+      gather(variable,`值`)  %>%
+      dplyr::mutate("名称"=variable) %>%
+      select(`名称`,
+             `值`)
     
-    colnames(report3_mod2) <- c(name_ch,value_ch)
     
     
     
     ## report 4——1
+    report4_rank1 <- data.frame(
+      "因素"=c("销售代表",
+             "计划时间分配(天)",
+             "实际时间分配(天)",
+             "销售额(元)",
+             "推广费用(元)",
+             "生产成本(元)",
+             "利润(元)"),
+      rank=1:7,
+      stringsAsFactors =F
+    )
+    
     report4_mod1 <- tmp1 %>%
       select(hospital,
              product,
@@ -950,7 +1025,7 @@
              real_volume,
              hosp_code) %>%
       group_by(hospital) %>%
-      dplyr::mutate(production_cost = sapply(product,function(x)product_info[which(product_info$product==x),]$cost),
+      dplyr::mutate(production_cost = sapply(product,function(x)product_info[which(product_info$类别==x),]$单位成本),
                     production_fee = round(production_cost*real_volume),
                     profit = real_revenue - promotional_budget - production_fee) %>%
       select(hospital,
@@ -964,7 +1039,7 @@
              profit,
              hosp_code) %>%
       do(plyr::rbind.fill(.,data.frame(hospital = first(.$hospital),
-                                       product = over_ch,
+                                       product = "总体",
                                        sales_rep = first(.$sales_rep),
                                        sr_time = sum(.$sr_time,na.rm=T),
                                        real_sr_time = sum(.$real_sr_time,na.rm=T),
@@ -976,18 +1051,25 @@
       ungroup()
     
     
-    colnames(report4_mod1) <- colnames_4_1
+    colnames(report4_mod1) <- c("医院",
+                                "产品",
+                                "销售代表",
+                                "计划时间分配(天)",
+                                "实际时间分配(天)",
+                                "销售额(元)",
+                                "推广费用(元)",
+                                "生产成本(元)",
+                                "利润(元)",
+                                "hosp_code") 
     
     report4_mod1 <- report4_mod1 %>%
-      gather(variable,value,one_of(colnames_4_1[3:9])) %>%
-      spread(product,value) %>%
-      left_join(report4_rank1,by="variable") %>%
+      gather(`因素`,value,`销售代表`,`计划时间分配(天)`,`实际时间分配(天)`,
+             `销售额(元)`,`推广费用(元)`,`生产成本(元)`,`利润(元)`) %>%
+      spread(`产品`,value) %>%
+      left_join(report4_rank1,by="因素") %>%
       arrange(hosp_code,rank) %>%
-      select(one_of(variable_list_4_1))
+      select(-rank,-hosp_code)
     
-    colnames(report4_mod1) <- colnames_4_1_m
-    
- 
     
     
     ## report 5——1
@@ -1001,7 +1083,7 @@
       group_by(hospital) %>%
       do(plyr::rbind.fill(.,data.frame(hospital = first(.$hospital),
                                        hosp_code = first(.$hosp_code),
-                                       product = over_ch,
+                                       product = "总体",
                                        real_revenue=sum(.$real_revenue,na.rm=T),
                                        pp_real_revenue=sum(.$pp_real_revenue,na.rm=T),
                                        target_revenue = sum(.$target_revenue,na.rm=T)))) %>%
@@ -1020,7 +1102,14 @@
     
     
     
-    colnames(report5_mod1) <- colnames_5_1
+    colnames(report5_mod1) <- c("医院",
+                                "产品",
+                                "当期销售指标",
+                                "上期销售额",
+                                "当期销售额",
+                                "销售额增长",
+                                "销售额增长率",
+                                "销售额达成率")
     
     
  
@@ -1036,7 +1125,7 @@
                        pp_real_revenue_by_sr = sum(pp_real_revenue,na.rm=T),
                        target_revenue_by_sr = sum(target_revenue,na.rm=T)) %>%
       do(plyr::rbind.fill(.,data.frame(sales_rep=first(.$sales_rep),
-                                       product =over_ch,
+                                       product ="总体",
                                        real_revenue_by_sr=sum(.$real_revenue_by_sr,na.rm=T),
                                        pp_real_revenue_by_sr =sum(.$pp_real_revenue_by_sr,na.rm=T),
                                        target_revenue_by_sr=sum(.$target_revenue_by_sr,na.rm=T)))) %>%
@@ -1050,7 +1139,12 @@
       arrange(sales_rep)
     
     
-    colnames(report5_mod2) <- colnames_5_2
+    colnames(report5_mod2) <- c("销售代表",
+                                "产品",
+                                "当期销售指标",
+                                "上期销售额",
+                                "当期销售额",
+                                "销售额达成率")
     
     report5_mod3 <- tmp1 %>%
       select(product,
@@ -1062,7 +1156,7 @@
                        pp_real_revenue_by_product = round(sum(pp_real_revenue,na.rm=T)),
                        real_revenue_increase = round(real_revenue_by_product - pp_real_revenue_by_product),
                        target_revenue_by_product = round(sum(target_revenue,na.rm=T))) %>%
-      do(plyr::rbind.fill(.,data.frame(product=over_ch,
+      do(plyr::rbind.fill(.,data.frame(product="总体",
                                        real_revenue_by_product=round(sum(.$real_revenue_by_product,na.rm=T)),
                                        pp_real_revenue_by_product=round(sum(.$pp_real_revenue_by_product,na.rm=T)),
                                        real_revenue_increase=sum(.$real_revenue_increase,na.rm=T),
@@ -1085,7 +1179,13 @@
       arrange(prod_code) %>%
       select(-prod_code)
     
-    colnames(report5_mod3) <- colnames_5_3
+    colnames(report5_mod3) <- c("产品",
+                                "当期销售指标",
+                                "上期销售额",
+                                "当期销售额",
+                                "销售额增长",
+                                "销售额增长率",
+                                "销售额达成率")
     
    
     
@@ -1112,11 +1212,6 @@
   }
   
   data_to_use2 <- report_data(data_to_use,flm_data)
-
-  if ( phase == 1) {
-  last_report1_1$phase <- c("phase0","phase1","phase2") } else {
-    last_report1_1$phase <- c("phase0","phase1")
-  }
   
   if (phase == 1) {
     report1_1_tmp <- rbind(last_report1_1[1,],data_to_use2$report1_mod1)
@@ -1126,32 +1221,31 @@
   
   
   report1_mod1 <- report1_1_tmp %>% 
-    gather(name,value,-phase) %>%
-    spread(phase,value)  %>%
+    gather(name,`值`,-phase) %>%
+    spread(phase,`值`)  %>%
     left_join(report7_mod1_rank,by="name") %>%
     arrange(rank) %>%
-    select(-variable,-rank) 
+    select(-variable,-rank) %>%
+    dplyr::mutate("名称"=name) %>%
+    select(-name)
   
   if (phase == 1) {
-    report1_mod1 <- data.frame(name = report1_mod1$name,
-                               phase0 = report1_mod1$phase0,
-                               phase1= report1_mod1$phase1,
-                               phase2= rep("",5))
-    
-    
+    report1_mod1 <- data.frame("名称" = report1_mod1$名称,
+                               "周期0" = report1_mod1$周期0,
+                               "周期1"= report1_mod1$周期1,
+                               "周期2"= rep("",5))
   } else {
-    report1_mod1 <- data.frame(name = report1_mod1$name,
-                               phase0 = report1_mod1$phase0,
-                               phase1= report1_mod1$phase1,
-                               phase2= report1_mod1$phase2)
+    report1_mod1 <- data.frame("名称" = report1_mod1$名称,
+                               "周期0" = report1_mod1$周期0,
+                               "周期1"= report1_mod1$周期1,
+                               "周期2"= report1_mod1$周期2)
   }
  
-  colnames(report1_mod1) <- colnames_6_1
   
   if (phase==1){
     tmp_data <- list(
     "time" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),  
-    "phase" = paste(phase_ch,phase,sep=""),  
+    "phase" = "周期1",  
     "report1_mod1" = report1_mod1,
     "report1_mod2" = data_to_use2$report1_mod2,
     "report2_mod1" = data_to_use2$report2_mod1,
@@ -1171,7 +1265,7 @@
   } else {
     tmp_data <- list(
     "time" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),
-    "phase" = paste(phase_ch,phase,sep=""),
+    "phase" = "周期2",
     "report1_mod1" = report1_mod1,
     "report1_mod2" = data_to_use2$report1_mod2,
     "report2_mod1" = data_to_use2$report2_mod1,

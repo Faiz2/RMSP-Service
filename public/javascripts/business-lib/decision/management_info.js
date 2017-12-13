@@ -42,12 +42,16 @@
         }
     }
 
+
     var click_submit_button_cycle1 = function() {
         var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
+        console.log(rjv);
+
         layer.load();
         f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
             if(r.status === 'ok') {
+                console.log(r);
                 f.cookieModule.setCookie('reportname1', r.result.data.reportname);
                 cycle1_status = true;
                 var $report = $('#left-page li a[pharbers-filter="report"]');

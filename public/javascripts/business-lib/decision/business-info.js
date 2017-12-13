@@ -78,14 +78,27 @@
     var click_next_button_cycle1 = function() {
         var $inputs = $content.find('div input,pre');
         var $select = $content.find('div select');
+        w.business_event.time_pres.forEach(function (e) {
+            console.log(e)
+        })
         return_cycle1_json($inputs, $select);
     };
 
     var return_cycle1_json = function(inputsObj, selectsObj) {
+        var arranged_time_wrong_array = new Array();
+        var arranged_promotional_budget_array = new Array();
         var json = {"phase":[1]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
+            if(regexTest(arranged_time,key)){
+                if(parseInt(input.text())  > 100)
+                    arranged_time_wrong_array.push(key);
+            }else if(regexTest(arranged_promotional_budget,key)){
+                if(parseInt(input.text())  === 0)
+                    arranged_promotional_budget_array.push(key);
+            }
+
             json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
         $.each(selectsObj, function(i, v){
@@ -94,11 +107,13 @@
             json[key] = [select.val()];
         });
         next_save_cycle1_business_decision_json_data = json;
-
-        switch_left_page('management-decision');
-
-        // switch_left_page('business-decision');
-
+       if(arranged_time_wrong_array.length != 0){
+           f.alert.alert_error("分配时间","分配时间错误！请再次检查。")
+       }else if(arranged_promotional_budget_array != 0 ) {
+           f.alert.alert_error("分配推广预算","分配的推广预算为0！请再次检查。")
+       }else {
+            switch_left_page('management-decision');
+        }
     };
 
     var click_next_button_cycle2 = function() {
@@ -108,6 +123,8 @@
     };
 
     var return_cycle2_json = function(inputsObj, selectsObj) {
+        var arranged_time_wrong_array = new Array();
+        var arranged_promotional_budget_array = new Array();
         var json = {"phase":[2]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
@@ -120,7 +137,13 @@
             json[key] = [select.val()];
         });
         next_save_cycle2_business_decision_json_data = json;
-        switch_left_page('management-decision')
+        if(arranged_time_wrong_array.length != 0){
+            f.alert.alert_error("分配时间","分配时间错误！请再次检查。")
+        }else if(arranged_promotional_budget_array != 0 ) {
+            f.alert.alert_error("分配推广预算","分配的推广预算为0！请再次检查。")
+        }else {
+            switch_left_page('management-decision');
+        }
     };
 
     // 判断切换周期

@@ -33,6 +33,8 @@
         <error reason="upload error" code="-218" description="上传文件出错" />
         <error reason="successful application discuss" code="-219" description="目前还在沟通商讨中" />
         <error reason="write file error" code="-220" description="写入文件件出现错误！" />
+        <error reason="wrong input fileKey" code="-221" description="写入文件件出现错误！" />
+        <error reason="wrong input value" code="-222" description="写入文件件出现错误！" />
 
 
         <error reason="reg push error" code="-301" description="验证码发送失败" />
