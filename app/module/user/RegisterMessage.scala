@@ -1,4 +1,4 @@
-package module.user
+ package module.user
 
 import com.pharbers.bmmessages.CommonMessage
 import play.api.libs.json.JsValue

@@ -28,7 +28,7 @@ class TestCallCmdWithR extends Specification with WriteJsonData{
 	def testCallR() = {
 		try {
 			val cmd = "Rscript /Users/apple/Desktop/R/new/stp_handler.R /Users/apple/Desktop/R/new/pre_data_linux.RData /Users/qianpeng/Desktop/json/4b35a0dc-986a-4afc-b1e7-c92b2b386977.json"
-			println(s"cmd=$cmd")
+//			println(s"cmd=$cmd")
 			val process = new ProcessBuilder("/bin/bash", "-c", cmd).start()
 			val input = new LineNumberReader(new InputStreamReader(process.getInputStream()))
 			var line,result: String = ""
