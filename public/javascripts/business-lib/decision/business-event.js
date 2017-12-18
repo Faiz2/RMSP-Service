@@ -392,9 +392,9 @@ var business_event = (function ($, w) {
         var $pres = (region || $content).find('pre');
         var $inputs = (region || $content).find('input');
         var $selects = (region || $content).find('select');
-        var pepole = ['小宋', '小兰', '小木', '小白', '小青'];
+        var people = ['小宋', '小兰', '小木', '小白', '小青'];
 
-        $.each(pepole, function(i, v) {
+        $.each(people, function(i, v) {
             var num = 0;
             var pre_attr = '[pharbers-pepole="'+ v +'"]';
             var $pre = $pres.filter(pre_attr);
