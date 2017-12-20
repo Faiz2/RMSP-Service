@@ -1,6 +1,5 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
-
     // 输入输出链表
     // 应修改为json配置文件
     var cycle_1_table_input = [
@@ -251,6 +250,8 @@ var business_event = (function ($, w) {
         }
     ];
 
+    var f = new Facade();
+
     // 未封装
     function bind_input_change(region) {
         var $business_tab_li = $('#business_tab li.active');
@@ -373,13 +374,42 @@ var business_event = (function ($, w) {
         if ($business_tab_li.index() === 0) {
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
+            // getHistory(1, "#sum_promotion_budget-cycle1" );
         } else if ($business_tab_li.index() === 1) {
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
+            getHistory(2, "#sum_promotion_budget-cycle2");
         } else {
             console.warn("find a lot of 'li'")
         }
+        w.business_store.bn();
     }
+
+    var getHistory = function (cyc, id) {
+        var token = $.cookie("user_token");
+        var json = {
+            "phase" : [cyc],
+            "user_token" : token
+        };
+        f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
+            console.log(r)
+            if(r.status === 'ok'){
+                var $content = $(id);
+                console.log(r.result);
+                var res = r.result.input;
+                var $inputs = ($content).find('input');
+                var $selects = ($content).find('select');
+                var $pres = ($content).find('pre');
+                console.log();
+                $.each($inputs, function(i ,$v){
+                    var key = $v.attr("pharbers-type");
+                    console.log(key);
+                    $v.val(res[key]);
+
+                });
+            }
+        })
+    };
 
     // 未封装
     var clean_sum_input = function(region, lst) {
@@ -471,6 +501,7 @@ var business_event = (function ($, w) {
 
     return {
         "bind_input_change": bind_input_change
+
     }
 
 })(jQuery, window);

@@ -5,6 +5,7 @@ import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
 import com.pharbers.common.MergeStepResult
 import com.pharbers.driver.PhRedisDriver
+import com.pharbers.driver.util.PhRedisTrait
 import module.webStore.WebStoreMessage.{MsgInputFetch, MsgInputStore}
 import play.api.libs.json._
 import play.api.libs.json.Json._
@@ -25,17 +26,20 @@ object WebStoreModule extends ModuleTrait {
                    (pr: Option[String Map JsValue])
                    (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
         try {
+            val rdt = cm.modules.get.get("rdt").map(x => x.asInstanceOf[PhRedisTrait]).getOrElse(throw new Exception("no encrypt impl"))
             val user = (MergeStepResult(data, pr) \ "user_token" \ "account").asOpt[String].getOrElse(new Exception("no user"))
             val phase =(MergeStepResult(data, pr) \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase")).toString
-            val redis_driver = new PhRedisDriver()
             val key = s"$user:$phase"
+            println(key)
             val maps = data.asInstanceOf[JsObject].value.toMap - "phase" - "user_token"
+            println(maps.size)
+            println(maps)
             maps.foreach{m =>
-                redis_driver.addMap(key, m._1, m._2)
+//                redis_driver.addMap(key, m._1, 2)
+                rdt.addString(m._1, m._1)
             }
             (Some(Map("store" -> toJson(key))), None)
         } catch {
-            
             case ex: Exception =>
                 println(ex)
                 (None, Some(ErrorCode.errorToJson(ex.getMessage)))
@@ -50,7 +54,7 @@ object WebStoreModule extends ModuleTrait {
             val phase = (data \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase"))
             val redis_driver = new PhRedisDriver()
             val key = s"$user:$phase"
-            println(key)
+            println(key+"ff")
             val maps = redis_driver.getMapAllValue(key).map{x =>
                 (x._1 , toJson(Json.parse(x._2)))
             }

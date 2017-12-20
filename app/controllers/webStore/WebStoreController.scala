@@ -7,6 +7,8 @@ import com.pharbers.bmmessages.{CommonModules, MessageRoutes}
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import com.pharbers.dbManagerTrait.dbInstanceManager
+import com.pharbers.driver.PhRedisDriver
+import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import module.auth.AuthMessage.{MsgAuthTokenExpire, MsgAuthTokenParser}
@@ -17,7 +19,7 @@ import play.api.mvc.Action
 /**
   * Created by yym on 12/19/17.
   */
-class WebStoreController  @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait){
+class WebStoreController  @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait, rdt : PhRedisTrait){
     
     implicit val as: ActorSystem = as_inject
    
@@ -26,7 +28,7 @@ class WebStoreController  @Inject()(as_inject: ActorSystem, dbt: dbInstanceManag
             ::MsgAuthTokenParser(jv)
             ::MsgAuthTokenExpire(jv)
             ::MsgInputStore(jv)
-            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att , "rdt" -> rdt))))
     })
     
     def input_fetch = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>

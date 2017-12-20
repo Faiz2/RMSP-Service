@@ -5,6 +5,7 @@
             var user = JSON.stringify(f.parameterPrefixModule.conditions({"account": $('#user-name').val(), "password": md5($('#user-password').val())}));
             f.ajaxModule.baseCall("/user/authpwd", user, "POST", function(r) {
                 if (r.status === 'ok') {
+                    f.cookieModule.setCookie("user_token", r.result.user_token);
                     f.cookieModule.setCookie("user", r.result.user);
                     w.location = '/index';
                 } else {
