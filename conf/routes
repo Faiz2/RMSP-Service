@@ -23,8 +23,13 @@ GET     /business_decision          controllers.RMSPRoutesController.businessDec
 GET     /management_decision        controllers.RMSPRoutesController.managementDecision
 GET     /report                     controllers.RMSPRoutesController.report
 
+
 # 下载report
 GET     /report/download/:name      controllers.FopController.downloadFile(name)
+
+#网页缓存
+POST    /store/input                controllers.webStore.WebStoreController.input_store
+POST    /fetch/input                controllers.webStore.WebStoreController.input_fetch
 
 # 都是读取Excel内容的
 POST    /market_info                controllers.marketinfo.MarketInfoController.alOutExcelValueWithHtml
