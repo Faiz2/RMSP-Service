@@ -122,11 +122,52 @@
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
             w.management_event.bind_input_change($content);
+            setHistory(1, "#management-cycle1");
+            w.web_store.manage_idle();
         } else if (active.index() === 1) {
             w.management_event.bind_input_change($content2);
+            setHistory(2, "#management-cycle2");
         } else {
             console.warn("find a lot of 'li'")
         }
     }, 300);
 
+    var setHistory = function (cyc, id) {
+        var token = $.cookie("user_token");
+        var json = {
+            "phase" : [cyc+"_manage"],
+            "user_token" : token
+        };
+        // console.log(json);
+        f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
+            console.log(r);
+            if(r.status === 'ok'){
+                var content = $(id);
+                var res = r.result.input;
+                var inputs = content.find('input');
+                var pres = content.find('pre');
+                $.each(inputs, function(i ,v){
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r === undefined){
+                        console.log(r)
+                    }else {
+                        $(v).val(r);
+                    }
+
+                });
+                $.each(pres, function(i ,v){
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    // console.log(key +":"+ res[key]);
+                    if(r === undefined){
+                        console.log(r)
+                    }else {
+                        $(v).text(r);
+                    }
+
+                });
+            }
+        })
+    };
 })(jQuery, window);

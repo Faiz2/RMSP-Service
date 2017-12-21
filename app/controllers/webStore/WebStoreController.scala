@@ -36,6 +36,6 @@ class WebStoreController  @Inject()(as_inject: ActorSystem, dbt: dbInstanceManag
             ::MsgAuthTokenParser(jv)
             ::MsgAuthTokenExpire(jv)
             ::MsgInputFetch(jv)
-            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att , "rdt" -> rdt))))
     })
 }

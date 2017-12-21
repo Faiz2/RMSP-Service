@@ -372,41 +372,70 @@ var business_event = (function ($, w) {
         }
 
         if ($business_tab_li.index() === 0) {
+            // setHistory(1, "#sum_promotion_budget-cycle1" );
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
-            // getHistory(1, "#sum_promotion_budget-cycle1" );
+            // w.web_store.business_idle()
+
         } else if ($business_tab_li.index() === 1) {
+            // setHistory(2, "#sum_promotion_budget-cycle2");
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
-            getHistory(2, "#sum_promotion_budget-cycle2");
+            // w.web_store.business_idle()
         } else {
             console.warn("find a lot of 'li'")
         }
-        w.business_store.bn();
+
     }
 
-    var getHistory = function (cyc, id) {
+    var setHistory = function (cyc, id) {
         var token = $.cookie("user_token");
         var json = {
             "phase" : [cyc],
             "user_token" : token
         };
+        // console.log(json);
         f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
-            console.log(r)
             if(r.status === 'ok'){
-                var $content = $(id);
-                console.log(r.result);
+                var content = $(id);
+                console.log(JSON.stringify(r.result.input));
                 var res = r.result.input;
-                var $inputs = ($content).find('input');
-                var $selects = ($content).find('select');
-                var $pres = ($content).find('pre');
-                console.log();
-                $.each($inputs, function(i ,$v){
-                    var key = $v.attr("pharbers-type");
-                    console.log(key);
-                    $v.val(res[key]);
+                var inputs = content.find('input');
+                var selects = content.find('select');
+                var pres = content.find('pre');
+                $.each(inputs, function(i ,v){
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r === undefined){
+                        console.log(r)
+                    }else {
+                        $(v).val(r[0]);
+                    }
+
 
                 });
+                $.each(selects, function (i, v) {
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r === undefined){
+                        console.log(key)
+                    }else {
+                        $(v).val(r[0]);
+                    }
+
+
+                });
+                $.each(pres, function (i, v) {
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r===undefined){
+                        console.log(key);
+                        $(v).text(res["unknownError"])
+                    }else {
+                        $(v).text(r[0]);
+                    }
+
+                })
             }
         })
     };
