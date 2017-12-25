@@ -82,9 +82,6 @@
     var click_next_button_cycle1 = function () {
         var $inputs = $content.find('div input,pre');
         var $select = $content.find('div select');
-        w.business_event.time_pres.forEach(function (e) {
-            console.log(e)
-        })
         return_cycle1_json($inputs, $select);
     };
 
@@ -100,6 +97,7 @@
         });
         var person_num = person_arr.length - 1;
         var json = {"phase": [1]};
+
         $.each(inputsObj, function (i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
@@ -119,6 +117,7 @@
             }
             json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
+
         var harr = new Array();
         $.each(arr, function (i, v) {
             var realHos = v + "";
@@ -131,7 +130,7 @@
 
         });
         var h_err = new Array();
-        var herrs = new Array()
+        var herrs = new Array();
         $.each(harr, function (i, v) {
             var key = 'p1_sr_' + v;
             var select = $('select[pharbers-type=\"'+key+'\"]');
@@ -142,16 +141,6 @@
             }
 
         });
-        // var herr_tip = new Array();
-        // var herrs = new Array();
-        // var hash= {};
-        // for(var i=0, elem; (elem = harr[i]) != null; i++)  {
-        //     if (!hash[elem])
-        //     {
-        //         herrs.push(elem);
-        //         hash[elem] = true;
-        //     }
-        // }
         var herr_dis = herrs.distinct();
         var herr_tip = hospital_match(herr_dis);
         $.each(selectsObj, function (i, v) {
@@ -164,15 +153,6 @@
             }
             json[key] = [select.val()];
         });
-        // var arranged_person_hos_array = new Array();
-        // var h= {};
-        // for(var i=0, elem; (elem = arranged_person_hospital_array[i]) != null; i++)  {
-        //     if (!h[elem])
-        //     {
-        //         arranged_person_hos_array.push(elem);
-        //         h[elem] = true;
-        //     }
-        // }
         var arranged_person_hos_array = arranged_person_hospital_array.distinct();
 
         next_save_cycle1_business_decision_json_data = json;
@@ -187,7 +167,7 @@
         //     if(herr_tip.length!= 0){
             var strs = $.each(herr_tip, function (i, v) {
                 return " " + v
-            })
+            });
             f.alert.alert_error("分配任务", strs + "未分派业务代表！请再次检查。")
         } else {
             switch_left_page('management-decision');
@@ -200,6 +180,7 @@
     };
 
     var return_cycle2_json = function (inputsObj, selectsObj) {
+        var arr = new Array();
         var arranged_time_wrong_array = new Array();
         var arranged_promotional_budget_array = new Array();
         var arranged_person_hospital_array = new Array();
@@ -213,43 +194,78 @@
         $.each(inputsObj, function (i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
+            if (regexTest(arranged_time, key)) {
+                if (parseInt(input.text()) > 100 || parseInt(input.text()) <= 0)
+                    arranged_time_wrong_array.push(key);
+            } else if (regexTest(arranged_promotional_budget, key)) {
+                if (parseInt(input.text()) === 0)
+                    arranged_promotional_budget_array.push(key);
+            } else {
+            }
+            var rgxArr = Array(pro_budget_hosp, hosp_sales_target, hosp_worktime);
+            if (input.val() === "0") {
+            } else if (regexTestSome(rgxArr, key)) {
+                arr.push(input.val() + "_" + key);
+            } else {
+            }
             json[key] = [input.val() === "" ? input.text().replace(",", "") : input.val()];
         });
+
+        var harr = new Array();
+        $.each(arr, function (i, v) {
+            var realHos = v + "";
+            var item_arr = realHos.split("_");
+            for (var j in item_arr) {
+                if (regexTest(hospR, item_arr[j])) {
+                    harr.push(item_arr[j]);
+                }
+            }
+
+        });
+        var h_err = new Array();
+        var herrs = new Array();
+        $.each(harr, function (i, v) {
+            var key = 'p2_sr_' + v;
+            var select = $('select[pharbers-type=\"'+key+'\"]');
+            console.log(select.val());
+            if (select.val() === ""){
+                h_err.push(key);
+                herrs.push(v);
+            }
+
+        });
+        var herr_dis = herrs.distinct();
+        var herr_tip = hospital_match(herr_dis);
         $.each(selectsObj, function (i, v) {
             var select = $(v);
             var key = select.attr("pharbers-type");
             if (regexTest(arranged_person_hospital, key)) {
-                if (select.val() != "") {
+                if (select.val() !== "") {
                     arranged_person_hospital_array.push(select.val())
                 }
             }
             json[key] = [select.val()];
         });
-        var arranged_person_hos_array = new Array();
-        var hash = {};
-        for (var i = 0, elem; (elem = arranged_person_hospital_array[i]) != null; i++) {
-            if (!hash[elem]) {
-                arranged_person_hos_array.push(elem);
-                hash[elem] = true;
-            }
-        }
+
+        var arranged_person_hos_array = arranged_person_hospital_array.distinct();
+
         next_save_cycle2_business_decision_json_data = json;
-        if (arranged_time_wrong_array.length != 0) {
+        if (arranged_time_wrong_array.length !== 0) {
             f.alert.alert_error("分配时间", "分配时间错误！请再次检查。")
-        } else if (arranged_promotional_budget_array != 0) {
+        } else if (arranged_promotional_budget_array !== 0) {
             f.alert.alert_error("分配推广预算", "分配的推广预算为0！请再次检查。")
-        } else if (person_num != arranged_person_hos_array.length) {
+        } else if (person_num !== arranged_person_hos_array.length) {
             f.alert.alert_error("人数错误", "添加分配人没有完全选完！请再次检查。")
-        }
-        else {
+        } else if (herr_tip.length !== 0) {
+            var strs = $.each(herr_tip, function (i, v) {
+                return " " + v
+            });
+            f.alert.alert_error("分配任务", strs + "未分派业务代表！请再次检查。")
+        } else {
             switch_left_page('management-decision');
         }
     };
 
-    // 判断切换周期
-    // var switch_cycle_page = function() {
-    //
-    // };
 
     var switch_left_page = function (page) {
         disabled_button();
@@ -304,19 +320,19 @@
         var arr = new Array();
         $.each(herrs, function (i, v) {
             console.log(v);
-            if (v == "hosp1") arr.push("第一家医院")
-            else if (v == "hosp2") arr.push("第二家医院");
-            else if (v == "hosp3") arr.push("第三家医院");
-            else if (v == "hosp4") arr.push("第四家医院");
-            else if (v == "hosp5") arr.push("第五家医院");
-            else if (v == "hosp6") arr.push("第六家医院");
-            else if (v == "hosp7") arr.push("第七家医院");
-            else if (v == "hosp8") arr.push("第八家医院");
-            else if (v == "hosp9") arr.push("第九家医院");
-            else if (v == "hosp10") arr.push("第十家医院")
+            if (v === "hosp1") arr.push("第一家医院");
+            else if (v === "hosp2") arr.push("第二家医院");
+            else if (v === "hosp3") arr.push("第三家医院");
+            else if (v === "hosp4") arr.push("第四家医院");
+            else if (v === "hosp5") arr.push("第五家医院");
+            else if (v === "hosp6") arr.push("第六家医院");
+            else if (v === "hosp7") arr.push("第七家医院");
+            else if (v === "hosp8") arr.push("第八家医院");
+            else if (v === "hosp9") arr.push("第九家医院");
+            else if (v ==="hosp10") arr.push("第十家医院");
             else {
             }
-        })
+        });
         return arr;
     }
 

@@ -372,16 +372,21 @@ var business_event = (function ($, w) {
         }
 
         if ($business_tab_li.index() === 0) {
+            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+                setHistory(1, "#sum_promotion_budget-cycle1" );
+            } ,function () {});
             // setHistory(1, "#sum_promotion_budget-cycle1" );
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
-            // w.web_store.business_idle()
-
+            w.web_store.business_idle();
         } else if ($business_tab_li.index() === 1) {
+            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+                setHistory(2, "#sum_promotion_budget-cycle2" );
+            } ,function () {});
             // setHistory(2, "#sum_promotion_budget-cycle2");
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
-            // w.web_store.business_idle()
+            w.web_store.business_idle();
         } else {
             console.warn("find a lot of 'li'")
         }
@@ -398,7 +403,6 @@ var business_event = (function ($, w) {
         f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
             if(r.status === 'ok'){
                 var content = $(id);
-                console.log(JSON.stringify(r.result.input));
                 var res = r.result.input;
                 var inputs = content.find('input');
                 var selects = content.find('select');
@@ -407,7 +411,7 @@ var business_event = (function ($, w) {
                     var key = $(v).attr("pharbers-type");
                     var r = res[key];
                     if(r === undefined){
-                        console.log(r)
+                        console.log(key)
                     }else {
                         $(v).val(r[0]);
                     }
@@ -429,7 +433,7 @@ var business_event = (function ($, w) {
                     var key = $(v).attr("pharbers-type");
                     var r = res[key];
                     if(r===undefined){
-                        console.log(key);
+                        // console.log(key);
                         $(v).text(res["unknownError"])
                     }else {
                         $(v).text(r[0]);

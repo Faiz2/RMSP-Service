@@ -122,11 +122,16 @@
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
             w.management_event.bind_input_change($content);
-            setHistory(1, "#management-cycle1");
+            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+                setHistory(1, "#management-cycle1")
+            } ,function () {});
             w.web_store.manage_idle();
         } else if (active.index() === 1) {
+            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+                setHistory(2, "#management-cycle2");
+            } ,function () {});
             w.management_event.bind_input_change($content2);
-            setHistory(2, "#management-cycle2");
+            w.web_store.manage_idle();
         } else {
             console.warn("find a lot of 'li'")
         }
