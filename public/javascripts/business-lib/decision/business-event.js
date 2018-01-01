@@ -375,18 +375,14 @@ var business_event = (function ($, w) {
             f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
                 setHistory(1, "#sum_promotion_budget-cycle1" );
             } ,function () {});
-            // setHistory(1, "#sum_promotion_budget-cycle1" );
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
-            w.web_store.business_idle();
         } else if ($business_tab_li.index() === 1) {
             f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
                 setHistory(2, "#sum_promotion_budget-cycle2" );
             } ,function () {});
-            // setHistory(2, "#sum_promotion_budget-cycle2");
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
-            w.web_store.business_idle();
         } else {
             console.warn("find a lot of 'li'")
         }
@@ -394,10 +390,10 @@ var business_event = (function ($, w) {
     }
 
     var setHistory = function (cyc, id) {
-        var token = $.cookie("user_token");
+        var user = $.cookie("user");
         var json = {
-            "phase" : [cyc],
-            "user_token" : token
+            "phase" : [cyc+"_decision"],
+            "user" : user
         };
         // console.log(json);
         f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
@@ -472,63 +468,6 @@ var business_event = (function ($, w) {
             });
         });
 
-        // 渣渣
-        // $.each(lst, function(i, v){
-        //     var select_attr = '[pharbers-type="'+ v.select +'"]';
-        //     var $select = $selects.filter(select_attr);
-        //
-        //
-        //
-        //     if( $select.val() === back /*|| cur.val() === back*/) {
-        //         // var pre_attr = '[pharbers-pepole="'+ $select.val() +'"]';
-        //         // var $pre = $pres.filter(pre_attr);
-        //
-        //         $.each(v.inputs, function(i, v2){
-        //             var input_attr = '[pharbers-type="'+ v2+'"]';
-        //             var $input = $inputs.filter(input_attr);
-        //             num += parseInt($input.val());
-        //         });
-        //
-        //         // console.info('cur.val = '+cur.val());
-        //         // console.info('back = '+ back);
-        //         // console.info('$select = '+$select.val());
-        //         // console.info('select = '+v.select);
-        //         // console.info('num = '+ num);
-        //
-        //         // $pre.empty().text(num);
-        //     } else {
-        //         $.each(pepole, function(i, v) {
-        //             var num = 0;
-        //             $.each(lst, function(i, v2){
-        //                 var select_attr = '[pharbers-type="'+ v2.select +'"]';
-        //                 var $select = $selects.filter(select_attr);
-        //                 var pre_attr = '[pharbers-pepole="'+ v +'"]';
-        //                 var $pre = $pres.filter(pre_attr);
-        //                 // debugger;
-        //                 if($select.val() === v) {
-        //                     $.each(v2.inputs, function(i, v3) {
-        //                         var input_attr = '[pharbers-type="'+ v3 +'"]';
-        //                         var $input = $inputs.filter(input_attr);
-        //                         num += parseInt($input.val());
-        //                     });
-        //                     $pre.empty().text(num);
-        //                 }else {
-        //                     $pre.empty().text(num);
-        //                 }
-        //             });
-        //         });
-        //
-        //
-        //
-        //         // console.info('select = '+v.select)
-        //         // console.info('$select = '+$select.val())
-        //         // console.info('back = '+ back)
-        //         // console.info('num = '+ num)
-        //         // console.info($pre2)
-        //
-        //
-        //     }
-        // });
 
     };
 

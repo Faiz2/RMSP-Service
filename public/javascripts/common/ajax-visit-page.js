@@ -7,25 +7,33 @@
         switch (li_filter) {
             case 'market-info':
                 replace_page("market_info");
+                w.rsmp_page = "market_info";
                 break;
             case 'brd':
                 replace_page("brd_info");
+                w.rsmp_page = "brd_info";
                 break;
             case 'product-info':
                 replace_page("product_info");
+                w.rsmp_page = "product_info";
                 break;
             case 'business-decision':
                 replace_page("business_decision");
+                w.rsmp_page = "business_decision";
                 break;
             case 'management-decision':
                 replace_page('management_decision');
+                w.rsmp_page = "management_decision";
                 break;
             case 'report':
                 replace_page("report");
+                w.rsmp_page = "report";
                 break;
             case 'help':
+                w.rsmp_page = "help";
                 break;
             default:
+                w.rsmp_page = "unknown";
         }
 
 

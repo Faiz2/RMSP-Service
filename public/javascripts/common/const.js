@@ -9,6 +9,8 @@ var next_save_cycle2_business_decision_json_data;
 var cycle1_status = false;
 var cycle2_status = false;
 
+
+
 // form结合形成json
 $.fn.serializeObject = function() {
     var o = {};
@@ -25,3 +27,7 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
+
+
+//页面
+var rsmp_page = "unknown";

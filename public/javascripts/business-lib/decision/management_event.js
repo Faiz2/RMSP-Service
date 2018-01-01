@@ -59,7 +59,6 @@ var management_event = (function ($, w) {
     function bind_input_change(region) {
         var $inputs = (region || $content).find('input');
         var $pres = (region || $content).find('pre');
-
         function bind_input(obj, key) {
             var lst = obj[key];
             $.each(lst.inputs, function(i, v) {

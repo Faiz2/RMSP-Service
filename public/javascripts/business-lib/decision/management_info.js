@@ -121,27 +121,25 @@
     setTimeout(function(){
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
-            w.management_event.bind_input_change($content);
             f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
                 setHistory(1, "#management-cycle1")
             } ,function () {});
-            w.web_store.manage_idle();
+            w.management_event.bind_input_change($content);
         } else if (active.index() === 1) {
             f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
                 setHistory(2, "#management-cycle2");
             } ,function () {});
             w.management_event.bind_input_change($content2);
-            w.web_store.manage_idle();
         } else {
             console.warn("find a lot of 'li'")
         }
     }, 300);
 
     var setHistory = function (cyc, id) {
-        var token = $.cookie("user_token");
+        var user = $.cookie("user");
         var json = {
             "phase" : [cyc+"_manage"],
-            "user_token" : token
+            "user" : user
         };
         // console.log(json);
         f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {

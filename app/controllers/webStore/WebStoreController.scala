@@ -25,16 +25,16 @@ class WebStoreController  @Inject()(as_inject: ActorSystem, dbt: dbInstanceManag
    
     def input_store = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
         MessageRoutes(msg_log(toJson(Map("method" -> toJson("input_store"))), jv)
-            ::MsgAuthTokenParser(jv)
-            ::MsgAuthTokenExpire(jv)
+//            ::MsgAuthTokenParser(jv)
+//            ::MsgAuthTokenExpire(jv)
             ::MsgInputStore(jv)
             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att , "rdt" -> rdt))))
     })
     
     def input_fetch = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
         MessageRoutes(msg_log(toJson(Map("method" -> toJson("input_store"))), jv)
-            ::MsgAuthTokenParser(jv)
-            ::MsgAuthTokenExpire(jv)
+//            ::MsgAuthTokenParser(jv)
+//            ::MsgAuthTokenExpire(jv)
             ::MsgInputFetch(jv)
             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att , "rdt" -> rdt))))
     })

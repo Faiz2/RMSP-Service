@@ -159,12 +159,9 @@
 
         if (arranged_time_wrong_array.length != 0) {
             f.alert.alert_error("分配时间", "分配时间错误！请再次检查。")
-        } else if (arranged_promotional_budget_array != 0) {
+        } else if (arranged_promotional_budget_array.length != 0) {
             f.alert.alert_error("分配推广预算", "分配的推广预算为0！请再次检查。")
-        } else if (person_num != arranged_person_hos_array.length) {
-            f.alert.alert_error("人数错误", "添加分配人没有完全选完！请再次检查。")
         } else if (herr_tip.length != 0) {
-        //     if(herr_tip.length!= 0){
             var strs = $.each(herr_tip, function (i, v) {
                 return " " + v
             });
@@ -183,13 +180,6 @@
         var arr = new Array();
         var arranged_time_wrong_array = new Array();
         var arranged_promotional_budget_array = new Array();
-        var arranged_person_hospital_array = new Array();
-        var persons = $('select[pharbers-type="p2_sr_hosp1"]').find("option");
-        var person_arr = new Array();
-        $.each(persons, function (ele) {
-            person_arr.push(ele);
-        });
-        var person_num = person_arr.length - 1;
         var json = {"phase": [2]};
         $.each(inputsObj, function (i, v) {
             var input = $(v);
@@ -205,6 +195,7 @@
             var rgxArr = Array(pro_budget_hosp, hosp_sales_target, hosp_worktime);
             if (input.val() === "0") {
             } else if (regexTestSome(rgxArr, key)) {
+                console.log(key);
                 arr.push(input.val() + "_" + key);
             } else {
             }
@@ -227,8 +218,8 @@
         $.each(harr, function (i, v) {
             var key = 'p2_sr_' + v;
             var select = $('select[pharbers-type=\"'+key+'\"]');
-            console.log(select.val());
             if (select.val() === ""){
+                console.log(v);
                 h_err.push(key);
                 herrs.push(v);
             }
@@ -236,27 +227,20 @@
         });
         var herr_dis = herrs.distinct();
         var herr_tip = hospital_match(herr_dis);
+
         $.each(selectsObj, function (i, v) {
             var select = $(v);
             var key = select.attr("pharbers-type");
-            if (regexTest(arranged_person_hospital, key)) {
-                if (select.val() !== "") {
-                    arranged_person_hospital_array.push(select.val())
-                }
-            }
             json[key] = [select.val()];
         });
-
-        var arranged_person_hos_array = arranged_person_hospital_array.distinct();
 
         next_save_cycle2_business_decision_json_data = json;
         if (arranged_time_wrong_array.length !== 0) {
             f.alert.alert_error("分配时间", "分配时间错误！请再次检查。")
-        } else if (arranged_promotional_budget_array !== 0) {
+        } else if (arranged_promotional_budget_array.length !== 0) {
             f.alert.alert_error("分配推广预算", "分配的推广预算为0！请再次检查。")
-        } else if (person_num !== arranged_person_hos_array.length) {
-            f.alert.alert_error("人数错误", "添加分配人没有完全选完！请再次检查。")
         } else if (herr_tip.length !== 0) {
+        // if (herr_tip.length !== 0) {
             var strs = $.each(herr_tip, function (i, v) {
                 return " " + v
             });

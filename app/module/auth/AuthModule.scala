@@ -38,7 +38,8 @@ object AuthModule extends ModuleTrait with AuthData {
 					(Some(Map("user_token" -> toJson(auth_token), "user" -> toJson((data \ "condition" \ "account").as[String]))), None)
 			}
 		} catch {
-			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+			case ex: Exception =>
+				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
 	
@@ -49,7 +50,9 @@ object AuthModule extends ModuleTrait with AuthData {
 			val user = att.decrypt2JsValue(user_token)
 			(Some(Map("user_token" -> toJson(user))), None)
 		}catch {
-			case ex : Exception =>(None , Some(ErrorCode.errorToJson((ex.getMessage))))
+			case ex : Exception =>
+				println(ex)
+				(None , Some(ErrorCode.errorToJson((ex.getMessage))))
 		}
 	}
 	
@@ -62,7 +65,9 @@ object AuthModule extends ModuleTrait with AuthData {
 			if(reVal < recentTime) throw new Exception("token expired")
 			else (pr, None)
 		}catch {
-			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+			case ex: Exception =>
+				println(ex)
+				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 		
 	}

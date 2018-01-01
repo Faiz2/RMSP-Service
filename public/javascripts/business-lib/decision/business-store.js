@@ -15,9 +15,9 @@ var web_store = (function ($, w) {
         }
     };
     var cyc_manage = function () {
-        if ($('#p1_go_decision').attr('class').indexOf('action-button ') > 0) {
+        if ($('#p1_go_decision').attr('class').indexOf('action-button') > 0) {
             return [$('#management-cycle1'), 1];
-        } else if ($('p2_go_decision').attr('class').indexOf('disabled') > 0) {
+        } else if ($('p2_go_decision').attr('class').indexOf('action-button') > 0) {
             return [$('#management-cycle2'), 2];
         } else {
             return ["", 0];
@@ -29,12 +29,10 @@ var web_store = (function ($, w) {
         var json = {};
         var inputs = content.find('input');
         var pres = content.find('pre');
-        // console.log(pres);
         var selects = content.find('select');
         $.each(inputs, function (i, v) {
             var input = $(v);
             var key = input.attr("pharbers-type");
-            // json[key] = [input.val() === "" ? input.val().replace(",", "") : input.val()];
             json[key] = [input.val()];
         });
         $.each(pres, function (i, v) {
@@ -45,8 +43,6 @@ var web_store = (function ($, w) {
             }else {
                 json[key] = [pre.text()];
             }
-            // console.log(key +":"+ pre.text());
-            // json[key] = [pre.text() === "" ? pre.text().replace(",", "") : pre.text()];
         });
         $.each(selects, function (i, v) {
             var select = $(v);
@@ -81,8 +77,8 @@ var web_store = (function ($, w) {
                 // console.log(cyc);
                 if (cyc !== 0) {
                     var json = manage_json(cyc_content);
-                    var token = $.cookie("user_token");
-                    json["user_token"] = token;
+                    var user = $.cookie("user");
+                    json["user"] = user;
                     json["phase"] = [cyc+"_manage"];
                     // console.log(JSON.stringify(json));
                     idle_request(JSON.stringify(json), 2000);
@@ -90,7 +86,7 @@ var web_store = (function ($, w) {
             },
             idle: 3000
         })
-    }
+    };
 
     var business_idle = function () {
         $('body').idle({
@@ -101,8 +97,8 @@ var web_store = (function ($, w) {
                 // console.log(cyc);
                 if (cyc !== 0) {
                     var json = input_json(cyc_content);
-                    var token = $.cookie("user_token");
-                    json["user_token"] = token;
+                    var user = $.cookie("user");
+                    json["user"] = user;
                     json["phase"] = [cyc];
                     // console.log(JSON.stringify(json));
                     idle_request(JSON.stringify(json), 2000);

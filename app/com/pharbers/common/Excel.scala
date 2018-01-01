@@ -44,7 +44,6 @@ class Sheet(sheet: PoiSheet) {
   }
   private def string(address: (Int, Int)): String = {
     val c = poiCell(address)
-
     c.getCellType() match {
       case PoiCell.CELL_TYPE_STRING => c.getRichStringCellValue.getString
       case PoiCell.CELL_TYPE_FORMULA => c.getRichStringCellValue.getString
