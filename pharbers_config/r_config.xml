@@ -1,0 +1,20 @@
+<pharbers-modules>
+    <!--<r-path>-->
+        <!--<rfile value="resource/stp_handler.R"/>-->
+        <!--<rdata value="resource/pre_data_linux.RData"/>-->
+    <!--</r-path>-->
+    <!--<excel-path>-->
+        <!--<report value="resource/report/"/>-->
+        <!--<report_download value="bin/resource/report/"/>-->
+        <!--<pre_info_new value=resource/pre_info_new.xlsx"/>-->
+    <!--</excel-path>-->
+    <r-path>
+        <rfile value="resource/stp_handler.R"/>
+        <rdata value="resource/pre_data_linux.RData"/>
+    </r-path>
+    <excel-path>
+        <report value="resource/report/"/>
+        <report_download value="resource/report/"/>
+        <pre_info_new value="resource/pre_info_new.xlsx"/>
+    </excel-path>
+</pharbers-modules>
