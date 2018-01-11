@@ -16,7 +16,9 @@
   library(openxlsx)
   library(mongolite)
   library(jsonlite)
-  library(utf8)
+
+
+  print(getwd())
   
   options(scipen=200,
           mongodb = list(
@@ -26,7 +28,7 @@
           ))
   
   ## receive signal
-  # argss[1] :  R_File_Path
+  # argss[1] :  R_Data_Path
   # argss[2] :  filekey of json
   # argss[3] :  reports save path
   argss <- commandArgs(TRUE)
@@ -445,7 +447,6 @@
     inter_data <- transfer$p1_tmp[[1]]
     last_report1_1 <- transfer$p1_report[[1]]
     last_acc_success_value <- transfer$p1_acc_success_value[[1]]
-    colnames(last_report1_1) <- as.vector(sapply(colnames(last_report1_1),function(x) as_utf8(x)))
   }
   
   cp_data1 <- get.data1(input,phase)
@@ -1223,9 +1224,9 @@
     if (!is.null(mongodb_con$info()$stats$count)) {
       mongodb_con$drop()
     }
-    mongodb_con$insert(tmp_data,na="string")
+    mongodb_con$insert(tmp_data)
   } else {
-    mongodb_con$insert(tmp_data,na="string")
+    mongodb_con$insert(tmp_data)
   }
     
   

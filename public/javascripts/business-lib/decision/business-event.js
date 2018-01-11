@@ -372,15 +372,17 @@ var business_event = (function ($, w) {
         }
 
         if ($business_tab_li.index() === 0) {
-            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+            var history = $.cookie("history");
+            if(history === "1"){
                 setHistory(1, "#sum_promotion_budget-cycle1" );
-            } ,function () {});
+            }
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
         } else if ($business_tab_li.index() === 1) {
-            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+            var history = $.cookie("history");
+            if(history === "1"){
                 setHistory(2, "#sum_promotion_budget-cycle2" );
-            } ,function () {});
+            }
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
         } else {

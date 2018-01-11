@@ -49,9 +49,9 @@ function Alert() {}
         }, function(){
             func_one();
             layer.close(num);
-
         }, function(){
             func_two();
+            layer.close(num);
         });
 
     }

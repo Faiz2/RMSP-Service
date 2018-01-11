@@ -122,8 +122,18 @@ var store_info = (function ($, w) {
             })
         }, time);
     };
+
+    var store_choose = function () {
+        f.alert.choose_info("回复操作", ["确定", "取消"], "是否继续上次操作？", function () {
+            $.cookie("history", "1");
+        }, function () {
+            $.cookie("history", "0");
+        })
+    };
+
     return {
-       "idle_listening"  : idle_listening
+        "idle_listening"  : idle_listening,
+        "store_choose" : store_choose
     }
 })(jQuery, window);
 

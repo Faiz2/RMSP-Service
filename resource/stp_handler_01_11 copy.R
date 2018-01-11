@@ -20,7 +20,7 @@
   
   options(scipen=200,
           mongodb = list(
-            "host" = "127.0.0.1:27017"
+            "host" = "59.110.31.50:2017"
             # "username" = "root",
             # "password" = "root"
           ))

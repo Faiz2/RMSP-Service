@@ -121,14 +121,16 @@
     setTimeout(function(){
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
-            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
-                setHistory(1, "#management-cycle1")
-            } ,function () {});
+            var history = $.cookie("history");
+            if(history === "1"){
+                setHistory(1, "#management-cycle1");
+            }
             w.management_event.bind_input_change($content);
         } else if (active.index() === 1) {
-            f.alert.choose_info("提示" ,["确定", "取消"],"是否进行上次操作？", function () {
+            var history = $.cookie("history");
+            if(history === "1"){
                 setHistory(2, "#management-cycle2");
-            } ,function () {});
+            }
             w.management_event.bind_input_change($content2);
         } else {
             console.warn("find a lot of 'li'")

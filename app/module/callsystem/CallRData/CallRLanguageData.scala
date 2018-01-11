@@ -18,7 +18,7 @@ trait CallRLanguageData {
 			val fileKey = (jv.get("data") \ "fileKey").asOpt[String].getOrElse(throw new Exception("data not exist"))
 			val report_path = r_config.report_path
 			val reportFileName = (jv.get("data") \ "reportfilename").asOpt[String].getOrElse(throw new Exception("data not exist"))
-//			println(s"Rscript $rfile $rdata $fileKey resource/report/$reportFileName")
+			println(s"Rscript $rfile $rdata $fileKey resource/report/$reportFileName")
 			CallRFile(rfile, rdata, s"$fileKey", report_path+reportFileName).excute
 			true
 		} catch {

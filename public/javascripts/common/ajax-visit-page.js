@@ -1,6 +1,4 @@
 (function($, w) {
-
-
     $('ul[class="sidebar-menu"] li a').click(function(){
         replace_style($(this));
         var li_filter = $(this).attr('pharbers-filter');
@@ -34,6 +32,7 @@
                 break;
             default:
                 w.rsmp_page = "unknown";
+                console.log("unknown")
         }
 
 
