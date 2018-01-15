@@ -16,17 +16,34 @@
                     </tr>
                 </thead>
                 <tbody class="client">
-                    @for(cli <- data) {
+                    @for( i <- 1 to data.size){
+                        @{val cli : (String, List[Map[String, String]]= (i+"", data(i+""))}
+
                         <tr role="row" >
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("hospname")).map(x => x("hospname")).getOrElse("")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("area")).map(x => x("area")).getOrElse("")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("type")).map(x => x("type")).getOrElse("")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("口服抗生素")).map{x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")}.getOrElse("0")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("一代降糖药")).map{x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")}.getOrElse("0")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("三代降糖药")).map{x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")}.getOrElse("0")}</td>
-                            <td class=" dt-center">@{cli._2.find(f => f.contains("皮肤药")).map{x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")}.getOrElse("0")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("hospname")).map(x => x("hospname")).getOrElse("")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("area")).map(x => x("area")).getOrElse("")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("type")).map(x => x("type")).getOrElse("")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("口服抗生素")).map{x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")}.getOrElse("0")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("一代降糖药")).map{x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")}.getOrElse("0")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("三代降糖药")).map{x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")}.getOrElse("0")}</td>
+                            <td class=" dt-center">@{
+                                val cli = (i+"", data(i+""))
+                                cli._2.find(f => f.contains("皮肤药")).map{x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")}.getOrElse("0")}</td>
                         </tr>
-                    }
+                }
+
                 </tbody>
             </table>
         </div>

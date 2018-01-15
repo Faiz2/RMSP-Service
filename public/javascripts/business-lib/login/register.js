@@ -83,7 +83,13 @@
                 var json = JSON.stringify(f.parameterPrefixModule.business('user', formObj));
                 f.ajaxModule.baseCall('/user/register', json, 'POST', function(r) {
                     if (r.status === 'ok') {
-                        if(r.result.data.flag === true) f.alert.alert_success('注册', '注册成功！');
+                        if(r.result.data.flag === true)
+                        {
+                            f.alert.alert_success('注册', '注册成功！');
+                            setTimeout(function () {
+                                window.location.href="/login"
+                            } , 2000);
+                        }
                         else f.alert.alert_error('注册', '遇到未知错误，请联系管理员！');
                     } else {
                         f.alert.alert_error('注册', r.error.message);

@@ -108,10 +108,10 @@ var store_info = (function ($, w) {
                 var info = get_json(page);
                 console.log(info);
                 if(info[1] === "ok"){
-                    idle_request(info[0] , 3000)
+                    idle_request(info[0] , 50)
                 }
             },
-            idle: 3000
+            idle: 1000
         })
     };
 
