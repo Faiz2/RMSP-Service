@@ -46,20 +46,20 @@
     var click_submit_button_cycle1 = function() {
         var $inputs = $content.find('div input,pre');
         var rjv = return_cycle1_json($inputs);
-        var obj = JSON.parse(rjv)
-        if(parseInt(obj.p1_arranged_time_of_flm) <=0 ||parseInt(obj.p1_arranged_time_of_flm) > parseInt(rjv.p1_work_time)){
+        var obj = JSON.parse(rjv);
+        if(parseFloat(obj.p1_arranged_time_of_flm) <=0 ||parseFloat(obj.p1_arranged_time_of_flm) > 100){
             f.alert.alert_error("时间分配","时间分配错误！请重新检查时间分配")
         }else {
             layer.load();
             f.ajaxModule.baseCall("submit/submitdata", rjv, "POST", function(r){
                 if(r.status === 'ok') {
-                    console.log(r);
                     f.cookieModule.setCookie('reportname1', r.result.data.reportname);
                     cycle1_status = true;
                     var $report = $('#left-page li a[pharbers-filter="report"]');
                     $report.click();
                     layer.closeAll('loading');
                 } else {
+                    console.log(r);
                     f.cookieModule.setCookie('reportname1', '');
                     cycle1_status = false;
                     f.alert.alert_error('提交', '出现未知错误！');
@@ -74,8 +74,12 @@
     var click_submit_button_cycle2 = function() {
         var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
-        var obj = JSON.parse(rjv)
-        if(parseInt(obj.p2_arranged_time_of_flm) <=0 ||parseInt(obj.p2_arranged_time_of_flm) > parseInt(rjv.p1_work_time)){
+        rjv["condition"] = {
+            "user" : $.cookie("user")
+        };
+        var obj = JSON.parse(rjv);
+        console.log(obj);
+        if(parseFloat(obj.p2_arranged_time_of_flm) <=0 ||parseFloat(obj.p2_arranged_time_of_flm) > 100){
             f.alert.alert_error("时间分配","时间分配错误！请重新检查时间分配")
         }else {
             layer.load();
@@ -122,13 +126,27 @@
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
             var history = $.cookie("history");
-            if(history === "1"){
+            var c1_m = $.cookie("c1_manage");
+            if(history === "0"&&c1_m === "0"){
+                $.cookie("c1_manage", "1")
+            }else {
+                console.log("c1m");
+                $.cookie("c1_manage", "1")
                 setHistory(1, "#management-cycle1");
             }
             w.management_event.bind_input_change($content);
         } else if (active.index() === 1) {
             var history = $.cookie("history");
-            if(history === "1"){
+            var c2_m = $.cookie("c2_manage")
+            if(history === "0" && c2_m==="0"){
+                console.log("noc2m");
+                if(cycle1_status){
+                    console.log("okc2m");
+                    $.cookie("c2_manage", "1");
+                }
+            }else {
+                console.log("c2m");
+                $.cookie("c2_manage", "1");
                 setHistory(2, "#management-cycle2");
             }
             w.management_event.bind_input_change($content2);
@@ -145,7 +163,6 @@
         };
         // console.log(json);
         f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
-            console.log(r);
             if(r.status === 'ok'){
                 var content = $(id);
                 var res = r.result.input;

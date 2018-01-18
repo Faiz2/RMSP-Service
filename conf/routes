@@ -42,6 +42,9 @@ POST    /management_decision        controllers.decision.DecisionController.alOu
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
+POST    /register/check/name        controllers.user.RegisterController.registerUserCheckAccount
+POST    /register/check/email       controllers.user.RegisterController.registerUserCheckEmail
+POST    /register/check/phone       controllers.user.RegisterController.registerUserCheckPhone
 
 # 用户登入
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword

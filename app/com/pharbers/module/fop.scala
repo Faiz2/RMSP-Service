@@ -7,7 +7,6 @@ import com.pharbers.common.RConfig
 object fop {
 	def downloadFile(name: String) : Array[Byte] = {
 		val f = (new File("")).getAbsoluteFile
-		println(f)
 		val config = new RConfig()
 		val filepath = config.report_download_path
 		val reValPath = f+"/"+filepath+name

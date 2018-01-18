@@ -9,6 +9,10 @@
                     f.cookieModule.setCookie("user_token", r.result.user_token);
                     f.cookieModule.setCookie("user", r.result.user);
                     f.cookieModule.setCookie("log_status" ,"0");
+                    f.cookieModule.setCookie("c1_decision","0");
+                    f.cookieModule.setCookie("c2_decision","0");
+                    f.cookieModule.setCookie("c1_manage","0");
+                    f.cookieModule.setCookie("c2_manage","0");
                     w.location = '/index';
                 } else {
                     f.cookieModule.setCookie("log_status" ,"1");

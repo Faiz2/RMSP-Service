@@ -32,7 +32,10 @@ object WebStoreModule extends ModuleTrait {
             val phase =(MergeStepResult(data, pr) \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase")).toString
             val key = s"$user:$phase"
             val maps = data.asInstanceOf[JsObject].value.toMap - "phase" - "user_token"
-            rdt.addString(key , toJson(maps).toString())
+//            println(maps.size)
+            if(maps.size>10){
+                rdt.addString(key , toJson(maps).toString())
+            }
             (Some(Map("store" -> toJson(key))), None)
         } catch {
             case ex: Exception =>
@@ -51,7 +54,7 @@ object WebStoreModule extends ModuleTrait {
             val phase = (data \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase")).toString
             val key = s"$user:$phase"
             val maps= Json.parse(rdt.getString(key))
-            (Some(Map("input" -> toJson(maps))), None)
+            (Some(Map("input"->(toJson(maps)))), None)
         }catch {
             case ex: Exception =>
                 println(ex)

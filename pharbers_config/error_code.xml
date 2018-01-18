@@ -21,6 +21,9 @@
         <error reason="info input company name" code="-207" description="请输入公司名称" />
         <error reason="info input linkman name" code="-208" description="请输入联系人" />
         <error reason="user is repeat" code="-209" description="用户重复" />
+        <error reason="user account is repeat" code="-223" description="用户账号重复" />
+        <error reason="user email is repeat" code="-224" description="用户邮箱重复" />
+        <error reason="user phone is repeat" code="-225" description="用户电话号码重复" />
         <error reason="user is not BD" code="-210" description="该用户不是BD人员" />
         <error reason="user is not AD" code="-211" description="该用户不是AD人员" />
         <error reason="user already exists" code="-212" description="用户已存在, 请尝试登入" />

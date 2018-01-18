@@ -102,15 +102,15 @@
             var input = $(v);
             var key = input.attr("pharbers-type");
             if (regexTest(arranged_time, key)) {
-                if (parseInt(input.text()) > 100 || parseInt(input.text()) <= 0)
+                if (parseFloat(input.text()) > 100 || parseFloat(input.text()) <= 0)
                     arranged_time_wrong_array.push(key);
             } else if (regexTest(arranged_promotional_budget, key)) {
-                if (parseInt(input.text()) === 0)
+                if (parseFloat(input.text()) > 100 || parseFloat(input.text()) <= 0)
                     arranged_promotional_budget_array.push(key);
             } else {
             }
             var rgxArr = Array(pro_budget_hosp, hosp_sales_target, hosp_worktime);
-            if (input.val() === "0") {
+            if (input.val() === "0")  {
             } else if (regexTestSome(rgxArr, key)) {
                 arr.push(input.val() + "_" + key);
             } else {
@@ -134,7 +134,6 @@
         $.each(harr, function (i, v) {
             var key = 'p1_sr_' + v;
             var select = $('select[pharbers-type=\"'+key+'\"]');
-            console.log(select.val());
             if (select.val() == ""){
                 h_err.push(key);
                 herrs.push(v);
@@ -160,7 +159,7 @@
         if (arranged_time_wrong_array.length != 0) {
             f.alert.alert_error("分配时间", "分配时间错误！请再次检查。")
         } else if (arranged_promotional_budget_array.length != 0) {
-            f.alert.alert_error("分配推广预算", "分配的推广预算为0！请再次检查。")
+            f.alert.alert_error("分配推广预算", "分配的推广预算错误！请再次检查。")
         } else if (herr_tip.length != 0) {
             var strs = $.each(herr_tip, function (i, v) {
                 return " " + v
@@ -185,17 +184,17 @@
             var input = $(v);
             var key = input.attr("pharbers-type");
             if (regexTest(arranged_time, key)) {
-                if (parseInt(input.text()) > 100 || parseInt(input.text()) <= 0)
+                console.log(parseFloat(input.text()));
+                if (parseFloat(input.text()) > 100 || parseFloat(input.text()) <= 0)
                     arranged_time_wrong_array.push(key);
             } else if (regexTest(arranged_promotional_budget, key)) {
-                if (parseInt(input.text()) === 0)
+                if (parseFloat(input.text()) > 100 || parseFloat(input.text()) <= 0)
                     arranged_promotional_budget_array.push(key);
             } else {
             }
             var rgxArr = Array(pro_budget_hosp, hosp_sales_target, hosp_worktime);
             if (input.val() === "0") {
             } else if (regexTestSome(rgxArr, key)) {
-                console.log(key);
                 arr.push(input.val() + "_" + key);
             } else {
             }
@@ -238,7 +237,7 @@
         if (arranged_time_wrong_array.length !== 0) {
             f.alert.alert_error("分配时间", "分配时间错误！请再次检查。")
         } else if (arranged_promotional_budget_array.length !== 0) {
-            f.alert.alert_error("分配推广预算", "分配的推广预算为0！请再次检查。")
+            f.alert.alert_error("分配推广预算", "分配的推广预算错误！请再次检查。")
         } else if (herr_tip.length !== 0) {
         // if (herr_tip.length !== 0) {
             var strs = $.each(herr_tip, function (i, v) {

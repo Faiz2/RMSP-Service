@@ -15,11 +15,19 @@ object State {
 
 trait RegisterData {
 	
+	def validationUserRepeat(jv: JsValue, repeat :String): DBObject ={
+		val builder = MongoDBObject.newBuilder
+		builder += repeat -> (jv \ "user" \ repeat).asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder.result
+	}
+	
 	def validationUser(jv: JsValue): DBObject ={
 		val builder = MongoDBObject.newBuilder
 		builder += "user" -> (jv \ "user" \ "account").asOpt[String].getOrElse(throw new Exception("wrong input"))
 		builder.result
 	}
+	
+	
 	
 	implicit val d2m: DBObject => String Map JsValue = { obj =>
 		Map("user" -> toJson(obj.getAs[String]("user").getOrElse("")))
@@ -28,6 +36,7 @@ trait RegisterData {
 	implicit val m2d: JsValue => DBObject = { jv =>
 		val builder = MongoDBObject.newBuilder
 		builder += "user" -> (jv \ "user" \ "account").asOpt[String].getOrElse(throw new Exception("wrong input"))
+		builder += "name" -> (jv \ "user" \ "name").asOpt[String].getOrElse(throw new Exception("wrong input"))
 		builder += "pw" -> (jv \ "user" \ "password").asOpt[String].getOrElse(throw new Exception("wrong input"))
 		builder += "corperation" -> (jv \ "user" \ "company").asOpt[String].getOrElse(throw new Exception("wrong input"))
 		builder += "department" -> (jv \ "user" \ "department").asOpt[String].getOrElse(throw new Exception("wrong input"))

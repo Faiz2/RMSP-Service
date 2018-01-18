@@ -10,8 +10,6 @@ trait CallRLanguageData {
 
 	def callR(jv: Option[String Map JsValue]): Boolean = {
 		try {
-			val file = (new File("")).getAbsolutePath
-			println(file)
 			val r_config = new RConfig()
 			val rfile = r_config.rfile()
 			val rdata = r_config.rdata()

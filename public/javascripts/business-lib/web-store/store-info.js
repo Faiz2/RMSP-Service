@@ -91,6 +91,7 @@ var store_info = (function ($, w) {
                 json["user"] = user;
                 var manage_cyc = cyc+"_manage";
                 json["phase"] = [manage_cyc];
+                console.log(json)
                 return [json , "ok"]
             }else {
                 return [json , "nothing"]
@@ -106,12 +107,11 @@ var store_info = (function ($, w) {
             onIdle: function () {
                 var page = webPage();
                 var info = get_json(page);
-                console.log(info);
                 if(info[1] === "ok"){
-                    idle_request(info[0] , 50)
+                    idle_request(info[0] , 0)
                 }
             },
-            idle: 1000
+            idle: 500
         })
     };
 
@@ -125,7 +125,7 @@ var store_info = (function ($, w) {
 
     var store_choose = function () {
         f.alert.choose_info("回复操作", ["确定", "取消"], "是否继续上次操作？", function () {
-            $.cookie("history", "1");
+            setTimeout($.cookie("history", "1"),1000)
         }, function () {
             $.cookie("history", "0");
         })

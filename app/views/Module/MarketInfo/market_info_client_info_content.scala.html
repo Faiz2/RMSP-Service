@@ -17,8 +17,6 @@
                 </thead>
                 <tbody class="client">
                     @for( i <- 1 to data.size){
-                        @{val cli : (String, List[Map[String, String]]= (i+"", data(i+""))}
-
                         <tr role="row" >
                             <td class=" dt-center">@{
                                 val cli = (i+"", data(i+""))

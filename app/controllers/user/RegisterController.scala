@@ -24,4 +24,22 @@ class RegisterController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManage
 			:: MsgRegisterUser(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
+	
+	def registerUserCheckAccount = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("registerUser"))), jv)
+			:: MsgCheckRepeatRegisterUserAccount(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+	
+	def registerUserCheckEmail = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("registerUser"))), jv)
+			:: MsgCheckRepeatRegisterUserEmail(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+	
+	def registerUserCheckPhone = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("registerUser"))), jv)
+			:: MsgCheckRepeatRegisterUserPhone(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
 }

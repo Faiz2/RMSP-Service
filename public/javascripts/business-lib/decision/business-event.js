@@ -276,7 +276,7 @@ var business_event = (function ($, w) {
                             $.each(v.inputs, function(n, w){
                                 var input_attr = '[pharbers-type="'+ w +'"]';
                                 var $input = $inputs.filter(input_attr);
-                                num += parseInt($input.val());
+                                num += parseFloat($input.val());
 
                             });
                         }
@@ -309,7 +309,7 @@ var business_event = (function ($, w) {
                                     // console.info('---'+v3);
                                     var input_attr = '[pharbers-type="'+ v3+'"]';
                                     var $input = $inputs.filter(input_attr);
-                                    num += parseInt($input.val());
+                                    num += parseFloat($input.val());
                                 });
                             }
                             // else {
@@ -324,7 +324,7 @@ var business_event = (function ($, w) {
                                 // console.info('***'+v5);
                                 var input_attr = '[pharbers-type="'+ v5+'"]';
                                 var $input = $inputs.filter(input_attr);
-                                num += parseInt($input.val());
+                                num += parseFloat($input.val());
                             });
                         }
                     });
@@ -350,7 +350,7 @@ var business_event = (function ($, w) {
                                     $.each(n2.inputs, function(i, n3) {
                                         var input_attr = '[pharbers-type="'+ n3+'"]';
                                         var $input = $inputs.filter(input_attr);
-                                        num += parseInt($input.val());
+                                        num += parseFloat($input.val());
                                     });
                                     // console.info('---'+n2.inputs[0]);
                                 }
@@ -358,7 +358,7 @@ var business_event = (function ($, w) {
                                 $.each(n2.inputs, function(i, n4) {
                                     var input_attr = '[pharbers-type="'+ n4+'"]';
                                     var $input = $inputs.filter(input_attr);
-                                    num += parseInt($input.val());
+                                    num += parseFloat($input.val());
                                 });
                                 // console.info('***'+n2.inputs[0]);
                             }
@@ -373,14 +373,28 @@ var business_event = (function ($, w) {
 
         if ($business_tab_li.index() === 0) {
             var history = $.cookie("history");
-            if(history === "1"){
+            var c1_d = $.cookie("c1_decision");
+            if(history === "0"&& c1_d === "0"){
+                $.cookie("c1_decision", "1");
+            }else {
+                console.log("c1d");
+                $.cookie("c1_decision", "1");
                 setHistory(1, "#sum_promotion_budget-cycle1" );
             }
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
         } else if ($business_tab_li.index() === 1) {
             var history = $.cookie("history");
-            if(history === "1"){
+            var c2_d = $.cookie("c2_decision");
+            if(history === "0" && c2_d ==="0"){
+                console.log("noc2d");
+                if(cycle1_status){
+                    console.log("okc2d");
+                    $.cookie("c2_decision", "1");
+                }
+            }else {
+                console.log("c2d");
+                $.cookie("c2_decision", "1");
                 setHistory(2, "#sum_promotion_budget-cycle2" );
             }
             input_change(cycle_2_table_input);
@@ -461,7 +475,7 @@ var business_event = (function ($, w) {
                     $.each(v2.inputs, function(i, v3) {
                         var input_attr = '[pharbers-type="'+ v3 +'"]';
                         var $input = $inputs.filter(input_attr);
-                        num += parseInt($input.val());
+                        num += parseFloat($input.val());
                     });
                     $pre.empty().text(num);
                 }else {

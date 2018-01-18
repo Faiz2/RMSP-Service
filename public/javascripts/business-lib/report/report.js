@@ -227,7 +227,7 @@
                 });
                 sales_deputy_select_change(people, product);
             }else {
-                $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
+                $zone.find('div[name="sales-deputy"]').find("table").empty();
             }
         });
     }
