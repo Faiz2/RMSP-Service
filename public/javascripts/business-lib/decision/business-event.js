@@ -1,6 +1,5 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
-
     // 输入输出链表
     // 应修改为json配置文件
     var cycle_1_table_input = [
@@ -251,6 +250,8 @@ var business_event = (function ($, w) {
         }
     ];
 
+    var f = new Facade();
+
     // 未封装
     function bind_input_change(region) {
         var $business_tab_li = $('#business_tab li.active');
@@ -262,6 +263,7 @@ var business_event = (function ($, w) {
             $.each(lst, function(i, v) {
                 var pre_attr = '[pharbers-type="' + v.oput + '"]';
                 var $pre = $pres.filter(pre_attr);
+
                 var num = 0;
                 $.each(v.inputs, function(j ,k){
                     var input_attr = '[pharbers-type="'+ k +'"]';
@@ -274,7 +276,8 @@ var business_event = (function ($, w) {
                             $.each(v.inputs, function(n, w){
                                 var input_attr = '[pharbers-type="'+ w +'"]';
                                 var $input = $inputs.filter(input_attr);
-                                num += parseInt($input.val());
+                                num += parseFloat($input.val());
+
                             });
                         }
                         $pre.empty().text(num);
@@ -306,7 +309,7 @@ var business_event = (function ($, w) {
                                     // console.info('---'+v3);
                                     var input_attr = '[pharbers-type="'+ v3+'"]';
                                     var $input = $inputs.filter(input_attr);
-                                    num += parseInt($input.val());
+                                    num += parseFloat($input.val());
                                 });
                             }
                             // else {
@@ -321,7 +324,7 @@ var business_event = (function ($, w) {
                                 // console.info('***'+v5);
                                 var input_attr = '[pharbers-type="'+ v5+'"]';
                                 var $input = $inputs.filter(input_attr);
-                                num += parseInt($input.val());
+                                num += parseFloat($input.val());
                             });
                         }
                     });
@@ -347,7 +350,7 @@ var business_event = (function ($, w) {
                                     $.each(n2.inputs, function(i, n3) {
                                         var input_attr = '[pharbers-type="'+ n3+'"]';
                                         var $input = $inputs.filter(input_attr);
-                                        num += parseInt($input.val());
+                                        num += parseFloat($input.val());
                                     });
                                     // console.info('---'+n2.inputs[0]);
                                 }
@@ -355,7 +358,7 @@ var business_event = (function ($, w) {
                                 $.each(n2.inputs, function(i, n4) {
                                     var input_attr = '[pharbers-type="'+ n4+'"]';
                                     var $input = $inputs.filter(input_attr);
-                                    num += parseInt($input.val());
+                                    num += parseFloat($input.val());
                                 });
                                 // console.info('***'+n2.inputs[0]);
                             }
@@ -369,24 +372,103 @@ var business_event = (function ($, w) {
         }
 
         if ($business_tab_li.index() === 0) {
+            console.log("c1d");
+            var history = $.cookie("history");
+            var c1_d = $.cookie("c1_decision");
+            if(history === "0"&& c1_d === "0"){
+                console.log("go_c1d_first");
+                $.cookie("c1_decision", "1");
+                console.log(cycle1_status);
+                // if(cycle1_status){
+                //     setHistory(1, "#sum_promotion_budget-cycle1" );
+                // }
+            }else {
+                $.cookie("c1_decision", "1");
+                setHistory(1, "#sum_promotion_budget-cycle1" );
+            }
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
         } else if ($business_tab_li.index() === 1) {
+            console.log("c2d")
+            var history = $.cookie("history");
+            var c2_d = $.cookie("c2_decision");
+            if(history === "0" && c2_d ==="0"){
+                if(cycle1_status){
+                    $.cookie("c2_decision", "1");
+                }
+            }else {
+                if(cycle1_status){
+                    $.cookie("c2_decision", "1");
+                    setHistory(2, "#sum_promotion_budget-cycle2" );
+                }
+            }
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);
         } else {
             console.warn("find a lot of 'li'")
         }
+
     }
+
+    var setHistory = function (cyc, id) {
+        var user = $.cookie("user");
+        var json = {
+            "phase" : [cyc+"_decision"],
+            "user" : user
+        };
+        // console.log(json);
+        f.ajaxModule.baseCall("/fetch/input", JSON.stringify(json), "POST", function (r) {
+            if(r.status === 'ok'){
+                var content = $(id);
+                var res = r.result.input;
+                var inputs = content.find('input');
+                var selects = content.find('select');
+                var pres = content.find('pre');
+                $.each(inputs, function(i ,v){
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r === undefined){
+                        console.log(key)
+                    }else {
+                        $(v).val(r[0]);
+                    }
+
+
+                });
+                $.each(selects, function (i, v) {
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r === undefined){
+                        console.log(key)
+                    }else {
+                        $(v).val(r[0]);
+                    }
+
+
+                });
+                $.each(pres, function (i, v) {
+                    var key = $(v).attr("pharbers-type");
+                    var r = res[key];
+                    if(r===undefined){
+                        // console.log(key);
+                        $(v).text(res["unknownError"])
+                    }else {
+                        $(v).text(r[0]);
+                    }
+
+                })
+            }
+        })
+    };
 
     // 未封装
     var clean_sum_input = function(region, lst) {
         var $pres = (region || $content).find('pre');
         var $inputs = (region || $content).find('input');
         var $selects = (region || $content).find('select');
-        var pepole = ['小宋', '小兰', '小木', '小白', '小青'];
+        var people = ['小宋', '小兰', '小木', '小白', '小青'];
 
-        $.each(pepole, function(i, v) {
+        $.each(people, function(i, v) {
             var num = 0;
             var pre_attr = '[pharbers-pepole="'+ v +'"]';
             var $pre = $pres.filter(pre_attr);
@@ -398,7 +480,7 @@ var business_event = (function ($, w) {
                     $.each(v2.inputs, function(i, v3) {
                         var input_attr = '[pharbers-type="'+ v3 +'"]';
                         var $input = $inputs.filter(input_attr);
-                        num += parseInt($input.val());
+                        num += parseFloat($input.val());
                     });
                     $pre.empty().text(num);
                 }else {
@@ -407,68 +489,12 @@ var business_event = (function ($, w) {
             });
         });
 
-        // 渣渣
-        // $.each(lst, function(i, v){
-        //     var select_attr = '[pharbers-type="'+ v.select +'"]';
-        //     var $select = $selects.filter(select_attr);
-        //
-        //
-        //
-        //     if( $select.val() === back /*|| cur.val() === back*/) {
-        //         // var pre_attr = '[pharbers-pepole="'+ $select.val() +'"]';
-        //         // var $pre = $pres.filter(pre_attr);
-        //
-        //         $.each(v.inputs, function(i, v2){
-        //             var input_attr = '[pharbers-type="'+ v2+'"]';
-        //             var $input = $inputs.filter(input_attr);
-        //             num += parseInt($input.val());
-        //         });
-        //
-        //         // console.info('cur.val = '+cur.val());
-        //         // console.info('back = '+ back);
-        //         // console.info('$select = '+$select.val());
-        //         // console.info('select = '+v.select);
-        //         // console.info('num = '+ num);
-        //
-        //         // $pre.empty().text(num);
-        //     } else {
-        //         $.each(pepole, function(i, v) {
-        //             var num = 0;
-        //             $.each(lst, function(i, v2){
-        //                 var select_attr = '[pharbers-type="'+ v2.select +'"]';
-        //                 var $select = $selects.filter(select_attr);
-        //                 var pre_attr = '[pharbers-pepole="'+ v +'"]';
-        //                 var $pre = $pres.filter(pre_attr);
-        //                 // debugger;
-        //                 if($select.val() === v) {
-        //                     $.each(v2.inputs, function(i, v3) {
-        //                         var input_attr = '[pharbers-type="'+ v3 +'"]';
-        //                         var $input = $inputs.filter(input_attr);
-        //                         num += parseInt($input.val());
-        //                     });
-        //                     $pre.empty().text(num);
-        //                 }else {
-        //                     $pre.empty().text(num);
-        //                 }
-        //             });
-        //         });
-        //
-        //
-        //
-        //         // console.info('select = '+v.select)
-        //         // console.info('$select = '+$select.val())
-        //         // console.info('back = '+ back)
-        //         // console.info('num = '+ num)
-        //         // console.info($pre2)
-        //
-        //
-        //     }
-        // });
 
     };
 
     return {
         "bind_input_change": bind_input_change
+
     }
 
 })(jQuery, window);

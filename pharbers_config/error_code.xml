@@ -21,6 +21,9 @@
         <error reason="info input company name" code="-207" description="请输入公司名称" />
         <error reason="info input linkman name" code="-208" description="请输入联系人" />
         <error reason="user is repeat" code="-209" description="用户重复" />
+        <error reason="user account is repeat" code="-223" description="用户账号重复" />
+        <error reason="user email is repeat" code="-224" description="用户邮箱重复" />
+        <error reason="user phone is repeat" code="-225" description="用户电话号码重复" />
         <error reason="user is not BD" code="-210" description="该用户不是BD人员" />
         <error reason="user is not AD" code="-211" description="该用户不是AD人员" />
         <error reason="user already exists" code="-212" description="用户已存在, 请尝试登入" />
@@ -33,6 +36,9 @@
         <error reason="upload error" code="-218" description="上传文件出错" />
         <error reason="successful application discuss" code="-219" description="目前还在沟通商讨中" />
         <error reason="write file error" code="-220" description="写入文件件出现错误！" />
+        <error reason="wrong input fileKey" code="-221" description="写入文件件出现错误！" />
+        <error reason="wrong input value" code="-222" description="写入文件件出现错误！" />
+
 
 
         <error reason="reg push error" code="-301" description="验证码发送失败" />
@@ -43,6 +49,10 @@
         <error reason="im error server" code="-402" description="IM消息服务器异常" />
         <error reason="im error client secre" code="-403" description="IM客户端安全码异常" />
         <error reason="im error appkey" code="-404" description="IM应用标识错误" />
+
+        <error reason="no user" code="-501" description="无法得到当前用户"/>
+        <error reason="no phase" code="-502" description="无法取得填写阶段"/>
+        <error reason="token expired" code="-503" description="用户登录无效，请重新登录"/>
 
 
         <error reason="not implement" code="-998" description="工程师正在玩命的开发中" />

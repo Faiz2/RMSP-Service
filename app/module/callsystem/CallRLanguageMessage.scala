@@ -6,4 +6,5 @@ import play.api.libs.json.JsValue
 abstract class MsgCallRLanguageCommand extends CommonMessage("callr", CallRLanguageModule)
 object CallRLanguageMessage {
 	case class MsgCallRLanguage(data: JsValue) extends MsgCallRLanguageCommand
+	case class MsgAfterCallR(data: JsValue) extends MsgCallRLanguageCommand
 }

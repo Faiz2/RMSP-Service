@@ -37,4 +37,24 @@ function Alert() {}
             anim: 4
         });
     }
+    this.choose_info = function (title , options, message ,func_one, func_two) {
+        var t = title || "选择";
+        var arr = options || ["确定", "取消"];
+        var msg = message || "请选择";
+        //询问框
+        var num = layer.confirm( msg , {
+            title: t,
+            closeBtn: 0,//关闭按钮
+            btn: arr //按钮
+        }, function(){
+            func_one();
+            layer.close(num);
+        }, function(){
+            func_two();
+            layer.close(num);
+        });
+
+    }
+
+
 }).call(Alert.prototype);

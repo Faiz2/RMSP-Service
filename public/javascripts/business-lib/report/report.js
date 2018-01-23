@@ -39,12 +39,12 @@
 
         $('#cycle1-down').click(function() {
             var name = $.cookie('reportname1');
-            w.location = '/report/download/' + name;
+            window.open('/report/download/' + name);
         });
 
         $('#cycle2-down').click(function() {
             var name = $.cookie('reportname2');
-            w.location = '/report/download/' + name;
+            window.open('/report/download/' + name);
         })
     });
 
@@ -227,7 +227,7 @@
                 });
                 sales_deputy_select_change(people, product);
             }else {
-                $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
+                $zone.find('div[name="sales-deputy"]').find("table").empty();
             }
         });
     }

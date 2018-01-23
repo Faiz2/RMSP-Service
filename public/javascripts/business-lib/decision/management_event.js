@@ -1,7 +1,7 @@
 var management_event = (function ($, w) {
     var $content = $('#management-cycle1');
     var $management_tab_li = $('#management_tab li');
-
+    var f = new Facade()
     $(function(){
     });
 
@@ -59,7 +59,6 @@ var management_event = (function ($, w) {
     function bind_input_change(region) {
         var $inputs = (region || $content).find('input');
         var $pres = (region || $content).find('pre');
-
         function bind_input(obj, key) {
             var lst = obj[key];
             $.each(lst.inputs, function(i, v) {
@@ -106,6 +105,7 @@ var management_event = (function ($, w) {
             bind_input(cycle_1_inputs, 'party_building');
             bind_input(cycle_1_inputs, 'kpi_report');
             bind_input(cycle_1_inputs, 'administrative');
+
         } else if (active.index() === 1) {
             bind_input(cycle_2_inputs, 'ability_to_coach');
             bind_input(cycle_2_inputs, 'field_association_to_visit');

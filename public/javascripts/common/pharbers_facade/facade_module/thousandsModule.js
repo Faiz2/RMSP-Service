@@ -17,7 +17,7 @@ function Thousands() {}
     this.formatNum = function (input) {
         if (isNaN(input)) {
             // throw new TypeError("num is not a number");
-            console.warn("input is not a number")
+            // console.warn("input is not a number")
             return input;
         } else {
             var groups = (/([\-\+]?)(\d*)(\.\d+)?/g).exec("" + input),
