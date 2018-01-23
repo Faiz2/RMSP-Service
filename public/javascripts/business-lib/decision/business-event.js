@@ -372,30 +372,35 @@ var business_event = (function ($, w) {
         }
 
         if ($business_tab_li.index() === 0) {
+            console.log("c1d");
             var history = $.cookie("history");
             var c1_d = $.cookie("c1_decision");
             if(history === "0"&& c1_d === "0"){
+                console.log("go_c1d_first");
                 $.cookie("c1_decision", "1");
+                console.log(cycle1_status);
+                // if(cycle1_status){
+                //     setHistory(1, "#sum_promotion_budget-cycle1" );
+                // }
             }else {
-                console.log("c1d");
                 $.cookie("c1_decision", "1");
                 setHistory(1, "#sum_promotion_budget-cycle1" );
             }
             input_change(cycle_1_table_input);
             select_change(cycle_1_table_aggregate_sum_input);
         } else if ($business_tab_li.index() === 1) {
+            console.log("c2d")
             var history = $.cookie("history");
             var c2_d = $.cookie("c2_decision");
             if(history === "0" && c2_d ==="0"){
-                console.log("noc2d");
                 if(cycle1_status){
-                    console.log("okc2d");
                     $.cookie("c2_decision", "1");
                 }
             }else {
-                console.log("c2d");
-                $.cookie("c2_decision", "1");
-                setHistory(2, "#sum_promotion_budget-cycle2" );
+                if(cycle1_status){
+                    $.cookie("c2_decision", "1");
+                    setHistory(2, "#sum_promotion_budget-cycle2" );
+                }
             }
             input_change(cycle_2_table_input);
             select_change(cycle_2_table_aggregate_sum_input);

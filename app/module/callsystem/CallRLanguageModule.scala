@@ -38,12 +38,11 @@ object CallRLanguageModule extends ModuleTrait with CallRLanguageData with Repor
 			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
 			val db = conn.queryDBInstance("stp").get
 			val obj = toJson(pr.get)
-			println(pr)
 			db.insertObject(obj,"report","reportFile")
 			(pr,None)
 		}catch {
 			case ex: Exception =>
-				println(ex)
+				println("afterCallR"+ex)
 				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}

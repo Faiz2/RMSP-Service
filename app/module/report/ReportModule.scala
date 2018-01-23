@@ -270,7 +270,6 @@ object ReportModule extends ModuleTrait with ReportData with ReportViewData {
 			val db = conn.queryDBInstance("stp").get
 			val user = (data \ "condition" \ "user").asOpt[String].getOrElse(throw new Exception("wrong input"))
 			val o = condition(data)
-			
 			val result = db.queryObject(o, user)(d2ManagerTimerAllot) match {
 				case None => throw new Exception("data not exist")
 				case Some(one) =>

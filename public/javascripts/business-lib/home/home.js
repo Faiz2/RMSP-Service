@@ -11,9 +11,8 @@
             f.cookieModule.setCookie("log_status" ,"1");
         }
         window.onbeforeunload = function (event) {
-            console.log(event);
             f.cookieModule.cleanAllCookie();
-            window.location.href("/login");
+            window.location.href="/login";
         }
     });
 })(jQuery, window);

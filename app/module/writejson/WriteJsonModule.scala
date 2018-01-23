@@ -35,7 +35,7 @@ object WriteJsonModule extends ModuleTrait with WriteJsonData  with JMap{
 				"reportfilename" -> toJson(reportFileName), "user"-> toJson(user),"phase"->toJson(phase))), None)
 		} catch {
 			case ex: Exception =>
-				println(ex)
+				println("writeJsonWithFile"+ex)
 				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}

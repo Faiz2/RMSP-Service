@@ -12,7 +12,7 @@ trait ReadExcalFileData {
 	
 	def readSourceWithExcel: JsValue = {
 		val config =new RConfig()
-		val file_local = config.pre_info_new
+		val file_local = config.program_path + config.pre_info_new
 		implicit val postArg: String Map String => Option[String Map String] = com.pharbers.panel.util.excel.phHandleExcel.postFun
 		implicit val filterArg: String Map String => Boolean = com.pharbers.panel.util.excel.phHandleExcel.filterFun
 		val parse = phHandleExcel()

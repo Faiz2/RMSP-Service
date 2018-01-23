@@ -91,7 +91,6 @@ var store_info = (function ($, w) {
                 json["user"] = user;
                 var manage_cyc = cyc+"_manage";
                 json["phase"] = [manage_cyc];
-                console.log(json)
                 return [json , "ok"]
             }else {
                 return [json , "nothing"]
@@ -111,7 +110,7 @@ var store_info = (function ($, w) {
                     idle_request(info[0] , 0)
                 }
             },
-            idle: 500
+            idle: 1000
         })
     };
 
@@ -130,6 +129,19 @@ var store_info = (function ($, w) {
             $.cookie("history", "0");
         })
     };
+    function getJsonLength(jsonData){
+
+        var jsonLength = 0;
+
+        for(var item in jsonData){
+
+            jsonLength++;
+
+        }
+
+        return jsonLength;
+
+    }
 
     return {
         "idle_listening"  : idle_listening,

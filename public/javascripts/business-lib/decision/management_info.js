@@ -74,11 +74,7 @@
     var click_submit_button_cycle2 = function() {
         var $inputs = $content2.find('div input,pre');
         var rjv = return_cycle2_json($inputs);
-        rjv["condition"] = {
-            "user" : $.cookie("user")
-        };
         var obj = JSON.parse(rjv);
-        console.log(obj);
         if(parseFloat(obj.p2_arranged_time_of_flm) <=0 ||parseFloat(obj.p2_arranged_time_of_flm) > 100){
             f.alert.alert_error("时间分配","时间分配错误！请重新检查时间分配")
         }else {
@@ -113,6 +109,10 @@
 
     var return_cycle2_json = function(inputsObj) {
         var temp =  next_save_cycle2_business_decision_json_data;
+        console.log(next_save_cycle2_business_decision_json_data.phase)
+        // if(next_save_cycle2_business_decision_json_data.phase === undefined){
+        //     next_save_cycle2_business_decision_json_data["phase"] =["2"]
+        // }
         var json = {"user_name": [$.cookie("user")]};
         $.each(inputsObj, function(i, v) {
             var input = $(v);
@@ -125,28 +125,26 @@
     setTimeout(function(){
         var active = $management_tab_li.filter('[class="active"]');
         if (active.index() === 0) {
+            console.log("gom");
             var history = $.cookie("history");
             var c1_m = $.cookie("c1_manage");
             if(history === "0"&&c1_m === "0"){
                 $.cookie("c1_manage", "1")
             }else {
-                console.log("c1m");
-                $.cookie("c1_manage", "1")
+                $.cookie("c1_manage", "1");
                 setHistory(1, "#management-cycle1");
+                setHistory(2, "#management-cycle2");
             }
             w.management_event.bind_input_change($content);
         } else if (active.index() === 1) {
             var history = $.cookie("history");
             var c2_m = $.cookie("c2_manage")
             if(history === "0" && c2_m==="0"){
-                console.log("noc2m");
-                if(cycle1_status){
-                    console.log("okc2m");
-                    $.cookie("c2_manage", "1");
-                }
-            }else {
-                console.log("c2m");
                 $.cookie("c2_manage", "1");
+                setHistory(1, "#management-cycle1");
+            }else {
+                $.cookie("c2_manage", "1");
+                setHistory(1, "#management-cycle1");
                 setHistory(2, "#management-cycle2");
             }
             w.management_event.bind_input_change($content2);
@@ -154,6 +152,7 @@
             console.warn("find a lot of 'li'")
         }
     }, 300);
+
 
     var setHistory = function (cyc, id) {
         var user = $.cookie("user");
