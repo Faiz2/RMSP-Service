@@ -11,6 +11,7 @@ import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
+import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
 import module.marketinfo.alMarketInfoMessage.alOutMarketInfoExcelValueWithHtml
 import module.productinfo.ProductInfoMessage.alOutProductInfoExcelValueWithHtml
 import module.readexcel.alReadExcelMessage.alReadExcel
@@ -120,13 +121,35 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
 
-            println(reVal \ "result" \ "data" \ "clientInfo")
-
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.MarketInfo.market_index(
                     (reVal \ "result" \ "data" \ "news").asOpt[List[JsValue]].get,
                     (reVal \ "result" \ "data" \ "clientInfo").asOpt[List[JsValue]].get
                 ))
+            } else Redirect("/login")
+        }
+    }
+
+    def decision = Action { request =>
+        getUserCookie(request) {
+            val jv = toJson("")
+            val reVal =
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutSumPromoBudgetExcelValueWithHtml"))), jv)
+                        :: alReadExcel(jv)
+                        :: MsgOutSumPromoBudgetExcelWithHtml(jv)
+                        :: MsgOutHospitalExcelWithHtml(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+
+            println(reVal \ "result" \ "data" \ "reValHospitalHtml")
+
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                val budget = (reVal \ "result" \ "data" \ "reValSumPrompBudgetHtml").asOpt[String].get
+                val hosp = (reVal \ "result" \ "data" \ "reValHospitalHtml").asOpt[String].get
+//                val people = (reVal \ "result" \ "data" \ "reValPeopleHtml").asOpt[String].get
+
+                Ok(views.html.Module.Decision.BusinessDecision.bus_index("")(budget)(hosp))
             } else Redirect("/login")
         }
     }
