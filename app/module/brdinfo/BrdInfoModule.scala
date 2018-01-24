@@ -12,11 +12,14 @@ object BrdInfoModule extends ModuleTrait with BrdInfoData {
 	def dispatchMsg(msg: MessageDefines)
 	               (pr: Option[String Map JsValue])
 	               (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = msg match {
+
 		case alOutBrdInfoExcelValueWithHtml(data) => outExcelValueWithHtml(data)(pr)
 		case _ => throw new Exception("function is not impl")
 	}
 	
-	def outExcelValueWithHtml(data: JsValue)(pr: Option[String Map JsValue])(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+	def outExcelValueWithHtml(data : JsValue)
+							 (pr : Option[String Map JsValue])
+							 (implicit cm : CommonModules) : (Option[String Map JsValue], Option[JsValue]) = {
 		try {
 //			val cycle = (data \ "cycle").asOpt[String].getOrElse("")
 			val reValBrdData = pr.getOrElse(throw new Exception("pr data not exist"))("data").
@@ -27,7 +30,9 @@ object BrdInfoModule extends ModuleTrait with BrdInfoData {
 			  																					"pp_real_volume_by_sr" - "pp_sales_skills_index" -
 																								"pp_product_knowledge_index")
 
-			(Some(Map("data" -> toJson(setBrdHtmlData(reValBrdData).toString))), None)
+//			(Some(Map("data" -> toJson(setBrdHtmlData(reValBrdData).toString))), None)
+            (Some(Map("data" -> toJson(reValBrdData))), None)
+
 		} catch  {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

@@ -23,7 +23,8 @@ object CallRLanguageModule extends ModuleTrait with CallRLanguageData with Repor
 					(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 
 		try {
-			val reportFileName = (pr.get("data") \ "reportfilename").as[String]
+//			val reportFileName = (pr.get("data") \ "reportfilename").as[String]
+            val reportFileName = "0d452ca4-ef2f-43a1-a5ef-eeb41c69c91b.xlsx" // (pr.get("data") \ "reportfilename").as[String]
 			(Some(Map("user"->toJson(pr.get.get("user")),"phase"-> toJson(pr.get.get("phase")),"reportFile" -> toJson(reportFileName),
 				"data" -> toJson(Map("flag" -> toJson(callR(pr)), "reportname" -> toJson(reportFileName) )))), None)
 		} catch {

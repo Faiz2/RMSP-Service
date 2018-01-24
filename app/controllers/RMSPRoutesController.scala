@@ -2,10 +2,19 @@ package controllers
 
 import javax.inject.Inject
 
-import akka.actor.ActorSystem
 import com.pharbers.cliTraits.DBTrait
+import akka.actor.ActorSystem
+import com.pharbers.bmmessages.{CommonModules, MessageRoutes}
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.token.AuthTokenTrait
+import controllers.common.requestArgsQuery
+import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
+import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
+import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
+import module.readexcel.alReadExcelMessage.alReadExcel
+import play.api.libs.json.JsValue
+import play.api.mvc.Action
+import play.api.libs.json.Json.toJson
 import play.api.mvc._
 
 trait TokenCheck {
@@ -56,9 +65,29 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	}
 	
 	def index = Action { request =>
-		getUserCookie(request)(Ok(views.html.Home.home()))
+//		getUserCookie(request) (Ok(views.html.Home.home()))
+        getUserCookie(request) (Ok(views.html.Module.Brd.brd_index(Nil)))
 	}
-	
+
+	def brd = Action { request =>
+        getUserCookie(request) {
+            val jv = toJson("")
+            val reVal =
+            requestArgsQuery().commonExcution(
+                MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
+                    :: alReadExcel(jv)
+                    :: alOutBrdInfoExcelValueWithHtml(jv)
+                    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+            )
+
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                Ok(views.html.Module.Brd.brd_index(
+                    (reVal \ "result" \ "data").asOpt[List[JsValue]].get
+                ))
+            } else Redirect("/login")
+        }
+    }
+
 	def marketInfo = Action { request =>
 		getUserCookie(request)(Ok(views.html.Module.MarketInfo.index()))
 	}
