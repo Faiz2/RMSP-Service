@@ -1,0 +1,14 @@
+@(content : Html)
+<section class="content">
+    <ul class="nav nav-tabs" role="tablist" id="business_tab">
+        <li role="presentation" class="active"><a href="#tab-2688-1" aria-controls="tab-2688-1" data-toggle="tab" pharbers-status=false>周期1</a></li>
+        <li role="presentation"><a href="#tab-2688-2" aria-controls="tab-2688-2" data-toggle="tab" pharbers-status=false>周期2</a></li>
+    </ul>
+    <div class="tab-content">
+        @content
+    </div>
+        <script defer="defer">
+            $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/business-info.js")');
+            $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/business-event.js")');
+        </script>
+</section>

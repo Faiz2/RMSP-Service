@@ -16,9 +16,12 @@ GET     /register                   controllers.RMSPRoutesController.register
 GET     /index                      controllers.RMSPRoutesController.index
 GET     /brd                        controllers.RMSPRoutesController.brd
 GET     /product                    controllers.RMSPRoutesController.product
+<<<<<<< HEAD
 
 
 POST    /market                     controllers.RMSPRoutesController.market
+=======
+>>>>>>> origin/alfred-180123
 
 # 通过jQuery的$.get获取页面
 GET     /market_info                controllers.RMSPRoutesController.marketInfo

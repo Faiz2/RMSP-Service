@@ -11,7 +11,10 @@ import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
+<<<<<<< HEAD
 import module.marketinfo.alMarketInfoMessage.alOutMarketInfoExcelValueWithHtml
+=======
+>>>>>>> origin/alfred-180123
 import module.productinfo.ProductInfoMessage.alOutProductInfoExcelValueWithHtml
 import module.readexcel.alReadExcelMessage.alReadExcel
 import play.api.libs.json.JsValue
@@ -90,6 +93,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
+<<<<<<< HEAD
 	
 	def market = Action { request =>
 		getUserCookie(request){
@@ -110,6 +114,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	}
 
 
+=======
+>>>>>>> origin/alfred-180123
     def product = Action { request =>
         getUserCookie(request) {
             val jv = toJson("")
