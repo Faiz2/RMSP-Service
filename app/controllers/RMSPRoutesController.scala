@@ -91,7 +91,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	
 	def market = Action { request =>
 		getUserCookie(request){
-			val jv = toJson("")
+			val jv = request.body.asJson.getOrElse(toJson(""))
 			val reVal =
 				requestArgsQuery().commonExcution(
 					MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
