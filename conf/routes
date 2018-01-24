@@ -16,6 +16,9 @@ GET     /register                   controllers.RMSPRoutesController.register
 GET     /index                      controllers.RMSPRoutesController.index
 GET     /brd                        controllers.RMSPRoutesController.brd
 
+
+POST    /market                     controllers.RMSPRoutesController.market
+
 # 通过jQuery的$.get获取页面
 GET     /market_info                controllers.RMSPRoutesController.marketInfo
 GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
