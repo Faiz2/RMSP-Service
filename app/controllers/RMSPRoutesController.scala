@@ -11,6 +11,7 @@ import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
+import module.marketinfo.alMarketInfoMessage.alOutMarketInfoExcelValueWithHtml
 import module.productinfo.ProductInfoMessage.alOutProductInfoExcelValueWithHtml
 import module.readexcel.alReadExcelMessage.alReadExcel
 import play.api.libs.json.JsValue
@@ -103,6 +104,28 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Product.product_index(
                     (reVal \ "result" \ "data").asOpt[List[JsValue]].get
+                ))
+            } else Redirect("/login")
+        }
+    }
+
+    def market = Action { request =>
+        getUserCookie(request) {
+            val jv = toJson("")
+            val reVal =
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
+                        :: alReadExcel(jv)
+                        :: alOutMarketInfoExcelValueWithHtml(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+
+            println(reVal \ "result" \ "data" \ "clientInfo")
+
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                Ok(views.html.Module.MarketInfo.market_index(
+                    (reVal \ "result" \ "data" \ "news").asOpt[List[JsValue]].get,
+                    (reVal \ "result" \ "data" \ "clientInfo").asOpt[List[JsValue]].get
                 ))
             } else Redirect("/login")
         }
