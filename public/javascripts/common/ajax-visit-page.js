@@ -45,6 +45,11 @@
 
     });
 
+    var replace_post_page = function (link , page) {
+        var $content = $('div[pharbers-filter="'+ AjaxVisVit.config.Body_Id +'"]');
+        $content.empty();
+    }
+
     var replace_page = function(link) {
         $.get("/" + link, {}, function(r){
             var $content = $('div[pharbers-filter="'+ AjaxVisVit.config.Body_Id +'"]');
@@ -59,7 +64,7 @@
         li.attr('class', '');
         cur_li.attr('class', 'active');
     };
-
+    
 
 
 })(jQuery, window);

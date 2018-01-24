@@ -116,7 +116,9 @@ var store_info = (function ($, w) {
 
     var idle_request = function (json, time) {
         setTimeout(function () {
-            f.ajaxModule.baseCall('/store/input', JSON.stringify(json), "POST", function (r) {
+            var js =  JSON.stringify(json)
+            console.log(JSON.stringify(json))
+            f.ajaxModule.baseCall('/store/input', js, "POST", function (r) {
                 console.log(r);
             })
         }, time);

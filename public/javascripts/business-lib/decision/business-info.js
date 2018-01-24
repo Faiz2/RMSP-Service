@@ -184,7 +184,6 @@
             var input = $(v);
             var key = input.attr("pharbers-type");
             if (regexTest(arranged_time, key)) {
-                console.log(parseFloat(input.text()));
                 if (parseFloat(input.text()) > 100 || parseFloat(input.text()) <= 0)
                     arranged_time_wrong_array.push(key);
             } else if (regexTest(arranged_promotional_budget, key)) {

@@ -1,5 +1,7 @@
 package module.webStore
 
+import java.io.PrintWriter
+
 import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
@@ -26,20 +28,30 @@ object WebStoreModule extends ModuleTrait {
                    (pr: Option[String Map JsValue])
                    (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
         try {
+            
             val rdt = cm.modules.get.get("rdt").map(x => x.asInstanceOf[PhRedisTrait]).getOrElse(throw new Exception("no encrypt impl"))
 //            val user = (MergeStepResult(data, pr) \ "user_token" \ "account").asOpt[String].getOrElse(new Exception("no user"))
-            val user = (MergeStepResult(data, pr) \ "user" ).asOpt[String].getOrElse(new Exception("no user"))
-            val phase =(MergeStepResult(data, pr) \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase")).toString
+            val user = (data \ "user" ).asOpt[String].getOrElse(new Exception("no user"))
+            val phase =(data \ "phase").get.head.asOpt[String].getOrElse(new Exception("no phase"))
             val key = s"$user:$phase"
-            val maps = data.asInstanceOf[JsObject].value.toMap - "phase" - "user_token"
-//            println(maps.size)
-            if(maps.size>10){
+            println(key+" store_input")
+            val maps = data.asInstanceOf[JsObject].value.toMap - "phase" - "user"
+            println(maps.size)
+            if(maps.size>30&&maps.size<40){
                 rdt.addString(key , toJson(maps).toString())
+            }else if(maps.size>180&&maps.size<195) {
+                rdt.addString(key , toJson(maps).toString())
+            }else {
+//                val out = new PrintWriter("/Users/apple/Desktop/out.txt")
+//                out.println(data)
+//                out.close()
+                println(maps.size)
             }
             (Some(Map("store" -> toJson(key))), None)
         } catch {
             case ex: Exception =>
-                println(ex)
+                println("store_input"+ex)
+//                println(data)
                 (None, Some(ErrorCode.errorToJson(ex.getMessage)))
         }
     }
@@ -51,35 +63,25 @@ object WebStoreModule extends ModuleTrait {
             val rdt = cm.modules.get.get("rdt").map(x => x.asInstanceOf[PhRedisTrait]).getOrElse(throw new Exception("no encrypt impl"))
 //            val user = (MergeStepResult(data, pr) \ "user_token" \ "account").asOpt[String].getOrElse(new Exception("no user"))
             val user = (MergeStepResult(data, pr) \ "user" ).asOpt[String].getOrElse(new Exception("no user"))
-            val phase = (data \ "phase").asOpt[JsValue].getOrElse(new Exception("no phase")).toString
+            val phase = (data \ "phase").get.head.asOpt[String].getOrElse(new Exception("no phase")).toString
             val key = s"$user:$phase"
+            println(key)
             val maps= Json.parse(rdt.getString(key))
+            val tmp =maps.asInstanceOf[JsObject].value.toMap
+            if(tmp.size<30 ){
+                println("fetch_input"+maps.asInstanceOf[JsObject].value.toMap)
+            }else{
+                println("fetch_input"+tmp.size)
+                println(tmp)
+            }
             (Some(Map("input"->(toJson(maps)))), None)
         }catch {
             case ex: Exception =>
-                println(ex)
+                println("fetch_input"+ex)
                 (None, Some(ErrorCode.errorToJson(ex.getMessage)))
         }
         
     }
     
-    //TODO:redis hash 删除
-//    def delete_input(data: JsValue)
-//                   (pr:  Option[String Map JsValue])
-//                   (implicit cm: CommonModules) : (Option[String Map JsValue], Option[JsValue]) = {
-//        try {
-//            val user = (MergeStepResult(data, pr) \ "user_token" \ "user").asOpt[String].getOrElse(new Exception("no user"))
-//            val phase = (data \ "phase").asOpt[String].getOrElse(new Exception("no phase"))
-//            val redis_driver = new PhRedisDriver()
-//            val key = s"$user:$phase"
-//            val maps = redis_driver
-//            (Some(Map("input" -> toJson(maps))), None)
-//        }catch {
-//            case ex: Exception =>
-//                println(ex)
-//                (None, Some(ErrorCode.errorToJson(ex.getMessage)))
-//        }
-//
-//    }
     
 }

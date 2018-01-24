@@ -1,15 +1,24 @@
 
 var CookieHandler = function () {};
 
-CookieHandler.prototype.setCookie = function (key, value) {
-    $.cookie(key, value, {path: "/"})
+CookieHandler.prototype.cleanAllCookie = function (region) {
+    // alert("clear all cookie")
+    // var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    //
+    // var that = this;
+    // $.each(keys, function (i, v) {
+    //     that.clearCookie(v)
+    // });
 };
 
-CookieHandler.prototype.cleanAllCookie = function (region) {
-    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-    if(keys) {
-        $.each(keys, function(i, v) {
-            $.cookie(v, "", {"path": region, "expires": -1 });
-        });
-    };
-};
+CookieHandler.prototype.setCookie = function (cname, cvalue, expiredays = 1) {
+    var exp  = new Date();
+    exp.setTime(exp.getTime() + expiredays*24*60*60*1000);
+    document.cookie = cname + "="+ escape(cvalue) + ";expires=" + exp.toGMTString()+";path="+"/";
+}
+
+CookieHandler.prototype.clearCookie = function (name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    document.cookie= name + "=''"+";expires="+exp.toGMTString()+";path="+"/";
+}

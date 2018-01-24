@@ -2,12 +2,11 @@
 
 @main("区域管理模拟平台") {
     <div class="wrapper">
-       @Top.navigation_bar()
-       @Left.optional_bar()
-       <div class="content-wrapper" pharbers-filter="div-content">
-           @ch
-       </div>
-       @Footer.footer()
+        @Top.navigation_bar()
+        @Left.optional_bar(mb)
+        <div class="content-wrapper" pharbers-filter="div-content">
+            @ch
+        </div>
+        @Footer.footer()
     </div>
-    <script src="@routes.Assets.versioned("javascripts/business-lib/home/home.js")" type="text/javascript" defer="defer"></script>
 }

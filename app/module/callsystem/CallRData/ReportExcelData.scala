@@ -13,6 +13,7 @@ trait ReportExcelData {
         builder += "user" -> (jv \ "user").asOpt[String].getOrElse(throw new Exception("wrong input user"))
         builder += "reportFile"-> (jv \ "reportFile").asOpt[String].getOrElse(throw new Exception("wrong input value")).toString()
         builder += "phase"-> (jv \ "phase").asOpt[String].getOrElse(throw new Exception("wrong input value")).toString()
+        println(builder.result())
         builder.result
     }
     
