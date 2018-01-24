@@ -1,8 +1,12 @@
+@(mb : String)(ch : Html)
+
 @main("区域管理模拟平台") {
     <div class="wrapper">
        @Top.navigation_bar()
        @Left.optional_bar()
-       @Right.page_content()
+       <div class="content-wrapper" pharbers-filter="div-content">
+           @ch
+       </div>
        @Footer.footer()
     </div>
     <script src="@routes.Assets.versioned("javascripts/business-lib/home/home.js")" type="text/javascript" defer="defer"></script>
