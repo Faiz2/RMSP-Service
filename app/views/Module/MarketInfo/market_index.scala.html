@@ -1,0 +1,122 @@
+@(news : List[play.api.libs.json.JsValue], data : List[play.api.libs.json.JsValue])
+
+@Home.home("market") {
+<section class="content">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab-2685-1" aria-controls="tab-2685-1" data-toggle="tab">新闻</a></li>
+        <li role="presentation"><a href="#tab-2685-2" aria-controls="tab-2685-2" data-toggle="tab">客户信息</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" role="tabpanel" data-value="新闻" id="tab-2685-1">
+            <section class="content container-fluid">
+                <div class="row clean-bootstrap-col-padding-all">
+                    <div class="col-sm-2" title="周期列表">
+                        <button class="btn btn-default" id="cycle1-news" type="button">周期1:新闻快报</button>
+                        <br>
+                        <br>
+                        <button class="btn btn-default disabled" id="cycle2-news" type="button">周期2:新闻快报</button>
+                    </div>
+                    <div class="col-sm-10 ">
+                        <div class="box box-solid box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">新闻快报</h3>
+                            </div>
+                            <div id="market-info-new-content">
+                                <div class="box-body">
+                                    <div style="width: 100%; height: auto; visibility: inherit;" class="datatables html-widget html-widget-output">
+                                        <div class="dataTables_wrapper no-footer">
+                                            <table class="display dataTable no-footer table-striped" role="grid">
+                                                <caption></caption>
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 150px;">医院</th>
+                                                        <th class="sorting_disabled dt-left" rowspan="1" colspan="1" style="width: 80px;"></th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">快报</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;" name="show-switch">上期销售额(元)</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;" name="show-switch">口服抗生素</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;" name="show-switch">一代降糖药</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;" name="show-switch">三代降糖药</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;" name="show-switch">皮肤药</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="news">
+                                                    @news.zipWithIndex.map { his =>
+                                                        <tr role="row">
+                                                            <td class="dt-center">@{(his._1 \ "hospname").asOpt[String]}</td>
+                                                            <td class="dt-left"><img src="@routes.Assets.versioned("images/Hospitals/hosp"+{his._2 + 1}+".png")" height="52"></td>
+                                                            <td class="dt-center">@{(his._1 \ "letters").asOpt[String]}</td>
+                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "periodsales").asOpt[String]}</td>
+                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "口服抗生素").asOpt[String]}</td>
+                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "一代降糖药").asOpt[String]}</td>
+                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "三代降糖药").asOpt[String]}</td>
+                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "皮肤药").asOpt[String]}</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane" role="tabpanel" data-value="客户信息" id="tab-2685-2">
+            <section class="content container-fluid">
+                <div class="row clean-bootstrap-col-padding-all">
+                    <div class="col-sm-2" title="周期列表">
+                        <button class="btn btn-default" id="cycle1-client" type="button">周期1:客户信息</button>
+                        <br>
+                        <br>
+                        <button class="btn btn-default disabled" id="cycle2-client" type="button">周期2:客户信息</button>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="box box-solid box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">客户潜力信息</h3>
+                            </div>
+                            <div id="market-info-client-info-content">
+                                <div class="box-body">
+                                    <div style="width: 100%; height: auto; visibility: inherit;" class="datatables html-widget html-widget-output">
+                                        <div class="dataTables_wrapper no-footer">
+                                            <table class="display dataTable no-footer table-striped" role="grid">
+                                                <caption></caption>
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">名称</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">区域</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">类型</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">口服抗生素</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">一代降糖药</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">三代降糖药</th>
+                                                        <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">皮肤药</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="client">
+                                                @data.map { iter =>
+                                                    <tr role="row" >
+                                                        <td class=" dt-center">@{(iter \ "hospname").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "area").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "type").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "口服抗生素").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "一代降糖药").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "三代降糖药").asOpt[String]}</td>
+                                                        <td class=" dt-center">@{(iter \ "皮肤药").asOpt[String]}</td>
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+}

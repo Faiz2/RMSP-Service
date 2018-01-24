@@ -60,10 +60,33 @@ object MarketInfoModule extends ModuleTrait with MarketInfoData {
                 i = i + 1
 //                println(m)
             }
-            
+
+            val rt = m.toList.sortBy(p => p._1).map (x => x._2).map { lst =>
+                var v = Map[String, JsValue]()
+                lst.map { iter =>
+                    v += ("hospname" -> toJson(iter.get("hospname").get))
+                    v += ("area" -> toJson(iter.get("area").get))
+                    v += ("type" -> toJson(iter.get("type").get))
+                    iter.get("口服抗生素").map { x =>
+                        v += "口服抗生素" -> toJson(x)
+                    }.getOrElse(Unit)
+                    iter.get("一代降糖药").map { x =>
+                        v += "一代降糖药" -> toJson(x)
+                    }.getOrElse(Unit)
+                    iter.get("一代降糖药").map { x =>
+                        v += "一代降糖药" -> toJson(x)
+                    }.getOrElse(Unit)
+                    iter.get("皮肤药").map { x =>
+                        v += "皮肤药" -> toJson(x)
+                    }.getOrElse(Unit)
+                }
+                toJson(v)
+            }
+
 //            val condition = Map("news" -> toJson(setHospitalHtmlData(reValHostitalData).toString), "clientInfo" -> toJson(setClientInfoHtmlData(reValClientInfoData).toString))
-            val condition = Map("news" -> toJson(setHospitalHtmlData(reValHostitalData).toString), "clientInfo" -> toJson(setClientInfoHtmlData(m).toString))
-            
+//            val condition = Map("news" -> toJson(setHospitalHtmlData(reValHostitalData).toString), "clientInfo" -> toJson(setClientInfoHtmlData(m).toString))
+            val condition = Map("news" -> toJson(reValHostitalData), "clientInfo" -> toJson(rt))
+
             (Some(Map("data" -> toJson(condition))), None)
         } catch {
             case ex: Exception =>

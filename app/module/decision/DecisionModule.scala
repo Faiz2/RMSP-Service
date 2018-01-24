@@ -55,12 +55,19 @@ object DecisionModule extends ModuleTrait with DecisionData {
 			val reValPeopleData = queryPrExcelData("sales_rep").flatMap(x => x.get).map(x => Map("people" -> x("业务代表")))
 			val reValSumPrompBudgetData = pr.get("data").as[String Map String].getOrElse("budget", "0")
 			
-			val reValSumPromotionHtml = setSumPromotionBudget(reValSumPrompBudgetData, cycleNum).toString
+//			val reValSumPromotionHtml = setSumPromotionBudget(reValSumPrompBudgetData, cycleNum).toString
 			val reValHospitalHtml = setHospitalTab(reValHospitalData, reValPeopleData, cycleNum).toString
-			
-			val map = Map("reValSumPrompBudgetHtml" -> toJson(reValSumPromotionHtml),
+
+//			println(reValHospitalData)
+//			println(reValSumPrompBudgetData)
+
+			val map = Map("reValSumPrompBudgetHtml" -> toJson(reValSumPrompBudgetData),
 						  "reValHospitalHtml" -> toJson(reValHospitalHtml))
+//                          "reValHospitalHtml" -> toJson(reValHospitalData.toMap),
+//                          "reValPeopleHtml" -> toJson(reValPeopleData.toMap))
+
 			(Some(Map("data" -> toJson(map))), None)
+
 		} catch {
 			case ex: Exception =>
 				println(ex.getMessage)
