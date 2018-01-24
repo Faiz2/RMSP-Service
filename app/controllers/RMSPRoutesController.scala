@@ -91,23 +91,23 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
     }
 	
 	
-	def market = Action { request =>
-		getUserCookie(request){
-			val jv = request.body.asJson.getOrElse(toJson(""))
-			val reVal =
-				requestArgsQuery().commonExcution(
-					MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
-						:: alReadExcel(jv)
-						:: alOutMarketInfoExcelValueWithHtml(jv)
-						:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-				)
-			
-			if ((reVal \ "status").asOpt[String].get == "ok") {
-				println(reVal \ "result"  \ "data")
-				Ok(views.html.Login.login())
-			} else Redirect("/login")
-		}
-	}
+//	def market = Action { request =>
+//		getUserCookie(request){
+//			val jv = request.body.asJson.getOrElse(toJson(""))
+//			val reVal =
+//				requestArgsQuery().commonExcution(
+//					MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
+//						:: alReadExcel(jv)
+//						:: alOutMarketInfoExcelValueWithHtml(jv)
+//						:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+//				)
+//
+//			if ((reVal \ "status").asOpt[String].get == "ok") {
+//				println(reVal \ "result"  \ "data")
+//				Ok(views.html.Login.login())
+//			} else Redirect("/login")
+//		}
+//	}
 	
     def product = Action { request =>
         getUserCookie(request) {

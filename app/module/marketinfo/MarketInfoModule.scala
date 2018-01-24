@@ -45,7 +45,8 @@ object MarketInfoModule extends ModuleTrait with MarketInfoData {
             val reValClientInfoData = pr.getOrElse(throw new Exception("pr data not exist"))("data").
                 as[List[String Map List[String Map String]]].map(x => x.get("hospital")).
                 filterNot(f => f.isEmpty).flatMap(x => x.get).
-                map(x => Map("hospname" -> x("名称"), x("产品") -> x(cycle), "area" -> x("区域"), "type" -> x("类型"))).
+                map{x =>
+                    Map("hospname" -> x("名称"), x("产品") -> x(cycle), "area" -> x("区域"), "type" -> x("类型"))}.
                 groupBy { g =>
                     val host_name = g("hospname").distinct
                     host_name
