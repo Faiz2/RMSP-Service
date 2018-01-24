@@ -28,7 +28,8 @@ object ProductInfoModule extends ModuleTrait with ProductInfoData{
 			  						filterNot(f => f.isEmpty).flatMap(x => x.get)
 
 
-			(Some(Map("data" -> toJson(setProductInfoData(reValProductInfoData).toString))), None)
+//			(Some(Map("data" -> toJson(setProductInfoData(reValProductInfoData).toString))), None)
+			(Some(Map("data" -> toJson(reValProductInfoData))), None)
 
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
