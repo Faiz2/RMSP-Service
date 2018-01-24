@@ -100,7 +100,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
             )
 
-            println(reVal)
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Product.product_index(
                     (reVal \ "result" \ "data").asOpt[List[JsValue]].get
