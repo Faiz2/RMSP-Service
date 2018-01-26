@@ -27,11 +27,11 @@
                                     <tbody>
                                     @data.zipWithIndex.map { brd =>
                                         <tr role="row">
-                                            <td class=" dt-center">@{(brd._1 \ "业务代表").asOpt[String]}</td>
+                                            <td class=" dt-center">@{(brd._1 \ "name").asOpt[String]}</td>
                                             <td class=" dt-left"><img src="@routes.Assets.versioned("images/Reps/rep"+ {brd._2 + 1} +".jpg")" height="100"></td>
-                                            <td class=" dt-center">@{(brd._1 \ "销售技巧").asOpt[String]}</td>
-                                            <td class=" dt-center">@{(brd._1 \ "产品知识").asOpt[String]}</td>
-                                            <td class=" dt-center">@{(brd._1 \ "动力值").asOpt[String]}</td>
+                                            <td class=" dt-center">@{(brd._1 \ "skills").asOpt[String]}</td>
+                                            <td class=" dt-center">@{(brd._1 \ "description").asOpt[String]}</td>
+                                            <td class=" dt-center">@{(brd._1 \ "motivation").asOpt[String]}</td>
                                         </tr>
                                     }
                                     </tbody>
