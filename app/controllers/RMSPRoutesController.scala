@@ -10,11 +10,8 @@ import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
-import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
 import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
 import module.defaultvalues.DefaultValuesMessages.{hospitalPotentialInProposal, perResultInProposal, productInProposal, salesMenInProposal}
-import module.marketinfo.alMarketInfoMessage.alOutMarketInfoExcelValueWithHtml
-import module.productinfo.ProductInfoMessage.alOutProductInfoExcelValueWithHtml
 import module.readexcel.alReadExcelMessage.alReadExcel
 import play.api.libs.json.JsValue
 import play.api.mvc.Action
@@ -101,8 +98,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
             )
 
-            println(reVal)
-
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Product.product_index(
                     (reVal \ "result" \ "products").asOpt[List[JsValue]].get
@@ -152,8 +147,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
 
-            println(reVal \ "result" \ "data" \ "reValHospitalHtml")
-
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 val budget = (reVal \ "result" \ "data" \ "reValSumPrompBudgetHtml").asOpt[String].get
                 val hosp = (reVal \ "result" \ "data" \ "reValHospitalHtml").asOpt[String].get
@@ -164,18 +157,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-	def marketInfo = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.MarketInfo.index()))
-	}
-
-	def brdInfo = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.Brd.index()))
-	}
-
-	def productInfo = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.Product.index()))
-	}
-	
 	def businessDecision = Action { request =>
 		getUserCookie(request)(Ok(views.html.Module.Decision.BusinessDecision.index()))
 	}
