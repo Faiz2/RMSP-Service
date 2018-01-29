@@ -18,13 +18,14 @@ GET     /brd                        controllers.RMSPRoutesController.brd
 GET     /product                    controllers.RMSPRoutesController.product
 GET     /market                     controllers.RMSPRoutesController.market
 GET     /decision                   controllers.RMSPRoutesController.decision
+GET     /management                 controllers.RMSPRoutesController.management
 
 # 通过jQuery的$.get获取页面
 #GET     /market_info                controllers.RMSPRoutesController.marketInfo
 #GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
 #GET     /product_info               controllers.RMSPRoutesController.productInfo
 #GET     /business_decision          controllers.RMSPRoutesController.businessDecision
-GET     /management_decision        controllers.RMSPRoutesController.managementDecision
+#GET     /management_decision        controllers.RMSPRoutesController.managementDecision
 GET     /report                     controllers.RMSPRoutesController.report
 
 

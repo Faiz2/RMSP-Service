@@ -202,13 +202,19 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
+    def management = Action { request =>
+        getUserCookie(request) {
+            Ok(views.html.Module.Decision.ManagementDecision.mag_index())
+        }
+    }
+
 //	def businessDecision = Action { request =>
 //		getUserCookie(request)(Ok(views.html.Module.Decision.BusinessDecision.index()))
 //	}
 //
-	def managementDecision = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.Decision.ManagementDecision.index()))
-	}
+//	def managementDecision = Action { request =>
+//		getUserCookie(request)(Ok(views.html.Module.Decision.ManagementDecision.index()))
+//	}
 
 	def report = Action { request =>
 		getUserCookie(request)(Ok(views.html.Module.Report.index()))

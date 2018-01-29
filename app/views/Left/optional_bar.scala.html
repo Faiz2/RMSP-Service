@@ -12,7 +12,7 @@
             <li class='@{if (mb == "product") "active"}'>
                 <a href="/product" pharbers-filter="product-info"><i class="fa fa-plus-square-o"></i> <span>产品</span></a>
             </li>
-            <li class='treeview @{if (mb == "decision") "active"}'>
+            <li class='treeview @{if (mb == "decision" || mb == "management") "active"}'>
                 <a href="javascript:;"><i class="fa fa-edit"></i> <span>决策</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -20,7 +20,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class='@{if (mb == "decision") "active"}'><a href="/decision" pharbers-filter="business-decision"><i class="fa fa-angle-double-right"></i>业务决策</a></li>
-                    <li><a href="javascript:;" pharbers-filter="management-decision"><i class="fa fa-angle-double-right"></i>管理决策</a></li>
+                    <li class='@{if (mb == "management") "active"}'><a href="/management" pharbers-filter="management-decision"><i class="fa fa-angle-double-right"></i>管理决策</a></li>
                 </ul>
             </li>
             <li>
