@@ -5,7 +5,7 @@ import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
-import module.defaultvalues.DefaultValuesData.{hospitalData, preResultData, productsData, salesmenData}
+import module.defaultvalues.DefaultValuesData._
 import module.defaultvalues.DefaultValuesMessages._
 import play.api.libs.json.{JsObject, JsValue}
 import play.api.libs.json.Json.toJson
@@ -42,10 +42,12 @@ object DefaultValuesModule extends ModuleTrait {
         case hospitalPotentialInProposal(data) => hospitalPotentialInProposal(data)
         case perResultInProposal(data) => perResultInProposal(data)
 
+        case budgetInProposal(data) => budgetInProposal(data)
+
         case _ => throw new Exception("function is not impl")
     }
 
-    object inner_trait extends salesmenData with productsData with hospitalData with preResultData
+    object inner_trait extends salesmenData with productsData with hospitalData with preResultData with budgetData
 
     def salesMenInProposal(data: JsValue)
                           (implicit cm: CommonModules): (Option[Map[String, JsValue]], Option[JsValue]) = {
@@ -205,6 +207,32 @@ object DefaultValuesModule extends ModuleTrait {
 
             (Some(Map(
                 "preresult" -> toJson(reVal)
+            )), None)
+        } catch {
+            case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+        }
+    }
+
+    def budgetInProposal(data : JsValue)
+                        (implicit cm: CommonModules): (Option[Map[String, JsValue]], Option[JsValue]) = {
+
+        try {
+
+            val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
+            val db = conn.queryDBInstance("stp").get
+
+            import inner_trait.budget_d2m
+
+            val phrases = (data \ "phrases").asOpt[List[Int]].get
+            val reVal =
+                phrases.map { phrase =>
+                    val tmp = db.queryObject(DBObject("phrase" -> phrase.toString), "budget")
+
+                    (phrase.toString, toJson(tmp))
+                }.toMap
+
+            (Some(Map(
+                "budget" -> toJson(reVal)
             )), None)
         } catch {
             case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))

@@ -1,4 +1,4 @@
-@(cycle : String)(budget : String)(tabs : String)
+@(cycle : String)(budget : play.api.libs.json.JsValue)(data : List[play.api.libs.json.JsValue])(salemen : List[play.api.libs.json.JsValue])
 
 @Home.home("decision") {
 <section class="content">
@@ -21,8 +21,8 @@
             </div>
             <br>
             <div id="sum_promotion_budget-cycle1">
-                @Module.Decision.BusinessDecision.sum_promotion_budget(budget, cycle)
-                @Html(tabs)
+                @Module.Decision.BusinessDecision.sum_promotion_budget((budget \ "1" \ "budget").asOpt[String].get, cycle)
+                @Module.Decision.BusinessDecision.bus_tab(data, salemen, "1")
             </div>
         </div>
         <div class="tab-pane" role="tabpanel" data-value="周期2" id="tab-2688-2">

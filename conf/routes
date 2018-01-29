@@ -23,7 +23,7 @@ GET     /decision                   controllers.RMSPRoutesController.decision
 #GET     /market_info                controllers.RMSPRoutesController.marketInfo
 #GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
 #GET     /product_info               controllers.RMSPRoutesController.productInfo
-GET     /business_decision          controllers.RMSPRoutesController.businessDecision
+#GET     /business_decision          controllers.RMSPRoutesController.businessDecision
 GET     /management_decision        controllers.RMSPRoutesController.managementDecision
 GET     /report                     controllers.RMSPRoutesController.report
 

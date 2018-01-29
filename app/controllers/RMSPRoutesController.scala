@@ -10,9 +10,9 @@ import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
-import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
-import module.defaultvalues.DefaultValuesMessages.{hospitalPotentialInProposal, perResultInProposal, productInProposal, salesMenInProposal}
-import module.readexcel.alReadExcelMessage.alReadExcel
+//import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
+import module.defaultvalues.DefaultValuesMessages._
+//import module.readexcel.alReadExcelMessage.alReadExcel
 import play.api.libs.json.JsValue
 import play.api.mvc.Action
 import play.api.libs.json.Json.toJson
@@ -137,30 +137,75 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     def decision = Action { request =>
         getUserCookie(request) {
+
+            val jv1 = toJson(Map("phrases" -> toJson(1 :: Nil)))
+            val reVal1 = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                        :: budgetInProposal(jv1)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
+            val reVal2 = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                        :: hospitalPotentialInProposal(jv1)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
+            val reVal3 = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                        :: perResultInProposal(jv1)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
             val jv = toJson("")
             val reVal =
                 requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutSumPromoBudgetExcelValueWithHtml"))), jv)
-                        :: alReadExcel(jv)
-                        :: MsgOutSumPromoBudgetExcelWithHtml(jv)
-                        :: MsgOutHospitalExcelWithHtml(jv)
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("sales man proposal"))), jv)
+                        :: salesMenInProposal(jv)
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
 
-            if ((reVal \ "status").asOpt[String].get == "ok") {
-                val budget = (reVal \ "result" \ "data" \ "reValSumPrompBudgetHtml").asOpt[String].get
-                val hosp = (reVal \ "result" \ "data" \ "reValHospitalHtml").asOpt[String].get
-//                val people = (reVal \ "result" \ "data" \ "reValPeopleHtml").asOpt[String].get
+            if ((reVal  \ "status").asOpt[String].get == "ok" &&
+                (reVal1 \ "status").asOpt[String].get == "ok" &&
+                (reVal2 \ "status").asOpt[String].get == "ok" &&
+                (reVal3 \ "status").asOpt[String].get == "ok") {
 
-                Ok(views.html.Module.Decision.BusinessDecision.bus_index("")(budget)(hosp))
+                val budget = (reVal1 \ "result" \ "budget").asOpt[JsValue].get
+                val preresult = (reVal3 \ "result" \ "preresult").asOpt[JsValue].get
+                val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
+                val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
+
+                val tmp1 = (preresult \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
+                val tmp2 = (hosp_potential \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
+
+                val tmp =
+                tmp1 zip tmp2 map { x =>
+                    toJson(Map(
+                        "hosp_code" -> toJson((x._1 \ "hosp_code").asOpt[String].get),
+                        "hosp_name" -> toJson((x._1 \ "hosp_name").asOpt[String].get),
+                        "hosp_cat" -> toJson((x._1 \ "hosp_cat").asOpt[String].get),
+                        "口服抗生素" -> toJson((x._1 \ "口服抗生素").asOpt[String].get :: ((x._2) \ "口服抗生素").asOpt[String].get :: Nil),
+                        "一代降糖药" -> toJson((x._1 \ "一代降糖药").asOpt[String].get :: ((x._2) \ "一代降糖药").asOpt[String].get :: Nil),
+                        "三代降糖药" -> toJson((x._1 \ "三代降糖药").asOpt[String].get :: ((x._2) \ "三代降糖药").asOpt[String].get :: Nil),
+                        "皮肤药" -> toJson((x._1 \ "皮肤药").asOpt[String].get :: ((x._2) \ "皮肤药").asOpt[String].get :: Nil)
+                    ))
+                }
+
+                Ok(views.html.Module.Decision.BusinessDecision.bus_index("")(budget)(tmp)(sales_men))
             } else Redirect("/login")
         }
     }
 
-	def businessDecision = Action { request =>
-		getUserCookie(request)(Ok(views.html.Module.Decision.BusinessDecision.index()))
-	}
-	
+//	def businessDecision = Action { request =>
+//		getUserCookie(request)(Ok(views.html.Module.Decision.BusinessDecision.index()))
+//	}
+//
 	def managementDecision = Action { request =>
 		getUserCookie(request)(Ok(views.html.Module.Decision.ManagementDecision.index()))
 	}

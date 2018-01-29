@@ -1,12 +1,13 @@
-@(data: List[(String, List[String Map String])], pepole: List[String Map String], cycle: String)
+@(data: List[play.api.libs.json.JsValue], pepole: List[play.api.libs.json.JsValue], cycle: String)
+
 <div class="row ">
-    @for(hosp <- data.zipWithIndex) {
+    @for(hosp <- data) {
         <div class="col-sm-12">
             <div class="box box-solid box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">@{{hosp._2 + 1} + ". " + hosp._1._1}</h3>
+                    <h3 class="box-title">@{{(hosp \ "hosp_code").asOpt[String].get} + ". " + (hosp \ "hosp_name").asOpt[String].get}</h3>
                 </div>
-                <div class="box-body cyc@{cycle}_hospital@{hosp._2 + 1}_body">
+                <div class="box-body cyc@{cycle}_hospital@{(hosp \ "hosp_code").asOpt[String].get}_body">
                     <div>
                         <div style="display:inline-block;vertical-align:middle;margin-left:18%;width:18%;text-align:center">口服抗生素</div>
                         <div style="display:inline-block;width:18%;text-align:center;vertical-align:middle;margin-left:10px">一代降糖药</div>
@@ -17,66 +18,66 @@
                     <div class="hospital-num">
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">潜力(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_1" class="noplaceholder">@{ hosp._1._2.find(f => f.contains("口服抗生素")).map(x => if(x("口服抗生素").isEmpty) "0" else x("口服抗生素")).getOrElse("0")}</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_1" class="noplaceholder">@{(hosp \ "口服抗生素").asOpt[List[String]].get.tail.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("一代降糖药")).map(x => if(x("一代降糖药").isEmpty) "0" else x("一代降糖药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_2" class=" noplaceholder ">@{(hosp \ "一代降糖药").asOpt[List[String]].get.tail.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("三代降糖药")).map(x => if(x("三代降糖药").isEmpty) "0" else x("三代降糖药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_3" class=" noplaceholder ">@{(hosp \ "三代降糖药").asOpt[List[String]].get.tail.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{hosp._2 + 1}_4" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("皮肤药")).map(x => if(x("皮肤药").isEmpty) "0" else x("皮肤药")).getOrElse("0") }</pre>
+                            <pre pharbers-type="p@{cycle}_potential_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_4" class=" noplaceholder ">@{(hosp \ "皮肤药").asOpt[List[String]].get.tail.head}</pre>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的总推广预算(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group ">
-                                <input pharbers-type="p@{cycle}_promotional_budget_hosp@{hosp._2 + 1}" type="text" class="form-control" value="0" >
+                                <input pharbers-type="p@{cycle}_promotional_budget_hosp@{(hosp \ "hosp_code").asOpt[String].get}" type="text" class="form-control" value="0" >
                             </div>
                         </div>
                     </div>
                     <div class="hospital-num">
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">上期销售额(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_1" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("口服抗生素上期")).map(x => if(x("口服抗生素上期").isEmpty) "0" else x("口服抗生素上期")).getOrElse("0")  }</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_1" class=" noplaceholder ">@{(hosp \ "口服抗生素").asOpt[List[String]].get.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_2" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("一代降糖药上期")).map(x => if(x("一代降糖药上期").isEmpty) "0" else x("一代降糖药上期")).getOrElse("0")  }</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_2" class=" noplaceholder ">@{(hosp \ "一代降糖药").asOpt[List[String]].get.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_3" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("三代降糖药上期")).map(x => if(x("三代降糖药上期").isEmpty) "0" else x("三代降糖药上期")).getOrElse("0")  }</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_3" class=" noplaceholder ">@{(hosp \ "三代降糖药").asOpt[List[String]].get.head}</pre>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;margin-right:10px;">
-                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{hosp._2 + 1}_4" class=" noplaceholder ">@{ hosp._1._2.find(f => f.contains("皮肤药上期")).map(x => if(x("皮肤药上期").isEmpty) "0" else x("皮肤药上期")).getOrElse("0")  }</pre>
+                            <pre pharbers-type="p@{cycle}_current_sales_hosp@{(hosp \ "hosp_code").asOpt[String].get}_4" class=" noplaceholder ">@{(hosp \ "皮肤药").asOpt[List[String]].get.head}</pre>
                         </div>
                     </div>
                     <div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">销售指标设定(元)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_1" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_sales_target_1" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_2" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_sales_target_2" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_3" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_sales_target_3" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            @if((hosp._1._1 == "人民医院" || hosp._1._1 == "军区医院" || hosp._1._1 == "中日医院" || hosp._1._1 == "西河医院") && cycle == "2") {
+                            @if(((hosp \ "hosp_name").asOpt[String].get == "人民医院" || (hosp \ "hosp_name").asOpt[String].get == "军区医院" || (hosp \ "hosp_name").asOpt[String].get == "中日医院" || (hosp \ "hosp_name").asOpt[String].get == "西河医院") && cycle == "2") {
                                 <div class="form-group">
-                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled"  value="0">
+                                    <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_sales_target_4" type="text" class="form-control disabled"  value="0">
                                 </div>
                             } else {
                                 <div class="form-group disabled" disabled="disabled">
-                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
+                                    <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_sales_target_4" type="text" class="form-control disabled" disabled="true"  value="0">
                                 </div>
                             }
                         </div>
@@ -86,10 +87,10 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group">
                                 <div>
-                                    <select pharbers-type="p@{cycle}_sr_hosp@{hosp._2 + 1}" class="form-control selectized" tabindex="-1" >
+                                    <select pharbers-type="p@{cycle}_sr_hosp@{(hosp \ "hosp_code").asOpt[String].get}" class="form-control selectized" tabindex="-1" >
                                         <option value="" >请选择</option>
                                         @for(p <- pepole) {
-                                            <option value="@{p("people")}">@{p("people")}</option>
+                                            <option value="@{(p \ "name").asOpt[String].get}">@{(p \ "name").asOpt[String].get}</option>
                                         }
                                     </select>
                                 </div>
@@ -100,27 +101,27 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的医院拜访时间(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_1" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_worktime_1" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_2" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_worktime_2" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;" >
                             <div class="form-group">
-                                <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_3" type="text" class="form-control"  value="0" >
+                                <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_worktime_3" type="text" class="form-control"  value="0" >
                             </div>
                         </div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:center;margin-right:10px;">
-                            @if((hosp._1._1 == "人民医院" || hosp._1._1 == "军区医院" || hosp._1._1 == "中日医院" || hosp._1._1 == "西河医院") && cycle == "2") {
+                            @if(((hosp \ "hosp_name").asOpt[String].get == "人民医院" || (hosp \ "hosp_name").asOpt[String].get == "军区医院" || (hosp \ "hosp_name").asOpt[String].get == "中日医院" || (hosp \ "hosp_name").asOpt[String].get == "西河医院") && cycle == "2") {
                                 <div class="form-group">
-                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control" value="0">
+                                    <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_worktime_4" type="text" class="form-control" value="0">
                                 </div>
                             } else {
                                 <div class="form-group disabled" disabled="disabled">
-                                    <input pharbers-type="p@{cycle}_hosp@{hosp._2 + 1}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
+                                    <input pharbers-type="p@{cycle}_hosp@{(hosp \ "hosp_code").asOpt[String].get}_worktime_4" type="text" class="form-control disabled"  value="0" disabled="true">
                                 </div>
                             }
                         </div>

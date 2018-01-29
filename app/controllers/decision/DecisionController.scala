@@ -11,7 +11,7 @@ import com.pharbers.token.AuthTokenTrait
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import controllers.common.requestArgsQuery
-import module.decision.DecisionMessage._
+//import module.decision.DecisionMessage._
 import play.api.mvc.Action
 
 class DecisionController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait) {
@@ -20,8 +20,8 @@ class DecisionController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManage
 	def alOutSumPromoBudgetExcelValueWithHtml = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
 		MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutSumPromoBudgetExcelValueWithHtml"))), jv)
 			:: alReadExcel(jv)
-			:: MsgOutSumPromoBudgetExcelWithHtml(jv)
-			:: MsgOutHospitalExcelWithHtml(jv)
+//			:: MsgOutSumPromoBudgetExcelWithHtml(jv)
+//			:: MsgOutHospitalExcelWithHtml(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 	
