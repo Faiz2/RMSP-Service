@@ -1,0 +1,169 @@
+@(m: String Map List[String Map String])
+<div class="box-body">
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>时间分配</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row">
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;"> </th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小宋</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小兰</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小木</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小白</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小青</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(vul <- m("timerallot")) {
+                            <tr role="row">
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("小宋")</td>
+                                <td class="dt-center">@vul("小兰")</td>
+                                <td class="dt-center">@vul("小木")</td>
+                                <td class="dt-center">@vul("小白")</td>
+                                <td class="dt-center">@vul("小青")</td>
+                            </tr>
+                        }
+                   </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>产品知识</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row">
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;"> </th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小宋</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小兰</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小木</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小白</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小青</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(vul <- m("productinformation")) {
+                            <tr role="row">
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("小宋")</td>
+                                <td class="dt-center">@vul("小兰")</td>
+                                <td class="dt-center">@vul("小木")</td>
+                                <td class="dt-center">@vul("小白")</td>
+                                <td class="dt-center">@vul("小青")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>经验</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row">
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;"> </th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小宋</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小兰</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小木</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小白</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小青</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(vul <- m("empiric")) {
+                            <tr role="row">
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("小宋")</td>
+                                <td class="dt-center">@vul("小兰")</td>
+                                <td class="dt-center">@vul("小木")</td>
+                                <td class="dt-center">@vul("小白")</td>
+                                <td class="dt-center">@vul("小青")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>销售技巧</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row"><th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;"> </th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小宋</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小兰</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小木</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小白</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小青</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(vul <- m("salesskills")) {
+                            <tr role="row">
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("小宋")</td>
+                                <td class="dt-center">@vul("小兰")</td>
+                                <td class="dt-center">@vul("小木")</td>
+                                <td class="dt-center">@vul("小白")</td>
+                                <td class="dt-center">@vul("小青")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: left;margin-left: 3%">
+        <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
+            <div class="dataTables_wrapper no-footer">
+                <table class="display dataTable no-footer table-striped" role="grid">
+                    <caption>工作积极性</caption>
+                    <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
+                        <tr role="row">
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;"> </th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小宋</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小兰</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小木</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小白</th>
+                            <th class="sorting_disabled dt-center" rowspan="1" colspan="1" style="width: 250px;">小青</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(vul <- m("workattitude")) {
+                            <tr role="row">
+                                <td class="dt-center">@vul("名称")</td>
+                                <td class="dt-center">@vul("小宋")</td>
+                                <td class="dt-center">@vul("小兰")</td>
+                                <td class="dt-center">@vul("小木")</td>
+                                <td class="dt-center">@vul("小白")</td>
+                                <td class="dt-center">@vul("小青")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

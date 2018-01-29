@@ -23,8 +23,8 @@
                     <li class='@{if (mb == "management") "active"}'><a href="/management" pharbers-filter="management-decision"><i class="fa fa-angle-double-right"></i>管理决策</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="javascript:;" pharbers-filter="report"><i class="fa fa-list-alt"></i> <span>报告</span></a>
+            <li class='@{if (mb == "report") "active"}'>
+                <a href="/report" pharbers-filter="report"><i class="fa fa-list-alt"></i> <span>报告</span></a>
             </li>
             <li>
                 <a href="javascript:;" pharbers-filter="help"><i class="fa fa-question"></i> <span>帮助</span></a>
