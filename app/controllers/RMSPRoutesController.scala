@@ -12,6 +12,7 @@ import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import module.brdinfo.BrdInfoMessage.alOutBrdInfoExcelValueWithHtml
 import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
+import module.defaultvalues.DefaultValuesMessages.{hospitalPotentialInProposal, perResultInProposal, productInProposal, salesMenInProposal}
 import module.marketinfo.alMarketInfoMessage.alOutMarketInfoExcelValueWithHtml
 import module.productinfo.ProductInfoMessage.alOutProductInfoExcelValueWithHtml
 import module.readexcel.alReadExcelMessage.alReadExcel
@@ -77,15 +78,14 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             val jv = toJson("")
             val reVal =
             requestArgsQuery().commonExcution(
-                MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
-                    :: alReadExcel(jv)
-                    :: alOutBrdInfoExcelValueWithHtml(jv)
+                MessageRoutes(msg_log(toJson(Map("method" -> toJson("sales man proposal"))), jv)
+                    :: salesMenInProposal(jv)
                     :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
             )
 
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Brd.brd_index(
-                    (reVal \ "result" \ "data").asOpt[List[JsValue]].get
+                    (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
                 ))
             } else Redirect("/login")
         }
@@ -115,15 +115,16 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             val jv = toJson("")
             val reVal =
             requestArgsQuery().commonExcution(
-                MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelValueWithHtml"))), jv)
-                    :: alReadExcel(jv)
-                    :: alOutProductInfoExcelValueWithHtml(jv)
+                MessageRoutes(msg_log(toJson(Map("method" -> toJson("products proposal"))), jv)
+                    :: productInProposal(jv)
                     :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
             )
 
+            println(reVal)
+
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Product.product_index(
-                    (reVal \ "result" \ "data").asOpt[List[JsValue]].get
+                    (reVal \ "result" \ "products").asOpt[List[JsValue]].get
                 ))
             } else Redirect("/login")
         }
@@ -131,19 +132,28 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     def market = Action { request =>
         getUserCookie(request) {
-            val jv = toJson("")
-            val reVal =
-                requestArgsQuery().commonExcution(
+            val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
+            val reVal1 = {
+                 requestArgsQuery().commonExcution(
                     MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
-                        :: alReadExcel(jv)
-                        :: alOutMarketInfoExcelValueWithHtml(jv)
+                        :: hospitalPotentialInProposal(jv)
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
+            }
 
-            if ((reVal \ "status").asOpt[String].get == "ok") {
+            val reVal2 = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
+                        :: perResultInProposal(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
+            if ((reVal1 \ "status").asOpt[String].get == "ok" &&
+                (reVal2 \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.MarketInfo.market_index(
-                    (reVal \ "result" \ "data" \ "news").asOpt[List[JsValue]].get,
-                    (reVal \ "result" \ "data" \ "clientInfo").asOpt[List[JsValue]].get
+                    (reVal2 \ "result" \ "preresult").asOpt[JsValue].get,
+                    (reVal1 \ "result" \ "hospital_potential").asOpt[JsValue].get
                 ))
             } else Redirect("/login")
         }
@@ -196,6 +206,4 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	def report = Action { request =>
 		getUserCookie(request)(Ok(views.html.Module.Report.index()))
 	}
-	
-	
 }

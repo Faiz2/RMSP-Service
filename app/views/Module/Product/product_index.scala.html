@@ -30,15 +30,15 @@
                                     <tbody>
                                         @data.zipWithIndex.map { prod =>
                                             <tr role="row">
-                                                <td class=" dt-center">@{(prod._1 \ "品牌").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_brand").asOpt[String]}</td>
                                                 <td class=" dt-left"><img src="@routes.Assets.versioned("images/Drug/drug"+ {prod._2 + 1} +".jpg")" height="100"></td>
-                                                <td class=" dt-center">@{(prod._1 \ "类别").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "上市时间").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "单价（公司考核价）").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "单位成本").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "医保").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "类型").asOpt[String]}</td>
-                                                <td class=" dt-center">@{(prod._1 \ "竞品信息").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_name").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_sales_time").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_unit_price").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_unit_cost").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_insurance").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_cat").asOpt[String]}</td>
+                                                <td class=" dt-center">@{(prod._1 \ "prod_competition").asOpt[String]}</td>
                                             </tr>
                                         }
                                     </tbody>

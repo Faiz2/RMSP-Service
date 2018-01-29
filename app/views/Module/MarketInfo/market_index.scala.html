@@ -1,4 +1,4 @@
-@(news : List[play.api.libs.json.JsValue], data : List[play.api.libs.json.JsValue])
+@(news : play.api.libs.json.JsValue, data : play.api.libs.json.JsValue)
 
 @Home.home("market") {
 <section class="content">
@@ -11,10 +11,17 @@
             <section class="content container-fluid">
                 <div class="row clean-bootstrap-col-padding-all">
                     <div class="col-sm-2" title="周期列表">
-                        <button class="btn btn-default" id="cycle1-news" type="button">周期1:新闻快报</button>
-                        <br>
-                        <br>
-                        <button class="btn btn-default disabled" id="cycle2-news" type="button">周期2:新闻快报</button>
+                        @{
+                            val count = data.as[play.api.libs.json.JsObject].value.toMap.count(_ => true)
+                            (1 to count).map { idx =>
+                                <button class='btn btn-default @{if (idx == 2) "disabled"}' id="cycle1-news" type="button">
+                                    {s"周期$idx:新闻快报"}
+                                </button>
+                                <br />
+                                <br />
+                            }
+                        }
+                        @*<button class="btn btn-default disabled" id="cycle2-news" type="button">周期2:新闻快报</button>*@
                     </div>
                     <div class="col-sm-10 ">
                         <div class="box box-solid box-primary">
@@ -40,18 +47,20 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="news">
-                                                    @news.zipWithIndex.map { his =>
+                                                    @{
+                                                        val phrase = (news\ "1").asOpt[List[play.api.libs.json.JsValue]].get
+                                                        phrase.zipWithIndex.map { his =>
                                                         <tr role="row">
-                                                            <td class="dt-center">@{(his._1 \ "hospname").asOpt[String]}</td>
-                                                            <td class="dt-left"><img src="@routes.Assets.versioned("images/Hospitals/hosp"+{his._2 + 1}+".png")" height="52"></td>
-                                                            <td class="dt-center">@{(his._1 \ "letters").asOpt[String]}</td>
-                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "periodsales").asOpt[String]}</td>
-                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "口服抗生素").asOpt[String]}</td>
-                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "一代降糖药").asOpt[String]}</td>
-                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "三代降糖药").asOpt[String]}</td>
-                                                            <td class="dt-center" name="show-switch">@{(his._1 \ "皮肤药").asOpt[String]}</td>
+                                                            <td class="dt-center">{(his._1 \ "hosp_name").asOpt[String].get}</td>
+                                                            <td class="dt-left"><img src={"assets/images/Hospitals/hosp"+(his._2 + 1)+".png"} height="52" /></td>
+                                                            <td class="dt-center">{(his._1 \ "phrase").asOpt[String].get}</td>
+                                                            <td class="dt-center" name="show-switch">{(his._1 \ "total").asOpt[String].get}</td>
+                                                            <td class="dt-center" name="show-switch">{(his._1 \ "口服抗生素").asOpt[String].get}</td>
+                                                            <td class="dt-center" name="show-switch">{(his._1 \ "一代降糖药").asOpt[String].get}</td>
+                                                            <td class="dt-center" name="show-switch">{(his._1 \ "三代降糖药").asOpt[String].get}</td>
+                                                            <td class="dt-center" name="show-switch">{(his._1 \ "皮肤药").asOpt[String].get}</td>
                                                         </tr>
-                                                    }
+                                                    }}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -95,17 +104,19 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="client">
-                                                @data.map { iter =>
+                                                @{
+                                                    val phrase = (data \ "1").asOpt[List[play.api.libs.json.JsValue]].get
+                                                    phrase.map { iter =>
                                                     <tr role="row" >
-                                                        <td class=" dt-center">@{(iter \ "hospname").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "area").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "type").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "口服抗生素").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "一代降糖药").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "三代降糖药").asOpt[String]}</td>
-                                                        <td class=" dt-center">@{(iter \ "皮肤药").asOpt[String]}</td>
+                                                        <td class=" dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "hosp_area").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "hosp_cat").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "口服抗生素").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "一代降糖药").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "三代降糖药").asOpt[String].get}</td>
+                                                        <td class=" dt-center">{(iter \ "皮肤药").asOpt[String].get}</td>
                                                     </tr>
-                                                }
+                                                }}
                                                 </tbody>
                                             </table>
                                         </div>
