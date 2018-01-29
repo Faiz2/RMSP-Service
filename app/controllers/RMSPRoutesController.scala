@@ -65,12 +65,13 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 		Ok(views.html.Login.register())
 	}
 	
-	def index = Action { request =>
+	def index(uuid : String) = Action { request =>
+        println(uuid)
 //		getUserCookie(request) (Ok(views.html.Home.home()))
         getUserCookie(request) (Ok(views.html.Module.Brd.brd_index(Nil)))
 	}
 
-	def brd = Action { request =>
+	def brd(uuid : String) = Action { request =>
         getUserCookie(request) {
             val jv = toJson("")
             val reVal =
@@ -88,7 +89,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-    def product = Action { request =>
+    def product(uuid : String) = Action { request =>
         getUserCookie(request) {
             val jv = toJson("")
             val reVal =
@@ -106,7 +107,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-    def market = Action { request =>
+    def market(uuid : String, phrase : String) = Action { request =>
         getUserCookie(request) {
             val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
             val reVal1 = {
@@ -135,7 +136,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-    def decision = Action { request =>
+    def decision(uuid : String, phrase : String) = Action { request =>
         getUserCookie(request) {
 
             val jv1 = toJson(Map("phrases" -> toJson(1 :: Nil)))
@@ -202,13 +203,13 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-    def management = Action { request =>
+    def management(uuid : String, phrase : String) = Action { request =>
         getUserCookie(request) {
             Ok(views.html.Module.Decision.ManagementDecision.mag_index())
         }
     }
 
-	def report = Action { request =>
+	def report(uuid : String, phrase : String) = Action { request =>
         getUserCookie(request) {
             Ok(views.html.Module.Report.report_index())
         }
