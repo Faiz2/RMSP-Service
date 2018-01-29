@@ -1,5 +1,6 @@
 package controllers
 
+import java.util.UUID
 import javax.inject.Inject
 
 import com.pharbers.cliTraits.DBTrait
@@ -51,7 +52,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	implicit val as: ActorSystem = as_inject
 	implicit val db_basic : DBTrait = dbt.queryDBInstance("stp").get
 	implicit val attoken: AuthTokenTrait = att
-	
+
 	//TODO: 失败错误的跳转，得认真想想
 //	def page(link: String) = Action { implicit request =>
 //			forward(link)
@@ -66,9 +67,12 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	}
 	
 	def index(uuid : String) = Action { request =>
-        println(uuid)
-//		getUserCookie(request) (Ok(views.html.Home.home()))
-        getUserCookie(request) (Ok(views.html.Module.Brd.brd_index(Nil)))
+        val uid =
+            if (uuid == "") UUID.randomUUID().toString
+            else uuid
+
+        Redirect("/brd/" + uid)
+//        getUserCookie(request) (Ok(views.html.Module.Brd.brd_index(Nil)))
 	}
 
 	def brd(uuid : String) = Action { request =>
@@ -84,7 +88,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Brd.brd_index(
                     (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
-                ))
+                )(uuid))
             } else Redirect("/login")
         }
     }
@@ -102,12 +106,15 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 Ok(views.html.Module.Product.product_index(
                     (reVal \ "result" \ "products").asOpt[List[JsValue]].get
-                ))
+                )(uuid))
             } else Redirect("/login")
         }
     }
 
     def market(uuid : String, phrase : String) = Action { request =>
+        val p = if (phrase == "") "1"
+                else phrase
+
         getUserCookie(request) {
             val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
             val reVal1 = {
@@ -131,12 +138,15 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                 Ok(views.html.Module.MarketInfo.market_index(
                     (reVal2 \ "result" \ "preresult").asOpt[JsValue].get,
                     (reVal1 \ "result" \ "hospital_potential").asOpt[JsValue].get
-                ))
+                )(uuid)(p))
             } else Redirect("/login")
         }
     }
 
     def decision(uuid : String, phrase : String) = Action { request =>
+        val p = if (phrase == "") "1"
+        else phrase
+
         getUserCookie(request) {
 
             val jv1 = toJson(Map("phrases" -> toJson(1 :: Nil)))
@@ -198,7 +208,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     ))
                 }
 
-                Ok(views.html.Module.Decision.BusinessDecision.bus_index("")(budget)(tmp)(sales_men))
+                Ok(views.html.Module.Decision.BusinessDecision.bus_index(budget)(tmp)(sales_men)(uuid)(p))
             } else Redirect("/login")
         }
     }

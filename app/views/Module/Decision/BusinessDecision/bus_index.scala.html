@@ -1,6 +1,6 @@
-@(cycle : String)(budget : play.api.libs.json.JsValue)(data : List[play.api.libs.json.JsValue])(salemen : List[play.api.libs.json.JsValue])
+@(budget : play.api.libs.json.JsValue)(data : List[play.api.libs.json.JsValue])(salemen : List[play.api.libs.json.JsValue])(uuid : String)(cycle : String)
 
-@Home.home("decision")("")("") {
+@Home.home("decision")(uuid)(cycle) {
 <section class="content">
     <ul class="nav nav-tabs" role="tablist" id="business_tab">
         <li role="presentation" class="active"><a href="#tab-2688-1" aria-controls="tab-2688-1" data-toggle="tab" pharbers-status=false>周期1</a></li>
