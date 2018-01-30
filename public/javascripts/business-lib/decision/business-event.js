@@ -43,7 +43,7 @@ var business_event = (function ($, w) {
                 "descision": obj
             };
 
-            f.ajaxModule("/", json, "POST", function(r){
+            f.ajaxModule.baseCall("/decision/proceed", JSON.stringify(json), "POST", function(r){
                 w.console.info(r)
             });
 
