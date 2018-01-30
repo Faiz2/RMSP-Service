@@ -25,6 +25,13 @@
                 @Module.Decision.BusinessDecision.bus_tab(data, salemen, "1")
             </div>
         </div>
+        <!--隐藏域，存储uuid-->
+        <input type="hidden" name="uuid" value="@uuid" disabled="disabled"/>
     </div>
 </section>
 }
+
+<!--动态异步加载js-->
+<script defer="defer">
+    $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/business-event.js")');
+</script>

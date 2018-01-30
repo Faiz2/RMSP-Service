@@ -252,6 +252,71 @@ var business_event = (function ($, w) {
 
     var f = new Facade();
 
+    $(function(){
+       $('#go_decision').click(function(){
+           let json_obj = [];
+
+           let $inputs = $('input');
+           let $select = $('select');
+
+            $.each($("input:hidden[name='input']"), function(i, v){
+                let member = {};
+                let sales = [];
+                let visit = [];
+                let vv = $(v).val();
+                let hospital_name = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').attr("hospital-name");
+                sales.push(
+                    {
+                        "prod_name": "口服抗生素",
+                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_value"]').val()
+                    },
+                    {
+                        "prod_name": "一代降糖药",
+                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_value"]').val()
+                    },
+                    {
+                        "prod_name": "三代降糖药",
+                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_value"]').val()
+                    },
+                    {
+                        "prod_name": "皮肤药",
+                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_value"]').val()
+                    }
+                );
+                visit.push(
+                    {
+                        "prod_name": "口服抗生素",
+                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_hours"]').val()
+                    },
+                    {
+                        "prod_name": "一代降糖药",
+                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_hours"]').val()
+                    },
+                    {
+                        "prod_name": "三代降糖药",
+                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_hours"]').val()
+                    },
+                    {
+                        "prod_name": "皮肤药",
+                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_hours"]').val()
+                    }
+                );
+
+
+                member["hosp_code"] = vv;
+                member["hosp_name"] = hospital_name;
+                member["phase"] = 1;
+                member["budget"] = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val();
+                member["sales"] = sales;
+                member["salesmen"] = $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val();
+                member["visit_hours"] = visit;
+
+                json_obj.push(member);
+            });
+           console.info(json_obj)
+       });
+    });
+
     // 未封装
     function bind_input_change(region) {
         var $business_tab_li = $('#business_tab li.active');
@@ -494,7 +559,6 @@ var business_event = (function ($, w) {
 
     return {
         "bind_input_change": bind_input_change
-
     }
 
 })(jQuery, window);
