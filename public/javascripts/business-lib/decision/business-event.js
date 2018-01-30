@@ -8,8 +8,8 @@ var business_event = (function ($, w) {
 
            let $inputs = $('input');
            let $select = $('select');
-
-           let obj = $("input:hidden[name='input']").map(function(val, input){
+           let obj = [];
+           $("input:hidden[name='input']").map(function(val, input){
                let vv = $(input).val();
                let hospital_name = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').attr("hospital-name");
                let sales = $.map($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="prod_value"]'), function(sales, i){
@@ -26,7 +26,7 @@ var business_event = (function ($, w) {
                    }
                });
 
-               return {
+               obj.push({
                    "hosp_code": parseInt(vv),
                    "hosp_name": hospital_name,
                    "phase": 1,
@@ -34,21 +34,22 @@ var business_event = (function ($, w) {
                    "sales": sales,
                    "salesmen": $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val(),
                    "visit_hours": visit
-               }
+               });
            });
+
 
             let json = {
                 "user_id": $.cookie("user"),
                 "uuid": $("input:hidden[name='uuid']").val(),
                 "phase": 1,
-                "descision": obj
+                "decision": obj
             };
             let user_info = {
                "user_id": $.cookie("user"),
                "uuid": $("input:hidden[name='uuid']").val()
            };
 
-
+            console.info(JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))))
             f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
                  w.console.info(r)
             });
