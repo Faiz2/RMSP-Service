@@ -313,6 +313,7 @@ var business_event = (function ($, w) {
 
                 json_obj.push(member);
             });
+           console.info(JSON.stringify(json_obj));
            console.info(json_obj)
        });
     });
