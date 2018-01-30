@@ -84,10 +84,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             if ((reVal \ "status").asOpt[String].get == "ok") {
                 val hasOp = (reVal \ "result" \ "hasLastOp").asOpt[Int].get
                 val uuid = (reVal \ "result" \ "uuid").asOpt[String].get
-                println(uuid)
-                println(hasOp)
 
-                if (hasOp == 1) Ok(views.html.uuid_index())
+                if (hasOp == 1) Ok(views.html.uuid_index(uuid))
                 else {
                     // TODO : create new uuid
                     val uid = UUID.randomUUID().toString
@@ -100,8 +98,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         )
                     }
 
-                    println(uid)
-                    Redirect("/brd/" + uid)
+                    if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/brd/" + uid)
+                    else Redirect("/login")
                 }
             } else Redirect("/login")
         }
@@ -257,10 +255,9 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
 	}
 
-    def takelast = Action { request =>
+    def takelast(uuid : String) = Action { request =>
         getUserCookie(request) {
-            val user_name = request.cookies.get("user").get
-            Ok(views.html.Module.Report.report_index())
+            Redirect("/brd/" + uuid)
         }
     }
 

@@ -1,8 +1,10 @@
+@(uuid : String)
+
 @main("区域管理模拟平台") {
     <div class="wrapper">
         <div class="content-wrapper" pharbers-filter="div-content">
             <h3>是否需要继续上一次操作</h3>
-            <a type="button" href="/takelast">是</a>
+            <a type="button" href='@{"/takelast/" + uuid}'>是</a>
             <a type="button" href="/takenew" >否</a>
         </div>
     </div>

@@ -17,7 +17,7 @@ trait userInputCreate {
 
         (1 to 10).map { d =>
             val tmp = MongoDBObject.newBuilder
-            tmp += "hosp_id" -> d //(d \ "hosp_id").asOpt[String].get
+            tmp += "hosp_code" -> d //(d \ "hosp_id").asOpt[String].get
             tmp += "hosp_name" -> ""
             tmp += "phase" -> 1
             tmp += "budget" -> 0.0

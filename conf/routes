@@ -27,7 +27,7 @@ GET     /report                     controllers.RMSPRoutesController.report(uuid
 GET     /report/:uuid/:phrase       controllers.RMSPRoutesController.report(uuid, phrase)
 
 GET     /takenew                    controllers.RMSPRoutesController.takenew
-GET     /takelast                   controllers.RMSPRoutesController.takelast
+GET     /takelast/:uuid             controllers.RMSPRoutesController.takelast(uuid)
 
 POST    /decision/proceed           controllers.RMSPRoutesController.next
 
