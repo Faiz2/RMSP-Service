@@ -34,14 +34,14 @@ var business_event = (function ($, w) {
                    "sales": sales,
                    "salesmen": $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val(),
                    "visit_hours": visit
-               });
+               })
            });
 
 
             let json = {
                 "user_id": $.cookie("user"),
                 "uuid": $("input:hidden[name='uuid']").val(),
-                "phase": 1,
+                "phase": $("input:hidden[name='phase']").val(),
                 "decision": obj
             };
             let user_info = {
@@ -49,7 +49,6 @@ var business_event = (function ($, w) {
                "uuid": $("input:hidden[name='uuid']").val()
            };
 
-            console.info(JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))))
             f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
                  w.console.info(r)
             });
