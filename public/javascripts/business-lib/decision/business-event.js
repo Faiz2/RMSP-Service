@@ -36,19 +36,24 @@ var business_event = (function ($, w) {
                    "visit_hours": visit
                }
            });
+
             let json = {
-                "phase": 1,
                 "user_id": $.cookie("user"),
                 "uuid": $("input:hidden[name='uuid']").val(),
+                "phase": 1,
                 "descision": obj
             };
+            let user_info = {
+               "user_id": $.cookie("user"),
+               "uuid": $("input:hidden[name='uuid']").val()
+           };
 
-            f.ajaxModule.baseCall("/decision/proceed", JSON.stringify(json), "POST", function(r){
-                w.console.info(r)
+
+            f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
+                 w.console.info(r)
             });
 
            // console.info(JSON.stringify(json_obj));
-           console.info(json)
        });
     });
 
