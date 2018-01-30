@@ -118,7 +118,8 @@ object userInputModule extends ModuleTrait {
 
                 val decision = obj.getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]
 
-                obj += "decision" -> MongoDBList(decision.filterNot(p => p.getAs[Number]("phase").get.intValue == phase) ++ decision_new)
+                obj += "decision" -> (decision.filterNot(p => p.getAs[Number]("phase").get.intValue == phase) ++ decision_new)
+
                 db.updateObject(obj, "inputs", "uuid")
 
                 Map("a" -> toJson(""))

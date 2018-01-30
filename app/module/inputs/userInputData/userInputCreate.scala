@@ -7,6 +7,8 @@ import play.api.libs.json.JsValue
 
 trait userInputCreate {
     implicit val c2d : JsValue => DBObject = { mm =>
+//        val plst = "口服抗生素" :: "一代降糖药" :: "三代降糖药" :: "皮肤药" :: Nil
+
         val builder = MongoDBObject.newBuilder
 
         builder += "user_id" -> (mm \ "user_id").asOpt[String].get

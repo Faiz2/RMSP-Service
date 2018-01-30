@@ -11,7 +11,7 @@ trait userInputData {
     implicit val m2d : JsValue => DBObject = { mm =>
         val builder = MongoDBObject.newBuilder
 
-        builder += "user_id" -> (mm \ "user").asOpt[String].get
+        builder += "user_id" -> (mm \ "user_id").asOpt[String].get
         builder += "uuid" -> (mm \ "uuid").asOpt[String].get
 
         val dd = (mm \ "decision").asOpt[List[JsValue]].get
@@ -19,7 +19,7 @@ trait userInputData {
 
         dd.map { d =>
             val tmp = MongoDBObject.newBuilder
-            tmp += "hosp_id" -> (d \ "hosp_id").asOpt[String].get
+            tmp += "hosp_code" -> (d \ "hosp_code").asOpt[Int].get
             tmp += "hosp_name" -> (d \ "hosp_name").asOpt[String].map (x => x).getOrElse("")
             tmp += "phase" -> (d \ "phase").asOpt[Int].map (x => x).getOrElse(1)
             tmp += "budget" -> (d \ "budget").asOpt[Double].map (x => x).getOrElse(0.0)
@@ -47,7 +47,7 @@ trait userInputData {
             }
             tmp += "visit_hours" -> vh_lst.result
 
-            dst += tmp
+            dst += tmp.result
         }
         builder += "decision" -> dst.result
 
