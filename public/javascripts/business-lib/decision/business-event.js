@@ -1,5 +1,6 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
+
     var f = new Facade();
 
     $(function(){
@@ -42,9 +43,9 @@ var business_event = (function ($, w) {
                 "descision": obj
             };
 
-            // f.ajaxModule("", json, "POST", function(r){
-            //     w.console.info(r)
-            // });
+            f.ajaxModule("/", json, "POST", function(r){
+                w.console.info(r)
+            });
 
            // console.info(JSON.stringify(json_obj));
            console.info(json)

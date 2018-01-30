@@ -38,10 +38,13 @@ object userInputModule extends ModuleTrait {
             import inner_trait.dc
             import inner_trait.d2m
 
-            val reVal = db.queryCount(data, "inputs").get
+            val reVal = db.queryMultipleObject(data, "inputs", sort = "date", take = 1)
+            val tmp = reVal.map { x =>
+                x.get("uuid").get.asOpt[String].get
+            }
 
-            if (reVal == 0) (Some(Map("hasLastOp" -> toJson(0))), None)
-            else (Some(Map("hasLastOp" -> toJson(1))), None)
+            if (tmp.isEmpty) (Some(Map("hasLastOp" -> toJson(0), "uuid" -> toJson(""))), None)
+            else (Some(Map("hasLastOp" -> toJson(1), "uuid" -> toJson(tmp.head))), None)
 
         } catch {
             case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))

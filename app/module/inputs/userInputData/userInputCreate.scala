@@ -9,7 +9,7 @@ trait userInputCreate {
     implicit val c2d : JsValue => DBObject = { mm =>
         val builder = MongoDBObject.newBuilder
 
-        builder += "user_id" -> (mm \ "user").asOpt[String].get
+        builder += "user_id" -> (mm \ "user_id").asOpt[String].get
         builder += "uuid" -> (mm \ "uuid").asOpt[String].get
 
 //        val dd = (mm \ "decision").asOpt[List[JsValue]].get
@@ -17,7 +17,7 @@ trait userInputCreate {
 
         (1 to 10).map { d =>
             val tmp = MongoDBObject.newBuilder
-            tmp += "hosp_id" -> d.toString //(d \ "hosp_id").asOpt[String].get
+            tmp += "hosp_id" -> d //(d \ "hosp_id").asOpt[String].get
             tmp += "hosp_name" -> ""
             tmp += "phase" -> 1
             tmp += "budget" -> 0.0
@@ -45,7 +45,7 @@ trait userInputCreate {
             }
             tmp += "visit_hours" -> vh_lst.result
 
-            dst += tmp
+            dst += tmp.result
         }
         builder += "decision" -> dst.result
 

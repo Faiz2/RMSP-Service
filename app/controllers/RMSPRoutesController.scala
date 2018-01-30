@@ -11,6 +11,8 @@ import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
+import module.auth.AuthMessage.MsgUserWithPassword
+import module.inputs.userInputMessages.{forceCreateDefaultInputInOpPhase, updateUserInputInOpPhase, userHasLastOp}
 //import module.decision.DecisionMessage.{MsgOutHospitalExcelWithHtml, MsgOutSumPromoBudgetExcelWithHtml}
 import module.defaultvalues.DefaultValuesMessages._
 //import module.readexcel.alReadExcelMessage.alReadExcel
@@ -58,7 +60,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 //			forward(link)
 //	}
 
-
 	def login = Action {
 		Ok(views.html.Login.login())
 	}
@@ -69,8 +70,40 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	
 	def index(uuid : String) = Action { request =>
         getUserCookie(request) {
-            if (uuid.isEmpty) Ok(views.html.uuid_index())
-            else Redirect("/brd/" + uuid)
+            val user = request.cookies.get("user").get.value
+
+            val jv = toJson(Map("condition" -> toJson(Map("user_id" -> user))))
+            val reVal = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("query user last op"))), jv)
+                        :: userHasLastOp(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                val hasOp = (reVal \ "result" \ "hasLastOp").asOpt[Int].get
+                val uuid = (reVal \ "result" \ "uuid").asOpt[String].get
+                println(uuid)
+                println(hasOp)
+
+                if (hasOp == 1) Ok(views.html.uuid_index())
+                else {
+                    // TODO : create new uuid
+                    val uid = UUID.randomUUID().toString
+                    val jv = toJson(Map("user_id" -> user, "uuid" -> uid))
+                    val reVal = {
+                        requestArgsQuery().commonExcution(
+                            MessageRoutes(msg_log(toJson(Map("method" -> toJson("force create op"))), jv)
+                                :: forceCreateDefaultInputInOpPhase(jv)
+                                :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                        )
+                    }
+
+                    println(uid)
+                    Redirect("/brd/" + uid)
+                }
+            } else Redirect("/login")
         }
 	}
 
@@ -237,4 +270,9 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
+    def next = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+        MessageRoutes(msg_log(toJson(Map("method" -> toJson("decision next"))), jv)
+            :: updateUserInputInOpPhase(jv)
+            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+        })
 }
