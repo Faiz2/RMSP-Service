@@ -41,7 +41,7 @@ var business_event = (function ($, w) {
             let json = {
                 "user_id": $.cookie("user"),
                 "uuid": $("input:hidden[name='uuid']").val(),
-                "phase": $("input:hidden[name='phase']").val(),
+                "phase": parseInt($("input:hidden[name='phase']").val()),
                 "decision": obj
             };
             let user_info = {
