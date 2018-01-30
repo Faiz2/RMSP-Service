@@ -87,7 +87,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
                 if (hasOp == 1) Ok(views.html.uuid_index(uuid))
                 else {
-                    // TODO : create new uuid
                     val uid = UUID.randomUUID().toString
                     val jv = toJson(Map("user_id" -> user, "uuid" -> uid))
                     val reVal = {
@@ -263,7 +262,20 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     def takenew = Action { request =>
         getUserCookie(request) {
-            Ok(views.html.Module.Report.report_index())
+            val user = request.cookies.get("user").get.value
+
+            val uid = UUID.randomUUID().toString
+            val jv = toJson(Map("user_id" -> user, "uuid" -> uid))
+            val reVal = {
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("force create op"))), jv)
+                        :: forceCreateDefaultInputInOpPhase(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+            }
+
+            if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/brd/" + uid)
+            else Redirect("/login")
         }
     }
 
