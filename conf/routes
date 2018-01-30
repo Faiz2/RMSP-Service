@@ -26,6 +26,9 @@ GET     /management/:uuid/:phrase   controllers.RMSPRoutesController.management(
 GET     /report                     controllers.RMSPRoutesController.report(uuid = "", phrase = "1")
 GET     /report/:uuid/:phrase       controllers.RMSPRoutesController.report(uuid, phrase)
 
+GET     /takenew                    controllers.RMSPRoutesController.takenew
+GET     /takelast                   controllers.RMSPRoutesController.takelast
+
 # 通过jQuery的$.get获取页面
 #GET     /market_info                controllers.RMSPRoutesController.marketInfo
 #GET     /brd_info                   controllers.RMSPRoutesController.brdInfo

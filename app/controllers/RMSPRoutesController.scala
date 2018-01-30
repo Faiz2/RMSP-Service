@@ -57,7 +57,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 //	def page(link: String) = Action { implicit request =>
 //			forward(link)
 //	}
-	
+
+
 	def login = Action {
 		Ok(views.html.Login.login())
 	}
@@ -67,12 +68,10 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	}
 	
 	def index(uuid : String) = Action { request =>
-        val uid =
-            if (uuid == "") UUID.randomUUID().toString
-            else uuid
-
-        Redirect("/brd/" + uid)
-//        getUserCookie(request) (Ok(views.html.Module.Brd.brd_index(Nil)))
+        getUserCookie(request) {
+            if (uuid.isEmpty) Ok(views.html.uuid_index())
+            else Redirect("/brd/" + uuid)
+        }
 	}
 
 	def brd(uuid : String) = Action { request =>
@@ -224,4 +223,18 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             Ok(views.html.Module.Report.report_index())
         }
 	}
+
+    def takelast = Action { request =>
+        getUserCookie(request) {
+            val user_name = request.cookies.get("user").get
+            Ok(views.html.Module.Report.report_index())
+        }
+    }
+
+    def takenew = Action { request =>
+        getUserCookie(request) {
+            Ok(views.html.Module.Report.report_index())
+        }
+    }
+
 }
