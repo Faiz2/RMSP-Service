@@ -29,7 +29,7 @@ var business_event = (function ($, w) {
                obj.push({
                    "hosp_code": parseInt(vv),
                    "hosp_name": hospital_name,
-                   "phase": 1,
+                   "phase": parseInt($("input:hidden[name='phase']").val()),
                    "budget": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val()),
                    "sales": sales,
                    "salesmen": $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val(),
