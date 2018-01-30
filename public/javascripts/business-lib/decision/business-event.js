@@ -1,255 +1,5 @@
 var business_event = (function ($, w) {
     var $content = $('#sum_promotion_budget-cycle1');
-    // 输入输出链表
-    // 应修改为json配置文件
-    var cycle_1_table_input = [
-        {"inputs":
-            [
-                "p1_promotional_budget_hosp1",
-                "p1_promotional_budget_hosp2",
-                "p1_promotional_budget_hosp3",
-                "p1_promotional_budget_hosp4",
-                "p1_promotional_budget_hosp5",
-                "p1_promotional_budget_hosp6",
-                "p1_promotional_budget_hosp7",
-                "p1_promotional_budget_hosp8",
-                "p1_promotional_budget_hosp9",
-                "p1_promotional_budget_hosp10"
-            ],
-            "oput": "p1_arranged_promotional_budget",
-            "type": "p1_promotional_budget"
-        },
-        {"inputs":
-            [
-                "p1_hosp1_sales_target_1",
-                "p1_hosp2_sales_target_1",
-                "p1_hosp3_sales_target_1",
-                "p1_hosp4_sales_target_1",
-                "p1_hosp5_sales_target_1",
-                "p1_hosp6_sales_target_1",
-                "p1_hosp7_sales_target_1",
-                "p1_hosp8_sales_target_1",
-                "p1_hosp9_sales_target_1",
-                "p1_hosp10_sales_target_1"
-            ],
-            "oput": "p1_product1",
-            "type": "sales_target_1"
-        },
-        {"inputs":
-            [
-                "p1_hosp1_sales_target_2",
-                "p1_hosp2_sales_target_2",
-                "p1_hosp3_sales_target_2",
-                "p1_hosp4_sales_target_2",
-                "p1_hosp5_sales_target_2",
-                "p1_hosp6_sales_target_2",
-                "p1_hosp7_sales_target_2",
-                "p1_hosp8_sales_target_2",
-                "p1_hosp9_sales_target_2",
-                "p1_hosp10_sales_target_2"
-            ],
-            "oput": "p1_product2",
-            "type": "sales_target_2"
-        },
-        {"inputs":
-            [
-                "p1_hosp1_sales_target_3",
-                "p1_hosp2_sales_target_3",
-                "p1_hosp3_sales_target_3",
-                "p1_hosp4_sales_target_3",
-                "p1_hosp5_sales_target_3",
-                "p1_hosp6_sales_target_3",
-                "p1_hosp7_sales_target_3",
-                "p1_hosp8_sales_target_3",
-                "p1_hosp9_sales_target_3",
-                "p1_hosp10_sales_target_3"
-            ],
-            "oput": "p1_product3",
-            "type": "sales_target_3"
-        },
-        {"inputs":
-            [
-                "p1_hosp1_sales_target_4",
-                "p1_hosp2_sales_target_4",
-                "p1_hosp3_sales_target_4",
-                "p1_hosp4_sales_target_4",
-                "p1_hosp5_sales_target_4",
-                "p1_hosp6_sales_target_4",
-                "p1_hosp7_sales_target_4",
-                "p1_hosp8_sales_target_4",
-                "p1_hosp9_sales_target_4",
-                "p1_hosp10_sales_target_4"
-            ],
-            "oput": "p1_product4",
-            "type": "sales_target_4"
-        }
-    ];
-    var cycle_1_table_aggregate_sum_input = [
-        {
-            "select": "p1_sr_hosp1",
-            "inputs": ["p1_hosp1_worktime_1", "p1_hosp1_worktime_2", "p1_hosp1_worktime_3", "p1_hosp1_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp2",
-            "inputs": ["p1_hosp2_worktime_1", "p1_hosp2_worktime_2", "p1_hosp2_worktime_3", "p1_hosp2_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp3",
-            "inputs": ["p1_hosp3_worktime_1", "p1_hosp3_worktime_2", "p1_hosp3_worktime_3", "p1_hosp3_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp4",
-            "inputs": ["p1_hosp4_worktime_1", "p1_hosp4_worktime_2", "p1_hosp4_worktime_3", "p1_hosp4_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp5",
-            "inputs": ["p1_hosp5_worktime_1", "p1_hosp5_worktime_2", "p1_hosp5_worktime_3", "p1_hosp5_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp6",
-            "inputs": ["p1_hosp6_worktime_1", "p1_hosp6_worktime_2", "p1_hosp6_worktime_3", "p1_hosp6_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp7",
-            "inputs": ["p1_hosp7_worktime_1", "p1_hosp7_worktime_2", "p1_hosp7_worktime_3", "p1_hosp7_worktime_4"]
-        },{
-            "select": "p1_sr_hosp8",
-            "inputs": ["p1_hosp8_worktime_1", "p1_hosp8_worktime_2", "p1_hosp8_worktime_3", "p1_hosp8_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp9",
-            "inputs": ["p1_hosp9_worktime_1", "p1_hosp9_worktime_2", "p1_hosp9_worktime_3", "p1_hosp9_worktime_4"]
-        },
-        {
-            "select": "p1_sr_hosp10",
-            "inputs": ["p1_hosp10_worktime_1", "p1_hosp10_worktime_2", "p1_hosp10_worktime_3", "p1_hosp10_worktime_4"]
-        }
-    ];
-
-    var cycle_2_table_input = [
-        {"inputs":
-            [
-                "p2_promotional_budget_hosp1",
-                "p2_promotional_budget_hosp2",
-                "p2_promotional_budget_hosp3",
-                "p2_promotional_budget_hosp4",
-                "p2_promotional_budget_hosp5",
-                "p2_promotional_budget_hosp6",
-                "p2_promotional_budget_hosp7",
-                "p2_promotional_budget_hosp8",
-                "p2_promotional_budget_hosp9",
-                "p2_promotional_budget_hosp10"
-            ],
-            "oput": "p2_arranged_promotional_budget",
-            "type": "p2_promotional_budget"
-        },
-        {"inputs":
-            [
-                "p2_hosp1_sales_target_1",
-                "p2_hosp2_sales_target_1",
-                "p2_hosp3_sales_target_1",
-                "p2_hosp4_sales_target_1",
-                "p2_hosp5_sales_target_1",
-                "p2_hosp6_sales_target_1",
-                "p2_hosp7_sales_target_1",
-                "p2_hosp8_sales_target_1",
-                "p2_hosp9_sales_target_1",
-                "p2_hosp10_sales_target_1"
-            ],
-            "oput": "p2_product1",
-            "type": "sales_target_1"
-        },
-        {"inputs":
-            [
-                "p2_hosp1_sales_target_2",
-                "p2_hosp2_sales_target_2",
-                "p2_hosp3_sales_target_2",
-                "p2_hosp4_sales_target_2",
-                "p2_hosp5_sales_target_2",
-                "p2_hosp6_sales_target_2",
-                "p2_hosp7_sales_target_2",
-                "p2_hosp8_sales_target_2",
-                "p2_hosp9_sales_target_2",
-                "p2_hosp10_sales_target_2"
-            ],
-            "oput": "p2_product2",
-            "type": "sales_target_2"
-        },
-        {"inputs":
-            [
-                "p2_hosp1_sales_target_3",
-                "p2_hosp2_sales_target_3",
-                "p2_hosp3_sales_target_3",
-                "p2_hosp4_sales_target_3",
-                "p2_hosp5_sales_target_3",
-                "p2_hosp6_sales_target_3",
-                "p2_hosp7_sales_target_3",
-                "p2_hosp8_sales_target_3",
-                "p2_hosp9_sales_target_3",
-                "p2_hosp10_sales_target_3"
-            ],
-            "oput": "p2_product3",
-            "type": "sales_target_3"
-        },
-        {"inputs":
-            [
-                "p2_hosp1_sales_target_4",
-                "p2_hosp2_sales_target_4",
-                "p2_hosp3_sales_target_4",
-                "p2_hosp4_sales_target_4",
-                "p2_hosp5_sales_target_4",
-                "p2_hosp6_sales_target_4",
-                "p2_hosp7_sales_target_4",
-                "p2_hosp8_sales_target_4",
-                "p2_hosp9_sales_target_4",
-                "p2_hosp10_sales_target_4"
-            ],
-            "oput": "p2_product4",
-            "type": "sales_target_4"
-        }
-    ];
-    var cycle_2_table_aggregate_sum_input = [
-        {
-            "select": "p2_sr_hosp1",
-            "inputs": ["p2_hosp1_worktime_1", "p2_hosp1_worktime_2", "p2_hosp1_worktime_3", "p2_hosp1_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp2",
-            "inputs": ["p2_hosp2_worktime_1", "p2_hosp2_worktime_2", "p2_hosp2_worktime_3", "p2_hosp2_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp3",
-            "inputs": ["p2_hosp3_worktime_1", "p2_hosp3_worktime_2", "p2_hosp3_worktime_3", "p2_hosp3_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp4",
-            "inputs": ["p2_hosp4_worktime_1", "p2_hosp4_worktime_2", "p2_hosp4_worktime_3", "p2_hosp4_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp5",
-            "inputs": ["p2_hosp5_worktime_1", "p2_hosp5_worktime_2", "p2_hosp5_worktime_3", "p2_hosp5_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp6",
-            "inputs": ["p2_hosp6_worktime_1", "p2_hosp6_worktime_2", "p2_hosp6_worktime_3", "p2_hosp6_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp7",
-            "inputs": ["p2_hosp7_worktime_1", "p2_hosp7_worktime_2", "p2_hosp7_worktime_3", "p2_hosp7_worktime_4"]
-        },{
-            "select": "p2_sr_hosp8",
-            "inputs": ["p2_hosp8_worktime_1", "p2_hosp8_worktime_2", "p2_hosp8_worktime_3", "p2_hosp8_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp9",
-            "inputs": ["p2_hosp9_worktime_1", "p2_hosp9_worktime_2", "p2_hosp9_worktime_3", "p2_hosp9_worktime_4"]
-        },
-        {
-            "select": "p2_sr_hosp10",
-            "inputs": ["p2_hosp10_worktime_1", "p2_hosp10_worktime_2", "p2_hosp10_worktime_3", "p2_hosp10_worktime_4"]
-        }
-    ];
-
     var f = new Facade();
 
     $(function(){
@@ -268,53 +18,65 @@ var business_event = (function ($, w) {
                 sales.push(
                     {
                         "prod_name": "口服抗生素",
-                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_value"]').val()
+                        "prod_value": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_value"]').val())
                     },
                     {
                         "prod_name": "一代降糖药",
-                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_value"]').val()
+                        "prod_value": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_value"]').val())
                     },
                     {
                         "prod_name": "三代降糖药",
-                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_value"]').val()
+                        "prod_value": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_value"]').val())
                     },
                     {
                         "prod_name": "皮肤药",
-                        "prod_value": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_value"]').val()
+                        "prod_value": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_value"]').val())
                     }
                 );
                 visit.push(
                     {
                         "prod_name": "口服抗生素",
-                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_hours"]').val()
+                        "prod_hours": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="口服抗生素"]').filter('[name="prod_hours"]').val())
                     },
                     {
                         "prod_name": "一代降糖药",
-                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_hours"]').val()
+                        "prod_hours": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="一代降糖药"]').filter('[name="prod_hours"]').val())
                     },
                     {
                         "prod_name": "三代降糖药",
-                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_hours"]').val()
+                        "prod_hours": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="三代降糖药"]').filter('[name="prod_hours"]').val())
                     },
                     {
                         "prod_name": "皮肤药",
-                        "prod_hours": $inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_hours"]').val()
+                        "prod_hours": ($inputs.filter('[hospital-code="'+ vv +'"]').filter('[pharbers-type="皮肤药"]').filter('[name="prod_hours"]').val())
                     }
                 );
 
 
-                member["hosp_code"] = vv;
+                member["hosp_code"] = parseInt(vv);
                 member["hosp_name"] = hospital_name;
                 member["phase"] = 1;
-                member["budget"] = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val();
+                member["budget"] = parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val());
                 member["sales"] = sales;
                 member["salesmen"] = $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val();
                 member["visit_hours"] = visit;
 
                 json_obj.push(member);
             });
-           console.info(JSON.stringify(json_obj));
-           console.info(json_obj)
+
+            let json = {
+                "phase": 1,
+                "user_id": $.cookie("user"),
+                "uuid": $("input:hidden[name='uuid']").val(),
+                "descision": json_obj
+            };
+
+            // f.ajaxModule("", json, "POST", function(r){
+            //     w.console.info(r)
+            // });
+
+           // console.info(JSON.stringify(json_obj));
+           console.info(json)
        });
     });
 
