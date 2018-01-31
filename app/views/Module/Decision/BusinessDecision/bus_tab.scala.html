@@ -40,7 +40,7 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的总推广预算(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group ">
-                                <input hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="批准的总推广预算" name="budget" type="text" class="form-control" value="0" >
+                                <input hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="批准的总推广预算" name="budget" type="text" class="form-control" value="@{(data \ "budget").as[Int]}" >
                             </div>
                         </div>
                     </div>

@@ -250,7 +250,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         "皮肤药" -> toJson((x._1 \ "皮肤药").asOpt[String].get :: ((x._2) \ "皮肤药").asOpt[String].get :: Nil)
                     ))
                 }
-
+                
                 Ok(views.html.Module.Decision.
                     BusinessDecision.bus_index(budget)(tmp)(sales_men)(inputs)(uuid)(p))
             } else Redirect("/login")
