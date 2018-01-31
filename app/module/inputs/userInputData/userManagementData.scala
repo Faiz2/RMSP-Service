@@ -36,6 +36,7 @@ trait userManagementData {
 
             dst += tmp.result
         }
+        builder += "management" -> dst.result
 
         builder += "date" -> new Date().getTime
         builder.result
