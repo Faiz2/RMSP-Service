@@ -20,9 +20,9 @@
             </div>
             <br>
             <div id="management-cycle1">
-                @Module.Decision.ManagementDecision.time_allot(phase)
-                @Module.Decision.ManagementDecision.manager_timer_allot(phase)
-                @Module.Decision.ManagementDecision.train_timer(phase)
+                @Module.Decision.ManagementDecision.time_allot(phase)(input)
+                @Module.Decision.ManagementDecision.manager_timer_allot(phase)(input)
+                @Module.Decision.ManagementDecision.train_timer(phase)(input)
             </div>
         </div>
     </div>
