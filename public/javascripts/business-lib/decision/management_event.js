@@ -57,37 +57,37 @@ var management_event = (function ($, w) {
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "能力辅导",
-                        "project_code": "1",
+                        "project_code": parseInt("1"),
                         "apply": coach
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "实地协防",
-                        "project_code": "2",
+                        "project_code": parseInt("2"),
                         "apply": assist
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "团队例会和团建",
-                        "project_code": "3",
+                        "project_code": parseInt("3"),
                         "apply": construction
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "KPI 报告分析",
-                        "project_code": "4",
+                        "project_code": parseInt("4"),
                         "apply": report
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "行政工作",
-                        "project_code": "5",
+                        "project_code": parseInt("5"),
                         "apply": pr
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "产品培训",
-                        "project_code": "6",
+                        "project_code": parseInt("6"),
                         "apply": product
                     },
                 ]
