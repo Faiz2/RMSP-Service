@@ -101,7 +101,7 @@ var management_event = (function ($, w) {
 
 
             //TODO: Ajax
-            f.ajaxModule.baseCall("URL", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
+            f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
                 console.info(r)
             })
         })
