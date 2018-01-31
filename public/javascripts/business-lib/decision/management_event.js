@@ -1,60 +1,113 @@
 var management_event = (function ($, w) {
     var $content = $('#management-cycle1');
     var $management_tab_li = $('#management_tab li');
-    var f = new Facade()
     $(function(){
+        $('#go-submit').click(function(){
+            let $inputs = $('input');
+            let obj = [];
+
+            let coach = [];
+            $inputs.filter('[pharbers-type="能力辅导"]').map(function(val, input){
+                coach.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+            let assist = [];
+            $inputs.filter('[pharbers-type="实地协防"]').map(function(val, input){
+                assist.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+            let construction = [];
+            $inputs.filter('[pharbers-type="团队例会和团建"]').map(function(val, input){
+                construction.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+            let report = [];
+            $inputs.filter('[pharbers-type="KPI 报告分析"]').map(function(val, input){
+                report.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+            let pr = [];
+            $inputs.filter('[pharbers-type="行政工作"]').map(function(val, input){
+                pr.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+            let product = [];
+            $inputs.filter('[pharbers-type="产品培训"]').map(function(val, input){
+                product.push({
+                    "personal": $(input).attr("name"),
+                    "days": parseInt($(input).val())
+                });
+            });
+
+            let json = {
+                "user_id": $.cookie("user"),
+                "uuid": $("input:hidden[name='uuid']").val(),
+                "phase": parseInt($("input:hidden[name='phase']").val()),
+                "management": [
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "能力辅导",
+                        "project_code": "1",
+                        "apply": coach
+                    },
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "实地协防",
+                        "project_code": "2",
+                        "apply": assist
+                    },
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "团队例会和团建",
+                        "project_code": "3",
+                        "apply": construction
+                    },
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "KPI 报告分析",
+                        "project_code": "4",
+                        "apply": report
+                    },
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "行政工作",
+                        "project_code": "5",
+                        "apply": pr
+                    },
+                    {
+                        "phase": parseInt($("input:hidden[name='phase']").val()),
+                        "project_name": "产品培训",
+                        "project_code": "6",
+                        "apply": product
+                    },
+                ]
+            };
+            let user_info = {
+                "user_id": $.cookie("user"),
+                "uuid": $("input:hidden[name='uuid']").val()
+            };
+
+            // console.info(JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))))
+
+
+            //TODO: Ajax
+            f.ajaxModule.baseCall("URL", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
+                console.info(r)
+            })
+        })
     });
 
 
-    var cycle_1_inputs = {
-            "ability_to_coach": { // 能力辅导
-                "inputs": ["p1_sr1_sales_training", "p1_sr2_sales_training", "p1_sr3_sales_training", "p1_sr4_sales_training", "p1_sr5_sales_training"],
-                "oputs": ["p1_total_sales_training", "p1_flm_sales_training"]
-            },
-            "field_association_to_visit": { // 实地协访问
-                "inputs": ["p1_sr1_field_work", "p1_sr2_field_work", "p1_sr3_field_work", "p1_sr4_field_work", "p1_sr5_field_work"],
-                "oputs": ["p1_total_field_work", "p1_flm_field_work"]
-            },
-            "party_building": { // 团建
-                "inputs": ["p1_flm_team_meeting"],
-                "oputs": ["p1_total_team_meeting", "p1_sr1_team_meeting", "p1_sr2_team_meeting", "p1_sr3_team_meeting", "p1_sr4_team_meeting", "p1_sr5_team_meeting"]
-            },
-            "kpi_report": { // KPI报告
-                "inputs": ["p1_flm_kpi_analysis"],
-                "oputs": ["p1_total_kpi_analysis"]
-            },
-            "administrative": { // 行政
-                "inputs": ["p1_flm_admin_work"],
-                "oputs": ["p1_total_admin_work"]
-            },
-            "input_sum": ["p1_total_sales_training", "p1_total_field_work", "p1_total_team_meeting", "p1_total_kpi_analysis", "p1_total_admin_work"], // 纵列求和
-            "time_allot": ["p1_total_management", "p1_flm_management", "p1_arranged_time_of_flm"] // 总求和
-        };
-
-    var cycle_2_inputs = {
-            "ability_to_coach": { // 能力辅导
-                "inputs": ["p2_sr1_sales_training", "p2_sr2_sales_training", "p2_sr3_sales_training", "p2_sr4_sales_training", "p2_sr5_sales_training"],
-                "oputs": ["p2_total_sales_training", "p2_flm_sales_training"]
-            },
-            "field_association_to_visit": { // 实地协访问
-                "inputs": ["p2_sr1_field_work", "p2_sr2_field_work", "p2_sr3_field_work", "p2_sr4_field_work", "p2_sr5_field_work"],
-                "oputs": ["p2_total_field_work", "p2_flm_field_work"]
-            },
-            "party_building": { // 团建
-                "inputs": ["p2_flm_team_meeting"],
-                "oputs": ["p2_total_team_meeting", "p2_sr1_team_meeting", "p2_sr2_team_meeting", "p2_sr3_team_meeting", "p2_sr4_team_meeting", "p2_sr5_team_meeting"]
-            },
-            "kpi_report": { // KPI报告
-                "inputs": ["p2_flm_kpi_analysis"],
-                "oputs": ["p2_total_kpi_analysis"]
-            },
-            "administrative": { // 行政
-                "inputs": ["p2_flm_admin_work"],
-                "oputs": ["p2_total_admin_work"]
-            },
-            "input_sum": ["p2_total_sales_training", "p2_total_field_work", "p2_total_team_meeting", "p2_total_kpi_analysis", "p2_total_admin_work"], // 纵列求和
-            "time_allot": ["p2_total_management", "p2_flm_management", "p2_arranged_time_of_flm"] // 总求和
-        };
 
     function bind_input_change(region) {
         var $inputs = (region || $content).find('input');
