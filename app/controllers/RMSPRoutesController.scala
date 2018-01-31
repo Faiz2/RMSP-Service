@@ -11,7 +11,7 @@ import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
-import module.inputs.userInputMessages.{forceCreateDefaultInputInOpPhase, updateUserInputInOpPhase, userHasLastOp}
+import module.inputs.userInputMessages.{forceCreateDefaultInputInOpPhase, updateUserInputInOpPhase, updateUserManagementInOpPhase, userHasLastOp}
 import module.defaultvalues.DefaultValuesMessages._
 import play.api.libs.json.JsValue
 import play.api.mvc.Action
@@ -276,9 +276,15 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         }
     }
 
-    def next = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+    def updatedecision = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
         MessageRoutes(msg_log(toJson(Map("method" -> toJson("decision next"))), jv)
             :: updateUserInputInOpPhase(jv)
+            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+        })
+
+    def updatemanagement = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+        MessageRoutes(msg_log(toJson(Map("method" -> toJson("management next"))), jv)
+            :: updateUserManagementInOpPhase(jv)
             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
         })
 }

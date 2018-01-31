@@ -29,7 +29,8 @@ GET     /report/:uuid/:phrase       controllers.RMSPRoutesController.report(uuid
 GET     /takenew                    controllers.RMSPRoutesController.takenew
 GET     /takelast/:uuid             controllers.RMSPRoutesController.takelast(uuid)
 
-POST    /decision/proceed           controllers.RMSPRoutesController.next
+POST    /decision/proceed           controllers.RMSPRoutesController.updatedecision
+POST    /management/proceed         controllers.RMSPRoutesController.updatemanagement
 
 # 通过jQuery的$.get获取页面
 #GET     /market_info                controllers.RMSPRoutesController.marketInfo
