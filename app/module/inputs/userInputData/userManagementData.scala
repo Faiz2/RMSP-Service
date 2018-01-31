@@ -50,14 +50,14 @@ trait userManagementData {
             val ap_map = ap.map { p =>
                 Map(
                     "personal" -> toJson(p.getAs[String]("personal").get),
-                    "days" -> toJson(p.getAs[Number]("personal").get.intValue)
+                    "days" -> toJson(p.getAs[Number]("days").get.intValue)
                 )
             }
 
             Map(
                 "project_name" -> toJson(x.getAs[String]("project_name").get),
                 "project_code" -> toJson(x.getAs[Number]("project_code").get.intValue),
-                "phase" -> toJson(x.getAs[Number]("phase").get.intValue),
+                "phase" -> toJson(obj.getAs[Number]("phase").map (x => x.intValue).getOrElse(1)),
                 "apply" -> toJson(ap_map)
             )
         }

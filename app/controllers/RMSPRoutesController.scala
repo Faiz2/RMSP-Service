@@ -274,12 +274,12 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             val reVal =
                 requestArgsQuery().commonExcution(
                     MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv)
-                        :: updateUserManagementInOpPhase(jv)
+                        :: queryUserManagementInOpPhase(jv)
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
 
             if ((reVal \ "status").asOpt[String].get == "ok") {
-                val input = (reVal \ "result" \ "inputs" \ "management").asOpt[List[JsValue]].get
+                val input = (reVal \ "result" \ "input" \ "management").asOpt[List[JsValue]].get
                 Ok(views.html.Module.Decision.ManagementDecision.mag_index(input)(uuid)(p))
             }
             else Redirect("/login")

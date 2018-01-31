@@ -163,7 +163,7 @@ object userInputModule extends ModuleTrait {
             val db = conn.queryDBInstance("stp").get
 
             import inner_trait.dc
-            import inner_trait.decision_d2m
+            import inner_trait.mag_d2m
 
             val reVal = db.queryObject(data, "inputs").get
 

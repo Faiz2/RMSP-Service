@@ -35,6 +35,7 @@ trait userInputCreate {
             val builder = MongoDBObject.newBuilder
             builder += "project_name" -> mg._1
             builder += "project_code" -> iter._2
+            builder += "phase" -> 1
 
             val app_lst = MongoDBList.newBuilder
 
