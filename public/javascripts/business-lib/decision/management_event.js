@@ -62,7 +62,7 @@ var management_event = (function ($, w) {
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
-                        "project_name": "实地协防",
+                        "project_name": "实地协访",
                         "project_code": parseInt("2"),
                         "apply": assist
                     },

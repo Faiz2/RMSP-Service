@@ -22,7 +22,7 @@
             <br>
             <div id="sum_promotion_budget-cycle1">
                 @Module.Decision.BusinessDecision.sum_promotion_budget((budget \ "1" \ "budget").asOpt[String].get, cycle)
-                @Module.Decision.BusinessDecision.bus_tab(data, salemen, "1")
+                @Module.Decision.BusinessDecision.bus_tab(data, salemen, "1", inputs)
             </div>
         </div>
         <!--隐藏域，存储uuid-->
