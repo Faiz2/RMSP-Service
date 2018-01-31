@@ -56,6 +56,9 @@ trait userInputCreate {
     }
 
     def createDecision = {
+        val hlst = "人民医院" :: "军区医院" :: "中日医院" :: "铁路医院" :: "海港医院" :: "第六医院" ::
+                    "小营医院" :: "西河医院" :: "光华医院" :: "大学医院" :: Nil
+
         val plst = "口服抗生素" :: "一代降糖药" :: "三代降糖药" :: "皮肤药" :: Nil
         //        val dd = (mm \ "decision").asOpt[List[JsValue]].get
         val dst = MongoDBList.newBuilder
@@ -63,7 +66,7 @@ trait userInputCreate {
         (1 to 10).map { d =>
             val tmp = MongoDBObject.newBuilder
             tmp += "hosp_code" -> d //(d \ "hosp_id").asOpt[String].get
-            tmp += "hosp_name" -> ""
+            tmp += "hosp_name" -> hlst(d - 1)
             tmp += "phase" -> 1
             tmp += "budget" -> 0.0
             tmp += "salesmen" -> ""
