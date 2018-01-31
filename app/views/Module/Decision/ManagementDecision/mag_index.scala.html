@@ -1,10 +1,10 @@
-@()
+@(uuid : String)(phase : String)
 
-@Home.home("management")("")("") {
+@Home.home("management")(uuid)(phase) {
 <section class="content">
     <ul class="nav nav-tabs" id="management_tab" role="tablist">
-        <li role="presentation" class="active"><a href="#tab-2611-1" aria-controls="tab-2611-1" data-toggle="tab">周期1</a></li>
-        <li role="presentation"><a href="#tab-2611-2" aria-controls="tab-2611-2" data-toggle="tab">周期2</a></li>
+        <li role="presentation" class='@{if(phase == "1") "active"}'><a href='@{"/management/" + uuid + "/1"}' pharbers-status=false>周期1</a></li>
+        <li role="presentation" class='@{if(phase == "2") "active"}'><a href='@{"/management/" + uuid + "/2"}' pharbers-status=false>周期2</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" role="tabpanel" data-value="周期1" id="tab-2611-1">
@@ -20,9 +20,9 @@
             </div>
             <br>
             <div id="management-cycle1">
-                @Module.Decision.ManagementDecision.time_allot("1")
-                @Module.Decision.ManagementDecision.manager_timer_allot("1")
-                @Module.Decision.ManagementDecision.train_timer("1")
+                @Module.Decision.ManagementDecision.time_allot(phase)
+                @Module.Decision.ManagementDecision.manager_timer_allot(phase)
+                @Module.Decision.ManagementDecision.train_timer(phase)
             </div>
         </div>
     </div>

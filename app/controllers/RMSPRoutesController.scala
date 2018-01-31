@@ -241,7 +241,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     def management(uuid : String, phrase : String) = Action { request =>
         getUserCookie(request) {
-            Ok(views.html.Module.Decision.ManagementDecision.mag_index())
+            Ok(views.html.Module.Decision.ManagementDecision.mag_index(uuid)(phrase))
         }
     }
 

@@ -36,7 +36,7 @@ object userInputModule extends ModuleTrait {
             val db = conn.queryDBInstance("stp").get
 
             import inner_trait.dc
-            import inner_trait.d2m
+            import inner_trait.decision_d2m
 
             val reVal = db.queryMultipleObject(data, "inputs", sort = "date", take = 1)
             val tmp = reVal.map { x =>
@@ -59,7 +59,7 @@ object userInputModule extends ModuleTrait {
             val db = conn.queryDBInstance("stp").get
 
             import inner_trait.dc
-            import inner_trait.d2m
+            import inner_trait.decision_d2m
 
             val reVal = db.queryObject(data, "inputs").get
 
@@ -83,7 +83,7 @@ object userInputModule extends ModuleTrait {
             val db = conn.queryDBInstance("stp").get
 
             import inner_trait.dc
-            import inner_trait.d2m
+            import inner_trait.decision_d2m
 
             val reVal = db.queryObject(data, "inputs").get
 
@@ -113,7 +113,7 @@ object userInputModule extends ModuleTrait {
             val phase = (data \ "phase").asOpt[Int].get
 
             db.queryObject(data, "inputs") { obj =>
-                val o : DBObject = inner_trait.m2d(data)
+                val o : DBObject = inner_trait.decision_m2d(data)
                 val decision_new = o.getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]
 
                 val decision = obj.getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]

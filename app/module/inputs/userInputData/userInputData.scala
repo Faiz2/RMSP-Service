@@ -8,7 +8,7 @@ import play.api.libs.json.JsValue
 import play.api.libs.json.Json.toJson
 
 trait userInputData {
-    implicit val m2d : JsValue => DBObject = { mm =>
+    implicit val decision_m2d : JsValue => DBObject = { mm =>
         val builder = MongoDBObject.newBuilder
 
         builder += "user_id" -> (mm \ "user_id").asOpt[String].get
@@ -55,7 +55,7 @@ trait userInputData {
         builder.result
     }
 
-    implicit val d2m : DBObject => Map[String, JsValue] = { obj =>
+    implicit val decision_d2m : DBObject => Map[String, JsValue] = { obj =>
 
         val decisions = obj.getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]
 
