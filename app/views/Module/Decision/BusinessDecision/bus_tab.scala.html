@@ -110,7 +110,7 @@
                             @if(visit_hours("prod_name").as[String] != "皮肤药") {
                                 <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:20px;">
                                     <div class="form-group">
-                                        <input hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_hours").as[Int]}" name="prod_hours" type="text" class="form-control"  value="@{visit_hours("prod_hours").as[Int]}" >
+                                        <input hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control" value="@{visit_hours("prod_hours").as[Int]}" >
                                     </div>
                                 </div>
                             } else {
