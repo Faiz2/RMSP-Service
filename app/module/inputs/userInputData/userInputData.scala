@@ -79,9 +79,10 @@ trait userInputData {
             }
 
             Map(
-                "hosp_code" -> toJson(d.getAs[Int]("hosp_code").get),
+                "hosp_code" -> toJson(d.getAs[Number]("hosp_code").get.intValue),
                 "hosp_name" -> toJson(d.getAs[String]("hosp_name").get),
-                "phase" -> toJson(d.getAs[Int]("phase").get),
+                "phase" -> toJson(d.getAs[Number]("phase").get.intValue),
+                "budget" -> toJson(d.getAs[Number]("budget").get.doubleValue),
                 "salesmen" -> toJson(d.getAs[String]("salesmen").get),
                 "sales" -> toJson(map_sales),
                 "visit_hours" -> toJson(map_visits)

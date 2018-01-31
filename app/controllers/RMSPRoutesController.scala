@@ -11,7 +11,7 @@ import com.pharbers.token.AuthTokenTrait
 import controllers.common.requestArgsQuery
 import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
-import module.inputs.userInputMessages.{forceCreateDefaultInputInOpPhase, updateUserInputInOpPhase, updateUserManagementInOpPhase, userHasLastOp}
+import module.inputs.userInputMessages._
 import module.defaultvalues.DefaultValuesMessages._
 import play.api.libs.json.JsValue
 import play.api.mvc.Action
@@ -170,12 +170,13 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
     }
 
     def decision(uuid : String, phrase : String) = Action { request =>
-        val p = if (phrase == "") "1"
-        else phrase
+        val p = (if (phrase == "") "1"
+                 else phrase)
+        val pi = p.toInt
 
         getUserCookie(request) {
 
-            val jv1 = toJson(Map("phrases" -> toJson(1 :: Nil)))
+            val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil)))
             val reVal1 = {
                 requestArgsQuery().commonExcution(
                     MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -208,15 +209,31 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
 
+            val jv2 =
+                toJson(Map(
+                    "phase" -> toJson(pi),
+                    "condition" -> toJson(Map(
+                        "uuid" -> toJson(uuid)
+                    ))
+                ))
+            val reVal4 =
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv2)
+                        :: queryUserInputInOpPhase(jv2)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+
             if ((reVal  \ "status").asOpt[String].get == "ok" &&
                 (reVal1 \ "status").asOpt[String].get == "ok" &&
                 (reVal2 \ "status").asOpt[String].get == "ok" &&
-                (reVal3 \ "status").asOpt[String].get == "ok") {
+                (reVal3 \ "status").asOpt[String].get == "ok" &&
+                (reVal4 \ "status").asOpt[String].get == "ok") {
 
                 val budget = (reVal1 \ "result" \ "budget").asOpt[JsValue].get
                 val preresult = (reVal3 \ "result" \ "preresult").asOpt[JsValue].get
                 val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
                 val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
+                val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
 
                 val tmp1 = (preresult \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
                 val tmp2 = (hosp_potential \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
@@ -234,14 +251,38 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     ))
                 }
 
-                Ok(views.html.Module.Decision.BusinessDecision.bus_index(budget)(tmp)(sales_men)(uuid)(p))
+                Ok(views.html.Module.Decision.
+                    BusinessDecision.bus_index(budget)(tmp)(sales_men)(inputs)(uuid)(p))
             } else Redirect("/login")
         }
     }
 
     def management(uuid : String, phrase : String) = Action { request =>
+        val p = (if (phrase == "") "1"
+        else phrase)
+        val pi = p.toInt
+
         getUserCookie(request) {
-            Ok(views.html.Module.Decision.ManagementDecision.mag_index(uuid)(phrase))
+
+            val jv =
+                toJson(Map(
+                    "phase" -> toJson(pi),
+                    "condition" -> toJson(Map(
+                        "uuid" -> toJson(uuid)
+                    ))
+                ))
+            val reVal =
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv)
+                        :: updateUserManagementInOpPhase(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                val input = (reVal \ "result" \ "inputs" \ "management").asOpt[List[JsValue]].get
+                Ok(views.html.Module.Decision.ManagementDecision.mag_index(input)(uuid)(p))
+            }
+            else Redirect("/login")
         }
     }
 
