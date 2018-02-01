@@ -8,3 +8,5 @@ target
 /.g8
 /RUNNING_PID
 resource/.Rhistory
+
+*.history
