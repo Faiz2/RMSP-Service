@@ -326,6 +326,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
     def updatemanagement = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
         MessageRoutes(msg_log(toJson(Map("method" -> toJson("management next"))), jv)
             :: updateUserManagementInOpPhase(jv)
+            :: dataCompletelyCallR(jv)
             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
         })
 }

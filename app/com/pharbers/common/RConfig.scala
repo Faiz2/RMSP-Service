@@ -7,7 +7,7 @@ import scala.xml.XML
 /**
   * Created by yym on 1/3/18.
   */
-class RConfig {
+case class RConfig() {
     val configDir : String = System.getProperty("user.dir")
     val  config_path =s"$configDir/pharbers_config/r_config.xml"
     lazy val xml_file = XML.loadFile(config_path)

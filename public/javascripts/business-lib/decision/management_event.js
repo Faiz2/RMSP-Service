@@ -4,7 +4,6 @@ var management_event = (function ($, w) {
     $(function(){
         $('#go-submit').click(function(){
             let $inputs = $('input');
-            let obj = [];
 
             let coach = [];
             $inputs.filter('[pharbers-type="能力辅导"]').map(function(val, input){
@@ -14,7 +13,7 @@ var management_event = (function ($, w) {
                 });
             });
             let assist = [];
-            $inputs.filter('[pharbers-type="实地协防"]').map(function(val, input){
+            $inputs.filter('[pharbers-type="实地协访"]').map(function(val, input){
                 assist.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -57,37 +56,37 @@ var management_event = (function ($, w) {
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "能力辅导",
-                        "project_code": parseInt("1"),
+                        "project_code": parseInt("0"),
                         "apply": coach
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "实地协访",
-                        "project_code": parseInt("2"),
+                        "project_code": parseInt("1"),
                         "apply": assist
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "团队例会和团建",
-                        "project_code": parseInt("3"),
+                        "project_code": parseInt("2"),
                         "apply": construction
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "KPI 报告分析",
-                        "project_code": parseInt("4"),
+                        "project_code": parseInt("3"),
                         "apply": report
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "行政工作",
-                        "project_code": parseInt("5"),
+                        "project_code": parseInt("4"),
                         "apply": pr
                     },
                     {
                         "phase": parseInt($("input:hidden[name='phase']").val()),
                         "project_name": "产品培训",
-                        "project_code": parseInt("6"),
+                        "project_code": parseInt("5"),
                         "apply": product
                     },
                 ]

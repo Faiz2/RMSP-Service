@@ -18,4 +18,7 @@ object userInputMessages {
     case class queryUserManagementInOpPhase(data : JsValue) extends MsgUserInputCommand
 
     case class forceCreateDefaultInputInOpPhase(date : JsValue) extends MsgUserInputCommand
+    
+    // management 后 callR
+    case class dataCompletelyCallR(data: JsValue) extends MsgUserInputCommand
 }

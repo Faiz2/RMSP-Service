@@ -4,6 +4,8 @@ import com.mongodb.casbah.Imports._
 import com.pharbers.ErrorCode
 import com.pharbers.bmmessages.{CommonModules, MessageDefines}
 import com.pharbers.bmpattern.ModuleTrait
+import com.pharbers.common.RConfig
+import com.pharbers.common.cmd.rcmd.CallRFile2
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import module.inputs.userInputData.{userInputCondition, userInputCreate, userInputData, userManagementData}
 import module.inputs.userInputMessages._
@@ -24,6 +26,8 @@ object userInputModule extends ModuleTrait {
         case queryUserManagementInOpPhase(data) => queryUserManagementInOpPhase(data)
 
         case forceCreateDefaultInputInOpPhase(data) => forceCreateDefaultInputInOpPhase(data)
+
+        case dataCompletelyCallR(data) => dataCompleteCallR(data)
 
         case _ => throw new Exception("function is not impl")
     }
@@ -207,6 +211,19 @@ object userInputModule extends ModuleTrait {
 
             (Some(Map("input_update" -> toJson("success"))), None)
 
+        } catch {
+            case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+        }
+    }
+    
+    
+    def dataCompleteCallR(data: JsValue)(implicit cm: CommonModules) : (Option[String Map JsValue], Option[JsValue]) = {
+        try {
+            val uuid = (data \ "condition" \ "uuid").asOpt[String].map(x => x).getOrElse(throw new Exception("wrong input"))
+            val rfile =RConfig().program_path+ RConfig().rfile()
+            val aa = CallRFile2(rfile, uuid).excute
+            println(aa)
+            (Some(Map("call_status" -> toJson("success"))), None)
         } catch {
             case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
         }

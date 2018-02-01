@@ -1,10 +1,42 @@
 var business_event = (function ($, w) {
-    var $content = $('#sum_promotion_budget-cycle1');
-
-    var f = new Facade();
+    let $content = $('#sum_promotion_budget-cycle1');
 
     $(function(){
        $('#go_decision').click(function(){
+
+           // let nums = ["1", "2", "3", "4"].map(str => parseInt(str));
+           // console.info(nums);
+
+           // let $inputs = $('input');
+           // let $select = $('select');
+           // let obj = $("input:hidden[name='input']").map(function(val, input){
+           //     let vv = $(input).val();
+           //     let hospital_name = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').attr("hospital-name");
+           //     let sales = $.map($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="prod_value"]'), function(sales, i){
+           //         let rObj = {};
+           //         rObj["prod_name"] = $(sales).attr("pharbers-type");
+           //         rObj["prod_value"] = parseFloat($(sales).val());
+           //         return rObj;
+           //     });
+           //
+           //     let visit = $.map($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="prod_hours"]'), function(sales, i){
+           //         let rObj = {};
+           //         rObj["prod_name"] = $(sales).attr("pharbers-type");
+           //         rObj["prod_hours"] = parseFloat($(sales).val());
+           //         return rObj;
+           //     });
+           //     let rObj = {};
+           //     rObj["hosp_code"] = parseInt(vv);
+           //     rObj["hosp_name"] = hospital_name;
+           //     rObj["phase"] = parseInt($("input:hidden[name='phase']").val());
+           //     rObj["budget"] = parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val());
+           //     rObj["sales"] =sales;
+           //     rObj["salesmen"] = $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val();
+           //     rObj["visit_hours"] = visit;
+           //     return rObj;
+           // });
+           //
+           // w.console.info(JSON.stringify(obj));
 
            let $inputs = $('input');
            let $select = $('select');
@@ -37,16 +69,16 @@ var business_event = (function ($, w) {
                })
            });
 
-
+            let uuid = $("input:hidden[name='uuid']").val();
             let json = {
                 "user_id": $.cookie("user"),
-                "uuid": $("input:hidden[name='uuid']").val(),
+                "uuid": uuid,
                 "phase": parseInt($("input:hidden[name='phase']").val()),
                 "decision": obj
             };
             let user_info = {
                "user_id": $.cookie("user"),
-               "uuid": $("input:hidden[name='uuid']").val()
+               "uuid": uuid
            };
 
             f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
