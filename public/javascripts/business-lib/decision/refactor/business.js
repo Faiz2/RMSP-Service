@@ -101,7 +101,8 @@
                 };
 
                 f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
-                    w.console.info(r)
+                    w.console.info(r);
+                     $('ul[class="treeview-menu"] li a[pharbers-filter="management-decision"]')[0].click();
                 });
             }
         });
