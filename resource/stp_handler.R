@@ -613,7 +613,7 @@
         product_training+
           meetings_with_team),
         sr_time=prod_hours*other_time,
-        no.hospitals = n_distinct(hosp_name),
+        no_hospitals = n_distinct(hosp_name),
         sr_time_total=sum(sr_time,na.rm=T),
         last_revenue_by_sr = sum(pp_real_revenue,na.rm=T)) %>%
       ungroup %>%
@@ -628,7 +628,7 @@
                     overhead_time = round(overhead_factor*overhead,0),
                     real_sr_time = round(sr_time-overhead_time*prod_hours,2),
                     pp_experience_index = round(sapply(pp_sr_acc_revenue,function(x) round(curve(curve11,x),2))),
-                    field_work_peraccount = field_work/ifelse(no.hospitals==0,0.0001,no.hospitals),
+                    field_work_peraccount = field_work/ifelse(no_hospitals==0,0.0001,no_hospitals),
                     product_knowledge_addition_current_period = sapply(product_training,function(x)curve(curve26,x)),
                     product_knowledge_transfer_value = sapply(pp_product_knowledge_index,function(x)curve(curve28,x)),
                     ss_accumulated_field_work_delta = sapply(sr_acc_field_work,function(x)curve(curve42,x)),
@@ -1112,8 +1112,8 @@
                                        pp_real_revenue=sum(.$pp_real_revenue,na.rm=T),
                                        target_revenue = sum(.$target_revenue,na.rm=T)))) %>%
       dplyr::mutate(real_revenue_increase = real_revenue - pp_real_revenue,
-                    real_revenue_increase_ratio = round(real_revenue_increase/pp_real_revenue,4),
-                    target_revenue_realization = round(real_revenue/target_revenue,4)) %>%
+                    real_revenue_increase_ratio = round(real_revenue_increase/pp_real_revenue*100,4),
+                    target_revenue_realization = round(real_revenue/target_revenue*100,4)) %>%
       arrange(hosp_code) %>%
       select(hosp_name, 
              prod_name,
@@ -1288,19 +1288,34 @@
   
   to_mongo <- list(uuid=R_Json_Path,
                    user_id=user_name,
-                   "date" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),
                    "report"=to_mongo_tmp)
   
 #####-- intermedia data
-  if ( phase == 1) {
-  db1$insert(list("uuid"=R_Json_Path,
-                  "userid"=user_name,
-                  "inter"=list("phase" = phase,
-                               "data" = data_to_use,
-                               "report" = report1_1_tmp,
-                               "acc_success_value" = data_to_use2$acc_success_value)),
-             na="string",
-             auto_unbox = T)  }
+  if (R_Json_Path %in% transfer1$uuid) {
+    
+    mongo_tmp <- paste('{"uuid" : ', '"', R_Json_Path, '"}',sep = "")
+    mongo_tmp1 <- paste('{"$set":{"inter":',
+                        toJSON(list("phase" = phase,
+                                    "data" = data_to_use,
+                                    "report" = report1_1_tmp,
+                                    "acc_success_value" = data_to_use2$acc_success_value),
+                               auto_unbox = T),'}}', sep = "")
+    db1$update(mongo_tmp, mongo_tmp1)
+    
+  } else {
+    
+    db1$insert(list("uuid"=R_Json_Path,
+                    "userid"=user_name,
+                    "inter"=list("phase" = phase,
+                                 "data" = data_to_use,
+                                 "report" = report1_1_tmp,
+                                 "acc_success_value" = data_to_use2$acc_success_value)),
+               na="string",
+               auto_unbox = T)  
+  
+  }
+  
+  
   
   
   # if (phase==1){
@@ -1357,10 +1372,45 @@
           options()$mongodb$host,
           "TMIST"))
   
-
+    names_report <- unlist(lapply(to_mongo_tmp, function(x) x$report_name))
+    transfer2 <- mongodb_con$find()
     
- 
-    mongodb_con$insert(to_mongo,na="string",auto_unbox = T)
+    if ( R_Json_Path%in%transfer2$uuid ) {
+      
+      rownn2 <- which(transfer2$uuid==R_Json_Path)
+      info <- transfer2[rownn2,]$report[[1]]
+      phase_in_mongo <- info$phase
+      
+      out <-lapply(1:nrow(info), function(x) {
+          
+          report_name1 <- info$report_name[x]
+          
+          if (info$phase[x]==phase) {
+            chk <- which(names_report==report_name1)
+            list("phase"=phase,
+                 "report_name"=report_name1,
+                 "result"=to_mongo_tmp[[chk]]$result)
+          } else {
+            list("phase"=info$phase[x],
+                 "report_name"= report_name1,
+                 "result"=info$result[[x]])
+          }
+        })
+        
+      mongo_tmp <- paste('{"uuid" : ', '"', R_Json_Path, '"}',sep = "")
+      mongo_tmp2 <- paste('{"$set":{"report":',toJSON(out,auto_unbox = T),'}}', sep = "")
+      mongodb_con$update(mongo_tmp, mongo_tmp2)
+      
+        
+    } else {
+      
+      mongodb_con$insert(to_mongo, auto_unbox = T, na = "string")
+      
+    }
+    
+    
+    
+   
 
     
   

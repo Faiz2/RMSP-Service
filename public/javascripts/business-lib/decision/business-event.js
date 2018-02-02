@@ -89,6 +89,9 @@ var business_event = (function ($, w) {
        });
     });
 
+
+
+
     // 未封装
     function bind_input_change(region) {
         var $business_tab_li = $('#business_tab li.active');
