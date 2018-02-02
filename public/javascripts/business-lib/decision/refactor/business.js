@@ -128,18 +128,22 @@
             return false;
         } else {
             let flag = true;
-            $.each(filter_inputs_array, function(i, v){
+            $.each(personals, function(n, p){
                 let sum = 0;
-                $.each(v.visit_hours, function(i, h){ sum += h.prod_hours });
-                if(sum > 100) {
-                    f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 超出预定时间。");
-                    flag = false;
-                    return flag;
-                }else if(sum <= 0) {
-                    f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 低于预定时间。");
-                    flag = false;
-                    return flag;
-                }
+                $.each(filter_inputs_array, function(i, v){
+                    if(v.salesmen === p) {
+                        sum += v.visit_hours.map(function(val, ind){ return val.prod_hours }).reduce(function(p, c, i, a){ return p + c });
+                        if(sum > 100) {
+                            f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 超出预定时间。");
+                            flag = false;
+                            return flag;
+                        }else if(sum <= 0) {
+                            f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 低于预定时间。");
+                            flag = false;
+                            return flag;
+                        }
+                    }
+                });
             });
             return flag;
         }
