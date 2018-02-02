@@ -108,8 +108,10 @@
                 f.alert.alert_warn("经理分配时间", "低于预设时间");
             } else {
                 // TODO: Ajax
+                f.alert.loading();
                 f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
                     console.info(r);
+                    layer.closeAll('loading');
                     f.alert.alert_success("消息", "模拟成功");
                 });
             }

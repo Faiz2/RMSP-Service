@@ -183,7 +183,7 @@
                                      "prod_name")) %>%   ## need adjust to pro_code in 2.0 version
       left_join(total_promotional_budget, by="phase") %>%
       dplyr::mutate(budget = budget/100*total_budget,
-                    prod_hour = prod_hours/100)
+                    prod_hours = prod_hours/100)
     return(tmp1)
       
   }
