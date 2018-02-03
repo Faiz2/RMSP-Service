@@ -220,9 +220,10 @@ object userInputModule extends ModuleTrait {
     def dataCompleteCallR(data: JsValue)(implicit cm: CommonModules) : (Option[String Map JsValue], Option[JsValue]) = {
         try {
             val uuid = (data \ "condition" \ "uuid").asOpt[String].map(x => x).getOrElse(throw new Exception("wrong input"))
+            val phase = (data \ "phase").asOpt[Int].map(x => x).getOrElse(throw new Exception("wrong input"))
             val rfile =RConfig().program_path+ RConfig().rfile()
-            val aa = CallRFile2(rfile, uuid).excute
-
+            val r = CallRFile2(rfile, uuid, phase).excute
+            println(r)
             (Some(Map("call_status" -> toJson("success"))), None)
         } catch {
             case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
