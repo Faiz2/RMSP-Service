@@ -1,4 +1,5 @@
-@(m: String Map List[String Map String])
+@(m: play.api.libs.json.JsValue)
+
 <div class="box-body">
     <div style="text-align: left;margin-left: 3%">
         <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
@@ -12,11 +13,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("cost")) {
-                            <tr role="row">
-                                <td class="dt-center">@vul("销售代表")</td>
-                                <td class="dt-center num-format">@vul("绩效奖金(元)")</td>
-                            </tr>
+                        @{
+                            val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                            val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "经理报告_职员成本").get
+                            val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                            tmp.map { iter =>
+                                <tr role="row">
+                                <td class="dt-center">{(iter \ "salesmen").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "bonus").asOpt[Int].get}</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -38,11 +45,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("timerallot")) {
-                            <tr role="row">
-                                <td class="dt-center">@vul("名称")</td>
-                                <td class="dt-center">@vul("值")</td>
-                            </tr>
+
+                        @{
+                            val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                            val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "经理报告_时间分配").get
+                            val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                            tmp.map { iter =>
+                                <tr role="row">
+                                <td class="dt-center">{(iter \ "general_names").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "values").asOpt[Double].get}</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

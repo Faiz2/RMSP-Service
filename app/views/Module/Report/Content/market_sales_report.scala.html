@@ -1,4 +1,4 @@
-@(m: String Map List[String Map String])
+@(m : play.api.libs.json.JsValue)
 
 <div class="box-body">
     <div style="text-align: left;margin-left: 3%">
@@ -15,15 +15,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("commercialvalue")) {
-                            <tr role="row" >
-                                <td class="dt-center">@vul("名称")</td>
-                                <td class="dt-center">@vul("周期0")</td>
-                                <td class="dt-center num-format">@vul("周期1")</td>
-                                <td class="dt-center num-format">@vul("周期2")</td>
-                            </tr>
+                        @{
+                            val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                            val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "市场销售报告_商业价值").get
+                            val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                            tmp.map { iter =>
+                                <tr role="row" >
+                                    <td class="dt-center">{(iter \ "general_names").asOpt[String].get}</td>
+                                    <td class="dt-center">{(iter \ "phase0").asOpt[Int].get}</td>
+                                    <td class="dt-center">{(iter \ "phase1").asOpt[Int].get}</td>
+                                    <td class="dt-center">{(iter \ "phase2").asOpt[Int].get}</td>
+                                </tr>
+                            }
                         }
-                    </tbody>
+                   </tbody>
                 </table>
             </div>
         </div>
@@ -44,13 +50,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("performance")) {
+                    @{
+                        val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                        val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "市场销售报告_销售业绩").get
+                        val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                        tmp.map { iter =>
                             <tr role="row" >
-                                <td class="dt-center">@vul("医院")</td>
-                                <td class="dt-center num-format">@vul("上期总销售(元)")</td>
-                                <td class="dt-center num-format">@vul("当期总销售(元)")</td>
+                                <td class="dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "last_total_revenue").asOpt[Int].get}</td>
+                                <td class="dt-center">{(iter \ "current_total_revenue").asOpt[Int].get}</td>
                             </tr>
                         }
+                    }
                     </tbody>
                 </table>
             </div>

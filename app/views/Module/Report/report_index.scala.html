@@ -1,10 +1,10 @@
-@()
+@(uuid : String)(phase : String)(report : play.api.libs.json.JsValue)
 
-@Home.home("report")("")("") {
+@Home.home("report")(uuid)(phase) {
 <section class="content">
     <ul class="nav nav-tabs" id="report-tab" role="tablist">
-        <li role="presentation" class="active"><a href="#tab-2688-1" aria-controls="tab-2688-1" data-toggle="tab">周期1</a></li>
-        <li role="presentation"><a href="#tab-2688-2" aria-controls="tab-2688-2" data-toggle="tab">周期2</a></li>
+        <li role="presentation" class='@{if(phase == "1") "active"}'><a href='@{"/decision/" + uuid + "/1"}' pharbers-status=false>周期1</a></li>
+        <li role="presentation" class='@{if(phase == "2") "active"}'><a href='@{"/decision/" + uuid + "/2"}' pharbers-status=false>周期2</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" role="tabpanel" data-value="周期1" id="tab-2688-1">
@@ -28,6 +28,7 @@
                                         <h3 class="box-title">市场销售报告</h3>
                                     </div>
                                     <div name="market-sales">
+                                        @Module.Report.Content.market_sales_report(report)
                                         @* @Module.Report.ReportCycle1Content.market_sales_report() *@
                                     </div>
                                 </div>
@@ -42,6 +43,7 @@
                                         <h3 class="box-title">代表报告</h3>
                                     </div>
                                     <div name="deputy">
+                                        @Module.Report.Content.delegate_report(report)
                                         @* @Module.Report.ReportCycle1Content.delegate_report() *@
                                     </div>
                                 </div>
@@ -57,6 +59,7 @@
                                         <h3 class="box-title">经理报告</h3>
                                     </div>
                                     <div name="manager">
+                                        @Module.Report.Content.manager_report(report)
                                         @* @Module.Report.ReportCycle1Content.manager_report() *@
                                     </div>
                                 </div>
@@ -72,6 +75,7 @@
                                         <h3 class="box-title">分配报告</h3>
                                     </div>
                                     <div name="allot">
+                                        @Module.Report.Content.allot_report(report)
                                         @* @Module.Report.ReportCycle1Content.allot_report() *@
                                     </div>
                                 </div>
@@ -86,7 +90,8 @@
                                     <div class="box-header">
                                         <h3 class="box-title">销售报告</h3>
                                     </div>
-                                    @Module.Report.ReportCycle1Content.sales_report()
+                                    @Module.Report.Content.sales_report(report)
+                                    @* @Module.Report.ReportCycle1Content.sales_report()*@
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
-@(m: String Map List[String Map String])
+@(m: play.api.libs.json.JsValue)
+
 <div class="box-body">
     <div style="margin-left: 3%">
         @Module.Report.hospital_select()
@@ -24,16 +25,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("timerallot")) {
-                            <tr role="row">
-                                <td class="dt-center">@vul("医院")</td>
-                                <td class="dt-center">@vul("因素")</td>
-                                <td class="dt-center num-format">@vul("口服抗生素")</td>
-                                <td class="dt-center num-format">@vul("一代降糖药")</td>
-                                <td class="dt-center num-format">@vul("三代降糖药")</td>
-                                <td class="dt-center num-format">@vul("皮肤药")</td>
-                                <td class="dt-center num-format">@vul("总体")</td>
-                            </tr>
+
+                        @{
+                            val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                            val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "分配报告_资源分配").get
+                            val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                            tmp.map { iter =>
+                                <tr role="row">
+                                <td class="dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "factor").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "product_first").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "product_second").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "product_third").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "product_fourth").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "overall").asOpt[String].get}</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

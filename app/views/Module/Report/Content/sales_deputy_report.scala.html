@@ -1,4 +1,5 @@
-@(m: String Map List[String Map String])
+@(m : play.api.libs.json.JsValue)
+
 <div name="deputy">
     <div style="margin-left: 3%">
         @Module.Report.people_select()
@@ -20,15 +21,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(vul <- m("salesdeputy")) {
-                            <tr role="row">
-                                <td class="dt-center">@vul("销售代表")</td>
-                                <td class="dt-center">@vul("产品")</td>
-                                <td class="dt-center num-format">@vul("当期销售指标")</td>
-                                <td class="dt-center num-format">@vul("上期销售额")</td>
-                                <td class="dt-center num-format">@vul("当期销售额")</td>
-                                <td class="dt-center num-format">@vul("销售额达成率")</td>
-                            </tr>
+
+                        @{
+                            val rp = (m \ "report").asOpt[List[play.api.libs.json.JsValue]].get
+                            val tp = rp.find(p => (p \ "report_name").asOpt[String].get == "销售报告_销售额每代表").get
+                            val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
+
+                            tmp.map { iter =>
+                                <tr role="row">
+                                <td class="dt-center">{(iter \ "salesmen").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "prod_name").asOpt[String].get}</td>
+                                <td class="dt-center">{(iter \ "current_target").asOpt[Int].get}</td>
+                                <td class="dt-center">{(iter \ "last_revenue").asOpt[Int].get}</td>
+                                <td class="dt-center">{(iter \ "current_revenue").asOpt[Int].get}</td>
+                                <td class="dt-center">{(iter \ "target_realization").asOpt[Double].get}</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

@@ -13,6 +13,7 @@ import com.pharbers.bmpattern.LogMessage.{common_log, msg_log}
 import com.pharbers.bmpattern.ResultMessage.{common_result, msg_CommonResultMessage}
 import module.inputs.userInputMessages._
 import module.defaultvalues.DefaultValuesMessages._
+import module.outputs.reportOutputMessages.{reportDataInOpPhase, reportLastFinishedPhase}
 import play.api.libs.json.JsValue
 import play.api.mvc.Action
 import play.api.libs.json.Json.toJson
@@ -287,8 +288,33 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
     }
 
 	def report(uuid : String, phrase : String) = Action { request =>
+        val p = (if (phrase == "") "1"
+        else phrase)
+        val pi = p.toInt
+
         getUserCookie(request) {
-            Ok(views.html.Module.Report.report_index())
+
+            /**
+              * 1.read finish report count
+              */
+            val jv = toJson(Map(
+                    "phase" -> toJson(pi),
+                    "condition" -> toJson(Map(
+                        "uuid" -> toJson(uuid)
+                    ))
+                ))
+            val reVal =
+                requestArgsQuery().commonExcution(
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+                        :: reportDataInOpPhase(jv)
+                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                )
+
+//            println(reVal)
+            if ((reVal \ "status").asOpt[String].get == "ok") {
+                val tmp = (reVal \ "result").asOpt[JsValue].get
+                Ok(views.html.Module.Report.report_index(uuid)(p)(tmp))
+            } else Redirect("/login")
         }
 	}
 

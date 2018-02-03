@@ -1,7 +1,6 @@
 package module.inputs
 
 import com.pharbers.bmmessages.CommonMessage
-import module.defaultvalues.DefaultValuesModule
 import play.api.libs.json.JsValue
 
 abstract class MsgUserInputCommand extends CommonMessage("user input values", userInputModule)
