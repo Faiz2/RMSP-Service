@@ -222,7 +222,7 @@ object userInputModule extends ModuleTrait {
             val uuid = (data \ "condition" \ "uuid").asOpt[String].map(x => x).getOrElse(throw new Exception("wrong input"))
             val rfile =RConfig().program_path+ RConfig().rfile()
             val aa = CallRFile2(rfile, uuid).excute
-            println(aa)
+
             (Some(Map("call_status" -> toJson("success"))), None)
         } catch {
             case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))

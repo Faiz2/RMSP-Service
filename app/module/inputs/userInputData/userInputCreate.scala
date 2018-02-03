@@ -7,7 +7,6 @@ import play.api.libs.json.JsValue
 
 trait userInputCreate {
     implicit val c2d : JsValue => DBObject = { mm =>
-
         val builder = MongoDBObject.newBuilder
 
         builder += "user_id" -> (mm \ "user_id").asOpt[String].get
@@ -28,28 +27,30 @@ trait userInputCreate {
 
         val dst = MongoDBList.newBuilder
 
-        mlst.zipWithIndex.map { iter =>
-            val mg = iter._1
-            val pg = mg._2
+        1 to 2 map { index =>
+            mlst.zipWithIndex.map { iter =>
+                val mg = iter._1
+                val pg = mg._2
 
-            val builder = MongoDBObject.newBuilder
-            builder += "project_name" -> mg._1
-            builder += "project_code" -> iter._2
-            builder += "phase" -> 1
+                val builder = MongoDBObject.newBuilder
+                builder += "project_name" -> mg._1
+                builder += "project_code" -> iter._2
+                builder += "phase" -> index
 
-            val app_lst = MongoDBList.newBuilder
+                val app_lst = MongoDBList.newBuilder
 
-            mg._2.map { n =>
-                val tmp = MongoDBObject.newBuilder
-                tmp += "personal" -> n
-                tmp += "days" -> 0
+                mg._2.map { n =>
+                    val tmp = MongoDBObject.newBuilder
+                    tmp += "personal" -> n
+                    tmp += "days" -> 0
 
-                app_lst += tmp.result
+                    app_lst += tmp.result
+                }
+
+                builder += "apply" -> app_lst.result
+
+                dst += builder.result
             }
-
-            builder += "apply" -> app_lst.result
-
-            dst += builder.result
         }
 
         dst.result
@@ -63,11 +64,12 @@ trait userInputCreate {
         //        val dd = (mm \ "decision").asOpt[List[JsValue]].get
         val dst = MongoDBList.newBuilder
 
+        1 to 2 map { index =>
         (1 to 10).map { d =>
             val tmp = MongoDBObject.newBuilder
             tmp += "hosp_code" -> d //(d \ "hosp_id").asOpt[String].get
             tmp += "hosp_name" -> hlst(d - 1)
-            tmp += "phase" -> 1
+            tmp += "phase" -> index
             tmp += "budget" -> 0.0
             tmp += "salesmen" -> ""
 
@@ -94,7 +96,7 @@ trait userInputCreate {
             tmp += "visit_hours" -> vh_lst.result
 
             dst += tmp.result
-        }
+        }}
         dst.result
     }
 }

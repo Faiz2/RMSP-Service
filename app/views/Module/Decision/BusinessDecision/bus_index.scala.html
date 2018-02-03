@@ -21,8 +21,8 @@
             </div>
             <br>
             <div id="sum_promotion_budget-cycle1">
-                @Module.Decision.BusinessDecision.sum_promotion_budget((budget \ "1" \ "budget").asOpt[String].get, cycle)
-                @Module.Decision.BusinessDecision.bus_tab(data, salemen, "1", inputs)
+                @Module.Decision.BusinessDecision.sum_promotion_budget((budget \ cycle \ "budget").asOpt[String].map (x => x).getOrElse(""), cycle)
+                @Module.Decision.BusinessDecision.bus_tab(data, salemen, cycle, inputs)
             </div>
         </div>
         <!--隐藏域，存储uuid-->

@@ -176,85 +176,87 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         val pi = p.toInt
 
         getUserCookie(request) {
-
-            val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil)))
-            val reVal1 = {
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
-                        :: budgetInProposal(jv1)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
-            }
-
-            val reVal2 = {
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
-                        :: hospitalPotentialInProposal(jv1)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
-            }
-
-            val reVal3 = {
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
-                        :: perResultInProposal(jv1)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
-            }
-
-            val jv = toJson("")
-            val reVal =
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("sales man proposal"))), jv)
-                        :: salesMenInProposal(jv)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
-
-            val jv2 =
-                toJson(Map(
-                    "phase" -> toJson(pi),
-                    "condition" -> toJson(Map(
-                        "uuid" -> toJson(uuid)
-                    ))
-                ))
-            val reVal4 =
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv2)
-                        :: queryUserInputInOpPhase(jv2)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
-
-            if ((reVal  \ "status").asOpt[String].get == "ok" &&
-                (reVal1 \ "status").asOpt[String].get == "ok" &&
-                (reVal2 \ "status").asOpt[String].get == "ok" &&
-                (reVal3 \ "status").asOpt[String].get == "ok" &&
-                (reVal4 \ "status").asOpt[String].get == "ok") {
-
-                val budget = (reVal1 \ "result" \ "budget").asOpt[JsValue].get
-                val preresult = (reVal3 \ "result" \ "preresult").asOpt[JsValue].get
-                val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
-                val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
-                val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
-
-                val tmp1 = (preresult \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
-                val tmp2 = (hosp_potential \ "1").asOpt[List[JsValue]].get.sortBy(s => (s \ "hosp_code").asOpt[String].get.toInt)
-
-                val tmp =
-                tmp1 zip tmp2 map { x =>
-                    toJson(Map(
-                        "hosp_code" -> toJson((x._1 \ "hosp_code").asOpt[String].get),
-                        "hosp_name" -> toJson((x._1 \ "hosp_name").asOpt[String].get),
-                        "hosp_cat" -> toJson((x._1 \ "hosp_cat").asOpt[String].get),
-                        "口服抗生素" -> toJson((x._1 \ "口服抗生素").asOpt[String].get :: ((x._2) \ "口服抗生素").asOpt[String].get :: Nil),
-                        "一代降糖药" -> toJson((x._1 \ "一代降糖药").asOpt[String].get :: ((x._2) \ "一代降糖药").asOpt[String].get :: Nil),
-                        "三代降糖药" -> toJson((x._1 \ "三代降糖药").asOpt[String].get :: ((x._2) \ "三代降糖药").asOpt[String].get :: Nil),
-                        "皮肤药" -> toJson((x._1 \ "皮肤药").asOpt[String].get :: ((x._2) \ "皮肤药").asOpt[String].get :: Nil)
-                    ))
+            if (!checkInputPhase(uuid, pi)) Redirect("/phase_error/" + uuid + "/" + phrase)
+            else {
+                val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil)))
+                val reVal1 = {
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                            :: budgetInProposal(jv1)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
                 }
-                
-                Ok(views.html.Module.Decision.
-                    BusinessDecision.bus_index(budget)(tmp)(sales_men)(inputs)(uuid)(p))
-            } else Redirect("/login")
+
+                val reVal2 = {
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                            :: hospitalPotentialInProposal(jv1)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
+                }
+
+                val reVal3 = {
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                            :: perResultInProposal(jv1)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
+                }
+
+                val jv = toJson("")
+                val reVal =
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("sales man proposal"))), jv)
+                            :: salesMenInProposal(jv)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
+
+                val jv2 =
+                    toJson(Map(
+                        "phase" -> toJson(pi),
+                        "condition" -> toJson(Map(
+                            "uuid" -> toJson(uuid)
+                        ))
+                    ))
+                val reVal4 =
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv2)
+                            :: queryUserInputInOpPhase(jv2)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
+
+                if ((reVal \ "status").asOpt[String].get == "ok" &&
+                    (reVal1 \ "status").asOpt[String].get == "ok" &&
+                    (reVal2 \ "status").asOpt[String].get == "ok" &&
+                    (reVal3 \ "status").asOpt[String].get == "ok" &&
+                    (reVal4 \ "status").asOpt[String].get == "ok") {
+
+                    val budget = (reVal1 \ "result" \ "budget").asOpt[JsValue].get
+                    val preresult = (reVal3 \ "result" \ "preresult").asOpt[JsValue].get
+                    val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
+                    val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
+                    val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
+
+                    val tmp1 = (preresult \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
+                    val tmp2 = (hosp_potential \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
+
+                    val tmp =
+                        tmp1 zip tmp2 map { x =>
+                            toJson(Map(
+                                "hosp_code" -> toJson((x._1 \ "hosp_code").asOpt[String].get),
+                                "hosp_name" -> toJson((x._1 \ "hosp_name").asOpt[String].get),
+                                "hosp_cat" -> toJson((x._1 \ "hosp_cat").asOpt[String].get),
+                                "口服抗生素" -> toJson((x._1 \ "口服抗生素").asOpt[String].get :: ((x._2) \ "口服抗生素").asOpt[String].get :: Nil),
+                                "一代降糖药" -> toJson((x._1 \ "一代降糖药").asOpt[String].get :: ((x._2) \ "一代降糖药").asOpt[String].get :: Nil),
+                                "三代降糖药" -> toJson((x._1 \ "三代降糖药").asOpt[String].get :: ((x._2) \ "三代降糖药").asOpt[String].get :: Nil),
+                                "皮肤药" -> toJson((x._1 \ "皮肤药").asOpt[String].get :: ((x._2) \ "皮肤药").asOpt[String].get :: Nil)
+                            ))
+                        }
+
+                    Ok(views.html.Module.Decision.
+                        BusinessDecision.bus_index(budget)(tmp)(sales_men)(inputs)(uuid)(p))
+                } else Redirect("/login")
+            }
         }
     }
 
@@ -264,26 +266,28 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         val pi = p.toInt
 
         getUserCookie(request) {
-
-            val jv =
-                toJson(Map(
-                    "phase" -> toJson(pi),
-                    "condition" -> toJson(Map(
-                        "uuid" -> toJson(uuid)
+            if (!checkInputPhase(uuid, pi)) Redirect("/phase_error/" + uuid + "/" + phrase)
+            else {
+                val jv =
+                    toJson(Map(
+                        "phase" -> toJson(pi),
+                        "condition" -> toJson(Map(
+                            "uuid" -> toJson(uuid)
+                        ))
                     ))
-                ))
-            val reVal =
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv)
-                        :: queryUserManagementInOpPhase(jv)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
+                val reVal =
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("pre input"))), jv)
+                            :: queryUserManagementInOpPhase(jv)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
 
-            if ((reVal \ "status").asOpt[String].get == "ok") {
-                val input = (reVal \ "result" \ "input" \ "management").asOpt[List[JsValue]].get
-                Ok(views.html.Module.Decision.ManagementDecision.mag_index(input)(uuid)(p))
+                if ((reVal \ "status").asOpt[String].get == "ok") {
+                    val input = (reVal \ "result" \ "input" \ "management").asOpt[List[JsValue]].get
+                    Ok(views.html.Module.Decision.ManagementDecision.mag_index(input)(uuid)(p))
+                }
+                else Redirect("/login")
             }
-            else Redirect("/login")
         }
     }
 
@@ -294,27 +298,29 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
         getUserCookie(request) {
 
-            /**
-              * 1.read finish report count
-              */
-            val jv = toJson(Map(
+            if (!checkPhase(uuid, pi)) Redirect("/phase_error/" + uuid + "/" + phrase)
+            else {
+                val jv = toJson(Map(
                     "phase" -> toJson(pi),
                     "condition" -> toJson(Map(
                         "uuid" -> toJson(uuid)
                     ))
                 ))
-            val reVal =
-                requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
-                        :: reportDataInOpPhase(jv)
-                        :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-                )
+                /**
+                  * 2.read finish report count
+                  */
+                val reVal =
+                    requestArgsQuery().commonExcution(
+                        MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+                            :: reportDataInOpPhase(jv)
+                            :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+                    )
 
-//            println(reVal)
-            if ((reVal \ "status").asOpt[String].get == "ok") {
-                val tmp = (reVal \ "result").asOpt[JsValue].get
-                Ok(views.html.Module.Report.report_index(uuid)(p)(tmp))
-            } else Redirect("/login")
+                if ((reVal \ "status").asOpt[String].get == "ok") {
+                    val tmp = (reVal \ "result").asOpt[JsValue].get
+                    Ok(views.html.Module.Report.report_index(uuid)(p)(tmp))
+                } else Redirect("/login")
+            }
         }
 	}
 
@@ -355,4 +361,44 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
             :: dataCompletelyCallR(jv)
             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
         })
+
+    def checkPhase(uuid : String, p : Int) : Boolean = {
+        val jv = toJson(Map(
+            "condition" -> toJson(Map(
+                "uuid" -> toJson(uuid)
+            ))
+        ))
+        val reVal1 =
+            requestArgsQuery().commonExcution(
+                MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+                    :: reportLastFinishedPhase(jv)
+                    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+            )
+
+        if ((reVal1 \ "status").asOpt[String].get == "ok") (reVal1 \ "result" \ "finished_phase").asOpt[Int].get >= p
+        else false
+    }
+
+    def checkInputPhase(uuid : String, p : Int) : Boolean = {
+        val jv = toJson(Map(
+            "condition" -> toJson(Map(
+                "uuid" -> toJson(uuid)
+            ))
+        ))
+        val reVal1 =
+            requestArgsQuery().commonExcution(
+                MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+                    :: reportLastFinishedPhase(jv)
+                    :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+            )
+
+        if ((reVal1 \ "status").asOpt[String].get == "ok") (reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1 >= p
+        else false
+    }
+
+    def phase_error(uuid : String, phase : String) = Action { request =>
+        getUserCookie(request) {
+            Ok(views.html.Home.phase_error(uuid)(phase))
+        }
+    }
 }
