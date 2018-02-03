@@ -23,9 +23,27 @@
                             tmp.map { iter =>
                                 <tr role="row" >
                                     <td class="dt-center">{(iter \ "general_names").asOpt[String].get}</td>
-                                    <td class="dt-center">{(iter \ "phase0").asOpt[Int].get}</td>
-                                    <td class="dt-center">{(iter \ "phase1").asOpt[Int].get}</td>
-                                    <td class="dt-center">{(iter \ "phase2").asOpt[Int].get}</td>
+                                    <td class="dt-center">
+                                    {
+                                        val t = (iter \ "phase0").asOpt[Int].get
+                                        if (t < 0) ""
+                                        else t.toString
+                                    }
+                                    </td>
+                                    <td class="dt-center">
+                                    {
+                                        val t = (iter \ "phase1").asOpt[Int].get
+                                        if (t < 0) ""
+                                        else t.toString
+                                    }
+                                    </td>
+                                    <td class="dt-center">
+                                    {
+                                        val t = (iter \ "phase2").asOpt[Int].get
+                                        if (t < 0) ""
+                                        else t.toString
+                                    }
+                                    </td>
                                 </tr>
                             }
                         }
