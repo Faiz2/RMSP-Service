@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# ProjectName:  stp
+# ProjectName:  TMIST
 # Purpose:      sales training
 # programmer:   Anqi Chen
 # Date:         20-11-2017
@@ -32,8 +32,8 @@
   argss <- commandArgs(TRUE)
   R_Json_Path <- argss[1]
   #file_path <- argss[3]
-  R_File_Path <- "resource/pre_data_linux.RData"
-  load(R_File_Path)
+  #R_File_Path <- "resource/pre_data_linux.RData"
+  #load(R_File_Path)
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##                              write function
@@ -133,55 +133,15 @@
   ##                      data cleaning part
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
-  ## -- hospital view
-  # get.data1 <- function(input,phase){
-  #   data_decision <- data.frame(
-  #     phase = NULL, 
-  #     hospital = NULL,
-  #     sales_rep = NULL,
-  #     product = NULL,
-  #     sales_target = NULL,
-  #     potential_revenue = NULL,
-  #     promotional_budget = NULL,
-  #     sr_time_proportion = NULL,
-  #     stringsAsFactors = F)
-  #   
-  #   for (j in 1:10) {
-  #     for (q in 1:4){
-  #       name.phase = as.character(paste("phase",phase,sep=""))
-  #       name.hospital = as.character(unique(hospital_info$name)[j])
-  #       name.product = as.character(product_info$product[q])
-  #       name.sales_rep <- as.character(input[[paste("p",phase,"_sr_hosp",j,sep="")]])
-  #       value.sales_target <- as.numeric(input[[paste("p",phase,"_hosp",j,"_sales_target_",q,sep="")]])
-  #       value.promotional_budget <- as.numeric(input[[paste("p",phase,"_promotional_budget_hosp",j,sep="")]])/100*
-  #         total_promotional_budget[which(total_promotional_budget$phase==paste(phase_ch,phase,sep="")),]$budget
-  #       value.sr_time_proportion <- as.numeric(input[[paste("p",phase,"_hosp",j,"_worktime_",q,sep="")]])/100
-  #       
-  #       
-  #       data_decision <- plyr::rbind.fill(data_decision,data.frame(
-  #         phase = name.phase,
-  #         hospital = name.hospital,
-  #         sales_rep = ifelse(name.sales_rep=="",0,name.sales_rep), 
-  #         product = name.product,
-  #         sales_target = ifelse(is.na(value.sales_target),0,value.sales_target),
-  #         potential_revenue = as.numeric(hospital_info[which(hospital_info$phase==paste(phase_ch,phase,sep="")&
-  #                                                              hospital_info$name==name.hospital&
-  #                                                              hospital_info$product==name.product),]$potential),
-  #         promotional_budget = ifelse(is.na(value.promotional_budget),0,value.promotional_budget),
-  #         sr_time_proportion = ifelse(is.null(name.sales_rep)|is.na(value.sr_time_proportion),
-  #                                     0,value.sr_time_proportion)
-  #       ))
-  #     }}
-  #   data_decision
-  # }
   
   
   get.data1 <- function(input) {
     tmp1 <- input %>%
       left_join(hospital_info, by= c("phase",
                                      "hosp_code",
-                                     "prod_name")) %>%   ## need adjust to pro_code in 2.0 version
-      left_join(total_promotional_budget, by="phase") %>%
+                                     "prod_name",
+                                     "hosp_name")) %>%   ## need adjust to pro_code in 2.0 version
+      left_join(promotioal_budget_list, by="phase") %>%
       dplyr::mutate(budget = budget/100*total_budget,
                     prod_hours = prod_hours/100)
     return(tmp1)
@@ -189,62 +149,7 @@
   }
   
   
-  # get.data2 <- function(input,phase){
-  #   data_decision2 <- data.frame(
-  #     phase = NULL,
-  #     sales_rep = NULL,
-  #     sales_training = NULL,
-  #     product_training = NULL,
-  #     field_work = NULL,
-  #     meetings_with_team = NULL,
-  #     kpi_analysis = NULL,
-  #     admin_work = NULL,
-  #     work_time = NULL,
-  #     stringsAsFactors = F
-  #   )
-  #   
-  #   for (j in 1:5) {
-  #     name.sales_rep <- as.character(sr_info_list$sales_rep[j])
-  #     value.sales_training <- as.numeric(
-  #       input[[paste("p",phase,"_sr",j,"_sales_training",sep="")]])
-  #     value.product_training <- as.numeric(
-  #       input[[paste("p",phase,"_sr",j,"_product_training",sep="")]])
-  #     value.field_work <- as.numeric(
-  #       input[[paste("p",phase,"_sr",j,"_field_work",sep="")]])
-  #     value.meetings_with_team <- as.numeric(
-  #       input[[paste("p",phase,"_flm_team_meeting",sep="")]])
-  #     value.kpi_analysis <- as.numeric(
-  #       input[[paste("p",phase,"_flm_kpi_analysis",sep="")]])
-  #     value.admin_work <- as.numeric(
-  #       input[[paste("p",phase,"_flm_admin_work",sep="")]])
-  #     
-  #     if (name.sales_rep==""){
-  #       data_decision2 <- plyr::rbind.fill(data_decision2,data.frame(
-  #         phase = as.character(paste(phase_ch,phase,sep="")),
-  #         sales_rep = 0,
-  #         sales_training = 0,
-  #         product_training = 0,
-  #         field_work = 0,
-  #         meetings_with_team = 0,
-  #         kpi_analysis = 0,
-  #         admin_work = 0,
-  #         work_time = 0))
-  #     } else{
-  #       
-  #       data_decision2 <- plyr::rbind.fill(data_decision2,data.frame(
-  #         phase = as.character(paste("phase",phase,sep="")),
-  #         sales_rep = name.sales_rep,
-  #         sales_training = ifelse(is.na(value.sales_training),0,value.sales_training),
-  #         product_training = ifelse(is.na(value.product_training),0,value.product_training),
-  #         field_work = ifelse(is.na(value.field_work),0,value.field_work),
-  #         meetings_with_team = ifelse(is.na(value.meetings_with_team),0,value.meetings_with_team),
-  #         kpi_analysis = ifelse(is.na(value.kpi_analysis),0,value.kpi_analysis),
-  #         admin_work = ifelse(is.na(value.admin_work),0,value.admin_work),
-  #         work_time = worktime
-  #       ))}
-  #   }
-  #   data_decision2
-  # }
+  
   
   get.data2 <- function(input) {
     tmp2 <- data.frame(input,
@@ -255,43 +160,7 @@
     return(tmp2)
   }
   
-  # sales_training <- function(input,phase){sum(c(
-  #   as.numeric(input[[paste("p",phase,"_sr1_sales_training",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr2_sales_training",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr3_sales_training",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr4_sales_training",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr5_sales_training",sep = "")]])),
-  #   na.rm = T)}
-  # 
-  # field_work <- function(input,phase){sum(c(
-  #   as.numeric(input[[paste("p",phase,"_sr1_field_work",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr2_field_work",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr3_field_work",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr4_field_work",sep = "")]]),
-  #   as.numeric(input[[paste("p",phase,"_sr5_field_work",sep = "")]])),
-  #   na.rm = T)}
   
-
-  
-  
-  
-  # get.data3 <- function(input,phase){
-  #   flm_decision <- data.frame(
-  #     flm_sales_training = sales_training(input,phase),
-  #     flm_field_work = field_work(input,phase),
-  #     flm_meetings_with_team = ifelse(is.na(as.numeric(input[[paste("p",phase,"_flm_team_meeting",sep = "")]])),
-  #                                     0,
-  #                                     as.numeric(input[[paste("p",phase,"_flm_team_meeting",sep = "")]])),
-  #     flm_kpi_analysis = ifelse(is.na(as.numeric(input[[paste("p",phase,"_flm_kpi_analysis",sep = "")]])),
-  #                               0,
-  #                               as.numeric(input[[paste("p",phase,"_flm_kpi_analysis",sep = "")]])),
-  #     flm_admin_work = ifelse(is.na(as.numeric(input[[paste("p",phase,"_flm_admin_work",sep = "")]])),
-  #                             0,
-  #                             as.numeric(input[[paste("p",phase,"_flm_admin_work",sep = "")]])),
-  #     stringsAsFactors = F)
-  #   flm_decision
-  #   
-  # }
   
   get.data3 <- function(data) {
     flm_decision <- data %>%
@@ -308,97 +177,161 @@
     return(flm_decision)
     }
   
-  # test <- function(phase,hosp,input) {
-  #   get_name <- c(paste("p",phase,"_promotional_budget_hosp",hosp,sep=""),
-  #                 paste("p",phase,"_hosp",hosp,"_sales_target_",1:4,sep=""),
-  #                 paste("p",phase,"_hosp",hosp,"_worktime_",1:4,sep=""))
-  #   chk1 <- (is.null(input[[paste("p",phase,"_sr_hosp",hosp,sep="")]])|   #  check whether sr is null or ""
-  #              input[[paste("p",phase,"_sr_hosp",hosp,sep="")]]=="")
-  #   chk2 <- any(vapply(get_name,
-  #                      function(x) {!is.null(input[[x]])&
-  #                          ifelse(is.null(input[[x]]),TRUE,input[[x]]!="")&
-  #                          ifelse(is.null(input[[x]]),TRUE,input[[x]]!="0")},logical(1)))
-  #   if ( !chk1) {
-  #     return(NA)
-  #   } else if (chk1&chk2) { return(hosp)
-  #   } else {return(NA)}
-  # }
-  # 
-  # calculator <- function(input,phase){
-  #   phase1_promotional_budget=0
-  #   phase1_total_time_arrangement1 <- 0 
-  #   phase1_total_time_arrangement2 <- 0 
-  #   phase1_total_time_arrangement3 <- 0 
-  #   phase1_total_time_arrangement4 <- 0
-  #   phase1_total_time_arrangement5 <- 0
-  #   
-  #   for(i in 1:10){
-  #     
-  #     phase1_promotional_budget <-
-  #       sum(c(phase1_promotional_budget, 
-  #             as.numeric(input[[paste("p",phase,"_promotional_budget_hosp",i,sep="")]])),
-  #           na.rm = TRUE)
-  #     
-  #     tmp <- sum(c(as.numeric(input[[paste("p",phase,"_hosp",i,"_worktime_1",sep="")]]),
-  #                  as.numeric(input[[paste("p",phase,"_hosp",i,"_worktime_2",sep="")]]),
-  #                  as.numeric(input[[paste("p",phase,"_hosp",i,"_worktime_3",sep="")]]),
-  #                  as.numeric(input[[paste("p",phase,"_hosp",i,"_worktime_4",sep="")]])),
-  #                na.rm = TRUE)
-  #     if (input[[paste("p",phase,"_sr_hosp",i,sep = "")]]==
-  #         sr_info_list$sales_rep[1]){
-  #       phase1_total_time_arrangement1 <- 
-  #         phase1_total_time_arrangement1 +tmp
-  #     } else if (input[[paste("p",phase,"_sr_hosp",i,sep = "")]]==
-  #                sr_info_list$sales_rep[2]) {
-  #       phase1_total_time_arrangement2 <- 
-  #         phase1_total_time_arrangement2 +tmp
-  #     } else if (input[[paste("p",phase,"_sr_hosp",i,sep = "")]]==
-  #                sr_info_list$sales_rep[3]) {
-  #       phase1_total_time_arrangement3 <- 
-  #         phase1_total_time_arrangement3 +tmp
-  #     } else if (input[[paste("p",phase,"_sr_hosp",i,sep = "")]]==
-  #                sr_info_list$sales_rep[4]) {
-  #       phase1_total_time_arrangement4 <- 
-  #         phase1_total_time_arrangement4 +tmp
-  #     } else if (input[[paste("p",phase,"_sr_hosp",i,sep = "")]]==
-  #                sr_info_list$sales_rep[5]) {
-  #       phase1_total_time_arrangement5 <- 
-  #         phase1_total_time_arrangement5 +tmp
-  #     }
-  #   }
-  #   
-  #   data <- c(phase1_promotional_budget,
-  #             phase1_total_time_arrangement1,
-  #             phase1_total_time_arrangement2,
-  #             phase1_total_time_arrangement3,
-  #             phase1_total_time_arrangement4,
-  #             phase1_total_time_arrangement5)
-  #   data
-  #   
-  # }
-  # 
+  
   
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##                              read data
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+  ##-- product info
+  db_product <- mongo(collection = "products",
+               url = sprintf(
+                 "mongodb://%s/%s",
+                 options()$mongodb$host,
+                 "TMIST"))
   
-  json_mongo <- mongo(collection = "inputs",
+  product_info <- db_product$find() %>%
+    dplyr::select(-date) %>%
+    dplyr::mutate(prod_unit_price = as.numeric(prod_unit_price),
+                  prod_unit_cost = as.numeric(prod_unit_cost),
+                  prod_code = as.integer(prod_code))
+  
+  ##-- hospital info
+  db_hosp <- mongo(collection = "hospitals",
               url = sprintf(
                 "mongodb://%s/%s",
-                # options()$mongodb$username,
-                # options()$mongodb$password,
                 options()$mongodb$host,
                 "TMIST"))
+  hosp_info <- db_hosp$find() %>%
+    dplyr::select(hosp_name,hosp_code) %>%
+    dplyr::mutate(hosp_code = as.integer(hosp_code))
+  
+  db_potential <- mongo(collection = "constrats",
+               url = sprintf(
+                 "mongodb://%s/%s",
+                 options()$mongodb$host,
+                 "TMIST"))
+  
+  hospital_info <- db_potential$find() %>%
+    dplyr::select(-date) %>%
+    gather(phase, potential, -hosp_code, -prod_code) %>%
+    dplyr::mutate(phase = as.numeric(substr(phase, 8, 8)),
+                  potential = as.numeric(potential),
+                  potential = ifelse(is.na(potential), 0, potential),
+                  hosp_code = as.integer(hosp_code),
+                  prod_code = as.integer(prod_code)) %>%
+    left_join(hosp_info, by = "hosp_code") %>%
+    left_join(dplyr::select(product_info,prod_code,prod_name), by ="prod_code")
+  
+  ##-- salesmen list
+  db_salesmen <- mongo(collection = "salesmen",
+               url = sprintf(
+                 "mongodb://%s/%s",
+                 options()$mongodb$host,
+                 "TMIST"))
+  
+  salesmen_list <- db_salesmen$find()
+  
+  colnames(salesmen_list)[which(colnames(salesmen_list)=="name")] <- "salesmen"
+  
+  ##-- promotional budget list
+  db_budget <- mongo(collection = "budget",
+               url = sprintf(
+                 "mongodb://%s/%s",
+                 options()$mongodb$host,
+                 "TMIST"))
+  
+  promotioal_budget_list <- db_budget$find() 
+  colnames(promotioal_budget_list)[which(colnames(promotioal_budget_list)=="phrase")] <- "phase"
+  promotioal_budget_list <- promotioal_budget_list %>%
+    dplyr::mutate(phase = as.integer(phase),
+                  total_budget = as.numeric(budget)) %>%
+    dplyr::select(-date, -budget) 
+  
+  
+  db_inter <- mongo(collection = "intermedia",
+               url = sprintf(
+                 "mongodb://%s/%s",
+                 # options()$mongodb$username,
+                 # options()$mongodb$password,
+                 options()$mongodb$host,
+                 "TMIST"))
+  
+  info_pre <- db_inter$find(paste('{"uuid" : "all"}',sep = ""))
+  curves <- info_pre$curves[[1]]
+  over_ch <- info_pre$over_ch
+  report_names <- info_pre$report_names[[1]]
+  final_report_add <- info_pre$colnames$final_report_add[[1]]
+  staff_time_add <- info_pre$colnames$staff_time_add[[1]]
+  product_knowledge_add <- info_pre$colnames$product_knowledge_add[[1]]
+  experience_add <- info_pre$colnames$experience_add[[1]]
+  sales_skills_add <- info_pre$colnames$sales_skills_add[[1]]
+  motivation_add <-info_pre$colnames$motivation_add[[1]]
+  flm_time_add <- info_pre$colnames$flm_time_add[[1]]
+  resource_allocation_add <- info_pre$colnames$resource_allocation_add[[1]]
+  weightages <- info_pre$weightage[[1]] 
+  project_list <- info_pre$project_list[[1]]
+  worktime <-info_pre$worktime
+  overhead <- info_pre$overhead
+  big_hosp_list <- info_pre$big_hosp_list[[1]]
+  resource_allocation_rank <- info_pre$ranks$resource_allocation_rank[[1]]
+  final_report_rank <- info_pre$ranks$final_report_rank[[1]]
+  resource_allocation_variable_list <- info_pre$variable_list$resource_allocation_variable_list[[1]]
+  
+  find_sta <- function(name,data,result) {
+    if ( result == "curves") {
+      position <- which(data$curve_name==name)
+      out<-data$curve_data[[position]]
+    } else {
+      position <- which(data$up_index==name)
+      out<-data$weight[[position]]
+    }
+    
+    return(out)
+  }
+  
+  json_mongo <- mongo(collection = "inputs",
+                      url = sprintf(
+                        "mongodb://%s/%s",
+                        # options()$mongodb$username,
+                        # options()$mongodb$password,
+                        options()$mongodb$host,
+                        "TMIST"))
   
   # Read all the entries
   transfer <- json_mongo$find()
   rownames <- which(transfer$uuid==R_Json_Path)
   decision <- transfer[rownames,]$decision[[1]]
   management <- transfer[rownames,]$management[[1]]
-
+  
   ## arg in need
   phase <- decision$phase[1]
   user_name <- transfer$user_id
+  
+  
+  
+  transfer1 <- db_inter$find(paste('{"uuid" : "',R_Json_Path,'"}',sep = ""))
+  
+  if (phase ==1) {
+    
+    # last_report1_1 <- p0_report
+    # last_acc_success_value <- 0
+    
+ 
+    inter_data <- info_pre$inter$data[[1]]
+    last_report1_1 <- info_pre$inter$report[[1]]
+    last_acc_success_value <- info_pre$inter$acc_success_value[[1]]
+    
+  } else {
+    
+    
+    
+    inter_data <- transfer1$inter$data[[1]]
+    last_report1_1 <- transfer1$inter$report[[1]]
+    last_acc_success_value <- transfer1$inter$acc_success_value[[1]]
+    # colnames(last_report1_1) <- as.vector(sapply(colnames(last_report1_1),function(x) as_utf8(x)))
+  }
+  
+  
   
   decision_input <- apply(decision, 1, function(x) {
   
@@ -413,7 +346,11 @@
                "salesmen"=x$salesmen,
                part,
                stringsAsFactors = F)
-    out$salesmen[which(is.na(out$salesmen))] <- "0"
+    out <- out %>%
+      dplyr::mutate(salesmen = ifelse(salesmen=="","0",salesmen),
+                    budget = ifelse(salesmen=="0",0,budget),
+                    prod_value = ifelse(salesmen=="0",0,prod_value),
+                    prod_hours = ifelse(salesmen=="0",0,prod_hours))
     return(out)
   })
   
@@ -503,39 +440,7 @@
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##                      begin computation
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
-  db1 <- mongo(collection = "intermedia",
-               url = sprintf(
-                 "mongodb://%s/%s",
-                 # options()$mongodb$username,
-                 # options()$mongodb$password,
-                 options()$mongodb$host,
-                 "TMIST"))
   
-  transfer1 <- db1$find()
-  
-  if (phase ==1) {
-  
-    # last_report1_1 <- p0_report
-    # last_acc_success_value <- 0
-    
-    rownum <- which(transfer1$uuid=="all"&
-                      transfer1$userid=="all" &
-                      transfer1$inter$phase==0)
-    inter_data <- transfer1[rownum,]$inter$data[[1]]
-    last_report1_1 <- transfer1[rownum,]$inter$report[[1]]
-    last_acc_success_value <- transfer1[rownum,]$inter$acc_success_value[[1]]
-    
-  } else {
-    
-    rownum <- which(transfer1$uuid==R_Json_Path &
-                      transfer1$userid==user_name &
-                      transfer1$inter$phase==1)
-    
-    inter_data <- transfer1[rownum,]$inter$data[[1]]
-    last_report1_1 <- transfer1[rownum,]$inter$report[[1]]
-    last_acc_success_value <- transfer1[rownum,]$inter$acc_success_value[[1]]
-   # colnames(last_report1_1) <- as.vector(sapply(colnames(last_report1_1),function(x) as_utf8(x)))
-  }
   
   cp_data1 <- get.data1(decision_input)
   cp_data2 <- get.data2(management_input)
@@ -605,8 +510,8 @@
                     kpi_analysis = ifelse(prod_hours==0,0,kpi_analysis),
                     admin_work = ifelse(prod_hours==0,0,admin_work),
                     work_time = ifelse(prod_hours==0,0,work_time)) %>%
-      dplyr::mutate(product_price = sapply(prod_name,function(x) product_info[which(product_info$prod_name==x),]$price),
-                    target_revenue= prod_hours,
+      dplyr::mutate(product_price = sapply(prod_name,function(x) product_info[which(product_info$prod_name==x),]$prod_unit_price),
+                    target_revenue= prod_value,
                     target_volume = round(target_revenue/product_price)) %>%
       group_by(phase,salesmen) %>%
       dplyr::mutate(other_time=work_time-(
@@ -624,113 +529,112 @@
                     budget = round(budget*product_time_proportion),
                     promotional_factor = ifelse(target_revenue==0,0,round(budget/target_revenue*100,2)),
                     sr_acc_field_work = pp_sr_acc_field_work+field_work,
-                    overhead_factor = sapply(pp_motivation_index,function(x) curve(curve12,x)),
+                    overhead_factor = sapply(pp_motivation_index,
+                                             function(x) curve(find_sta("curve12",curves,"curves"),x)),
                     overhead_time = round(overhead_factor*overhead,0),
                     real_sr_time = round(sr_time-overhead_time*prod_hours,2),
-                    pp_experience_index = round(sapply(pp_sr_acc_revenue,function(x) round(curve(curve11,x),2))),
+                    pp_experience_index = round(sapply(pp_sr_acc_revenue,function(x) round(curve(find_sta("curve11",curves,"curves"),x),2))),
                     field_work_peraccount = field_work/ifelse(no_hospitals==0,0.0001,no_hospitals),
-                    product_knowledge_addition_current_period = sapply(product_training,function(x)curve(curve26,x)),
-                    product_knowledge_transfer_value = sapply(pp_product_knowledge_index,function(x)curve(curve28,x)),
-                    ss_accumulated_field_work_delta = sapply(sr_acc_field_work,function(x)curve(curve42,x)),
-                    ss_accumulated_sales_training_delta = sapply(sales_training,function(x)curve(curve43,x)),
-                    ss_experience_index_pp = sapply(pp_experience_index,function(x)curve(curve44,x)),
-                    m_sales_training_delta = sapply(sales_training,function(x)curve(curve17,x)),
-                    m_admin_work_delta = sapply(admin_work,function(x)curve(curve18,x)))%>%
+                    product_knowledge_addition_current_period = sapply(product_training,function(x)curve(find_sta("curve26",curves,"curves"),x)),
+                    product_knowledge_transfer_value = sapply(pp_product_knowledge_index,function(x)curve(find_sta("curve28",curves,"curves"),x)),
+                    ss_accumulated_field_work_delta = sapply(sr_acc_field_work,function(x)curve(find_sta("curve42",curves,"curves"),x)),
+                    ss_accumulated_sales_training_delta = sapply(sales_training,function(x)curve(find_sta("curve43",curves,"curves"),x)),
+                    ss_experience_index_pp = sapply(pp_experience_index,function(x)curve(find_sta("curve44",curves,"curves"),x)),
+                    m_sales_training_delta = sapply(sales_training,function(x)curve(find_sta("curve17",curves,"curves"),x)),
+                    m_admin_work_delta = sapply(admin_work,function(x)curve(find_sta("curve18",curves,"curves"),x)))%>%
       dplyr::mutate(sales_skills_index = round(
-        (ss_accumulated_field_work_delta+pp_sales_skills_index)*((weightage$sales_skills)$field_work)+
-          (ss_accumulated_sales_training_delta+pp_sales_skills_index)*((weightage$sales_skills)$sales_training)+
-          (ss_experience_index_pp+pp_sales_skills_index)*((weightage$sales_skills)$experience)),
+        (ss_accumulated_field_work_delta+pp_sales_skills_index)*((find_sta("sales_skills",weightages,"1"))$field_work)+
+          (ss_accumulated_sales_training_delta+pp_sales_skills_index)*((find_sta("sales_skills",weightages,"1"))$sales_training)+
+          (ss_experience_index_pp+pp_sales_skills_index)*((find_sta("sales_skills",weightages,"1"))$experience)),
         product_knowledge_index = round(
           product_knowledge_addition_current_period+
             pp_product_knowledge_index)) %>%
-      dplyr::mutate(srsp_motivation_delta = sapply(pp_motivation_index,function(x)curve(curve32,x)),
-                    srsp_sales_skills_delta = sapply(sales_skills_index,function(x)curve(curve34,x)),
+      dplyr::mutate(srsp_motivation_delta = sapply(pp_motivation_index,function(x)curve(find_sta("curve32",curves,"curves"),x)),
+                    srsp_sales_skills_delta = sapply(sales_skills_index,function(x)curve(find_sta("curve34",curves,"curves"),x)),
                     srsp_product_knowledge_delta = sapply(product_knowledge_index,
-                                                          function(x)curve(curve33,x)),
+                                                          function(x)curve(find_sta("curve33",curves,"curves"),x)),
                     srsp_time_with_account_delta =  mapply(function(x,y,z){ if(
                       x==as.character(product_info$prod_name[2])){
-                      curve(curve36,y)} else if (
+                      curve(find_sta("curve36",curves,"curves"),y)} else if (
                         x==as.character(product_info$prod_name[3])) {
-                        curve(curve37,y)} else if (x==as.character(product_info$prod_name[4])) {
-                          curve(curve38,y)} else if (x==as.character(product_info$prod_name[1])&
-                                                     z %in% big_hos_list){
-                            curve(curve39,y)} else if (x==as.character(product_info$prod_name[1])&
-                                                       z ==big_big_hos_list){
-                              curve(curve39_1,y)}else{curve(curve35,y)}},
+                        curve(find_sta("curve37",curves,"curves"),y)} else if (x==as.character(product_info$prod_name[4])) {
+                          curve(find_sta("curve38",curves,"curves"),y)} else if (x==as.character(product_info$prod_name[1])&
+                                                     z %in% big_hosp_list){
+                              curve(find_sta("curve39",curves,"curves"),y)}else{curve(find_sta("curve35",curves,"curves"),y)}},
                       prod_name,real_sr_time,hosp_name)) %>%
       dplyr::mutate(sr_sales_performance =
                       (srsp_motivation_delta+pp_sr_sales_performance)*
-                      ((weightage$sr_sales_performance)$motivation)+
+                      ((find_sta("sr_sales_performance",weightages,"1"))$motivation)+
                       (srsp_sales_skills_delta+pp_sr_sales_performance)*
-                      ((weightage$sr_sales_performance)$sales_skills)+
+                      ((find_sta("sr_sales_performance",weightages,"1"))$sales_skills)+
                       (srsp_product_knowledge_delta+pp_sr_sales_performance)*
-                      ((weightage$sr_sales_performance)$product_knowledge)+
+                      ((find_sta("sr_sales_performance",weightages,"1"))$product_knowledge)+
                       (srsp_time_with_account_delta+pp_sr_sales_performance)*
-                      ((weightage$sr_sales_performance)$time_with_account))%>%
+                      ((find_sta("sr_sales_performance",weightages,"1"))$time_with_account))%>%
       dplyr::mutate(sr_sales_performance = ifelse(sr_sales_performance<0,0,sr_sales_performance),
-                    dq_admin_work_delta = sapply(admin_work,function(x)curve(curve5,x)),
-                    dq_meetings_with_team_delta =sapply(meetings_with_team,function(x)curve(curve7,x)),
-                    dq_kpi_analysis_factor = sapply(kpi_analysis,function(x)curve(curve8,x)))%>%
+                    dq_admin_work_delta = sapply(admin_work,function(x)curve(find_sta("curve5",curves,"curves"),x)),
+                    dq_meetings_with_team_delta =sapply(meetings_with_team,function(x)curve(find_sta("curve7",curves,"curves"),x)),
+                    dq_kpi_analysis_factor = sapply(kpi_analysis,function(x)curve(find_sta("curve8",curves,"curves"),x)))%>%
       dplyr::mutate(deployment_quality_index = round(
         (pp_deployment_quality_index+dq_admin_work_delta)*
-          ((weightage$deployment_quality)$admin_work)+
+          ((find_sta("deployment_quality",weightages,"1"))$admin_work)+
           (pp_deployment_quality_index+dq_meetings_with_team_delta)*
-          ((weightage$deployment_quality)$meetings_with_team)+
+          ((find_sta("deployment_quality",weightages,"1"))$meetings_with_team)+
           pp_deployment_quality_index*dq_kpi_analysis_factor*
-          ((weightage$deployment_quality)$kpi_report_analysis)))%>%
+          ((find_sta("deployment_quality",weightages,"1"))$kpi_report_analysis)))%>%
       dplyr::mutate(deployment_quality_index = ifelse(deployment_quality_index<0,0,deployment_quality_index),
-                    ps_promotional_budget_factor = sapply(promotional_factor,function(x)curve(curve30,x))) %>%
+                    ps_promotional_budget_factor = sapply(promotional_factor,function(x)curve(find_sta("curve30",curves,"curves"),x))) %>%
       dplyr::mutate(promotional_support_index = 
                       pp_promotional_support_index*ps_promotional_budget_factor) %>%
       dplyr::mutate(promotional_support_index = ifelse(promotional_support_index<0,0,promotional_support_index),
-                    sp_field_work_delta = sapply(field_work_peraccount,function(x)curve(curve40,x)),
-                    sp_deployment_quality_delta = sapply(deployment_quality_index,function(x)curve(curve41,x))) %>%
+                    sp_field_work_delta = sapply(field_work_peraccount,function(x)curve(find_sta("curve40",curves,"curves"),x)),
+                    sp_deployment_quality_delta = sapply(deployment_quality_index,function(x)curve(find_sta("curve41",curves,"curves"),x))) %>%
       dplyr::mutate(sales_performance = 
-                      sr_sales_performance*((weightage$sales_performance)$sr_sales_performance)+
+                      sr_sales_performance*((find_sta("sales_performance",weightages,"1"))$sr_sales_performance)+
                       (pp_sales_performance+sp_field_work_delta)*
-                      ((weightage$sales_performance)$field_work)+
+                      ((find_sta("sales_performance",weightages,"1"))$field_work)+
                       (pp_sales_performance+sp_deployment_quality_delta)*
-                      ((weightage$sales_performance)$deployment_quality))%>%
+                      ((find_sta("sales_performance",weightages,"1"))$deployment_quality))%>%
       dplyr::mutate(sales_performance = ifelse(sales_performance<0,0,sales_performance),
                     cr_product_knowledge_delta = 
-                      sapply(product_knowledge_index,function(x)curve(curve2,x)),
+                      sapply(product_knowledge_index,function(x)curve(find_sta("curve2",curves,"curves"),x)),
                     cr_promotional_support_delta = 
-                      sapply(ps_promotional_budget_factor,function(x)curve(curve3,x)),
+                      sapply(ps_promotional_budget_factor,function(x)curve(find_sta("curve3",curves,"curves"),x)),
                     cr_pp_customer_relationship_index = 
-                      sapply(pp_customer_relationship_index,function(x)curve(curve4,x)))%>%
+                      sapply(pp_customer_relationship_index,function(x)curve(find_sta("curve4",curves,"curves"),x)))%>%
       dplyr::mutate(customer_relationship_index = 
                       (cr_pp_customer_relationship_index+cr_product_knowledge_delta)*
-                      (weightage$customer_relaitonship)$product_knowledge+
+                      (find_sta("customer_relaitonship",weightages,"1"))$product_knowledge+
                       (cr_pp_customer_relationship_index+cr_promotional_support_delta)*
-                      (weightage$customer_relaitonship)$promotional_support) %>%
+                      (find_sta("customer_relaitonship",weightages,"1"))$promotional_support) %>%
       dplyr::mutate(customer_relationship_index=ifelse(customer_relationship_index<0,0,customer_relationship_index))%>%
       dplyr::mutate(oa_customer_relationship_factor = 
                       mapply(function(x,y){if (x==as.character(product_info$prod_name[1])){
-                        curve(curve19,y)} else if(
+                        curve(find_sta("curve19",curves,"curves"),y)} else if(
                           x==as.character(product_info$prod_name[2])){
-                          curve(curve20,y)} else if (
+                          curve(find_sta("curve20",curves,"curves"),y)} else if (
                             x==as.character(product_info$prod_name[3])) {
-                            curve(curve21,y)} else {
-                              curve(curve22,y)}},
+                            curve(find_sta("curve21",curves,"curves"),y)} else {
+                              curve(find_sta("curve22",curves,"curves"),y)}},
                         prod_name,customer_relationship_index),
-                    oa_sales_performance_factor = sapply(sales_performance,function(x)curve(curve25,x))) %>%
+                    oa_sales_performance_factor = sapply(sales_performance,function(x)curve(find_sta("curve25",curves,"curves"),x))) %>%
       dplyr::mutate(cp_offer_attractiveness = 
                       oa_customer_relationship_factor*100*
-                      (weightage$cp_offer_attractiveness)$customer_relationship+
+                      (find_sta("cp_offer_attractiveness",weightages,"1"))$customer_relationship+
                       oa_sales_performance_factor*100*
-                      (weightage$cp_offer_attractiveness)$sales_performance) %>%
+                      (find_sta("cp_offer_attractiveness",weightages,"1"))$sales_performance) %>%
       dplyr::mutate(cp_offer_attractiveness = ifelse(salesmen==0,0,cp_offer_attractiveness),
                     offer_attractiveness = 
-                      cp_offer_attractiveness*(weightage$total_attractiveness)$cp_offer_attractiveness+
-                      pp_offer_attractiveness*(weightage$total_attractiveness)$pp_offer_attractiveness,
+                      cp_offer_attractiveness*(find_sta("total_attractiveness",weightages,"1"))$cp_offer_attractiveness+
+                      pp_offer_attractiveness*(find_sta("total_attractiveness",weightages,"1"))$pp_offer_attractiveness,
                     acc_offer_attractiveness = round(pp_acc_offer_attractiveness+offer_attractiveness),
                     market_share =  mapply(function(x,y){if (x==as.character(product_info$prod_name[1])){
-                      curve(curve51_1,y)} else if(
+                      curve(find_sta("curve51",curves,"curves"),y)} else if(
                         x==as.character(product_info$prod_name[2])){
-                        curve(curve51_2,y)} else if (
+                        curve(find_sta("curve52",curves,"curves"),y)} else if (
                           x==as.character(product_info$prod_name[3])) {
-                          curve(curve51_3,y)} else {
-                            curve(curve51_4,y)}},
+                          curve(find_sta("curve53",curves,"curves"),y)} else {
+                            curve(find_sta("curve54",curves,"curves"),y)}},
                       prod_name,offer_attractiveness),
                     real_revenue = round(market_share/100*potential),
                     real_volume = round(real_revenue/product_price)) %>%
@@ -752,28 +656,28 @@
                       target_revenue_realization_by_sr,real_revenue_by_sr),
                     bonus = round(bonus_tmp*bonus_factor),
                     sr_acc_revenue = real_revenue_by_sr+pp_sr_acc_revenue,
-                    experience_index = round(sapply(sr_acc_revenue, function(x) round(curve(curve11,x),2))),
+                    experience_index = round(sapply(sr_acc_revenue, function(x) round(curve(find_sta("curve11",curves,"curves"),x),2))),
                     m_meeting_with_team_delta =  mapply(function(x,y){
                       if (x == "junior") {
-                        curve(curve13,y)
+                        curve(find_sta("curve13",curves,"curves"),y)
                       } else if(x=="middle"){
-                        curve(curve14,y)
+                        curve(find_sta("curve14",curves,"curves"),y)
                       } else if(x=="senior"){
-                        curve(curve15,y)
+                        curve(find_sta("curve15",curves,"curves"),y)
                       } else{0}
                     },sales_level,
                     meetings_with_team,SIMPLIFY=T),
                     m_sales_target_realization_delta = sapply(target_revenue_realization_by_sr,function(x) 
-                      if (!is.nan(x)) {curve(curve16,x)} else {0}),
+                      if (!is.nan(x)) {curve(find_sta("curve16",curves,"curves"),x)} else {0}),
                     motivation_index = round(
                       (pp_motivation_index+m_admin_work_delta)*
-                        ((weightage$motivation)$admin_work)+
+                        ((find_sta("motivation",weightages,"1"))$admin_work)+
                         (pp_motivation_index+m_sales_target_realization_delta)*
-                        ((weightage$motivation)$sales_target_realization)+
+                        ((find_sta("motivation",weightages,"1"))$sales_target_realization)+
                         (pp_motivation_index+m_meeting_with_team_delta)*
-                        ((weightage$motivation)$meetings_with_team)+
+                        ((find_sta("motivation",weightages,"1"))$meetings_with_team)+
                         (pp_motivation_index+m_sales_training_delta)*
-                        ((weightage$motivation)$sales_training))) %>%
+                        ((find_sta("motivation",weightages,"1"))$sales_training))) %>%
       dplyr::mutate(motivation_index=ifelse(salesmen==0,0,motivation_index)) %>%
       ungroup()
     
@@ -795,10 +699,10 @@
   report_data <- function(tmp,flm_data) {
     
     tmp1 <- tmp %>% 
-      dplyr::mutate(prod_name = factor(prod_name,levels=product_level)) 
+      dplyr::mutate(prod_name = factor(prod_name,levels=product_info$prod_name)) 
     tmp2 <- tmp %>%
       filter(salesmen!="0") %>%
-      dplyr::mutate(salesmen=factor(salesmen,levels = sr_rep_level))
+      dplyr::mutate(salesmen=factor(salesmen,levels = salesmen_list$salesmen))
     
     ## report 1
     profit_tmp <- tmp1 %>%
@@ -806,7 +710,7 @@
              real_volume,
              budget,
              prod_name) %>%
-      dplyr::mutate(production_cost = sapply(prod_name,function(x)product_info[which(product_info$prod_name==x),]$cost),
+      dplyr::mutate(production_cost = sapply(prod_name,function(x)product_info[which(product_info$prod_name==x),]$prod_unit_cost),
                     production_fee = round(production_cost*real_volume),
                     total_revenue =round(sum(real_revenue,na.rm=T)),
                     total_production_fee =round(sum(production_fee,na.rm=T)),
@@ -843,13 +747,13 @@
              pp_acc_success_value) %>%
       distinct() %>%
       dplyr::mutate(profit=as.numeric(profit_tmp),
-                    inter1=(weightage$success_value)$total_sales*curve(curve50,total_revenue),
-                    inter2=(weightage$success_value)$team_capability*curve(curve46,team_capability),
-                    inter3=(weightage$success_value)$contribution_margin*curve(curve49,profit),
+                    inter1=find_sta("success_value",weightages,"1")$total_sales*curve(find_sta("curve50",curves,"curves"),total_revenue),
+                    inter2=find_sta("success_value",weightages,"1")$team_capability*curve(find_sta("curve46",curves,"curves"),team_capability),
+                    inter3=find_sta("success_value",weightages,"1")$contribution_margin*curve(find_sta("curve49",curves,"curves"),profit),
                     success_value = round(inter1+inter2+inter3),
                     acc_success_value = success_value + pp_acc_success_value) %>%
-      dplyr::mutate(success_value = ifelse(phase==paste(phase_ch,"0",sep=""),"",success_value),
-                    acc_success_value = ifelse(phase==paste(phase_ch,"0",sep=""),"",acc_success_value)) %>%
+      dplyr::mutate(success_value = ifelse(phase==0,"",success_value),
+                    acc_success_value = ifelse(phase==0,"",acc_success_value)) %>%
       select(phase,
              total_revenue,
              profit,
@@ -862,7 +766,7 @@
     acc_success_value <- ifelse(is.na(as.numeric(report1_mod1$acc_success_value)),0,
                                 as.numeric(report1_mod1$acc_success_value))
     
-    colnames(report1_mod1) <- colname_1_1
+    colnames(report1_mod1) <- final_report_add
     
 
     
@@ -885,7 +789,7 @@
       arrange(hosp_code) %>%
       select(-hosp_code)
     
-    colnames(report1_mod2) <- colname_1_2
+    colnames(report1_mod2) <- c("hosp_name", "last_total_revenue", "current_total_revenue")
 
     
     ## report 2——1
@@ -905,14 +809,14 @@
              salesmen) %>%
       distinct()
     
-    colnames(report2_mod1) <- colname_2_1
+    colnames(report2_mod1) <- staff_time_add
     
     report2_mod1 <- report2_mod1 %>%
       gather(variable,value,-salesmen) %>%
       spread(salesmen,value) 
     
     report2_rank1 <- data.frame(
-      variable=colname_2_1[1:5],
+      variable=staff_time_add[1:5],
       rank=1:5,
       stringsAsFactors = F
     )
@@ -921,9 +825,11 @@
       left_join(report2_rank1,by="variable") %>%
       arrange(rank) %>%
       dplyr::select(variable,
-             one_of(sr_rep_level))
+             one_of(salesmen_list$salesmen))
     
-    colnames(report2_mod1) <- c(name_ch,sr_rep_level)
+    colnames(report2_mod1) <- c("general_names","salesmen_first","salesmen_second",
+                                "salesmen_third", "salesmen_fourth",
+                                "salesmen_fifth")
       
   
     
@@ -936,15 +842,17 @@
              product_knowledge_index) %>%
       distinct()
     
-    colnames(report2_mod2) <- colnames_2_2
+    colnames(report2_mod2) <- product_knowledge_add
     
     report2_mod2 <- report2_mod2 %>%
       gather(variable,value,-sr_rep) %>%
       spread(sr_rep,value) %>%
       select(variable,
-            one_of(sr_rep_level))
+            one_of(salesmen_list$salesmen))
     
-    colnames(report2_mod2) <- c(name_ch,sr_rep_level)
+    colnames(report2_mod2) <- c("general_names","salesmen_first","salesmen_second",
+                                "salesmen_third", "salesmen_fourth",
+                                "salesmen_fifth")
     
     
     ## report 2——3
@@ -954,15 +862,17 @@
              salesmen) %>%
       distinct()
     
-    colnames(report2_mod3) <- colnames_2_3
+    colnames(report2_mod3) <- experience_add
     
     report2_mod3 <- report2_mod3 %>%
       gather(variable,value,-sr_rep) %>%
       spread(sr_rep,value)  %>%
       select(variable,
-             one_of(sr_rep_level))
+             one_of(salesmen_list$salesmen))
     
-    colnames(report2_mod3) <- c(name_ch,sr_rep_level)
+    colnames(report2_mod3) <- c("general_names","salesmen_first","salesmen_second",
+                                "salesmen_third", "salesmen_fourth",
+                                "salesmen_fifth")
     
    
     
@@ -973,15 +883,17 @@
              sales_skills_index) %>%
       distinct()
     
-    colnames(report2_mod4) <- colnames_2_4
+    colnames(report2_mod4) <- sales_skills_add
     
     report2_mod4 <- report2_mod4 %>%
       gather(variable,value,-sr_rep) %>%
       spread(sr_rep,value)  %>%
       select(variable,
-             one_of(sr_rep_level))
+             one_of(salesmen_list$salesmen))
     
-    colnames(report2_mod4) <- c(name_ch,sr_rep_level)
+    colnames(report2_mod4) <- c("general_names","salesmen_first","salesmen_second",
+                                "salesmen_third", "salesmen_fourth",
+                                "salesmen_fifth")
     
     
     ## report 2——5
@@ -991,15 +903,17 @@
              motivation_index) %>%
       distinct()  
     
-    colnames(report2_mod5) <- colnames_2_5
+    colnames(report2_mod5) <- motivation_add
     
     report2_mod5 <- report2_mod5 %>%
       gather(variable,value,-sr_rep) %>%
       spread(sr_rep,value)  %>%
       select(variable,
-             one_of(sr_rep_level))
+             one_of(salesmen_list$salesmen))
     
-    colnames(report2_mod5) <- c(name_ch,sr_rep_level)
+    colnames(report2_mod5) <- c("general_names","salesmen_first","salesmen_second",
+                                "salesmen_third", "salesmen_fourth",
+                                "salesmen_fifth")
     
     
     ## report 3——1
@@ -1023,24 +937,24 @@
       filter(salesmen!=0) %>%
       select(salesmen,bonus) %>%
       distinct() %>%
-      dplyr::mutate(salesmen=factor(salesmen,levels = sr_rep_level)) %>%
+      dplyr::mutate(salesmen=factor(salesmen,levels = salesmen_list$salesmen)) %>%
       do(plyr::rbind.fill(.,data.frame(salesmen=over_ch,
                                        bonus = sum(.$bonus)))) %>%
       arrange(salesmen) 
     
-    colnames(report3_mod1) <- colnames_3_1
+    colnames(report3_mod1) <- c("salesmen", "bonus")
     
     report3_mod2 <- flm_report %>%
       select(-all_sr_bonus) 
     
-    colnames(report3_mod2) <- colnames_3_2
+    colnames(report3_mod2) <- flm_time_add
     
     report3_mod2 <- report3_mod2 %>%
       gather(variable,value)  %>%
       select(variable,
              value)
     
-    colnames(report3_mod2) <- c(name_ch,value_ch)
+    colnames(report3_mod2) <- c("general_name","values")
     
     
     
@@ -1056,7 +970,7 @@
              real_volume,
              hosp_code) %>%
       group_by(hosp_name) %>%
-      dplyr::mutate(production_cost = sapply(prod_name,function(x)product_info[which(product_info$prod_name==x),]$cost),
+      dplyr::mutate(production_cost = sapply(prod_name,function(x)product_info[which(product_info$prod_name==x),]$prod_unit_cost),
                     production_fee = round(production_cost*real_volume),
                     profit = real_revenue - budget - production_fee) %>%
       select(hosp_name,
@@ -1082,16 +996,17 @@
       ungroup()
     
     
-    colnames(report4_mod1) <- colnames_4_1
+    colnames(report4_mod1) <- resource_allocation_add
     
     report4_mod1 <- report4_mod1 %>%
-      gather(variable,value,one_of(colnames_4_1[3:9])) %>%
+      gather(variable,value,one_of(resource_allocation_add[3:9])) %>%
       spread(prod_name,value) %>%
-      left_join(report4_rank1,by="variable") %>%
+      left_join(resource_allocation_rank,by="variable") %>%
       arrange(hosp_code,rank) %>%
-      select(one_of(variable_list_4_1))
+      select(one_of(resource_allocation_variable_list))
     
-    colnames(report4_mod1) <- colnames_4_1_m
+    colnames(report4_mod1) <- c("hosp_name","factor","product_first",
+                                "product_second","product_third","product_fourth","overall")
     
  
     
@@ -1126,7 +1041,9 @@
     
     
     
-    colnames(report5_mod1) <- colnames_5_1
+    colnames(report5_mod1) <- c("hosp_name","prod_name","current_target",
+                                "last_revenue","current_revenue","increase_revenue",
+                                "increase_ratio","target_realization")
     
     
  
@@ -1146,7 +1063,8 @@
                                        real_revenue_by_sr=sum(.$real_revenue_by_sr,na.rm=T),
                                        pp_real_revenue_by_sr =sum(.$pp_real_revenue_by_sr,na.rm=T),
                                        target_revenue_by_sr=sum(.$target_revenue_by_sr,na.rm=T)))) %>%
-      dplyr::mutate(sr_target_revenue_realization = round(real_revenue_by_sr/target_revenue_by_sr*100,4)) %>%
+      dplyr::mutate(sr_target_revenue_realization = ifelse(is.nan(round(real_revenue_by_sr/target_revenue_by_sr,4)),0,
+                                                           round(real_revenue_by_sr/target_revenue_by_sr,4))) %>%
       select(salesmen,
              prod_name,
              target_revenue_by_sr,
@@ -1156,7 +1074,8 @@
       arrange(salesmen)
     
     
-    colnames(report5_mod2) <- colnames_5_2
+    colnames(report5_mod2) <- c("salesmen","prod_name","current_target",
+                                "last_revenue","current_revenue","target_realization")
     
     report5_mod3 <- tmp1 %>%
       select(prod_name,
@@ -1173,10 +1092,10 @@
                                        pp_real_revenue_by_product=round(sum(.$pp_real_revenue_by_product,na.rm=T)),
                                        real_revenue_increase=sum(.$real_revenue_increase,na.rm=T),
                                        target_revenue_by_product=round(sum(.$target_revenue_by_product,na.rm=T))))) %>%
-      dplyr::mutate(real_revenue_increase_ratio = ifelse(is.nan(round(real_revenue_increase/pp_real_revenue_by_product*100,2)),0,
-                                                         round(real_revenue_increase/pp_real_revenue_by_product*100,4)),
-                    target_revenue_realization_by_product = ifelse(is.nan(round(real_revenue_by_product/target_revenue_by_product*100,2)),0,
-                                                                   round(real_revenue_by_product/target_revenue_by_product*100,4))) %>%
+      dplyr::mutate(real_revenue_increase_ratio = ifelse(is.nan(round(real_revenue_increase/pp_real_revenue_by_product,4)),0,
+                                                         round(real_revenue_increase/pp_real_revenue_by_product,4)),
+                    target_revenue_realization_by_product = ifelse(is.nan(round(real_revenue_by_product/target_revenue_by_product,4)),0,
+                                                                   round(real_revenue_by_product/target_revenue_by_product,4))) %>%
       select(prod_name,
              target_revenue_by_product,
              pp_real_revenue_by_product,
@@ -1191,7 +1110,9 @@
       arrange(prod_code) %>%
       select(-prod_code)
     
-    colnames(report5_mod3) <- colnames_5_3
+    colnames(report5_mod3) <- c("prod_name","current_target",
+                                "last_revenue","current_revenue","increase_revenue",
+                                "increase_ratio","target_realization")
     
    
     
@@ -1231,10 +1152,9 @@
   
   
   report1_mod1 <- report1_1_tmp %>%
-    #dplyr::mutate(phase = paste("??????",phase,sep="")) %>%
     gather(name,value,-phase) %>%
     spread(phase,value)  %>%
-    left_join(report7_mod1_rank,by="name") %>%
+    left_join(final_report_rank,by="name") %>%
     arrange(rank) %>%
     select(-variable,-rank) 
   
@@ -1252,7 +1172,7 @@
                                phase2= report1_mod1$phase2)
   }
  
-  colnames(report1_mod1) <- colnames_6_1
+  colnames(report1_mod1) <- c("general_names","phase0","phase1","phase2")
   report1_mod1[is.na(report1_mod1)] <- -1
   
 ####-- report data  
@@ -1271,14 +1191,14 @@
     "report5_sales_by_salesmen" = data_to_use2$report5_mod2,
     "report5_sales_by_prod" = data_to_use2$report5_mod3)
   
-  names(tmp_data) <- report_name
+  names(tmp_data) <- report_names
   
   to_mongo_tmp <- lapply(1:length(tmp_data), function(x) {
     report_name <- names(tmp_data)[x]
     tmp <- tmp_data[[x]]
     colname <- colnames(tmp)
-    colnames(tmp) <- 
-      sapply(colname,function(x) names(names_box[which(x==names_box)]))
+    # colnames(tmp) <- 
+    #   sapply(colname,function(x) names(names_box[which(x==names_box)]))
     out_new <- list("phase"=phase,
                     report_name,
                     "result"=tmp)
@@ -1288,9 +1208,11 @@
   
   to_mongo <- list(uuid=R_Json_Path,
                    user_id=user_name,
+                   "time" = as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),
                    "report"=to_mongo_tmp)
   
 #####-- intermedia data
+  if (phase == 1) {
   if (R_Json_Path %in% transfer1$uuid) {
     
     mongo_tmp <- paste('{"uuid" : ', '"', R_Json_Path, '"}',sep = "")
@@ -1300,12 +1222,12 @@
                                     "report" = report1_1_tmp,
                                     "acc_success_value" = data_to_use2$acc_success_value),
                                auto_unbox = T),'}}', sep = "")
-    db1$update(mongo_tmp, mongo_tmp1)
+    db_inter$update(mongo_tmp, mongo_tmp1)
     
   } else {
     
-    db1$insert(list("uuid"=R_Json_Path,
-                    "userid"=user_name,
+    db_inter$insert(list("uuid"=R_Json_Path,
+                    "user_id"=user_name,
                     "inter"=list("phase" = phase,
                                  "data" = data_to_use,
                                  "report" = report1_1_tmp,
@@ -1313,7 +1235,7 @@
                na="string",
                auto_unbox = T)  
   
-  }
+  }}
   
   
   
@@ -1381,6 +1303,8 @@
       info <- transfer2[rownn2,]$report[[1]]
       phase_in_mongo <- info$phase
       
+      if (phase %in% phase_in_mongo) {
+        
       out <-lapply(1:nrow(info), function(x) {
           
           report_name1 <- info$report_name[x]
@@ -1394,11 +1318,35 @@
             list("phase"=info$phase[x],
                  "report_name"= report_name1,
                  "result"=info$result[[x]])
+          }}) 
+      } else {
+        
+        out <-lapply(1:26, function(x) {
+          
+
+          
+          if( is.na(info$phase[x])) {
+            
+            rownn_x <- x-13
+            report_name1 <- info$report_name[rownn_x]
+            chk <- which(names_report==report_name1)
+            list("phase"=phase,
+                 "report_name"=report_name1,
+                 "result"=to_mongo_tmp[[chk]]$result)
+            
+          } else {
+            
+            list("phase"=info$phase[x],
+                 "report_name"= info$report_name[x],
+                 "result"=info$result[[x]])
           }
+
+         
         })
+      }
         
       mongo_tmp <- paste('{"uuid" : ', '"', R_Json_Path, '"}',sep = "")
-      mongo_tmp2 <- paste('{"$set":{"report":',toJSON(out,auto_unbox = T),'}}', sep = "")
+      mongo_tmp2 <- paste('{"$set":{"time":',as.numeric(as.POSIXct(Sys.Date(), format="%Y-%m-%d")),',"report":',toJSON(out,auto_unbox = T),'}}', sep = "")
       mongodb_con$update(mongo_tmp, mongo_tmp2)
       
         

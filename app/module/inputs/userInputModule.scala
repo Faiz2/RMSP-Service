@@ -168,7 +168,7 @@ object userInputModule extends ModuleTrait {
 
             import inner_trait.dc
             import inner_trait.mag_d2m
-
+            
             val reVal = db.queryObject(data, "inputs").get
 
             val tmp =

@@ -54,7 +54,7 @@
         //     // console.info(JSON.stringify(json_obj));
         // });
 
-        $('#go_decision').click(function() {
+        $('#go-decision').click(function() {
 
             let $inputs = $('input');
             let $select = $('select');
@@ -102,7 +102,7 @@
 
                 f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
                     w.console.info(r);
-                     $('ul[class="treeview-menu"] li a[pharbers-filter="management-decision"]')[0].click();
+                    w.location = "/management/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
                 });
             }
         });
