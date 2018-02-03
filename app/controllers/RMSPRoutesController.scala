@@ -24,21 +24,6 @@ trait TokenCheck {
 }
 
 trait RoutesFilter extends TokenCheck { this: Controller =>
-	// TODO: 错误的逻辑
-//	def getRequestCookie(request: Request[AnyContent]): Option[String] = request.cookies.get("user_token").map(x => x.value)
-//
-//	def forward(page: String)(implicit att: AuthTokenTrait, request: Request[AnyContent]): Result = {
-//		page match {
-//			case "home" => Ok(views.html.Home.home())
-//			case "market_info" => Ok(views.html.Module.MarketInfo.index())
-//			case "brd_info" => Ok(views.html.Module.Brd.index())
-//			case "product_info" => Ok(views.html.Module.Product.index())
-//			case "report" => Ok(views.html.Module.Report.index())
-//			case _ => ???
-//		}
-//	}
-	
-	// TODO : 前端只存登入用户名，后续有权限再去掉，新增权限过滤，与整个的filter
 	def getUserCookie(request: Request[AnyContent])(page: Result): Result = {
 		request.cookies.get("user").map(x => x.value) match {
 			case None => Redirect("/")
@@ -52,11 +37,6 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	implicit val as: ActorSystem = as_inject
 	implicit val db_basic : DBTrait = dbt.queryDBInstance("stp").get
 	implicit val attoken: AuthTokenTrait = att
-
-	//TODO: 失败错误的跳转，得认真想想
-//	def page(link: String) = Action { implicit request =>
-//			forward(link)
-//	}
 
 	def login = Action {
 		Ok(views.html.Login.login())
@@ -195,6 +175,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     )
                 }
 
+                // TODO : 以下是周期一的，周期二要读周期一的结果读
                 val reVal3 = {
                     requestArgsQuery().commonExcution(
                         MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
