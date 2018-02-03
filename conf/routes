@@ -3,11 +3,6 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# 失败的Filter
-#GET     /page/:link                 controllers.RMSPRoutesController.page(link: String)
-#GET     /page/                      controllers.RMSPRoutesController.page(link: String = "home")
-#GET     /page                       controllers.RMSPRoutesController.page(link: String = "home")
-
 GET     /                           controllers.RMSPRoutesController.login
 GET     /login                      controllers.RMSPRoutesController.login
 GET     /register                   controllers.RMSPRoutesController.register
@@ -36,10 +31,6 @@ POST    /management/proceed         controllers.RMSPRoutesController.updatemanag
 
 # 下载report
 GET     /report/download/:name      controllers.FopController.downloadFile(name)
-
-#网页缓存
-POST    /store/input                controllers.webStore.WebStoreController.input_store
-POST    /fetch/input                controllers.webStore.WebStoreController.input_fetch
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
