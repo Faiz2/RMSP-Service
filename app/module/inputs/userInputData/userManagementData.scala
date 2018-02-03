@@ -58,7 +58,7 @@ trait userManagementData {
             Map(
                 "project_name" -> toJson(x.getAs[String]("project_name").get),
                 "project_code" -> toJson(x.getAs[Number]("project_code").get.intValue),
-                "phase" -> toJson(obj.getAs[Number]("phase").map (x => x.intValue).getOrElse(1)),
+                "phase" -> toJson(x.getAs[Number]("phase").map (x => x.intValue).getOrElse(1)),
                 "apply" -> toJson(ap_map)
             )
         }

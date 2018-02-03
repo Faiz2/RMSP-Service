@@ -19,48 +19,75 @@ trait userInputCreate {
         builder.result
     }
 
+    val klst = "经理" :: Nil
+    val nlst = "小宋" :: "小兰" :: "小木" :: "小白" :: "小青" :: Nil
+    val mlst = ("能力辅导", nlst) :: ("实地协访", nlst) :: ("团队例会和团建", klst) ::
+               ("KPI 报告分析", klst) :: ("行政工作", klst) :: ("产品培训", nlst) :: Nil
+
+    val hlst = "人民医院" :: "军区医院" :: "中日医院" :: "铁路医院" :: "海港医院" :: "第六医院" ::
+                    "小营医院" :: "西河医院" :: "光华医院" :: "大学医院" :: Nil
+
+    val plst = "口服抗生素" :: "一代降糖药" :: "三代降糖药" :: "皮肤药" :: Nil
+
     def createManagement = {
-        val klst = "经理" :: Nil
-        val nlst = "小宋" :: "小兰" :: "小木" :: "小白" :: "小青" :: Nil
-        val mlst = ("能力辅导", nlst) :: ("实地协访", nlst) :: ("团队例会和团建", klst) ::
-                   ("KPI 报告分析", klst) :: ("行政工作", klst) :: ("产品培训", nlst) :: Nil
+
 
         val dst = MongoDBList.newBuilder
 
-        1 to 2 map { index =>
-            mlst.zipWithIndex.map { iter =>
-                val mg = iter._1
-                val pg = mg._2
+        mlst.zipWithIndex.map { iter =>
+            val mg = iter._1
+            val pg = mg._2
 
-                val builder = MongoDBObject.newBuilder
-                builder += "project_name" -> mg._1
-                builder += "project_code" -> iter._2
-                builder += "phase" -> index
+            val builder = MongoDBObject.newBuilder
+            builder += "project_name" -> mg._1
+            builder += "project_code" -> iter._2
+            builder += "phase" -> 1 // index
 
-                val app_lst = MongoDBList.newBuilder
+            val app_lst = MongoDBList.newBuilder
 
-                mg._2.map { n =>
-                    val tmp = MongoDBObject.newBuilder
-                    tmp += "personal" -> n
-                    tmp += "days" -> 0
+            mg._2.map { n =>
+                val tmp = MongoDBObject.newBuilder
+                tmp += "personal" -> n
+                tmp += "days" -> 0
 
-                    app_lst += tmp.result
-                }
-
-                builder += "apply" -> app_lst.result
-
-                dst += builder.result
+                app_lst += tmp.result
             }
+
+            builder += "apply" -> app_lst.result
+
+            dst += builder.result
+        }
+//        }
+
+        mlst.zipWithIndex.map { iter =>
+            val mg = iter._1
+            val pg = mg._2
+
+            val builder = MongoDBObject.newBuilder
+            builder += "project_name" -> mg._1
+            builder += "project_code" -> iter._2
+            builder += "phase" -> 2 // index
+
+            val app_lst = MongoDBList.newBuilder
+
+            mg._2.map { n =>
+                val tmp = MongoDBObject.newBuilder
+                tmp += "personal" -> n
+                tmp += "days" -> 0
+
+                app_lst += tmp.result
+            }
+
+            builder += "apply" -> app_lst.result
+
+            dst += builder.result
         }
 
         dst.result
     }
 
     def createDecision = {
-        val hlst = "人民医院" :: "军区医院" :: "中日医院" :: "铁路医院" :: "海港医院" :: "第六医院" ::
-                    "小营医院" :: "西河医院" :: "光华医院" :: "大学医院" :: Nil
 
-        val plst = "口服抗生素" :: "一代降糖药" :: "三代降糖药" :: "皮肤药" :: Nil
         //        val dd = (mm \ "decision").asOpt[List[JsValue]].get
         val dst = MongoDBList.newBuilder
 
