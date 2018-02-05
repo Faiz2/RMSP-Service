@@ -75,7 +75,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         )
                     }
 
-                    if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/brd/" + uid)
+                    if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/market/" + uid)
                     else Redirect("/login")
                 }
             } else Redirect("/login")
@@ -320,7 +320,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     def takelast(uuid : String) = Action { request =>
         getUserCookie(request) {
-            Redirect("/brd/" + uuid)
+            Redirect("/market/" + uuid + "/1")
         }
     }
 
