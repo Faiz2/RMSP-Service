@@ -1,8 +1,14 @@
 (function($, w) {
-    var f = new Facade();
     $(function(){
         $('#logout').click(function() {
-            f.cookieModule.cleanAllCookie();
+            f.cookieModule.clearCookie("c1_decision");
+            f.cookieModule.clearCookie("c1_manage");
+            f.cookieModule.clearCookie("c2_decision");
+            f.cookieModule.clearCookie("c2_manage");
+            f.cookieModule.clearCookie("c2_manage");
+            f.cookieModule.clearCookie("log_status");
+            f.cookieModule.clearCookie("user");
+            f.cookieModule.clearCookie("user_token");
             w.location.reload();
         });
     });

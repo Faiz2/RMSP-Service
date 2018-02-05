@@ -42,7 +42,7 @@ POST    /register/check/phone       controllers.user.RegisterController.register
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
 
 # 用户call R
-#POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
+POST    /submit/submitdata          controllers.rscript.RscriptController.callRscript
 
 # 生成Excel
 #POST    /report/down                controllers.report.ReportController.reportDownController

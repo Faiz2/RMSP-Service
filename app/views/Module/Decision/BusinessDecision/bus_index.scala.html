@@ -20,7 +20,7 @@
                 </div>
             </div>
             <br>
-            <div id="sum_promotion_budget-cycle1">
+            <div id="decision-business">
                 @Module.Decision.BusinessDecision.sum_promotion_budget((budget \ cycle \ "budget").asOpt[String].map (x => x).getOrElse(""), cycle)
                 @Module.Decision.BusinessDecision.bus_tab(data, salemen, cycle, inputs)
             </div>
@@ -35,4 +35,5 @@
 <!--动态异步加载js-->
 <script defer="defer">
     $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/refactor/business.js")');
+    $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/refactor/page-store.js")');
 </script>

@@ -110,9 +110,14 @@
                 // TODO: Ajax
                 f.alert.loading();
                 f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
-                    console.info(r);
-                    layer.closeAll('loading');
-                    f.alert.alert_success("消息", "模拟成功");
+                    if(r.status === 'ok' && r.result.input_update === 'success') {
+                        f.ajaxModule.baseCall('/submit/submitdata', JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function(rr){
+                            if(rr.status === 'ok' && rr.result.data === 'success') {
+                                layer.closeAll('loading');
+                                f.alert.alert_success("消息", "模拟成功");
+                            }
+                        });
+                    }
                 });
             }
         })

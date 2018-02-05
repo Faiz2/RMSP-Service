@@ -2,57 +2,6 @@
 
 
     $(function(){
-        // $('#go_decision').click(function(){
-        //
-        //     let $inputs = $('input');
-        //     let $select = $('select');
-        //     let obj = [];
-        //     $("input:hidden[name='input']").map(function(val, input){
-        //         let vv = $(input).val();
-        //         let hospital_name = $inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').attr("hospital-name");
-        //         let sales = $.map($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="prod_value"]'), function(sales, i){
-        //             return {
-        //                 "prod_name": $(sales).attr("pharbers-type"),
-        //                 "prod_value": parseFloat($(sales).val())
-        //             }
-        //         });
-        //
-        //         let visit = $.map($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="prod_hours"]'), function(sales, i){
-        //             return {
-        //                 "prod_name": $(sales).attr("pharbers-type"),
-        //                 "prod_hours": parseFloat($(sales).val())
-        //             }
-        //         });
-        //
-        //         obj.push({
-        //             "hosp_code": parseInt(vv),
-        //             "hosp_name": hospital_name,
-        //             "phase": parseInt($("input:hidden[name='phase']").val()),
-        //             "budget": parseFloat($inputs.filter('[hospital-code="'+ vv +'"]').filter('[name="budget"]').val()),
-        //             "sales": sales,
-        //             "salesmen": $select.filter('[hospital-code="'+ vv +'"]').filter('[name="salesmen"]').val(),
-        //             "visit_hours": visit
-        //         })
-        //     });
-        //
-        //     let uuid = $("input:hidden[name='uuid']").val();
-        //     let json = {
-        //         "user_id": $.cookie("user"),
-        //         "uuid": uuid,
-        //         "phase": parseInt($("input:hidden[name='phase']").val()),
-        //         "decision": obj
-        //     };
-        //     let user_info = {
-        //         "user_id": $.cookie("user"),
-        //         "uuid": uuid
-        //     };
-        //
-        //     f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
-        //         w.console.info(r)
-        //     });
-        //
-        //     // console.info(JSON.stringify(json_obj));
-        // });
 
         $('#go-decision').click(function() {
 
@@ -100,9 +49,10 @@
                     "uuid": uuid
                 };
 
-                f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
-                    w.console.info(r);
-                    w.location = "/management/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function(r){
+                    if(r.status === 'ok' && r.result.input_update === 'success') {
+                        w.location = "/management/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                    }
                 });
             }
         });
@@ -124,7 +74,6 @@
         });
 
         if (result.find(elem => elem === false) === false) {
-            w.console.info(result);
             return false;
         } else {
             let flag = true;

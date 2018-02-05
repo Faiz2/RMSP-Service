@@ -1,7 +1,7 @@
 @import play.api.libs.json.JsValue
 @(hospital: List[play.api.libs.json.JsValue], pepole: List[play.api.libs.json.JsValue], cycle: String, inputs: List[play.api.libs.json.JsValue])
 
-<div class="row ">
+<div class="row">
     @for(data <- inputs) {
         <div class="col-sm-12">
             <input type="hidden" value="@{(data \ "hosp_code").as[Int]}" name="input"/>

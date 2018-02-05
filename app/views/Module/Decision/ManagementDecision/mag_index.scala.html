@@ -19,7 +19,7 @@
                 </div>
             </div>
             <br>
-            <div id="management-cycle1">
+            <div id="decision-management">
                 @Module.Decision.ManagementDecision.time_allot(phase)(input)
                 @Module.Decision.ManagementDecision.manager_timer_allot(phase)(input)
                 @Module.Decision.ManagementDecision.train_timer(phase)(input)
@@ -35,4 +35,5 @@
 <!--动态异步加载js-->
 <script defer="defer">
         $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/refactor/management.js")');
+        $.getScript('@routes.Assets.versioned("javascripts/business-lib/decision/refactor/page-store.js")');
 </script>
