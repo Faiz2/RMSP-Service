@@ -10,4 +10,6 @@ object DefaultValuesMessages {
     case class productInProposal(data: JsValue) extends MsgDecisionCommand
     case class hospitalPotentialInProposal(data: JsValue) extends MsgDecisionCommand
     case class perResultInProposal(data: JsValue) extends MsgDecisionCommand
+
+    case class budgetInProposal(data : JsValue) extends MsgDecisionCommand
 }

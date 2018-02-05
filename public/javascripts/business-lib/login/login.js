@@ -13,8 +13,8 @@
                     f.cookieModule.setCookie("c2_decision","0");
                     f.cookieModule.setCookie("c1_manage","0");
                     f.cookieModule.setCookie("c2_manage","0");
-                    // w.location = '/index';
-                    w.location = '/brd';
+                    w.location = '/index';
+                    // w.location = '/brd';
                 } else {
                     f.cookieModule.setCookie("log_status" ,"1");
                     f.alert.alert_warn('登入信息', '登入失败，请检查用户名与密码是否正确！');

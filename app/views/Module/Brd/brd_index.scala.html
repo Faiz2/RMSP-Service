@@ -1,6 +1,6 @@
-@(data: List[play.api.libs.json.JsValue])
+@(data: List[play.api.libs.json.JsValue])(uuid : String)
 
-@Home.home("brd") {
+@Home.home("brd")(uuid)("") {
 <section class="content">
     <div class="row">
         <div class="col-sm-12">

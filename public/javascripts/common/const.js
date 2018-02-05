@@ -13,8 +13,8 @@ var cycle2_status = false;
 
 // form结合形成json
 $.fn.serializeObject = function() {
-    var o = {};
-    var a = this.serializeArray();
+    let o = {};
+    let a = this.serializeArray();
     $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
@@ -27,6 +27,8 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
+
+let f = new Facade();
 
 
 //页面

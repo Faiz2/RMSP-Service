@@ -12,7 +12,7 @@
         <!--<program value="/root/program/rmsp-service-1.0/"/>-->
     <!--</program-path>-->
     <program-path>
-        <program value="/Users/apple/DevelopmentDaily/RMSP-Service/"/>
+        <program value=""/>
     </program-path>
     <r-path>
         <rfile value="resource/stp_handler.R"/>

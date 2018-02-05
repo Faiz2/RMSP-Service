@@ -3,16 +3,10 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-
-# 失败的Filter
-#GET     /page/:link                 controllers.RMSPRoutesController.page(link: String)
-#GET     /page/                      controllers.RMSPRoutesController.page(link: String = "home")
-#GET     /page                       controllers.RMSPRoutesController.page(link: String = "home")
-
-
 GET     /                           controllers.RMSPRoutesController.login
 GET     /login                      controllers.RMSPRoutesController.login
 GET     /register                   controllers.RMSPRoutesController.register
+<<<<<<< HEAD
 GET     /index                      controllers.RMSPRoutesController.index
 GET     /brd                        controllers.RMSPRoutesController.brd
 GET     /product                    controllers.RMSPRoutesController.product
@@ -31,22 +25,33 @@ GET     /business_decision          controllers.RMSPRoutesController.businessDec
 GET     /management_decision        controllers.RMSPRoutesController.managementDecision
 GET     /report                     controllers.RMSPRoutesController.report
 
+=======
+GET     /index                      controllers.RMSPRoutesController.index(uuid = "")
+GET     /index/:uuid                controllers.RMSPRoutesController.index(uuid)
+GET     /brd                        controllers.RMSPRoutesController.brd(uuid = "")
+GET     /brd/:uuid                  controllers.RMSPRoutesController.brd(uuid)
+GET     /product                    controllers.RMSPRoutesController.product(uuid = "")
+GET     /product/:uuid              controllers.RMSPRoutesController.product(uuid)
+GET     /market                     controllers.RMSPRoutesController.market(uuid = "", phrase = "1")
+GET     /market/:uuid/:phrase       controllers.RMSPRoutesController.market(uuid, phrase)
+GET     /decision                   controllers.RMSPRoutesController.decision(uuid = "", phrase = "1")
+GET     /decision/:uuid/:phrase     controllers.RMSPRoutesController.decision(uuid, phrase)
+GET     /management                 controllers.RMSPRoutesController.management(uuid = "", phrase = "1")
+GET     /management/:uuid/:phrase   controllers.RMSPRoutesController.management(uuid, phrase)
+GET     /report                     controllers.RMSPRoutesController.report(uuid = "", phrase = "1")
+GET     /report/:uuid/:phrase       controllers.RMSPRoutesController.report(uuid, phrase)
+
+GET     /phase_error/:uuid/:phase   controllers.RMSPRoutesController.phase_error(uuid, phase)
+
+GET     /takenew                    controllers.RMSPRoutesController.takenew
+GET     /takelast/:uuid             controllers.RMSPRoutesController.takelast(uuid)
+
+POST    /decision/proceed           controllers.RMSPRoutesController.updatedecision
+POST    /management/proceed         controllers.RMSPRoutesController.updatemanagement
+>>>>>>> alfred-180123
 
 # 下载report
 GET     /report/download/:name      controllers.FopController.downloadFile(name)
-
-#网页缓存
-POST    /store/input                controllers.webStore.WebStoreController.input_store
-POST    /fetch/input                controllers.webStore.WebStoreController.input_fetch
-
-POST    /desicion/excel/read        controllers.excelHandle.ExcelHandleController.read_decision_excel
-# 都是读取Excel内容的
-POST    /market_info                controllers.marketinfo.MarketInfoController.alOutExcelValueWithHtml
-POST    /brd_info                   controllers.brdinfo.BrdInfoController.alOutExcelValueWithHtml
-POST    /product_info               controllers.productinfo.ProductInfoController.alOutExcelValueWithHtml
-POST    /business_decision          controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
-POST    /management_decision        controllers.decision.DecisionController.alOutSumPromoBudgetExcelValueWithHtml
-
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
@@ -58,27 +63,10 @@ POST    /register/check/phone       controllers.user.RegisterController.register
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
 
 # 用户call R
-POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
-
-# 报告查看
-# 市场销售
-POST    /report/querymarketsales    controllers.report.ReportController.reportMarketSalesController
-# 代表报告
-POST    /report/querydelegate       controllers.report.ReportController.reportDeputyController
-# 经理报告
-POST    /report/querymanager        controllers.report.ReportController.reportManagerController
-# 分配报告
-POST    /report/queryaloot          controllers.report.ReportController.reportAllotController
-# 销售报告
-# 销售额/客户
-POST    /report/querysalsecustomer  controllers.report.ReportController.reportSalesCustomerController
-# 销售额/代表
-POST    /report/querysalsedeputy    controllers.report.ReportController.reportSalesDeputyController
-# 销售额/产品
-POST    /report/querysalseproduct   controllers.report.ReportController.reportSalesProductController
+#POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
 
 # 生成Excel
-POST    /report/down                controllers.report.ReportController.reportDownController
+#POST    /report/down                controllers.report.ReportController.reportDownController
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

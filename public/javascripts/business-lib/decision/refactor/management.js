@@ -1,12 +1,12 @@
-var management_event = (function ($, w) {
-    var $content = $('#management-cycle1');
-    var $management_tab_li = $('#management_tab li');
+(function($, w){
+
     $(function(){
         $('#go-submit').click(function(){
             let $inputs = $('input');
-
+            let sum = 0;
             let coach = [];
             $inputs.filter('[pharbers-type="能力辅导"]').map(function(val, input){
+                sum += parseInt($(input).val());
                 coach.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -14,6 +14,7 @@ var management_event = (function ($, w) {
             });
             let assist = [];
             $inputs.filter('[pharbers-type="实地协访"]').map(function(val, input){
+                sum += parseInt($(input).val());
                 assist.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -21,6 +22,7 @@ var management_event = (function ($, w) {
             });
             let construction = [];
             $inputs.filter('[pharbers-type="团队例会和团建"]').map(function(val, input){
+                sum += parseInt($(input).val());
                 construction.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -28,6 +30,7 @@ var management_event = (function ($, w) {
             });
             let report = [];
             $inputs.filter('[pharbers-type="KPI 报告分析"]').map(function(val, input){
+                sum += parseInt($(input).val());
                 report.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -35,6 +38,7 @@ var management_event = (function ($, w) {
             });
             let pr = [];
             $inputs.filter('[pharbers-type="行政工作"]').map(function(val, input){
+                sum += parseInt($(input).val());
                 pr.push({
                     "personal": $(input).attr("name"),
                     "days": parseInt($(input).val())
@@ -98,79 +102,20 @@ var management_event = (function ($, w) {
 
             // console.info(JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))))
 
-
-            //TODO: Ajax
-            f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
-                console.info(r)
-            })
+            if(sum > 100) {
+                f.alert.alert_warn("经理分配时间", "超出预设时间");
+            } else if(sum < 0){
+                f.alert.alert_warn("经理分配时间", "低于预设时间");
+            } else {
+                // TODO: Ajax
+                f.alert.loading();
+                f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
+                    console.info(r);
+                    layer.closeAll('loading');
+                    f.alert.alert_success("消息", "模拟成功");
+                });
+            }
         })
     });
 
-
-
-    function bind_input_change(region) {
-        var $inputs = (region || $content).find('input');
-        var $pres = (region || $content).find('pre');
-        function bind_input(obj, key) {
-            var lst = obj[key];
-            $.each(lst.inputs, function(i, v) {
-                var input_attr = '[pharbers-type="' + v + '"]';
-                var $input = $inputs.filter(input_attr);
-                $input.keyup(function() {
-                    var num = 0;
-                    $.each(lst.inputs, function(i, v2) {
-                        var input_attr = '[pharbers-type="' + v2 + '"]';
-                        var $input = $inputs.filter(input_attr);
-                        if ($input.val() === "") $input.val(0);
-                        num += parseInt($input.val());
-                    });
-                    $.each(lst.oputs, function(i, v2){
-                        var pre_attr = '[pharbers-type="'+ v2 +'"]';
-                        var $pre = $pres.filter(pre_attr);
-                        $pre.empty().text(num);
-                    });
-                    sum(obj);
-                });
-            });
-        }
-
-        function sum(obj) {
-            var lst = obj['input_sum'];
-            var time_allot = obj['time_allot'];
-            var num = 0;
-            $.each(lst, function(i, v){
-                var pre_attr = '[pharbers-type="'+ v +'"]';
-                var $pre = $pres.filter(pre_attr);
-                num += parseInt($pre.text());
-            });
-            $.each(time_allot, function(i, v){
-                var pre_attr = '[pharbers-type="'+ v +'"]';
-                var $pre = $pres.filter(pre_attr);
-                $pre.empty().text(num);
-            });
-        }
-
-        var active = $management_tab_li.filter('[class="active"]');
-        if (active.index() === 0) {
-            bind_input(cycle_1_inputs, 'ability_to_coach');
-            bind_input(cycle_1_inputs, 'field_association_to_visit');
-            bind_input(cycle_1_inputs, 'party_building');
-            bind_input(cycle_1_inputs, 'kpi_report');
-            bind_input(cycle_1_inputs, 'administrative');
-
-        } else if (active.index() === 1) {
-            bind_input(cycle_2_inputs, 'ability_to_coach');
-            bind_input(cycle_2_inputs, 'field_association_to_visit');
-            bind_input(cycle_2_inputs, 'party_building');
-            bind_input(cycle_2_inputs, 'kpi_report');
-            bind_input(cycle_2_inputs, 'administrative');
-        } else {
-            console.warn("find a lot of 'li'")
-        }
-
-    };
-
-    return {
-        "bind_input_change" : bind_input_change
-    }
 })(jQuery, window);
