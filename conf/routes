@@ -38,6 +38,9 @@ POST    /register/check/name        controllers.user.RegisterController.register
 POST    /register/check/email       controllers.user.RegisterController.registerUserCheckEmail
 POST    /register/check/phone       controllers.user.RegisterController.registerUserCheckPhone
 
+#检查Phase状态
+POST    /phase/status               controllers.checkstatus.CheckStatusController.checkStatus
+
 # 用户登入
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
 

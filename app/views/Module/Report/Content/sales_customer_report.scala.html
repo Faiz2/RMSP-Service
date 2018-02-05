@@ -1,5 +1,5 @@
 @(m : play.api.libs.json.JsValue)
-
+@import java.text.NumberFormat
 <div name="customer">
     <div style="margin-left: 3%">
         @Module.Report.hospital_select()
@@ -31,15 +31,40 @@
                             val tmp = (tp \ "result").asOpt[List[play.api.libs.json.JsValue]].get
 
                             tmp.map { iter =>
+                                val regex="""-?[0-9]+.*[0-9]*""".r
                                 <tr role="row">
-                                <td class="dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
-                                <td class="dt-center">{(iter \ "prod_name").asOpt[String].get}</td>
-                                <td class="dt-center">{(iter \ "current_target").asOpt[Int].get}</td>
-                                <td class="dt-center">{(iter \ "last_revenue").asOpt[Int].get}</td>
-                                <td class="dt-center">{(iter \ "current_revenue").asOpt[Int].get}</td>
-                                <td class="dt-center">{(iter \ "increase_revenue").asOpt[Int].get}</td>
-                                <td class="dt-center">{(iter \ "increase_ratio").asOpt[Double].get}</td>
-                                <td class="dt-center">{(iter \ "target_realization").asOpt[Double].get}</td>
+                                    <td class="dt-center">{
+                                        if(regex.findFirstMatchIn((iter \ "hosp_name").asOpt[String].get).isDefined) {
+                                            NumberFormat.getInstance().format((iter \ "hosp_name").asOpt[String].get.toDouble)
+                                        } else {
+                                            (iter \ "hosp_name").asOpt[String].get
+                                        }
+                                    }</td>
+                                    <td class="dt-center">{
+                                        if(regex.findFirstMatchIn((iter \ "prod_name").asOpt[String].get).isDefined) {
+                                            NumberFormat.getInstance().format((iter \ "prod_name").asOpt[String].get.toDouble)
+                                        } else {
+                                            (iter \ "prod_name").asOpt[String].get
+                                        }
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "current_target").asOpt[Int].get.toDouble)
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "last_revenue").asOpt[Int].get.toDouble)
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "current_revenue").asOpt[Int].get.toDouble)
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "increase_revenue").asOpt[Int].get.toDouble)
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "increase_ratio").asOpt[Double].get)
+                                    }</td>
+                                    <td class="dt-center">{
+                                        NumberFormat.getInstance().format((iter \ "target_realization").asOpt[Double].get)
+                                    }</td>
                                 </tr>
                             }
                         }

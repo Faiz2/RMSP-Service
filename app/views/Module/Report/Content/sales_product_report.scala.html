@@ -1,5 +1,5 @@
 @(m : play.api.libs.json.JsValue)
-
+@import java.text.NumberFormat
 <div style="text-align: left;margin-left: 3%">
     <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
         <div class="dataTables_wrapper no-footer">
@@ -26,12 +26,12 @@
                         tmp.map { iter =>
                             <tr role="row">
                             <td class="dt-center">{(iter \ "prod_name").asOpt[String].get}</td>
-                            <td class="dt-center">{(iter \ "current_target").asOpt[Int].get}</td>
-                            <td class="dt-center">{(iter \ "last_revenue").asOpt[Int].get}</td>
-                            <td class="dt-center">{(iter \ "current_revenue").asOpt[Int].get}</td>
-                            <td class="dt-center">{(iter \ "increase_revenue").asOpt[Int].get}</td>
-                            <td class="dt-center">{(iter \ "increase_ratio").asOpt[Double].get}</td>
-                            <td class="dt-center">{(iter \ "target_realization").asOpt[Double].get}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "current_target").asOpt[Int].get.toDouble)}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "last_revenue").asOpt[Int].get.toDouble)}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "current_revenue").asOpt[Int].get.toDouble)}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "increase_revenue").asOpt[Int].get.toDouble)}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "increase_ratio").asOpt[Double].get)}</td>
+                            <td class="dt-center">{NumberFormat.getInstance().format((iter \ "target_realization").asOpt[Double].get)}</td>
                             </tr>
                         }
                     }

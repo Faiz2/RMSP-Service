@@ -10,7 +10,7 @@ import module.rscript.RscriptMessage._
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json.toJson
 
-object RscriptModule extends ModuleTrait{
+object RscriptModule extends ModuleTrait {
 	
 	def dispatchMsg(msg: MessageDefines)
 	               (pr: Option[String Map JsValue])

@@ -1,3 +1,4 @@
+@import java.text.NumberFormat
 @(data: String, cycle: String)
 <div class="row ">
     <div class="col-sm-12">
@@ -9,7 +10,7 @@
                 <div>
                     <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">总推广预算(元)</div>
                     <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left">
-                        <pre pharbers-type="p@{cycle}_total_promotional_budget" class=" noplaceholder ">@data</pre>
+                        <pre pharbers-type="p@{cycle}_total_promotional_budget" class=" noplaceholder ">@{NumberFormat.getInstance().format(data.toDouble)}</pre>
                     </div>
                     <div style="display:inline-block;width:20%;vertical-align:middle;margin-left:10%;text-align:left;">口服抗生素 已分配指标(元)</div>
                     <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:left">
