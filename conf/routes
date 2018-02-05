@@ -6,26 +6,6 @@
 GET     /                           controllers.RMSPRoutesController.login
 GET     /login                      controllers.RMSPRoutesController.login
 GET     /register                   controllers.RMSPRoutesController.register
-<<<<<<< HEAD
-GET     /index                      controllers.RMSPRoutesController.index
-GET     /brd                        controllers.RMSPRoutesController.brd
-GET     /product                    controllers.RMSPRoutesController.product
-GET     /market                     controllers.RMSPRoutesController.market
-GET     /decision                   controllers.RMSPRoutesController.decision
-
-
-POST    /market                     controllers.RMSPRoutesController.market
-
-
-# 通过jQuery的$.get获取页面
-GET     /market_info                controllers.RMSPRoutesController.marketInfo
-GET     /brd_info                   controllers.RMSPRoutesController.brdInfo
-GET     /product_info               controllers.RMSPRoutesController.productInfo
-GET     /business_decision          controllers.RMSPRoutesController.businessDecision
-GET     /management_decision        controllers.RMSPRoutesController.managementDecision
-GET     /report                     controllers.RMSPRoutesController.report
-
-=======
 GET     /index                      controllers.RMSPRoutesController.index(uuid = "")
 GET     /index/:uuid                controllers.RMSPRoutesController.index(uuid)
 GET     /brd                        controllers.RMSPRoutesController.brd(uuid = "")
@@ -48,7 +28,6 @@ GET     /takelast/:uuid             controllers.RMSPRoutesController.takelast(uu
 
 POST    /decision/proceed           controllers.RMSPRoutesController.updatedecision
 POST    /management/proceed         controllers.RMSPRoutesController.updatemanagement
->>>>>>> alfred-180123
 
 # 下载report
 GET     /report/download/:name      controllers.FopController.downloadFile(name)
