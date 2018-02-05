@@ -1,1 +1,2 @@
-alert("fuck")
+var arr = []
+arr.distinct()

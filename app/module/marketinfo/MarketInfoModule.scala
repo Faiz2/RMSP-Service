@@ -54,11 +54,9 @@ object MarketInfoModule extends ModuleTrait with MarketInfoData {
             var m : Map[String,List[Map[String,String]]]= Map.empty
             var i = 1
             for(t <- tmp){
-//                println(i+t)
                 val info = reValClientInfoData(t)
                 m = m ++ Map(i+"" -> info)
                 i = i + 1
-//                println(m)
             }
 
             val rt = m.toList.sortBy(p => p._1).map (x => x._2).map { lst =>

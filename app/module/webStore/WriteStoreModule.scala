@@ -50,7 +50,7 @@ object WebStoreModule extends ModuleTrait {
             (Some(Map("store" -> toJson(key))), None)
         } catch {
             case ex: Exception =>
-                println("store_input"+ex)
+                println("store _input"+ex)
 //                println(data)
                 (None, Some(ErrorCode.errorToJson(ex.getMessage)))
         }
