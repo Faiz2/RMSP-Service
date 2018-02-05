@@ -158,7 +158,12 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         getUserCookie(request) {
             if (!checkInputPhase(uuid, pi)) Redirect("/phase_error/" + uuid + "/" + phrase)
             else {
-                val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil)))
+                val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil),
+                    "condition" -> toJson(Map(
+                        "uuid" -> toJson(uuid)
+                    ))
+                ))
+                
                 val reVal1 = {
                     requestArgsQuery().commonExcution(
                         MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -183,6 +188,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                     )
                 }
+                
+//                println(reVal3)
 
                 val jv = toJson("")
                 val reVal =
@@ -217,7 +224,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
                     val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
                     val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
-
+                    
                     val tmp1 = (preresult \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
                     val tmp2 = (hosp_potential \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
 
