@@ -41,7 +41,7 @@
                                                 </thead>
                                                 <tbody class="news">
                                                     @{
-                                                        val phrase = (news\ "1").asOpt[List[play.api.libs.json.JsValue]].get
+                                                        val phrase = (news \ p).asOpt[List[play.api.libs.json.JsValue]].get
                                                         phrase.zipWithIndex.map { his =>
                                                         <tr role="row">
                                                             <td class="dt-center">{(his._1 \ "hosp_name").asOpt[String].get}</td>

@@ -16,9 +16,15 @@ import play.api.mvc.Action
 class RscriptController @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait) {
 	implicit val as: ActorSystem = as_inject
 	
-	def callRscript = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("callRscript"))), jv)
+	def callCalcRscript = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("callCalcRscript"))), jv)
 			:: MsgCallCalcRscript(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+	
+	def callDownLoadExcelRscript = Action(request => requestArgsQuery().requestArgsV2(request){ jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("callDownLoadExcelRscript"))), jv)
+			:: MsgCallWriteExcelRscript(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 }

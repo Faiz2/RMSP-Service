@@ -20,22 +20,8 @@ case class RConfig() {
         path
     }
     
-    def rdata() : String = {
-        val path = (xml_file \ "r-path" \ "rdata" \ "@value").text
-        path
-    }
-    
     def report_path : String = {
         val path = (xml_file \ "excel-path" \ "report" \"@value").text
-        path
-    }
-    def report_download_path : String = {
-        val path = (xml_file \ "excel-path" \ "report_download" \"@value").text
-        path
-    }
-    
-    def pre_info_new : String = {
-        val path = (xml_file \  "excel-path" \ "pre_info_new" \"@value").text
         path
     }
 }

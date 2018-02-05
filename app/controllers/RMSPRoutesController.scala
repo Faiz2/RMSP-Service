@@ -121,9 +121,15 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
     def market(uuid : String, phrase : String) = Action { request =>
         val p = if (phrase == "") "1"
                 else phrase
-
+        val pi = p.toInt
+        
         getUserCookie(request) {
             val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
+            val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil),
+                "condition" -> toJson(Map(
+                    "uuid" -> toJson(uuid)
+                ))
+            ))
             val reVal1 = {
                  requestArgsQuery().commonExcution(
                     MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
@@ -134,8 +140,8 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
             val reVal2 = {
                 requestArgsQuery().commonExcution(
-                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv)
-                        :: perResultInProposal(jv)
+                    MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
+                        :: perResultInProposal(jv1)
                         :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                 )
             }

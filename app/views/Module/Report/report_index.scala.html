@@ -1,6 +1,8 @@
 @(uuid : String)(phase : String)(report : play.api.libs.json.JsValue)
 
 @Home.home("report")(uuid)(phase) {
+<input value="@{phase}" disabled type="hidden" name="phase"/>
+<input value="@{uuid}" disabled type="hidden" name="uuid"/>
 <section class="content">
     <ul class="nav nav-tabs" id="report-tab" role="tablist">
         <li role="presentation" class='@{if(phase == "1") "active"}'><a href='@{"/report/" + uuid + "/1"}' pharbers-status=false>周期1</a></li>
@@ -15,7 +17,7 @@
                         <div class="row ">
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
-                                <button class="btn btn-default" id="cycle1-down"><i class="fa fa-download"></i>下载周期1报告</button>
+                                <button class="btn btn-default" id="download-report"><i class="fa fa-download"></i>下载周期@{phase}报告</button>
                             </div>
                         </div>
                         <br>
@@ -102,3 +104,7 @@
     </div>
 </section>
 }
+    <!--动态异步加载js-->
+<script defer="defer">
+        $.getScript('@routes.Assets.versioned("javascripts/business-lib/report/report.js")');
+</script>

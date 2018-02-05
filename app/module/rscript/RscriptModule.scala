@@ -34,9 +34,11 @@ object RscriptModule extends ModuleTrait{
 	
 	def callWriteExcelRscript(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			println(data)
-			
-			(Some(Map("data" -> toJson("success"))), None)
+			val uuid = (data \ "condition" \ "uuid").asOpt[String].map(x => x).getOrElse(throw new Exception("wrong input"))
+			val phase = (data \ "condition" \ "phase").asOpt[Int].map(x => x).getOrElse(throw new Exception("wrong input"))
+			val rfile = RConfig().program_path + RConfig().report_path
+			val r = CallRFile2(rfile, uuid, phase).excute
+			(Some(Map("data" -> toJson(Map("flag" -> "ok", "path" -> (r \ "result" \ "result").as[String].split("\\s")(1).replace(""""""", "") )))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}

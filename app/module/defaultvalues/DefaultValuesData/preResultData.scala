@@ -36,6 +36,20 @@ trait preResultData {
             "date" -> toJson(obj.getAs[Number]("date").get.longValue)
         )
     }
+	
+	
+	def d2m_hospdata_stage(obj: DBObject, phase: Int): String Map JsValue = {
+		
+		val stages = obj.getAs[MongoDBList]("pre_result").get.toList.asInstanceOf[List[BasicDBObject]]
+		val stage = stages.find(p => p.get("stage") == phase).get
+		
+		Map(
+			"_id" -> toJson(obj.getAs[ObjectId]("_id").get.toString),
+			"hosp_code" -> toJson(obj.getAs[String]("hosp_code").get.toString),
+			"phrase" -> toJson(stage.getAs[String](s"phrase_$phase").get.toString),
+			"date" -> toJson(obj.getAs[Number]("date").get.longValue)
+		)
+	}
     
     
     def d2m_predata_stage(o: DBObject): String Map JsValue = {
