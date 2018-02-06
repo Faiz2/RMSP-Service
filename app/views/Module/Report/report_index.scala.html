@@ -92,8 +92,10 @@
                                     <div class="box-header">
                                         <h3 class="box-title">销售报告</h3>
                                     </div>
-                                    @Module.Report.Content.sales_report(report)
-                                    @* @Module.Report.ReportCycle1Content.sales_report()*@
+                                    <div name="sales">
+                                        @Module.Report.Content.sales_report(report)
+                                        @* @Module.Report.ReportCycle1Content.sales_report()*@
+                                    </div>
                                 </div>
                             </div>
                         </div>

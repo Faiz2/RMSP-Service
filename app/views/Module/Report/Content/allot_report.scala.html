@@ -1,17 +1,17 @@
 @(m: play.api.libs.json.JsValue)
 @import java.text.NumberFormat
 <div class="box-body">
-    <div style="margin-left: 3%">
+    <div style="margin-left: 3%" name="hospitals">
         @Module.Report.hospital_select()
     </div>
-    <div style="margin-left: 3%">
+    <div style="margin-left: 3%" name="dimension">
         @Module.Report.vdoing_select()
     </div>
 
     <div style="text-align: left;margin-left: 3%">
         <div style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
             <div class="dataTables_wrapper no-footer">
-                <table class="display dataTable no-footer table-striped" role="grid">
+                <table class="display dataTable no-footer table-striped" name="time-distribution" role="grid">
                     <caption>时间分配</caption>
                     <thead style="background-color: rgb(65, 85, 93);color: rgb(255, 255, 255);">
                         <tr role="row">
@@ -33,7 +33,7 @@
 
                             tmp.map { iter =>
                                 val regex="""-?[0-9]+.*[0-9]*""".r
-                                <tr role="row">
+                                <tr role="row" pharbers-filter={(iter \ "hosp_name").asOpt[String].get} other-filter={(iter \ "factor").asOpt[String].get} >
                                 <td class="dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
                                 <td class="dt-center">{(iter \ "factor").asOpt[String].get}</td>
                                 <td class="dt-center">{
