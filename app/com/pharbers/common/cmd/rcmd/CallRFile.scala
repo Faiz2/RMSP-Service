@@ -6,6 +6,6 @@ case class CallRFile(rfile : String, rDataPath: String, fileKey: String, reportP
 	override def cmd: String = s"Rscript $rfile $rDataPath $fileKey $reportPath"
 }
 
-case class CallRFile2(rfile: String, uuid: String, phase: Int) extends alShellOtherCmdExce {
+case class CallRFile2(rfile: String, uuid: String, phase: Int) extends alShellPythonCmdExce {
 	override def cmd: String = s"Rscript $rfile $uuid $phase"
 }

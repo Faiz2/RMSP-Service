@@ -27,8 +27,6 @@ object userInputModule extends ModuleTrait {
 
         case forceCreateDefaultInputInOpPhase(data) => forceCreateDefaultInputInOpPhase(data)
 
-        case dataCompletelyCallR(data) => dataCompleteCallR(data)
-
         case _ => throw new Exception("function is not impl")
     }
 

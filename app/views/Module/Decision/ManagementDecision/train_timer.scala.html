@@ -1,5 +1,5 @@
 @import play.api.libs.json.JsValue
-@(cycle: String)(input : List[play.api.libs.json.JsValue])
+@(cycle: String)(input : List[play.api.libs.json.JsValue])(flag: (Boolean, Int))
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-solid box-primary">
@@ -19,12 +19,12 @@
                     <div>
                         @for(data <- input) {
                             @if((data \ "project_name").as[String] == "产品培训") {
-                                <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
+                                <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}} type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px">产品培训</div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;">
                                         <div class="form-group ">
-                                            <input code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}} code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
                                         </div>
                                     </div>
                                 }

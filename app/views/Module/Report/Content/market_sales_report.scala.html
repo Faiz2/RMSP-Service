@@ -1,5 +1,5 @@
 @(m : play.api.libs.json.JsValue)
-
+@import java.text.NumberFormat
 <div class="box-body">
     <div style="text-align: left;margin-left: 3%">
         <div id="p1_report7_1" style="width: 100%;height: auto;visibility: inherit;" class="datatables html-widget html-widget-output">
@@ -27,21 +27,21 @@
                                     {
                                         val t = (iter \ "phase0").asOpt[Int].get
                                         if (t < 0) ""
-                                        else t.toString
+                                        else NumberFormat.getInstance().format(t.toString.toDouble)
                                     }
                                     </td>
                                     <td class="dt-center">
                                     {
                                         val t = (iter \ "phase1").asOpt[Int].get
                                         if (t < 0) ""
-                                        else t.toString
+                                        else NumberFormat.getInstance().format(t.toString.toDouble)
                                     }
                                     </td>
                                     <td class="dt-center">
                                     {
                                         val t = (iter \ "phase2").asOpt[Int].get
                                         if (t < 0) ""
-                                        else t.toString
+                                        else NumberFormat.getInstance().format(t.toString.toDouble)
                                     }
                                     </td>
                                 </tr>
@@ -76,8 +76,8 @@
                         tmp.map { iter =>
                             <tr role="row" >
                                 <td class="dt-center">{(iter \ "hosp_name").asOpt[String].get}</td>
-                                <td class="dt-center">{(iter \ "last_total_revenue").asOpt[Int].get}</td>
-                                <td class="dt-center">{(iter \ "current_total_revenue").asOpt[Int].get}</td>
+                                <td class="dt-center">{NumberFormat.getInstance().format((iter \ "last_total_revenue").asOpt[Int].get.toDouble)}</td>
+                                <td class="dt-center">{NumberFormat.getInstance().format((iter \ "current_total_revenue").asOpt[Int].get.toDouble)}</td>
                             </tr>
                         }
                     }

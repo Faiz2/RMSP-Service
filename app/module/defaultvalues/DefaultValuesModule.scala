@@ -155,21 +155,36 @@ object DefaultValuesModule extends ModuleTrait {
                          (implicit cm: CommonModules): (Option[Map[String, JsValue]], Option[JsValue]) = {
 
         try {
-
             val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).getOrElse(throw new Exception("no db connection"))
             val db = conn.queryDBInstance("stp").get
 
             val phrases = (data \ "phrases").asOpt[List[Int]].get
+            
             val tmp =
                 phrases.map { phrase =>
-
                     val tmp =
                     if (phrase == 1) {
                         import inner_trait.d2m_stage_1
-                        db.queryMultipleObject(DBObject(), "preresult")
+                        db.queryMultipleObject(DBObject(), "preresult").sortBy(s => s("hosp_code").as[String].toInt)
                     } else {
-                        import inner_trait.d2m_stage_1
-                        db.queryMultipleObject(DBObject(), "preresult")
+                        import inner_trait.d2m_hospdata_stage
+                        val preVal = db.queryMultipleObject(DBObject(), "preresult")(d2m_hospdata_stage(_, phrase))
+                        
+                        import inner_trait.d2m_predata_stage
+                        val reVal = db.queryMultipleObject(DBObject("uuid" -> (data \ "condition" \ "uuid").as[String]), "report")(d2m_predata_stage).head("data").as[String Map List[String Map String]]
+                        reVal.map { x =>
+                            val pharse = preVal.find(f => f("hosp_code").as[String] == x._1).get("phrase").as[String]
+                            Map(
+                                "hosp_code" -> toJson(x._1),
+                                "phrase" -> toJson(pharse),
+                                "total" -> toJson(x._2.find(f => f("prod_name") == "总体").get("current_revenue")),
+                                "1" -> toJson(x._2.find(f => f("prod_name") == "口服抗生素").get("current_revenue")),
+                                "2" -> toJson(x._2.find(f => f("prod_name") == "一代降糖药").get("current_revenue")),
+                                "3" -> toJson(x._2.find(f => f("prod_name") == "三代降糖药").get("current_revenue")),
+                                "4" -> toJson(x._2.find(f => f("prod_name") == "皮肤药").get("current_revenue")),
+                                "date" -> toJson(0)
+                            )
+                        }.toList.sortBy(s => s("hosp_code").as[String].toInt)
                     }
 
                     (phrase.toString, toJson(tmp))
@@ -200,16 +215,19 @@ object DefaultValuesModule extends ModuleTrait {
                                     Map("hosp_name" -> x.get("hosp_name").get,
                                         "hosp_area" -> x.get("hosp_area").get,
                                         "hosp_cat" -> x.get("hosp_cat").get)
-                                }.getOrElse(throw new Exception())
+                                }.getOrElse(throw new Exception("fuck"))
                     )
                 }
             }
+            
 
             (Some(Map(
                 "preresult" -> toJson(reVal)
             )), None)
         } catch {
-            case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+            case ex: Exception =>
+                println(s"fuck === >${ex.getMessage}")
+                (None, Some(ErrorCode.errorToJson(ex.getMessage)))
         }
     }
 

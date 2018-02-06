@@ -30,7 +30,7 @@ POST    /decision/proceed           controllers.RMSPRoutesController.updatedecis
 POST    /management/proceed         controllers.RMSPRoutesController.updatemanagement
 
 # 下载report
-GET     /report/download/:name      controllers.FopController.downloadFile(name)
+GET     /download/report/:name      controllers.FopController.downloadFile(name)
 
 # 用户注册
 POST    /user/register              controllers.user.RegisterController.registerUser
@@ -38,14 +38,17 @@ POST    /register/check/name        controllers.user.RegisterController.register
 POST    /register/check/email       controllers.user.RegisterController.registerUserCheckEmail
 POST    /register/check/phone       controllers.user.RegisterController.registerUserCheckPhone
 
+#检查Phase状态
+POST    /phase/status               controllers.checkstatus.CheckStatusController.checkStatus
+
 # 用户登入
 POST    /user/authpwd               controllers.auth.AuthController.authWithPassword
 
 # 用户call R
-#POST    /submit/submitdata          controllers.submit.SubmitController.submitDataCallR
+POST    /submit/submitdata          controllers.rscript.RscriptController.callCalcRscript
 
 # 生成Excel
-#POST    /report/down                controllers.report.ReportController.reportDownController
+POST    /submit/create              controllers.rscript.RscriptController.callDownLoadExcelRscript
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
