@@ -1,6 +1,5 @@
 (function ($, w) {
     "use strict";
-    debugger;
     var f = new Facade();
     var validation;
 
