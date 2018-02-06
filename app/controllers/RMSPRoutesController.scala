@@ -75,7 +75,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         )
                     }
 
-                    if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/market/" + uid)
+                    if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/market/" + uid + "/1")
                     else Redirect("/login")
                 }
             } else Redirect("/login")
