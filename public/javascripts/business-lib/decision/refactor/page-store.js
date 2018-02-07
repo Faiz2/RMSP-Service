@@ -73,7 +73,6 @@
         };
 
         f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), "POST", function(r){
-            w.console.info(r);
             // w.location = "/management/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
         });
     }
@@ -180,7 +179,6 @@
         // console.info(JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))))
 
         f.ajaxModule.baseCall("/management/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function (r) {
-            console.info(r);
         });
     }
 })(jQuery, window);

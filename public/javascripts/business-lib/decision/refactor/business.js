@@ -41,24 +41,62 @@
         }
      };
 
-     const check_phase = function() {
-         let json = JSON.stringify(f.parameterPrefixModule.conditions({
-             "uuid": $('input:hidden[name="uuid"]').val(),
-             "phase": parseInt($('input:hidden[name="phase"]').val())
-         }));
-         f.ajaxModule.baseCall('/phase/status', json, 'POST', function (r) {
-             if(r.status === 'ok' && r.result.data.flag === 'ok') {
-                 let $lis = $('#business_tab');
-                 //parseInt($('input:hidden[name="phase"]').val())
-                 if(r.result.data.inputs > 1) {
-                     $lis.find('li').eq(1).show();
-                 }
+     const budget_cumulative = function() {
+
+         let inputs = $('input[name="budget"]');
+         let sum_val = 0;
+         $.each(inputs, function(_, v){
+             // TODO: 先为正整数，把后端参数改了再改实数验证
+             if(regexExce(numberzzs, $(v).val())) {
+                 sum_val += parseInt($(v).val());
+             } else {
+                 sum_val = 0;
+                 f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(v).attr("hospital-name") + "</b>&nbsp;下的Budget值异常，请仔细检查，再次提交！");
+                 return false;
              }
-         })
+         });
+         $('pre[name="sum-budget"]').text(sum_val);
+     };
+
+     const product_cumulative = function() {
+        let product_list = ['口服抗生素', '一代降糖药', '三代降糖药', '皮肤药'];
+        function filter_inputs(_, elem, v) { return $(elem).attr('pharbers-type') === v }
+        $.each(product_list, function(i, v) {
+            let sum_val = 0;
+            let pre = $('pre[name="'+v+'"]');
+            $.each($('input[name="prod_value"]').filter((index, elem) => filter_inputs(index, elem, v)), function(_, vv){
+
+                if(regexExce(numberzzs, $(vv).val())) {
+                    sum_val += parseInt($(vv).val());
+                } else {
+                    f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(vv).attr("hospital-name") + "</b>&nbsp;下的"+ $(vv).attr("pharbers-type") +"&nbsp;Sales值异常，请仔细检查，再次提交！");
+                    sum_val = "NaN";
+                    return false;
+                }
+
+            });
+            if(regexExce(numberzzs, sum_val)) {
+                pre.text(sum_val);
+            } else {
+                sum_val = 0;
+                pre.text(sum_val);
+                return false;
+            }
+        });
+     };
+
+     const salesmen_cumulative = function() {
+        function filter_salesmen(_, elem) { return $(elem).val() !== ""; }
+        let select_salemens = $('select[name="salesmen"]').filter(filter_salesmen);
+        let sum_val = 0;
+        $.each(select_salemens, function(_, v){
+            $.each($('input[name="prod_hours"][hospital-name="'+$(v).attr('hospital-name')+'"]'), function(_, vv){
+                sum_val += parseInt($(vv).val());
+            });
+        });
      };
 
     $(function() {
-
         $('#go-decision').click(function() {
 
             let $inputs = $('input');
@@ -113,7 +151,30 @@
             }
         });
 
-        // check_phase();
+        {
+            budget_cumulative();
+            $('input[name="budget"]').blur(function(){
+                budget_cumulative();
+            });
+        }
+
+        {
+            product_cumulative();
+            $('input[name="prod_value"]').blur(function(){
+                product_cumulative();
+            });
+        }
+
+        {
+            salesmen_cumulative();
+            $('select[name="salesmen"]').change(function(){
+                salesmen_cumulative();
+            });
+            // $('input[name="prod_hours"]').blur(function(){
+            //     salesmen_cumulative();
+            // });
+        }
+
     });
 
 })(jQuery, window);
