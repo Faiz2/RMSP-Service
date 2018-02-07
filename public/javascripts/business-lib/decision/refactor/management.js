@@ -1,45 +1,30 @@
 (function($, w){
 
-    const check_phase = function() {
-        let json = JSON.stringify(f.parameterPrefixModule.conditions({
-            "uuid": $('input:hidden[name="uuid"]').val(),
-            "phase": parseInt($('input:hidden[name="phase"]').val())
-        }));
-        f.ajaxModule.baseCall('/phase/status', json, 'POST', function (r) {
-            if(r.status === 'ok' && r.result.data.flag === 'ok') {
-                let $lis = $('#management_tab');
-                // parseInt($('input:hidden[name="phase"]').val())
-                if(r.result.data.inputs > 1) {
-                    $lis.find('li').eq(1).show();
-                }
-            }
-        })
-    };
     const inputs_keyup = function () {
-        var inputs = $("input");
+        let inputs = $("input");
         $.each(inputs,function (i, v) {
             $(v).keyup(function () {
-                var type = $(this).attr("pharbers-type");
+                let type = $(this).attr("pharbers-type");
                 switch (type){
                     case "能力辅导" :
                         sum_part('[pharbers-sum="coach-all"]', '[pharbers-type="能力辅导"]');
-                        sum_all()
+                        sum_all();
                         break;
                     case "实地协访":
                         sum_part('[pharbers-sum="assist-all"]', '[pharbers-type="实地协访"]');
-                        sum_all()
+                        sum_all();
                         break;
                     case "团队例会和团建":
                         sum_part('[pharbers-sum="construction-all"]', '[pharbers-type="团队例会和团建"]');
-                        sum_all()
+                        sum_all();
                         break;
                     case "KPI 报告分析":
                         sum_part('[pharbers-sum="report-all"]', '[pharbers-type="KPI 报告分析"]');
-                        sum_all()
+                        sum_all();
                         break;
                     case "行政工作":
                         sum_part('[pharbers-sum="pr-all"]', '[pharbers-type="行政工作"]');
-                        sum_all()
+                        sum_all();
                         break;
                     default:
 
@@ -52,7 +37,7 @@
 
     };
     const sum_all = function () {
-        var share_sum = 0;
+        let share_sum = 0;
         $('[pharbers-share="share"]').map(function (i, e) {
             share_sum += parseInt($(e).text());
         });
@@ -61,9 +46,9 @@
         });
     };
     const sum_part = function (arrName, attr) {
-        var inputs = $('input');
-        var pres = $('pre');
-        var part_sum = 0;
+        let inputs = $('input');
+        let pres = $('pre');
+        let part_sum = 0;
         inputs.filter(attr).map(function (i , e) {
             part_sum += parseInt($(e).val());
         });
@@ -81,8 +66,10 @@
         sum_all();
     };
     $(function() {
-        init_all();
-        inputs_keyup();
+        {
+            init_all();
+            inputs_keyup();
+        }
 
         $('#go-submit').click(function(){
             let $inputs = $('input');
@@ -215,7 +202,6 @@
             }
         });
 
-        // check_phase();
     });
 
 
