@@ -86,6 +86,13 @@
 
         $('#go-submit').click(function(){
             let $inputs = $('input');
+            let testNumber = false;
+            $.each($inputs, function (i, e) {
+                if(regexExce(numberzzs, $(e).val())) {
+                } else {
+                    testNumber = true;
+                }
+            });
             let sum = 0;
             let coach = [];
             $inputs.filter('[pharbers-type="能力辅导"]').map(function(val, input){
@@ -189,6 +196,8 @@
                 f.alert.alert_warn("经理分配时间", "超出预设时间");
             } else if(sum < 0){
                 f.alert.alert_warn("经理分配时间", "低于预设时间");
+            } else if(testNumber){
+                f.alert.alert_error("错误", "输入数值必须为正整数");
             } else {
                 // TODO: Ajax
                 f.alert.loading();
