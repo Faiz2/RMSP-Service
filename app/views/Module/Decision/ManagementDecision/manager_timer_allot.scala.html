@@ -24,10 +24,10 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px">能力辅导</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre class="noplaceholder disabled coach-all share" disabled="true">0</pre>
+                                    <pre class="noplaceholder disabled" disabled="true" pharbers-sum="coach-all" pharbers-share="share">0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2%;width:8%;margin-right:1%">
-                                    <pre class="noplaceholder disabled coach-all" disabled="true">0</pre>
+                                    <pre class="noplaceholder disabled" disabled="true" pharbers-sum="coach-all">0</pre>
                                 </div>
 
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
@@ -44,10 +44,10 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px;">实地协访</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre class="noplaceholder disabled share assist-all"  disabled="true">0</pre>
+                                    <pre class="noplaceholder disabled share"  disabled="true" pharbers-sum="assist-all" [pharbers-share="share"]>0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2%;width:8%;margin-right:1%">
-                                    <pre class="noplaceholder disabled assist-all" disabled="true">0</pre>
+                                    <pre class="noplaceholder disabled" disabled="true" pharbers-sum="assist-all">0</pre>
                                 </div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2.5%;width:8%;margin-right:1.5%">
@@ -63,7 +63,7 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px;">团队例会和团建</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre class="noplaceholder disabled share construction-all" disabled="true">0</pre>
+                                    <pre class="noplaceholder disabled"  disabled="true" pharbers-sum="construction-all" pharbers-share="share">0</pre>
                                 </div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
@@ -73,19 +73,19 @@
                                     </div>
                                 }
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2%;width:8%;margin-right:1.5%">
-                                    <pre pharbers-type="p@{cycle}_sr1_team_meeting" class="noplaceholder disabled construction-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_sr1_team_meeting" class="noplaceholder disabled" disabled="true" pharbers-sum="construction-all">0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2.5%;width:8%;margin-right:1.5%">
-                                    <pre pharbers-type="p@{cycle}_sr2_team_meeting" class="noplaceholder disabled construction-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_sr2_team_meeting" class="noplaceholder disabled" disabled="true" pharbers-sum="construction-all">0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2.5%;width:8%;margin-right:1.5%">
-                                    <pre pharbers-type="p@{cycle}_sr3_team_meeting" class="noplaceholder disabled construction-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_sr3_team_meeting" class="noplaceholder disabled" disabled="true" pharbers-sum="construction-all">0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2.5%;width:8%;margin-right:1.5%">
-                                    <pre pharbers-type="p@{cycle}_sr4_team_meeting" class="noplaceholder disabled construction-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_sr4_team_meeting" class="noplaceholder disabled" disabled="true" pharbers-sum="construction-all">0</pre>
                                 </div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:2.5%;width:8%;margin-right:1.5%">
-                                    <pre pharbers-type="p@{cycle}_sr5_team_meeting" class="noplaceholder disabled construction-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_sr5_team_meeting" class="noplaceholder disabled" disabled="true" pharbers-sum="construction-all">0</pre>
                                 </div>
                             </div>
                         }
@@ -95,7 +95,7 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px;">KPI 报告分析</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre pharbers-type="p@{cycle}_total_kpi_analysis" class="noplaceholder disabled share report-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_total_kpi_analysis" class="noplaceholder disabled share" pharbers-sum="report-all" disabled="true">0</pre>
                                 </div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
@@ -112,7 +112,7 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px;">行政工作</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre pharbers-type="p@{cycle}_total_admin_work" class="noplaceholder disabled share pr-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_total_admin_work" class="noplaceholder disabled" disabled="true" pharbers-sum="pr-all" pharbers-share="share">0</pre>
                                 </div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">

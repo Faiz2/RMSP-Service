@@ -22,23 +22,23 @@
                 var type = $(this).attr("pharbers-type");
                 switch (type){
                     case "能力辅导" :
-                        sum_part(".coach-all", '[pharbers-type="能力辅导"]');
+                        sum_part('[pharbers-sum="coach-all"]', '[pharbers-type="能力辅导"]');
                         setTimeout(sum_all(), 50);
                         break;
                     case "实地协访":
-                        sum_part(".assist-all", '[pharbers-type="实地协访"]');
+                        sum_part('[pharbers-sum="assist-all"]', '[pharbers-type="实地协访"]');
                         setTimeout(sum_all(), 50);
                         break;
                     case "团队例会和团建":
-                        sum_part(".construction-all", '[pharbers-type="团队例会和团建"]');
+                        sum_part('[pharbers-sum="construction-all"]', '[pharbers-type="团队例会和团建"]');
                         setTimeout(sum_all(), 50);
                         break;
                     case "KPI 报告分析":
-                        sum_part(".report-all", '[pharbers-type="KPI 报告分析"]');
+                        sum_part('[pharbers-sum="report-all"]', '[pharbers-type="KPI 报告分析"]');
                         setTimeout(sum_all(), 50);
                         break;
                     case "行政工作":
-                        sum_part(".pr-all", '[pharbers-type="行政工作"]');
+                        sum_part('[pharbers-sum="pr-all"]', '[pharbers-type="行政工作"]');
                         setTimeout(sum_all(), 50);
                         break;
                     default:
@@ -53,29 +53,31 @@
     };
     var sum_all = function () {
         var share_sum = 0;
-        $(".share").map(function (i, e) {
+        $('[pharbers-share="share"]').map(function (i, e) {
             share_sum += parseInt($(e).text());
         });
         $.each($('[pharbers-sum="sum-all"]'), function (i, e) {
             $(e).text(share_sum);
         });
     };
-    var sum_part = function (className, attr) {
+    var sum_part = function (arrName, attr) {
         var inputs = $('input');
+        var pres = $('pre');
         var part_sum = 0;
         inputs.filter(attr).map(function (i , e) {
             part_sum += parseInt($(e).val());
         });
-        $.each($(className), function (i, e) {
+
+        $.each(pres.filter(arrName), function (i, e) {
             $(e).text(part_sum);
         });
     };
     var init_all = function () {
-        sum_part(".coach-all", '[pharbers-type="能力辅导"]');
-        sum_part(".assist-all", '[pharbers-type="实地协访"]');
-        sum_part(".construction-all", '[pharbers-type="团队例会和团建"]');
-        sum_part(".report-all", '[pharbers-type="KPI 报告分析"]');
-        sum_part(".pr-all", '[pharbers-type="行政工作"]');
+        sum_part('[pharbers-sum="coach-all"]', '[pharbers-type="能力辅导"]');
+        sum_part('[pharbers-sum="assist-all"]', '[pharbers-type="实地协访"]');
+        sum_part('[pharbers-sum="construction-all"]', '[pharbers-type="团队例会和团建"]');
+        sum_part('[pharbers-sum="report-all"]', '[pharbers-type="KPI 报告分析"]');
+        sum_part('[pharbers-sum="pr-all"]', '[pharbers-type="行政工作"]');
         setTimeout(sum_all(), 50);
     };
     $(function() {
