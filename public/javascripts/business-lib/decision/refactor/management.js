@@ -74,7 +74,7 @@
         $('#go-submit').click(function(){
             let $inputs = $('input');
             let testNumber = false;
-            $.each($inputs, function (i, e) {
+            $.each($inputs.not(':hidden'), function (i, e) {
                 if(regexExce(numberzzs, $(e).val())) {
                 } else {
                     testNumber = true;
