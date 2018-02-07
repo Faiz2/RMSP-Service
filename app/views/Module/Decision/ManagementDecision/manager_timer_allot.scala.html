@@ -33,7 +33,7 @@
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2.5%;width:8%;margin-right:1.5%">
                                         <div class="form-group ">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Double].toInt}" />
                                         </div>
                                     </div>
                                 }
@@ -52,7 +52,7 @@
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2.5%;width:8%;margin-right:1.5%">
                                         <div class="form-group ">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Double].toInt}" />
                                         </div>
                                     </div>
                                 }
@@ -68,7 +68,7 @@
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
                                         <div class="form-group ">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Double].toInt}" />
                                         </div>
                                     </div>
                                 }
@@ -100,7 +100,7 @@
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
                                         <div class="form-group ">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Double].toInt}" />
                                         </div>
                                     </div>
                                 }
@@ -117,7 +117,7 @@
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
                                         <div class="form-group ">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Int]}" />
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  code="@{(data \ "project_code").as[Int]}" name="@{apply("personal").as[String]}" pharbers-type="@{(data \ "project_name").as[String]}" type="text" class="form-control " value="@{apply("days").as[Double].toInt}" />
                                         </div>
                                     </div>
                                 }

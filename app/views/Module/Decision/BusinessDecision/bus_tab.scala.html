@@ -2,6 +2,18 @@
 @import java.text.NumberFormat
 @(hospital: List[play.api.libs.json.JsValue], pepole: List[play.api.libs.json.JsValue], cycle: String, inputs: List[play.api.libs.json.JsValue], flag: (Boolean, Int))
 
+@*************************************
+* Business Page                     *
+*                                   *
+* @numberFormat                     *
+* TODO: 提到view下单独形成一个,       *
+* TODO: 可以被import的包.            *
+*************************************@
+@numberFormat(d: AnyVal) = @{
+    val numberFormat = NumberFormat.getInstance()
+    numberFormat.setGroupingUsed(false)
+    numberFormat.format(d)
+}
 <div class="row">
     @for(data <- inputs) {
         <div class="col-sm-12">
@@ -41,7 +53,7 @@
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">批准的总推广预算(%)</div>
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                             <div class="form-group ">
-                                <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}} hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="批准的总推广预算" name="budget" type="text" class="form-control" value="@{(data \ "budget").as[Int]}" >
+                                <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}} hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="批准的总推广预算" name="budget" type="text" class="form-control" value="@{(data \ "budget").as[Double].toInt}" >
                             </div>
                         </div>
                     </div>
@@ -65,23 +77,30 @@
                         }
                     </div>
                     <div>
+
                         <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:20px;text-align:left;">销售指标设定(元)</div>
                         @for(sales <- (data \ "sales").as[List[String Map JsValue]]) {
                             @if(sales("prod_name").as[String] != "皮肤药") {
                                 <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:20px;">
                                     <div class="form-group">
-                                        <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control" value="@{sales("prod_value").as[Int]}" >
+                                        <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control" value="@{
+                                            numberFormat(sales("prod_value").as[Double])
+                                        }" >
                                     </div>
                                 </div>
                             } else {
                                 <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                                     @if(((data \ "hosp_name").as[String] == "人民医院" || (data \ "hosp_name").as[String] == "军区医院" || (data \ "hosp_name").as[String] == "中日医院" || (data \ "hosp_name").as[String] == "西河医院") && cycle == "2") {
                                         <div class="form-group">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control disabled" value="@{sales("prod_value").as[Int]}">
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control disabled" value="@{
+                                                numberFormat(sales("prod_value").as[Double])
+                                            }">
                                         </div>
                                     } else {
                                         <div class="form-group disabled" disabled="disabled">
-                                            <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control disabled" disabled="disabled"  value="@{sales("prod_value").as[Int]}">
+                                            <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}"  pharbers-type="@{sales("prod_name").as[String]}" name="prod_value" type="text" class="form-control disabled" disabled="disabled"  value="@{
+                                                numberFormat(sales("prod_value").as[Double])
+                                            }">
                                         </div>
                                     }
                                 </div>
@@ -111,18 +130,18 @@
                             @if(visit_hours("prod_name").as[String] != "皮肤药") {
                                 <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:20px;">
                                     <div class="form-group">
-                                        <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control" value="@{visit_hours("prod_hours").as[Int]}" >
+                                        <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control" value="@{visit_hours("prod_hours").as[Double].toInt}" >
                                     </div>
                                 </div>
                             } else {
                                 <div style="display:inline-block;width:16%;vertical-align:middle;margin-left:10px;text-align:center;margin-right:10px;">
                                 @if(((data \ "hosp_name").as[String] == "人民医院" || (data \ "hosp_name").as[String] == "军区医院" || (data \ "hosp_name").as[String] == "中日医院" || (data \ "hosp_name").as[String] == "西河医院") && cycle == "2") {
                                     <div class="form-group">
-                                        <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control" value="@{visit_hours("prod_hours").as[Int]}">
+                                        <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control" value="@{visit_hours("prod_hours").as[Double].toInt}">
                                     </div>
                                 } else {
                                     <div class="form-group disabled" disabled="disabled">
-                                        <input @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control disabled"  value="@{visit_hours("prod_hours").as[Int]}" disabled="true">
+                                        <input type="number" min="0" @{if(flag._2 > cycle.toInt) {"disabled"} else {}}  hospital-code="@{(data \ "hosp_code").as[Int]}" hospital-name="@{(data \ "hosp_name").as[String]}" pharbers-type="@{visit_hours("prod_name").as[String]}" name="prod_hours" type="text" class="form-control disabled"  value="@{visit_hours("prod_hours").as[Double].toInt}" disabled="true">
                                     </div>
                                 }
                                 </div>

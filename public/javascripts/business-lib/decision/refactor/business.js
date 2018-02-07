@@ -11,7 +11,11 @@
         } else if(sum_budget > 100) {
             f.alert.alert_warn("推广预算", "已分配的推广预算超出为100%");
             return false;
+        } else if(sum_budget === undefined) {
+            f.alert.alert_warn("推广预算", "已分配的推广预算异常");
+            return false;
         }
+
 
 
         let filter_empty = function(element) { return element.salesmen !== ""; };
@@ -37,11 +41,11 @@
                 $.each(filter_inputs_array, function(i, v){
                     if(v.salesmen === p) {
                         sum += v.visit_hours.map(function(val, ind){ return val.prod_hours }).reduce(function(p, c, i, a){ return p + c });
-                        if(sum > 100) {
+                        if(sum > 100 && regexExce(numberzzs, sum)) {
                             f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 超出预定时间。");
                             flag = false;
                             return flag;
-                        }else if(sum <= 0) {
+                        }else if(sum <= 0 && regexExce(numberzzs, sum)) {
                             f.alert.alert_warn("安排时间", "业务代表：<span style='color: red;'>" + v.salesmen + "</span> 低于预定时间。");
                             flag = false;
                             return flag;
@@ -57,6 +61,7 @@
 
          let inputs = $('input[name="budget"]');
          let sum_val = 0;
+         let flag = true;
          $.each(inputs, function(_, v){
              // TODO: 先为正整数，把后端参数改了再改实数验证
              if(regexExce(numberzzs, $(v).val())) {
@@ -64,13 +69,16 @@
              } else {
                  sum_val = 0;
                  f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(v).attr("hospital-name") + "</b>&nbsp;下的Budget值异常，请仔细检查，再次提交！");
+                 flag = false;
                  return false;
              }
          });
          $('pre[name="sum-budget"]').text(sum_val);
+         return flag;
      };
 
      const product_cumulative = function() {
+        let flag = true;
         let product_list = ['口服抗生素', '一代降糖药', '三代降糖药', '皮肤药'];
         function filter_inputs(_, elem, v) { return $(elem).attr('pharbers-type') === v }
         $.each(product_list, function(i, v) {
@@ -78,16 +86,17 @@
             let pre = $('pre[name="'+v+'"]');
             $.each($('input[name="prod_value"]').filter((index, elem) => filter_inputs(index, elem, v)), function(_, vv){
 
-                if(regexExce(numberzzs, $(vv).val())) {
-                    sum_val += parseInt($(vv).val());
+                if(regexExce(numberzzss, $(vv).val())) {
+                    sum_val += parseFloat($(vv).val());
                 } else {
                     f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(vv).attr("hospital-name") + "</b>&nbsp;下的"+ $(vv).attr("pharbers-type") +"&nbsp;Sales值异常，请仔细检查，再次提交！");
                     sum_val = "NaN";
+                    flag = false;
                     return false;
                 }
 
             });
-            if(regexExce(numberzzs, sum_val)) {
+            if(regexExce(numberzzss, sum_val)) {
                 pre.text(sum_val);
             } else {
                 sum_val = 0;
@@ -95,10 +104,12 @@
                 return false;
             }
         });
+        return flag;
      };
 
      const salesmen_cumulative = function() {
         function filter_salesmen(_, elem) { return $(elem).val() !== ""; }
+        let flag = true;
         let select_salemens = $('select[name="salesmen"]').filter(filter_salesmen);
         let personals = ["小青", "小白", "小木", "小兰", "小宋"];
         $.each(personals, function(_, p){
@@ -106,13 +117,21 @@
             $.each(select_salemens, function(_, v){
                 if($(v).val() === p) {
                     $.each($('input[name="prod_hours"][hospital-name="'+$(v).attr('hospital-name')+'"]'), function(_, vv){
-                        sum_val += parseInt($(vv).val());
+                        if(regexExce(numberzzs, $(vv).val())) {
+                            sum_val += parseInt($(vv).val());
+                        } else {
+                            f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(vv).attr("hospital-name") + "</b>&nbsp;下的"+ $(vv).attr("pharbers-type") +"&nbsp;拜访时间值异常，请仔细检查，再次提交！");
+                            sum_val = "NaN";
+                            flag = false;
+                            return false;
+                        }
+
                     });
                 }
             });
             $('pre[pharbers-pepole="'+p+'"]').text(sum_val);
         });
-
+        return flag;
      };
 
     $(function() {
@@ -149,7 +168,8 @@
                     "visit_hours": visit
                 })
             });
-            if(next_validation(obj)) {
+
+            if(next_validation(obj) && budget_cumulative() && product_cumulative() && salesmen_cumulative()) {
                 let uuid = $("input:hidden[name='uuid']").val();
                 let json = {
                     "user_id": $.cookie("user"),
@@ -161,6 +181,10 @@
                     "user_id": $.cookie("user"),
                     "uuid": uuid
                 };
+
+                // budget_cumulative();
+                // product_cumulative();
+                // salesmen_cumulative();
 
                 f.ajaxModule.baseCall("/decision/proceed", JSON.stringify($.extend(json, f.parameterPrefixModule.conditions(user_info))), 'POST', function(r){
                     if(r.status === 'ok' && r.result.input_update === 'success') {
