@@ -2,6 +2,18 @@
 
 
      const next_validation = function(inputs_array) {
+
+        let sum_budget = parseInt($('pre[name="sum-budget"]').text());
+
+        if(sum_budget <= 0) {
+            f.alert.alert_warn("推广预算", "已分配的推广预算不能为0%");
+            return false;
+        } else if(sum_budget > 100) {
+            f.alert.alert_warn("推广预算", "已分配的推广预算超出为100%");
+            return false;
+        }
+
+
         let filter_empty = function(element) { return element.salesmen !== ""; };
         let filter_exist = function(element, value) { return element.salesmen === value; };
         let filter_inputs_array = inputs_array.filter(filter_empty);
@@ -88,12 +100,19 @@
      const salesmen_cumulative = function() {
         function filter_salesmen(_, elem) { return $(elem).val() !== ""; }
         let select_salemens = $('select[name="salesmen"]').filter(filter_salesmen);
-        let sum_val = 0;
-        $.each(select_salemens, function(_, v){
-            $.each($('input[name="prod_hours"][hospital-name="'+$(v).attr('hospital-name')+'"]'), function(_, vv){
-                sum_val += parseInt($(vv).val());
+        let personals = ["小青", "小白", "小木", "小兰", "小宋"];
+        $.each(personals, function(_, p){
+            let sum_val = 0;
+            $.each(select_salemens, function(_, v){
+                if($(v).val() === p) {
+                    $.each($('input[name="prod_hours"][hospital-name="'+$(v).attr('hospital-name')+'"]'), function(_, vv){
+                        sum_val += parseInt($(vv).val());
+                    });
+                }
             });
+            $('pre[pharbers-pepole="'+p+'"]').text(sum_val);
         });
+
      };
 
     $(function() {
@@ -170,9 +189,9 @@
             $('select[name="salesmen"]').change(function(){
                 salesmen_cumulative();
             });
-            // $('input[name="prod_hours"]').blur(function(){
-            //     salesmen_cumulative();
-            // });
+            $('input[name="prod_hours"]').blur(function(){
+                salesmen_cumulative();
+            });
         }
 
     });
