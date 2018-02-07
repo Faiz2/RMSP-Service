@@ -95,7 +95,7 @@
                                 <input type="hidden" name="input" disabled value="@{(data \ "project_name").as[String]}">
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;width:13%;margin-left:20px;">KPI 报告分析</div>
                                 <div style="display:inline-block;vertical-align:middle;text-align:left;margin-left:1%;width:8%;margin-right:1%">
-                                    <pre pharbers-type="p@{cycle}_total_kpi_analysis" class="noplaceholder disabled share" pharbers-sum="report-all" disabled="true">0</pre>
+                                    <pre pharbers-type="p@{cycle}_total_kpi_analysis" class="noplaceholder disabled" pharbers-sum="report-all" pharbers-share="share" disabled="true">0</pre>
                                 </div>
                                 @for(apply <- (data \ "apply").as[List[String Map JsValue]]) {
                                     <div style="display:inline-block;vertical-align:middle;text-align:center;margin-left:2%;width:8%;margin-right:1.5%">
