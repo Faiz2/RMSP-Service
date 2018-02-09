@@ -3,7 +3,7 @@
 
      const next_validation = function(inputs_array) {
 
-        let sum_budget = parseInt($('pre[name="sum-budget"]').text());
+        let sum_budget = parseFloat($('pre[name="sum-budget"]').text());
 
         if(sum_budget <= 0) {
             f.alert.alert_warn("推广预算", "已分配的推广预算不能为0%");
@@ -64,8 +64,8 @@
          let flag = true;
          $.each(inputs, function(_, v){
              // TODO: 先为正整数，把后端参数改了再改实数验证
-             if(regexExce(numberzzs, $(v).val())) {
-                 sum_val += parseInt($(v).val());
+             if(regexExce(numberzzss, $(v).val())) {
+                 sum_val += parseFloat($(v).val());
              } else {
                  sum_val = 0;
                  f.alert.alert_error("错误", "检测到：<b style='color:#ff2c2c;'>" + $(v).attr("hospital-name") + "</b>&nbsp;下的Budget值异常，请仔细检查，再次提交！");
