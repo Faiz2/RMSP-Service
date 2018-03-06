@@ -1,0 +1,22 @@
+@media (max-width: 768px) {
+    .application{
+        padding-top: 120px !important;
+    }
+}
+.application {
+    min-width: 768px;
+    margin: 0;
+    padding-top: 50px;
+    background: #373A44;
+}
+.application > .header {
+    min-height: 50px;
+    background: #484D5B;
+    color: #EEEEEE;
+    font-size: 0.75em;
+    letter-spacing: 0.075em;
+}
+.application p[class="navbar-text"] {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
