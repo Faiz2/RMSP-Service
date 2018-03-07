@@ -39,21 +39,21 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 	implicit val attoken: AuthTokenTrait = att
 
     /*version 2.0 Start*/
-    
+
     def indexV2 = Action {
         Ok(views.html.version_2.model.home.template())
     }
-    
+
     /*version 2.0 END*/
-    
+
 	def login = Action {
 		Ok(views.html.Login.login())
 	}
-	
+
 	def register = Action {
 		Ok(views.html.Login.register())
 	}
-	
+
 	def index(uuid : String) = Action { request =>
         getUserCookie(request) {
             val user = request.cookies.get("user").get.value
@@ -130,7 +130,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
         val p = if (phrase == "") "1"
                 else phrase
         val pi = p.toInt
-        
+
         getUserCookie(request) {
             val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
             val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil),
@@ -178,7 +178,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                         "uuid" -> toJson(uuid)
                     ))
                 ))
-                
+
                 val reVal1 = {
                     requestArgsQuery().commonExcution(
                         MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -202,7 +202,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                             :: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
                     )
                 }
-                
+
                 val jv = toJson("")
                 val reVal =
                     requestArgsQuery().commonExcution(
@@ -236,7 +236,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
                     val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
                     val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
                     val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
-                    
+
                     val tmp1 = (preresult \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
                     val tmp2 = (hosp_potential \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
 
