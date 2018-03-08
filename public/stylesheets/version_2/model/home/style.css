@@ -67,7 +67,7 @@
 }
 
 .home {
-    min-height: 680px;
+    /* min-height: 680px; */
     color: #EEEEEE;
 }
 
@@ -80,12 +80,12 @@
 }
 
 .home .btn-tenuous {
-    padding: 2px 30px;
+    padding: 4px 30px;
 }
 
 .home .header {
     width: 100%;
-    height: 305px;
+    /* height: 305px; */
     margin-top: 50px;
     /*background-color: #44651b;*/
 }
@@ -114,21 +114,21 @@
     padding-right: 9px !important;
 }
 
-.home .header .show-info .decision-info-btn {
+.home .message-box .show-info .decision-info-btn {
     width: 130px;
     height: 130px;
     margin-right: 5px;
-    padding-top: 35px;
+    padding-top: 30px;
     float: left;
 }
 
-.home .header .show-info .resource-manager-info {
+.home .message-box .show-info .resource-manager-info {
     width: 1235px;
     height: 130px;
     margin-left: 135px;
 }
 
-.home .header .show-info .resource-manager-info .number-info {
+.home .message-box .show-info .resource-manager-info .number-info {
     width: 275px;
     height: 124px;
     margin: 3px 0;
@@ -138,25 +138,36 @@
     border-right: 1px solid #5D616E;
 }
 
-.home .header .show-info .resource-manager-info .number-info .number-size-lg {
+.home .message-box .show-info .resource-manager-info .number-info p {
+    margin: 0 0 6px 0;
+}
+
+.home .message-box .show-info .resource-manager-info .number-info .total-budget {
+    width: 285px;
+    height: 25px;
+    border-radius: 20px;
+    background-color: #109DC0;
+}
+
+.home .message-box .show-info .resource-manager-info .number-info .number-size-lg {
     font-size: 3.4rem;
 }
 
-.home .header .show-info .resource-manager-info .person-details-info {
+.home .message-box .show-info .resource-manager-info .person-details-info {
     width: 960px;
     margin-left: 275px;
 }
 
-.home .header .show-info .resource-manager-info .person-details-info .detail {
+.home .message-box .show-info .resource-manager-info .person-details-info .detail {
     width: 160px;
     float: left;
 }
 
-.home .header .show-info .resource-manager-info .person-details-info p {
+.home .message-box .show-info .resource-manager-info .person-details-info p {
     padding: 10px;
 }
 
-.home .header .show-info .resource-manager-info .person-details-info .graphicsy-pie {
+.home .message-box .show-info .resource-manager-info .person-details-info .graphicsy-pie {
     width: 100px;
     height: 100px;
     margin-top: 15px;
@@ -166,7 +177,7 @@
     border-radius: 50px;
 }
 
-.home .header .show-info .resource-manager-info .person-details-info .detail .person-name {
+.home .message-box .show-info .resource-manager-info .person-details-info .detail .person-name {
     width: 50px;
     font-size: 1.2rem;
     z-index: auto;
@@ -175,30 +186,30 @@
     top: -15px;
 }
 
-.home .header .hosp-array-info {
+.home .message-box .hosp-array-info {
     color: #8E8F98;
     letter-spacing: 0.3rem;
     background-color: #444653;
 }
 
-.home .header .hosp-array-info > div {
+.home .message-box .hosp-array-info > div {
     width: 137px;
     height: 130px;
     float: left;
 }
 
-.home .header .hosp-array-info > div:hover {
+.home .message-box .hosp-array-info > div:hover {
     color: #EEEEEE;
     -webkit-animation: Glow 1.5s ease infinite alternate;
             animation: Glow 1.5s ease infinite alternate;
     cursor: pointer;
 }
 
-.home .header .hosp-array-info > div:not(:last-child) {
+.home .message-box .hosp-array-info > div:not(:last-child) {
     border-right: 1px solid #51535E;
 }
 
-.home .header .hosp-array-info div[class*="content"] {
+.home .message-box .hosp-array-info div[class*="content"] {
     width: 87px;
     margin: 15px auto;
     font-size: 1.8rem;

@@ -1,0 +1,93 @@
+/* ::-webkit-scrollbar{
+  display:none;
+} */
+
+.resource-info {
+    background-color: #484C59;
+}
+
+.resource-info .resource-content .navbar-resource {
+    height: 70px;
+    /* position: relative;
+    z-index: auto;
+    left: 0;
+    top: 0; */
+    padding: 15px;
+}
+
+.resource-info .resource-content .navbar-resource .navbar-btn {
+    margin: 0;
+}
+
+.resource-info .resource-content .navbar-resource .navbar-btn > button {
+    width: 190px;
+    height: 40px;
+    background-color: #525565;
+    border-color: #525565;
+    color: #ADAFB6;
+    box-shadow: 0px 1px 10px #3C3F46;
+}
+
+.resource-info .resource-content .navbar-resource .navbar-btn > button.active {
+    color: #E2E5E8;
+    background-color: #588CAD;
+}
+
+.resource-info .resource-content .backup-btn {
+    width: 100px;
+    height: 40px;
+    margin-right: 20px;
+    border-radius: 20px;
+    background-color: #5388A9;
+
+}
+
+.resource-info .resource-content .person-list {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.resource-info .resource-content .person-list > .person{
+    width: 101.1%;
+    height: 100%;
+    /* padding-top: 35px; */
+    /* padding-left: 80px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.resource-info .resource-content .person-list > .person > .details{
+    height: 250px;
+    padding-top: 35px;
+    padding-left: 80px;
+}
+
+.resource-info .resource-content .person-list > .person > .details .describe {
+    width: 570px;
+    text-indent:2em;
+    margin-top: 20px;
+}
+
+.resource-info .resource-content .person-list > .person > .details .radar-map {
+    margin: 15px 0 0 75px;
+    width: 300px;
+}
+
+.resource-info .resource-content .person-list > .person > .details .person-name {
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.resource-info .resource-content .person-list > .person > .details .media-left {
+    padding-right: 110px;
+}
+
+.resource-info .resource-content .person-list > .person > .details .media-body {
+    padding-right: 50px;
+}
+
+
+.resource-info .resource-content .person-list > .person > .details.even{
+    background-color: #545865;
+}

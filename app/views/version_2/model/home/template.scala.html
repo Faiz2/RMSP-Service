@@ -14,10 +14,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="message-box" name="message-box">
                         <div class="row show-info">
                             <div class="decision-info-btn box bg">
                                 <p><img src="@routes.Assets.versioned("images/version_2/file.png")" class="center-block" width="48" height="50"></p>
-                                <p class="text-center"><button class="btn btn-primary btn-sm btn-radius btn-tenuous" type="button" name="button">查看信息</button></p>
+                                <p class="text-center"><button class="btn btn-primary btn-sm btn-radius btn-tenuous" type="button" name="details-btn">查看信息</button></p>
                             </div>
                             <div class="resource-manager-info box bg">
                                 <div class="number-info">
@@ -26,31 +28,31 @@
                                         <span class="number-size-lg">800,000</span>
                                         <span>元</span>
                                     </p>
-                                    <p>Echart</p>
+                                    <p class="total-budget" id="total-budget"></p>
                                 </div>
                                 <div class="person-details-info">
                                     <div class="detail">
                                         <p>团队成员<br>已分配时间</p>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie"></div>
+                                        <div class="graphicsy-pie" id="xiaosong"></div>
                                         <div class="person-name">小宋</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie"></div>
-                                        <div class="person-name">小宋</div>
+                                        <div class="graphicsy-pie" id="xiaobai"></div>
+                                        <div class="person-name">小白</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie"></div>
-                                        <div class="person-name">小宋</div>
+                                        <div class="graphicsy-pie" id="xiaolan"></div>
+                                        <div class="person-name">小兰</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie"></div>
-                                        <div class="person-name">小宋</div>
+                                        <div class="graphicsy-pie" id="xiaomu"></div>
+                                        <div class="person-name">小木</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie"></div>
-                                        <div class="person-name">小宋</div>
+                                        <div class="graphicsy-pie" id="xiaoqing"></div>
+                                        <div class="person-name">小青</div>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +134,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="bottom">
+                    <div class="bottom" name="input-box">
                         <div class="sales">
 
                         </div>
@@ -141,6 +143,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row resource-info" name="resource-info" style="display:none;">
+                @version_2.model.rsinformation.template("区域管理模拟平台")
             </div>
         </div>
     </div>
