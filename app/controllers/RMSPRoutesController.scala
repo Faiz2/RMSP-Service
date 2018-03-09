@@ -40,10 +40,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     /*version 2.0 Start*/
 
-    def indexV2 = Action {
-        Ok(views.html.version_2.model.home.template())
-    }
-
+   
     /*version 2.0 END*/
 
 	def login = Action {

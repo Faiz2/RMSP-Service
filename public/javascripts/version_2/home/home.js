@@ -48,7 +48,7 @@
                 }
             }
         }]
-    }
+    };
 
     // 未做基础验证
     const setPersonData = function(id, percent = 70) {
@@ -122,7 +122,7 @@
             ]
         };
         personPie.setOption(option);
-    }
+    };
 
     // 总预算
     const setTotalBudget = function(id, percent = 100) {
@@ -175,14 +175,14 @@
             }]
         };
         totalBudgetBar.setOption(option);
-    }
+    };
 
     // 查看详情Btn
     const detailsBtn = function() {
         $('div[name="message-box"]').hide();
         $('div[name="input-box"]').hide();
         $('div[name="resource-info"]').show();
-    }
+    };
 
     $(function(){
 
