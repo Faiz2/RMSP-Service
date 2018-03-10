@@ -71,20 +71,22 @@
                             </div>
                         </div>
                         <div class="row hosp-array-info box">
-                            @{
-                                hosp_list.zipWithIndex.map { hosp =>
-                                    <div class="box">
-                                        <div class="content "><!--active-->
-                                            <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
-                                            <p class="text-right"><span>$</span>--<span>%</span></p>
-                                            <p class="text-right">
-                                                <span><i class="glyphicon glyphicon-user"></i></span>
-                                                <span>--</span>
-                                            </p>
-                                        </div>
-                                    </div>
+                            <ul>
+                                @{
+                                    hosp_list.zipWithIndex.map { hosp =>
+                                        <li class="box"><!--active-->
+                                            <div class="content">
+                                                <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
+                                                <p class="text-right"><span>$</span>--<span>%</span></p>
+                                                <p class="text-right">
+                                                    <span><i class="glyphicon glyphicon-user"></i></span>
+                                                    <span>--</span>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    }
                                 }
-                            }
+                            </ul>
                         </div>
                     </div>
                 </div>

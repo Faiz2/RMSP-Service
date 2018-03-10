@@ -1,15 +1,23 @@
-@media (min-width: 1200px) {
-    .home .container{
-        width: 1370px !important;
-    }
-}
-@media (min-width: 992px) {
+
+@media (min-width: 1300px) { /*不小于1300px*/
     .home .container{
         width: 1370px !important;
     }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1200px) {
+    .home .container{
+        width: 1370px !important;
+    }
+    .home .message-box .show-info .resource-manager-info .person-details-info .detail {
+        width: 160px !important;
+    }
+    .resource-info .resource-content .person-list > .person > .details .describe {
+        width: 570px !important;
+    }
+}
+
+/* @media (min-width: 768px) {
     .home .container{
         width: 1370px !important;
     }
@@ -19,7 +27,7 @@
     .home .container{
         width: 1370px !important;
     }
-}
+} */
 
 @-webkit-keyframes Glow {
     from {
@@ -90,7 +98,7 @@
     /*background-color: #44651b;*/
 }
 
-.home .header .box {
+.home .box {
     border-radius: 5px;
     margin-bottom: 5px;
 }
@@ -123,7 +131,7 @@
 }
 
 .home .message-box .show-info .resource-manager-info {
-    width: 1235px;
+    /* width: 1235px; */
     height: 130px;
     margin-left: 135px;
 }
@@ -159,7 +167,7 @@
 }
 
 .home .message-box .show-info .resource-manager-info .person-details-info .detail {
-    width: 160px;
+    width: 125px;
     float: left;
 }
 
@@ -192,6 +200,10 @@
     background-color: #444653;
 }
 
+/**
+ * 马上废弃
+ * @type {[type]}
+ */
 .home .message-box .hosp-array-info > div {
     width: 137px;
     height: 130px;
@@ -215,6 +227,42 @@
     font-size: 1.8rem;
     /* opacity: 0.4; */
 }
+
+/**
+ * 替代以前的div布局
+ * @type {[type]}
+ */
+.home .message-box .hosp-array-info > ul {
+    width: auto;
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.home .message-box .hosp-array-info > ul > li {
+    width: 137px;
+    height: 130px;
+    display: inline-block;
+}
+
+.home .message-box .hosp-array-info > ul > li:hover {
+    color: #EEEEEE;
+    -webkit-animation: Glow 1.5s ease infinite alternate;
+            animation: Glow 1.5s ease infinite alternate;
+    cursor: pointer;
+}
+
+.home .message-box .hosp-array-info > ul > li:not(:last-child) {
+    border-right: 1px solid #51535E;
+}
+
+.home .message-box .hosp-array-info > ul > li > div[class*="content"] {
+    width: 87px;
+    margin: 15px auto;
+    font-size: 1.8rem;
+    /* opacity: 0.4; */
+}
+
+
 
 .home .bottom {
     width: 100%;
