@@ -71,10 +71,10 @@
                             </div>
                         </div>
                         <div class="row hosp-array-info box">
-                            <ul>
+                            <ul name="hosp-list">
                                 @{
                                     hosp_list.zipWithIndex.map { hosp =>
-                                        <li class="box"><!--active-->
+                                        <li class={"box "+(if(hosp._2 == 0){"active"})+""}><!--active-->
                                             <div class="content">
                                                 <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
                                                 <p class="text-right"><span>$</span>--<span>%</span></p>

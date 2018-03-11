@@ -3,6 +3,13 @@
     .home .container{
         width: 1370px !important;
     }
+
+    .home .message-box .show-info .resource-manager-info .person-details-info .detail {
+        width: 160px !important;
+    }
+    .resource-info .resource-content .person-list > .person > .details .describe {
+        width: 570px !important;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -16,6 +23,8 @@
         width: 570px !important;
     }
 }
+
+
 
 /* @media (min-width: 768px) {
     .home .container{

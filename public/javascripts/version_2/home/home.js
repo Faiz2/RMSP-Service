@@ -201,6 +201,14 @@
             setPersonData(val);
         });
         setTotalBudget("total-budget");
+
+        // 医院列表点击事件
+        $('ul[name="hosp-list"] li').click(function() {
+            $.each($('ul[name="hosp-list"] li'), function(i, v){
+                $(v).attr("class", "box")
+            });
+            $(this).attr("class", "box active")
+        });
     });
 
 
