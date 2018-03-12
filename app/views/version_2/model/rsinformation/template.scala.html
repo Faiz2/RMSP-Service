@@ -15,12 +15,12 @@
     </div>
     <div class="person-list">
         <div class="person">
-            @salesman.zipWithIndex.map { person =>
+            @salesman.zipWithIndex.reverse.map { person =>
                 <div class="details @if(person._2 % 2 == 0) {even}">
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-circle" src="@routes.Assets.versioned("images/version_2/person.png")" width="140" height="140" alt="人">
+                                <img class="media-object img-circle" src="@{routes.Assets.versioned("images/version_2/"+(person._1 \ "name").asOpt[String].get+".png")}" width="140" height="140" alt="人">
                             </a>
                             <p class="text-center person-name">@{(person._1 \ "name").asOpt[String]}</p>
                         </div>

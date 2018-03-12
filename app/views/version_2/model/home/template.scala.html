@@ -2,7 +2,7 @@
 @import play.api.libs.json.JsValue
 @*uuid、期数、医院新闻、产品、代表 , 总预算，医院列表, 输入*@
 @(uuid: String, phrase: String, hosp_news: JsValue,
-        product: List[JsValue], salesman: List[JsValue], budget: JsValue,
+        product: List[JsValue], salesman: List[JsValue], totalBudget: JsValue,
         hosp_list: List[JsValue], inputs: List[JsValue])
 
 @version_2.model.application.template("区域管理模拟平台"){
@@ -35,7 +35,7 @@
                                     <p class="text-right">
                                         <span class="number-size-lg">
                                             @{
-                                                val num = (budget \ phrase \ "budget").asOpt[String].map (x => x).getOrElse("")
+                                                val num = (totalBudget \ phrase \ "budget").asOpt[String].map (x => x).getOrElse("")
                                                 NumberFormat.getInstance().format(num.toDouble)
                                             }
                                         </span>
@@ -74,7 +74,7 @@
                             <ul name="hosp-list">
                                 @{
                                     hosp_list.zipWithIndex.map { hosp =>
-                                        <li class={"box "+(if(hosp._2 == 0){"active"})+""}><!--active-->
+                                        <li class={"box "+(if(hosp._2 == 0){"active"})+""} name={(hosp._1 \ "hosp_name").asOpt[String].get}><!--active-->
                                             <div class="content">
                                                 <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
                                                 <p class="text-right"><span>$</span>--<span>%</span></p>
@@ -91,18 +91,139 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row" name="input-box">
                 <div class="col-md-12">
-                    <div class="bottom" name="input-box">
-                        <div class="sales">
+                    <div class="bottom">
+                        @hosp_list.zipWithIndex.map { hosp =>
+                            <div class="row hosp-input-info box" name=@{(hosp._1 \ "hosp_name").asOpt[String].get} @if(hosp._2 != 0){style="display: none;"}>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="hosp-info box bg">
+                                            <p name="hosp-info-name">@{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
+                                            <div class="hosp-info-salesman">
+                                                <div class="salesman-picture">
+                                                    <img src=@{routes.Assets.versioned("images/version_2/salesmen-picture.png")} width="95" height="95" alt="人像">
+                                                </div>
+                                                <div class="selected-salesman">
+                                                    <span>请指派代表</span><br>
+                                                    <select class="" name="">
+                                                        <option value="" selected>未分配</option>
+                                                        <option value="">不分配</option>
 
-                        </div>
-                        <div class="person">
+                                                        @salesman.reverse.map { person =>
+                                                            <option value="@{(person \ "name").asOpt[String]}">@{(person \ "name").asOpt[String]}</option>
+                                                        }
+                                                        <!--<option value="小宋">小宋</option>
+                                                        <option value="小白">小白</option>
+                                                        <option value="小兰">小兰</option>
+                                                        <option value="小木">小木</option>
+                                                        <option value="小青">小青</option>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="input-budget">
+                                                <p>
+                                                    <span>分配推广预算</span>
+                                                    <span><input type="text" name="input-budget">&nbsp;%</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="hosp-budget box bg">
+                                            <ul>
+                                                <li>
+                                                    <ul>
+                                                        <li class="left-title">&nbsp;</li>
+                                                        <li class="left-title">药品潜力</li>
+                                                        <li class="left-title">上期销售额</li>
+                                                        <li class="left-title">指标设定</li>
+                                                        <li class="left-title">沟通时间</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <ul>
+                                                        <li class="top-tetile">口服抗生素</li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li><input type="text">&nbsp;元</li>
+                                                        <li><input type="text">&nbsp;天</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <ul>
+                                                        <li class="top-tetile">一代降糖药</li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li><input type="text">&nbsp;元</li>
+                                                        <li><input type="text">&nbsp;天</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <ul>
+                                                        <li class="top-tetile">三代降糖药</li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li><input type="text">&nbsp;元</li>
+                                                        <li><input type="text">&nbsp;天</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <ul>
+                                                        <li class="top-tetile">皮肤药</li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@if((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.isEmpty) {0} else {@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.toDouble)}}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                            <span>元</span>
+                                                        </li>
+                                                        <li><input type="text">&nbsp;元</li>
+                                                        <li><input type="text">&nbsp;天</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
-                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row  answer-tab" name="answer-tab">
+                <div class="col-md-8 col-sm-8 col-xs-8 text-right">
+                    <div class="btn-group" role="group">
+                        <button type="button " class="btn btn-default active">销售计划</button>
+                        <button type="button" class="btn btn-default">人员培训</button>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 text-right">
+                    <button class="btn btn-primary btn-md submit-btn" type="button">提交执行</button>
+                </div>
+            </div>
+
+            <!--资源管理详情-->
             <div class="row resource-info" name="resource-info" style="display:none;">
                 @version_2.model.rsinformation.template(salesman)
             </div>

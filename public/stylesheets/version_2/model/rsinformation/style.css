@@ -44,12 +44,12 @@
 
 .resource-info .resource-content .person-list {
     width: 100%;
-    height: 600px;
+    height: 700px;
     overflow: hidden;
 }
 
 .resource-info .resource-content .person-list > .person{
-    width: 101.1%;
+    width: 101.3%;
     height: 100%;
     /* padding-top: 35px; */
     /* padding-left: 80px; */

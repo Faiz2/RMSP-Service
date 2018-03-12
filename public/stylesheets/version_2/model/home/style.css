@@ -1,5 +1,5 @@
 
-@media (min-width: 1300px) { /*不小于1300px*/
+@media (min-width: 1388px) { /*不小于1300px*/
     .home .container{
         width: 1370px !important;
     }
@@ -9,6 +9,19 @@
     }
     .resource-info .resource-content .person-list > .person > .details .describe {
         width: 570px !important;
+    }
+
+    .home .bottom .hosp-budget > ul {
+        padding: 70px 0 0 20px !important;
+    }
+
+    .home .bottom .hosp-budget > ul > li > ul > li {
+        margin: 0 22px 22px 22px !important;
+    }
+
+    .home .bottom .hosp-budget > ul > li > ul > li > input {
+        width: 150px !important;
+        height: 30px !important;
     }
 }
 
@@ -16,11 +29,26 @@
     .home .container{
         width: 1370px !important;
     }
+
     .home .message-box .show-info .resource-manager-info .person-details-info .detail {
         width: 160px !important;
     }
+
     .resource-info .resource-content .person-list > .person > .details .describe {
         width: 570px !important;
+    }
+
+    .home .bottom .hosp-budget > ul {
+        padding: 70px 0 0 20px !important;
+    }
+
+    .home .bottom .hosp-budget > ul > li > ul > li {
+        margin: 0 22px 22px 22px !important;
+    }
+
+    .home .bottom .hosp-budget > ul > li > ul > li > input {
+        width: 150px !important;
+        height: 30px !important;
     }
 }
 
@@ -171,7 +199,7 @@
 }
 
 .home .message-box .show-info .resource-manager-info .person-details-info {
-    width: 960px;
+    /* width: 960px; */
     margin-left: 275px;
 }
 
@@ -210,46 +238,23 @@
 }
 
 /**
- * 马上废弃
- * @type {[type]}
- */
-.home .message-box .hosp-array-info > div {
-    width: 137px;
-    height: 130px;
-    float: left;
-}
-
-.home .message-box .hosp-array-info > div:hover {
-    color: #EEEEEE;
-    -webkit-animation: Glow 1.5s ease infinite alternate;
-            animation: Glow 1.5s ease infinite alternate;
-    cursor: pointer;
-}
-
-.home .message-box .hosp-array-info > div:not(:last-child) {
-    border-right: 1px solid #51535E;
-}
-
-.home .message-box .hosp-array-info div[class*="content"] {
-    width: 87px;
-    margin: 15px auto;
-    font-size: 1.8rem;
-    /* opacity: 0.4; */
-}
-
-/**
  * 替代以前的div布局
- * @type {[type]}
  */
+.home .message-box .hosp-array-info {
+    width: auto;
+    height: 135px;
+    overflow: hidden;
+}
+
 .home .message-box .hosp-array-info > ul {
     width: auto;
     white-space: nowrap;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .home .message-box .hosp-array-info > ul > li {
     width: 137px;
-    height: 130px;
+    height: 135px;
     display: inline-block;
 }
 
@@ -272,10 +277,147 @@
 }
 
 
-
 .home .bottom {
     width: 100%;
     height: 370px;
-    margin-top: 25px;
-    background-color: #65161d;
+    margin-top: 20px;
+}
+
+.home .bottom .hosp-info {
+    width: 340px;
+    height: 370px;
+    float: left;
+}
+
+.home .bottom .hosp-info p[name="hosp-info-name"] {
+    font-size: 2.4rem;
+    letter-spacing: .3rem;
+    margin: 15px 0 20px 17px;
+}
+
+.home .bottom .hosp-info .hosp-info-salesman {
+    width: 305px;
+    height: 150px;
+    margin: 0 auto;
+    padding: 0 5px 0px 20px;
+    border-bottom: 1px solid #70737F;
+}
+
+.home .bottom .hosp-info .hosp-info-salesman > .salesman-picture {
+    float: left;
+}
+
+.home .bottom .hosp-info .hosp-info-salesman .selected-salesman {
+    height: 95px;
+    margin: 0 0 0 130px;
+    padding: 30px 0 0 0;
+    letter-spacing: .3rem;
+}
+
+.home .bottom .hosp-info .hosp-info-salesman .selected-salesman > select {
+    width: 130px;
+    height: 35px;
+    margin: 10px 0 0 0;
+    border-color: #717480;
+    background-color: #717480;
+    cursor: pointer;
+}
+
+.home .bottom .hosp-info .input-budget {
+    width: 305px;
+    height: 150px;
+    padding: 50px 0 50px 40px;
+}
+
+.home .bottom .hosp-info .input-budget > p span:first-child {
+    font-size: 1.8rem;
+    letter-spacing: .3rem;
+}
+
+.home .bottom .hosp-info .input-budget > p input {
+    width: 85px;
+    height: 35px;
+    margin-left: 15px;
+    border: 1px solid #717480;
+    border-radius: 5px;
+    background-color: #717480;
+    font-size: 2.4rem;
+    text-align: right;
+    letter-spacing: .3rem;
+}
+
+.home .bottom .hosp-budget {
+    margin-left: 345px;
+    height: 370px;
+}
+
+.home .bottom .hosp-budget > ul {
+    padding: 75px 0 0 10px;
+}
+
+.home .bottom .hosp-budget > ul > li {
+    display: inline-block;
+}
+
+.home .bottom .hosp-budget > ul > li > ul > li {
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    letter-spacing: .15rem;
+    margin: 0 5px 20px 5px;
+}
+
+.home .bottom .hosp-budget > ul li[class="left-title"] {
+    text-align: right;
+}
+
+.home .bottom .hosp-budget > ul > li:not(:first-child) > ul > li:not(:first-child) {
+    text-align: right;
+}
+
+.home .bottom .hosp-budget > ul > li:not(:first-child) > ul {
+    border-right: 1px solid #626673
+}
+
+.home .bottom .hosp-budget > ul li > span[class="hosp-budget-number"] {
+    font-size: 2.4rem;
+    letter-spacing: .15rem;
+}
+
+.home .bottom .hosp-budget > ul > li > ul > li > input {
+    width: 145px;
+    height: 35px;
+    border: 1px solid #757984;
+    border-radius: 5px;
+    font-size: 2.4rem;
+    background-color: #757984;
+    text-align: right;
+}
+
+.home .answer-tab {
+    margin: 14px 0 0 0;
+}
+
+.home .answer-tab button {
+    width: 170px;
+    height: 45px;
+    letter-spacing: .3rem;
+    border-radius: 50px;
+    border: 1px solid #4C515F;
+    background-color: #4C515F;
+    color: #97989C;
+}
+
+.home .answer-tab button.active {
+    box-shadow: 1px 0 2px #454649;
+    background-color: #58595D;
+    color: #373A44;
+}
+
+.home .answer-tab button[class*="submit-btn"] {
+    width: 120px;
+    height: 45px;
+    margin-right: -25px;
+    background-color: #4A8886;
+    color: #FFFFFF;
 }

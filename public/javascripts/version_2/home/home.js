@@ -1,5 +1,5 @@
 (function($, w) {
-
+    // TODO: 从2018年3月12日后，暂时封印ES6的写法
     // Persion Pie
     const getPersionPieData = function(percent) {
         return [{
@@ -51,7 +51,8 @@
     };
 
     // 未做基础验证
-    const setPersonData = function(id, percent = 70) {
+    const setPersonData = function(id, p) {
+        let percent = 70;
         let personPie = echarts.init(document.getElementById(id));
         let option = {
             // backgroundColor: '#474B5A',
@@ -125,7 +126,8 @@
     };
 
     // 总预算
-    const setTotalBudget = function(id, percent = 100) {
+    const setTotalBudget = function(id, p) {
+        let percent = 70;
         let totalBudgetBar = echarts.init(document.getElementById(id));
         option = {
             xAxis: [{
@@ -181,8 +183,20 @@
     const detailsBtn = function() {
         $('div[name="message-box"]').hide();
         $('div[name="input-box"]').hide();
+        $('div[name="answer-tab"]').hide();
         $('div[name="resource-info"]').show();
     };
+
+    // 简单切换HospitalInfo 多的情况有性能问题，后续重构再改吧
+    const switchHospitalInfo = function(hospital_name) {
+        $.each($('div[class*="hosp-input-info"]'), function(i, v) {
+            if($(v).attr("name") === hospital_name) {
+                $(v).show();
+            } else {
+                $(v).hide();
+            }
+        });
+    }
 
     $(function(){
 
@@ -193,11 +207,13 @@
         $('#backup-btn').click(function() {
             $('div[name="message-box"]').show();
             $('div[name="input-box"]').show();
+            $('div[name="answer-tab"]').show();
             $('div[name="resource-info"]').hide();
         });
 
         let person = ["xiaosong", "xiaobai", "xiaolan", "xiaomu", "xiaoqing"];
-        person.forEach(val => {
+
+        person.forEach(function(val) {
             setPersonData(val);
         });
         setTotalBudget("total-budget");
@@ -207,9 +223,10 @@
             $.each($('ul[name="hosp-list"] li'), function(i, v){
                 $(v).attr("class", "box")
             });
-            $(this).attr("class", "box active")
+            $(this).attr("class", "box active");
+            switchHospitalInfo($(this).attr("name"));
         });
     });
 
 
-})(jQuery, window)
+})(jQuery, window);
