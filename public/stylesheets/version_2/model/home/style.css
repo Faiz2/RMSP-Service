@@ -23,6 +23,27 @@
         width: 150px !important;
         height: 30px !important;
     }
+
+    .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+        padding: 2px 16px 10px !important;
+    }
+
+    .home .bottom .personnel-training .input-training td.input-meeting input {
+        width: 575px !important;
+        height: 33px !important;
+    }
+
+    .home .bottom .personnel-training .input-personel {
+        width: 760px !important;
+    }
+
+    .home .bottom .personnel-training .input-display {
+        margin-left: 765px !important;
+    }
+
+    .home .bottom .personnel-training .input-display .text-display {
+        margin: 30px 0 0 35px !important;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -49,6 +70,26 @@
     .home .bottom .hosp-budget > ul > li > ul > li > input {
         width: 150px !important;
         height: 30px !important;
+    }
+
+    .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+        padding: 2px 16px 10px !important;
+    }
+
+    .home .bottom .personnel-training .input-training td.input-meeting input {
+        width: 575px !important;
+    }
+
+    .home .bottom .personnel-training .input-personel {
+        width: 760px !important;
+    }
+
+    .home .bottom .personnel-training .input-display {
+        margin-left: 765px !important;
+    }
+
+    .home .bottom .personnel-training .input-display .text-display {
+        margin: 30px 0 0 35px !important;
     }
 }
 
@@ -260,8 +301,8 @@
 
 .home .message-box .hosp-array-info > ul > li:hover {
     color: #EEEEEE;
-    -webkit-animation: Glow 1.5s ease infinite alternate;
-            animation: Glow 1.5s ease infinite alternate;
+    /* -webkit-animation: Glow 1.5s ease infinite alternate;
+            animation: Glow 1.5s ease infinite alternate; */
     cursor: pointer;
 }
 
@@ -283,19 +324,19 @@
     margin-top: 20px;
 }
 
-.home .bottom .hosp-info {
+.home .bottom .sales-planning .hosp-info {
     width: 340px;
     height: 370px;
     float: left;
 }
 
-.home .bottom .hosp-info p[name="hosp-info-name"] {
+.home .bottom .sales-planning .hosp-info p[name="hosp-info-name"] {
     font-size: 2.4rem;
     letter-spacing: .3rem;
     margin: 15px 0 20px 17px;
 }
 
-.home .bottom .hosp-info .hosp-info-salesman {
+.home .bottom .sales-planning .hosp-info .hosp-info-salesman {
     width: 305px;
     height: 150px;
     margin: 0 auto;
@@ -303,18 +344,18 @@
     border-bottom: 1px solid #70737F;
 }
 
-.home .bottom .hosp-info .hosp-info-salesman > .salesman-picture {
+.home .bottom .sales-planning .hosp-info .hosp-info-salesman > .salesman-picture {
     float: left;
 }
 
-.home .bottom .hosp-info .hosp-info-salesman .selected-salesman {
+.home .bottom .sales-planning .hosp-info .hosp-info-salesman .selected-salesman {
     height: 95px;
     margin: 0 0 0 130px;
     padding: 30px 0 0 0;
     letter-spacing: .3rem;
 }
 
-.home .bottom .hosp-info .hosp-info-salesman .selected-salesman > select {
+.home .bottom .sales-planning .hosp-info .hosp-info-salesman .selected-salesman > select {
     width: 130px;
     height: 35px;
     margin: 10px 0 0 0;
@@ -323,18 +364,18 @@
     cursor: pointer;
 }
 
-.home .bottom .hosp-info .input-budget {
+.home .bottom .sales-planning .hosp-info .input-budget {
     width: 305px;
     height: 150px;
     padding: 50px 0 50px 40px;
 }
 
-.home .bottom .hosp-info .input-budget > p span:first-child {
+.home .bottom .sales-planning .hosp-info .input-budget > p span:first-child {
     font-size: 1.8rem;
     letter-spacing: .3rem;
 }
 
-.home .bottom .hosp-info .input-budget > p input {
+.home .bottom .sales-planning .hosp-info .input-budget > p input {
     width: 85px;
     height: 35px;
     margin-left: 15px;
@@ -346,20 +387,20 @@
     letter-spacing: .3rem;
 }
 
-.home .bottom .hosp-budget {
+.home .bottom .sales-planning .hosp-budget {
     margin-left: 345px;
     height: 370px;
 }
 
-.home .bottom .hosp-budget > ul {
+.home .bottom .sales-planning .hosp-budget > ul {
     padding: 75px 0 0 10px;
 }
 
-.home .bottom .hosp-budget > ul > li {
+.home .bottom .sales-planning .hosp-budget > ul > li {
     display: inline-block;
 }
 
-.home .bottom .hosp-budget > ul > li > ul > li {
+.home .bottom .sales-planning .hosp-budget > ul > li > ul > li {
     height: 30px;
     vertical-align: middle;
     text-align: center;
@@ -367,24 +408,24 @@
     margin: 0 5px 20px 5px;
 }
 
-.home .bottom .hosp-budget > ul li[class="left-title"] {
+.home .bottom .sales-planning .hosp-budget > ul li[class="left-title"] {
     text-align: right;
 }
 
-.home .bottom .hosp-budget > ul > li:not(:first-child) > ul > li:not(:first-child) {
+.home .bottom .sales-planning .hosp-budget > ul > li:not(:first-child) > ul > li:not(:first-child) {
     text-align: right;
 }
 
-.home .bottom .hosp-budget > ul > li:not(:first-child) > ul {
-    border-right: 1px solid #626673
+.home .bottom .sales-planning .hosp-budget > ul > li:not(:first-child) > ul {
+    border-right: 1px solid #626673;
 }
 
-.home .bottom .hosp-budget > ul li > span[class="hosp-budget-number"] {
+.home .bottom .sales-planning .hosp-budget > ul li > span[class="hosp-budget-number"] {
     font-size: 2.4rem;
     letter-spacing: .15rem;
 }
 
-.home .bottom .hosp-budget > ul > li > ul > li > input {
+.home .bottom .sales-planning .hosp-budget > ul > li > ul > li > input {
     width: 145px;
     height: 35px;
     border: 1px solid #757984;
@@ -392,6 +433,145 @@
     font-size: 2.4rem;
     background-color: #757984;
     text-align: right;
+}
+
+.home .bottom .personnel-training .input-personel {
+    width: 650px;
+    height: 370px;
+    float: left;
+}
+
+.home .bottom .personnel-training .input-display {
+    /* width: 603px; */
+    height: 370px;
+    margin-left: 655px;
+}
+
+.home .bottom .personnel-training .input-manager {
+    height: 110px;
+    margin-bottom: 5px;
+    padding: 25px 0 0 15px;
+}
+
+.home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+    padding: 2px 5px 10px;
+}
+
+.home .bottom .personnel-training td > div.tag {
+    width: 12px;
+    height: 12px;
+    margin: 0 10px 0 0;
+    border-radius: 2px;
+}
+
+.home .bottom .personnel-training td.assist-tag > div.tag {
+    background-color: #00ACFF;
+}
+
+.home .bottom .personnel-training td.training-tag > div.tag {
+    background-color: #356BFF;
+}
+
+.home .bottom .personnel-training td.meeting-tag > div.tag {
+    background-color: #6BD8FA;
+}
+
+.home .bottom .personnel-training td.kpi-tag > div.tag {
+    background-color: #D6E9F7;
+    position: relative;
+    z-index: auto;
+    top: 0;
+    left: 30px;
+}
+
+.home .bottom .personnel-training td.administrativ-tag > div.tag {
+    background-color: #374066;
+    position: relative;
+    z-index: auto;
+    top: 0;
+    left: 30px;
+}
+
+.home .bottom .personnel-training td.undistributed-tag > div.tag {
+    background-color: #DCDBDC;
+    position: relative;
+    z-index: auto;
+    top: 0;
+    left: 30px;
+}
+
+
+.home .bottom .personnel-training td {
+    font-size: 1.4rem;
+    letter-spacing: 0.15rem;
+}
+
+.home .bottom .personnel-training td.person-tips {
+    text-align: center;
+}
+
+.home .bottom .personnel-training td.name-tips {
+    text-align: right;
+}
+
+.home .bottom .personnel-training td input {
+    background-color: #6F727E;
+    text-align: right;
+    font-size: 2rem;
+    letter-spacing: 0.3rem;
+    border-radius: 5px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.home .bottom .personnel-training .input-manager td input {
+    width: 90px;
+    height: 33px;
+}
+
+.home .bottom .personnel-training .input-training td input {
+    width: 90px;
+    height: 33px;
+}
+
+.home .bottom .personnel-training .input-training td.input-meeting input {
+    width: 490px;
+    height: 33px;
+}
+
+.home .bottom .personnel-training .input-training {
+    height: 255px;
+    padding: 25px 0 0 15px;
+}
+
+.home .bottom .personnel-training .input-display td input {
+    width: 90px;
+    height: 33px;
+}
+
+.home .bottom .personnel-training .input-display .text-display {
+    margin: 30px 0 0 3px;
+}
+
+.home .bottom .personnel-training .input-display .text-display td {
+    text-align: right;
+}
+
+.home .bottom .personnel-training .input-display .text-display td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag):not(.kpi-tag):not(.administrativ-tag):not(.undistributed-tag) {
+    padding: 30px 0 30px 10px;
+}
+
+.home .bottom .personnel-training .input-display .text-display .big-text {
+    font-size: 2.4rem;
+    letter-spacing: 0.3rem;
+}
+.home .bottom .personnel-training .input-display .allot-time {
+    width: 250px;
+    height: 250px;
+    margin-top: 30px;
+    margin-left: -50px;
 }
 
 .home .answer-tab {
@@ -403,9 +583,17 @@
     height: 45px;
     letter-spacing: .3rem;
     border-radius: 50px;
-    border: 1px solid #4C515F;
+    /* border: 1px solid #4C515F; */
+    border-left-width: 0;
+    border-bottom-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
     background-color: #4C515F;
     color: #97989C;
+}
+
+.home .answer-tab button.active:active {
+    border: 1px solid #4C515F;
 }
 
 .home .answer-tab button.active {

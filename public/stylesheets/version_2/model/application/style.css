@@ -3,6 +3,10 @@
         padding-top: 120px !important;
     }
 }
+* {
+    outline:none !important;
+}
+
 
 body {
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";

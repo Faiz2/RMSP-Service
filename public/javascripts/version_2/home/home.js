@@ -1,5 +1,5 @@
 (function($, w) {
-    // TODO: 从2018年3月12日后，暂时封印ES6的写法
+    // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     const getPersionPieData = function(percent) {
         return [{
@@ -50,7 +50,19 @@
         }]
     };
 
-    // 未做基础验证
+    // Allot Time Pie
+    const getAllotTimePieData = function(percents) {
+        return [
+            {value:30, name:'协助拜访'},
+            {value:31, name:'能力辅助'},
+            {value:3, name:'例会/团建'},
+            {value:8, name:'KPI分析'},
+            {value:12, name:'行政工作'},
+            {value:16, name:'未分配'}
+        ];
+    }
+
+    // salesman分配时间
     const setPersonData = function(id, p) {
         let percent = 70;
         let personPie = echarts.init(document.getElementById(id));
@@ -179,6 +191,50 @@
         totalBudgetBar.setOption(option);
     };
 
+    // 经理分配时间
+    const setAllotTime = function(id, p) {
+        let percent;
+        let allotTimePie = echarts.init(document.getElementById(id));
+        let option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            color: ['#00ACFF', '#356BFF', '#6BD8FA', '#D6E9F7', '#374066', '#DCDBDC'],
+            series: [
+                {
+                    name:'分配时间',
+                    type:'pie',
+                    radius: ['50%', '80%'],
+                    avoidLabelOverlap: false,
+                    label: { //标签的位置
+                        normal: {
+                            show: true,
+                            position: 'inside', //标签的位置
+                            formatter: "{d}%",
+                            textStyle: {
+                                color: '#fff',
+                            }
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: getAllotTimePieData()
+                }
+            ]
+        };
+        allotTimePie.setOption(option);
+    }
+
     // 查看详情Btn
     const detailsBtn = function() {
         $('div[name="message-box"]').hide();
@@ -198,18 +254,22 @@
         });
     }
 
+    // 销售计划于人员培训切换
+    var switchSalesAndPersonel = function(identify) {
+        var $div = $('.hosp-input-info').filter(function(index){
+            return $(this).css("display") === "block";
+        });
+        if(identify === "销售计划") {
+            $div.find(".sales-planning").show();
+            $div.find(".personnel-training").hide();
+        } else {
+            $div.find(".personnel-training").show();
+            $div.find(".sales-planning").hide();
+        }
+
+    }
+
     $(function(){
-
-        $('button[name="details-btn"]').click(function() {
-            detailsBtn();
-        });
-
-        $('#backup-btn').click(function() {
-            $('div[name="message-box"]').show();
-            $('div[name="input-box"]').show();
-            $('div[name="answer-tab"]').show();
-            $('div[name="resource-info"]').hide();
-        });
 
         let person = ["xiaosong", "xiaobai", "xiaolan", "xiaomu", "xiaoqing"];
 
@@ -218,13 +278,33 @@
         });
         setTotalBudget("total-budget");
 
+        setAllotTime("hospcode-1-allot-time");
+
+        //答题页 查看详情按钮
+        $('button[name="details-btn"]').click(function() {
+            detailsBtn();
+        });
+
+        //资源页面 收起按钮
+        $('#backup-btn').click(function() {
+            $('div[name="message-box"]').show();
+            $('div[name="input-box"]').show();
+            $('div[name="answer-tab"]').show();
+            $('div[name="resource-info"]').hide();
+        });
+
         // 医院列表点击事件
         $('ul[name="hosp-list"] li').click(function() {
-            $.each($('ul[name="hosp-list"] li'), function(i, v){
-                $(v).attr("class", "box")
-            });
-            $(this).attr("class", "box active");
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
             switchHospitalInfo($(this).attr("name"));
+        });
+
+        //答题页 销售计划于人员培训按钮
+        $('div[name="answer-tab"] button').click(function(){
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+            switchSalesAndPersonel($(this).text());
         });
     });
 

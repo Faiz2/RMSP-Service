@@ -97,121 +97,245 @@
                     <div class="bottom">
                         @hosp_list.zipWithIndex.map { hosp =>
                             <div class="row hosp-input-info box" name=@{(hosp._1 \ "hosp_name").asOpt[String].get} @if(hosp._2 != 0){style="display: none;"}>
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="hosp-info box bg">
-                                            <p name="hosp-info-name">@{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
-                                            <div class="hosp-info-salesman">
-                                                <div class="salesman-picture">
-                                                    <img src=@{routes.Assets.versioned("images/version_2/salesmen-picture.png")} width="95" height="95" alt="人像">
-                                                </div>
-                                                <div class="selected-salesman">
-                                                    <span>请指派代表</span><br>
-                                                    <select class="" name="">
-                                                        <option value="" selected>未分配</option>
-                                                        <option value="">不分配</option>
+                                <div class="sales-planning">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="hosp-info box bg">
+                                                <p name="hosp-info-name">@{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
+                                                <div class="hosp-info-salesman">
+                                                    <div class="salesman-picture">
+                                                        <img src=@{routes.Assets.versioned("images/version_2/salesmen-picture.png")} width="95" height="95" alt="人像">
+                                                    </div>
+                                                    <div class="selected-salesman">
+                                                        <span>请指派代表</span><br>
+                                                        <select class="" name="">
+                                                            <option value="" selected>未分配</option>
+                                                            <option value="">不分配</option>
 
-                                                        @salesman.reverse.map { person =>
-                                                            <option value="@{(person \ "name").asOpt[String]}">@{(person \ "name").asOpt[String]}</option>
-                                                        }
-                                                        <!--<option value="小宋">小宋</option>
-                                                        <option value="小白">小白</option>
-                                                        <option value="小兰">小兰</option>
-                                                        <option value="小木">小木</option>
-                                                        <option value="小青">小青</option>-->
-                                                    </select>
+                                                            @salesman.reverse.map { person =>
+                                                                <option value="@{(person \ "name").asOpt[String]}">@{(person \ "name").asOpt[String]}</option>
+                                                            }
+                                                            <!--<option value="小宋">小宋</option>
+                                                            <option value="小白">小白</option>
+                                                            <option value="小兰">小兰</option>
+                                                            <option value="小木">小木</option>
+                                                            <option value="小青">小青</option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="input-budget">
+                                                    <p>
+                                                        <span>分配推广预算</span>
+                                                        <span><input type="text" name="input-budget">&nbsp;%</span>
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div class="input-budget">
-                                                <p>
-                                                    <span>分配推广预算</span>
-                                                    <span><input type="text" name="input-budget">&nbsp;%</span>
-                                                </p>
+                                            <div class="hosp-budget box bg">
+                                                <ul>
+                                                    <li>
+                                                        <ul>
+                                                            <li class="left-title">&nbsp;</li>
+                                                            <li class="left-title">药品潜力</li>
+                                                            <li class="left-title">上期销售额</li>
+                                                            <li class="left-title">指标设定</li>
+                                                            <li class="left-title">沟通时间</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <ul>
+                                                            <li class="top-tetile">口服抗生素</li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li><input type="text">&nbsp;元</li>
+                                                            <li><input type="text">&nbsp;天</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <ul>
+                                                            <li class="top-tetile">一代降糖药</li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li><input type="text">&nbsp;元</li>
+                                                            <li><input type="text">&nbsp;天</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <ul>
+                                                            <li class="top-tetile">三代降糖药</li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li><input type="text">&nbsp;元</li>
+                                                            <li><input type="text">&nbsp;天</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <ul>
+                                                            <li class="top-tetile">皮肤药</li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@if((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.isEmpty) {0} else {@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.toDouble)}}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li>
+                                                                <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
+                                                                <span>元</span>
+                                                            </li>
+                                                            <li><input type="text">&nbsp;元</li>
+                                                            <li><input type="text">&nbsp;天</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        <div class="hosp-budget box bg">
-                                            <ul>
-                                                <li>
-                                                    <ul>
-                                                        <li class="left-title">&nbsp;</li>
-                                                        <li class="left-title">药品潜力</li>
-                                                        <li class="left-title">上期销售额</li>
-                                                        <li class="left-title">指标设定</li>
-                                                        <li class="left-title">沟通时间</li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                        <li class="top-tetile">口服抗生素</li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.tail.head.toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li><input type="text">&nbsp;元</li>
-                                                        <li><input type="text">&nbsp;天</li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                        <li class="top-tetile">一代降糖药</li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li><input type="text">&nbsp;元</li>
-                                                        <li><input type="text">&nbsp;天</li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                        <li class="top-tetile">三代降糖药</li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.tail.head.toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li><input type="text">&nbsp;元</li>
-                                                        <li><input type="text">&nbsp;天</li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                        <li class="top-tetile">皮肤药</li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@if((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.isEmpty) {0} else {@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.tail.head.toDouble)}}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
-                                                            <span>元</span>
-                                                        </li>
-                                                        <li><input type="text">&nbsp;元</li>
-                                                        <li><input type="text">&nbsp;天</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                    </div>
+                                </div>
+                                <div class="personnel-training" style="display: none;">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="input-personel">
+                                                <div class="input-manager box bg">
+                                                    <p></p>
+                                                    <table>
+                                                        <tr>
+                                                            <td class="assist-tag"></td>
+                                                            <td class="assist-tag"></td>
+                                                            <td class="person-tips">小宋</td>
+                                                            <td class="person-tips">小白</td>
+                                                            <td class="person-tips">小兰</td>
+                                                            <td class="person-tips">小木</td>
+                                                            <td class="person-tips">小青</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="assist-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">经理协作拜访</td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="input-training box bg">
+                                                    <p></p>
+                                                    <table>
+                                                        <tr>
+                                                            <td class="training-tag"></td>
+                                                            <td class="training-tag"></td>
+                                                            <td class="person-tips">小宋</td>
+                                                            <td class="person-tips">小白</td>
+                                                            <td class="person-tips">小兰</td>
+                                                            <td class="person-tips">小木</td>
+                                                            <td class="person-tips">小青</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="training-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">1对1能力辅导</td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="meeting-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">列会/团建</td>
+                                                            <td colspan="7" class="input-meeting"><input type="text"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="meeting-tag"></td>
+                                                            <td class="name-tips">脱岗产品培训</td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="meeting-tag"></td>
+                                                            <td class="name-tips">总计</td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="input-display box bg">
+                                                <div class="col-md-7">
+                                                    <table class="text-display">
+                                                        <tr>
+                                                            <td class="assist-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">协助拜访</td>
+                                                            <td class="kpi-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">KPI分析</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="assist-tag"></td>
+                                                            <td><span class="big-text">30</span>天</td>
+                                                            <td class="kpi-tag"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="training-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">能力辅导</td>
+                                                            <td class="administrativ-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">行政工作</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="training-tag"></td>
+                                                            <td><span class="big-text">31</span>天</td>
+                                                            <td class="administrativ-tag"></td>
+                                                            <td><input type="text"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="meeting-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">例会/团建</td>
+                                                            <td class="undistributed-tag"><div class="tag"></div></td>
+                                                            <td class="name-tips">未分配</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="meeting-tag"></td>
+                                                            <td><span class="big-text">3</span>天</td>
+                                                            <td class="undistributed-tag"></td>
+                                                            <td><span class="big-text">16</span>天</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="allot-time" id=@{"hospcode-"+(hosp._1 \ "hosp_code").asOpt[String].get+"-allot-time"}></div>
+                                                    <p class="text-center">经理的分配时间比例</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         }
-
                     </div>
                 </div>
             </div>
 
-            <div class="row  answer-tab" name="answer-tab">
+            <div class="row answer-tab" name="answer-tab">
                 <div class="col-md-8 col-sm-8 col-xs-8 text-right">
                     <div class="btn-group" role="group">
                         <button type="button " class="btn btn-default active">销售计划</button>
