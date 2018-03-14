@@ -42,6 +42,7 @@
 
 }
 
+/*TODO: 重构时废除*/
 .resource-info .resource-content .person-list {
     width: 100%;
     height: 700px;
@@ -88,6 +89,95 @@
 }
 
 
-.resource-info .resource-content .person-list > .person > .details.even{
+
+/*TODO: 重构时废除*/
+.resource-info .resource-content .hospital-list {
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+}
+
+.resource-info .resource-content .hospital-list > .hospital{
+    width: 101.3%;
+    height: 100%;
+    /* padding-top: 35px; */
+    /* padding-left: 80px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details{
+    height: 250px;
+    padding-top: 35px;
+    padding-left: 80px;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details .describe {
+    width: 410px;
+    text-indent:2rem;
+    margin-top: 20px;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details .potential {
+    margin: 0 0 0 75px;
+    width: 300px;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details .hospital-name {
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details .media-left {
+    padding-right: 110px;
+}
+
+.resource-info .resource-content .hospital-list > .hospital > .details .media-body {
+    padding-right: 50px;
+}
+
+.resource-info .resource-content .product-list {
+    height: 700px;
+    overflow: hidden;
+}
+
+.resource-info .resource-content .product {
+    width: 101.3%;
+    height: 100%;
+    /* padding-top: 35px; */
+    /* padding-left: 80px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.resource-info .resource-content .product-list table td, .resource-info .resource-content .product-list table th {
+    text-align: center;
+    font-size: 1.4rem;
+    letter-spacing: 0.25rem;
+    border: 0;
+}
+
+.resource-info .resource-content .product-list table tr:not(:first-child) td {
+    height: 175px;
+    vertical-align: middle;
+}
+
+.resource-info .resource-content .product-list table tr:not(:first-child) td.number {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+}
+
+.resource-info .resource-content .product-list table tr:not(:first-child) td > span {
+    position: relative;
+    left: 10px;
+    top: 0px;
+    z-index: auto;
+}
+
+.resource-info .resource-content .product-list table.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #545865;
+}
+
+.resource-info .resource-content .details.even{
     background-color: #545865;
 }

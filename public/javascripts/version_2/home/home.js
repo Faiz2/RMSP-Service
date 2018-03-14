@@ -266,19 +266,44 @@
             $div.find(".personnel-training").show();
             $div.find(".sales-planning").hide();
         }
+    }
 
+    // 医院、代表、产品信息切换
+    var switchHospitalWithProductInfo = function(identify) {
+        var $div = $('div[name="resource-info"]');
+        if($div.css("display") === "block") {
+            if(identify === "代表信息") {
+                $div.find(".person-list").show();
+                $div.find(".hospital-list").hide();
+                $div.find(".product-list").hide();
+            } else if(identify === "医院信息"){
+                $div.find(".hospital-list").show();
+                $div.find(".person-list").hide();
+                $div.find(".product-list").hide();
+            } else {
+                $div.find(".hospital-list").hide();
+                $div.find(".person-list").hide();
+                $div.find(".product-list").show();
+            }
+        }
     }
 
     $(function(){
 
         let person = ["xiaosong", "xiaobai", "xiaolan", "xiaomu", "xiaoqing"];
 
+        var hospital_code = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
         person.forEach(function(val) {
             setPersonData(val);
         });
+
+        hospital_code.forEach(function(val) {
+            setAllotTime("hospcode-"+val+"-allot-time");
+        });
+
         setTotalBudget("total-budget");
 
-        setAllotTime("hospcode-1-allot-time");
 
         //答题页 查看详情按钮
         $('button[name="details-btn"]').click(function() {
@@ -305,6 +330,12 @@
             $(this).addClass("active");
             $(this).siblings().removeClass("active");
             switchSalesAndPersonel($(this).text());
+        });
+
+        $('div[name="navbar-btn"] button').click(function() {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+            switchHospitalWithProductInfo($(this).text());
         });
     });
 

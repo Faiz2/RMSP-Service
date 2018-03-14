@@ -1,16 +1,55 @@
+@import java.text.NumberFormat
+@import controllers.routes
 @import play.api.libs.json.JsValue
-@(salesman: List[JsValue])
+@(phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue])
 <div class="resource-content">
-    <div class="row navbar-resource">
+    <div class="navbar-resource">
         <div class="col-md-7 col-sm-6 col-xs-6">
-            <div class="btn-group navbar-btn" role="group">
-                <button type="button " class="btn btn-default">医院信息</button>
-                <button type="button" class="btn btn-default active">代表信息</button>
-                <button type="button" class="btn btn-default">产品信息</button>
+            <div class="btn-group navbar-btn" name="navbar-btn" role="group">
+                <button type="button " class="btn btn-default" name="hosp-info-btn">医院信息</button>
+                <button type="button" class="btn btn-default active" name="delegate-info-btn">代表信息</button>
+                <button type="button" class="btn btn-default" name="product-info-btn">产品信息</button>
             </div>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-3 col-sm-offset-4 col-xs-offset-4 text-right">
             <button class="btn btn-primary btn-md backup-btn" type="button" id="backup-btn">收起</button>
+        </div>
+    </div>
+    <div class="hospital-list" style="display:none;">
+        <div class="hospital">
+            @{
+                hosp_list.zipWithIndex.map { x =>
+                    (hosp_new \ phrase).as[List[JsValue]].find(f => (f \ "hosp_code").as[String] == (x._1 \ "hosp_code").as[String]).map { f =>
+                        <div class={
+                            if(x._2 % 2 == 0){"details even"} else {"details"}
+                        } >
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object img-rounded" src={"/assets/images/version_2/"+(x._1 \ "hosp_name").as[String]+".jpg"}  width="140" height="140" alt="人" />
+                                    </a>
+                                    <p class="text-center hospital-name">{(x._1 \ "hosp_name").as[String]}</p>
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">医院概况</p>
+                                    <p class="describe">
+                                        {(f \ "phrase").as[String]}
+                                    </p>
+                                </div>
+                                <div class="media-body">
+                                    <p class="media-heading">药品潜力</p>
+                                    <div class="potential">
+                                        <p>口服抗生素：{NumberFormat.getInstance().format((x._1 \ "口服抗生素").as[List[String]].tail.head.toDouble)}</p>
+                                        <p>一代降糖药：{NumberFormat.getInstance().format((x._1 \ "一代降糖药").as[List[String]].tail.head.toDouble)}</p>
+                                        <p>三代降糖药：{NumberFormat.getInstance().format((x._1 \ "三代降糖药").as[List[String]].tail.head.toDouble)}</p>
+                                        <p>皮肤药：{if((x._1 \ "皮肤药").as[List[String]].tail.head.isEmpty) {0} else {NumberFormat.getInstance().format((x._1 \ "皮肤药").as[List[String]].tail.head.toDouble)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
         </div>
     </div>
     <div class="person-list">
@@ -41,6 +80,57 @@
                     </div>
                 </div>
             }
+        </div>
+        <div class="product-list" style="display:none;">
+            <div class="product"></div>
+        </div>
+    </div>
+    <div class="product-list" style="display:none;">
+        <div class="table-responsive" style="padding: 0 0 0 5px;">
+            <table class="table">
+                <tr>
+                    <th style="width:160px;">药品类别/名称</th>
+                    <th style="width:160px;">产品展示</th>
+                    <th style="width:144px;">上市时间</th>
+                    <th style="width:144px;">公司考核价</th>
+                    <th style="width:144px;">单位成本</th>
+                    <th style="width:144px;">医保</th>
+                    <th style="width:144px;">类型</th>
+                    <th style="width:320px;">竞品信息</th>
+                </tr>
+            </table>
+        </div>
+        <div class="product">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th style="width:155px;"></th>
+                        <th style="width:180px;"></th>
+                        <th style="width:144px;"></th>
+                        <th style="width:144px;"></th>
+                        <th style="width:144px;"></th>
+                        <th style="width:144px;"></th>
+                        <th style="width:144px;"></th>
+                        <th style="width:320px;"></th>
+                    </tr>
+                    @product.map { pro =>
+                        <tr>
+                            <td align="center">
+                                @{(pro \ "prod_name").as[String]}
+                                <br>
+                                @{(pro \ "prod_brand").as[String]}
+                            </td>
+                            <td align="center"><img class="img-rounded" src="@routes.Assets.versioned("images/version_2/大学医院.jpg")" alt="" width="100" height="100"></td>
+                            <td class="number">@{(pro \ "prod_sales_time").as[String]}</td>
+                            <td class="number">@{(pro \ "prod_unit_price").as[String]}元</td>
+                            <td class="number">@{(pro \ "prod_unit_cost").as[String]}元</td>
+                            <td class="number">@{(pro \ "prod_insurance").as[String]}</td>
+                            <td class="number">@{(pro \ "prod_cat").as[String]}</td>
+                            <td style="text-align:left;">@{(pro \ "prod_competition").as[String]}</td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
     </div>
 </div>
