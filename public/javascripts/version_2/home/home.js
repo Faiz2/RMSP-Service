@@ -139,7 +139,7 @@
 
     // 总预算
     const setTotalBudget = function(id, p) {
-        let percent = 70;
+        let percent = p || 0;
         let totalBudgetBar = echarts.init(document.getElementById(id));
         option = {
             xAxis: [{
@@ -181,7 +181,7 @@
                     normal: {
                         show: true,
                         color: '#D5D5D7',
-                        position: ['185', '30%'],
+                        position: ['100', '30%'],
                         formatter: '{c}%',
                     }
                 },
@@ -295,15 +295,11 @@
 
         let person = ["xiaosong", "xiaobai", "xiaolan", "xiaomu", "xiaoqing"];
 
-        var hospital_code = [1]
-
         person.forEach(function(val) {
             setPersonData(val);
         });
 
-        hospital_code.forEach(function(val) {
-            setAllotTime("hospcode-"+val+"-allot-time");
-        });
+        setAllotTime("hospcode-1-allot-time");
 
         setTotalBudget("total-budget");
 
@@ -343,9 +339,42 @@
             switchSalesAndPersonel($(this).text());
         });
 
+        //提交按钮
         $('button[name="submit-btn"]').click(function(){
             w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
         });
+
+
+
+
+
+
+        // 验证
+
+        //分配推广预算keyup设置图
+        $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]').keyup(function(){
+            var inputs = $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]');
+            var sum = 0;
+            $.each(inputs, function(i, v) {
+                sum += parseInt($(v).val() || 0);
+            });
+            setTotalBudget("total-budget", sum);
+        });
+
+        //分配推广预算blur设置检查超出100
+        $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]').blur(function(){
+            var inputs = $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]');
+            var sum = 0;
+            $.each(inputs, function(i, v) {
+                sum += parseInt($(v).val() || 0);
+            });
+            if(sum > 100) {
+                alert("超出预算！")
+            }
+        });
+
+        
+
     });
 
 
