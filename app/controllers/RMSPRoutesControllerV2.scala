@@ -248,6 +248,40 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 		} else Map("error" -> toJson("/login"))
 	}
 	
+	def report(uuid : String, phrase : String) = Action { request =>
+		val p = (if (phrase == "") "1"
+		else phrase)
+		val pi = p.toInt
+		
+		getUserCookie(request) {
+			val flag = checkPhase(uuid, pi)
+			if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
+			else {
+				val jv = toJson(Map(
+					"phase" -> toJson(pi),
+					"condition" -> toJson(Map(
+						"uuid" -> toJson(uuid)
+					))
+				))
+				/**
+				  * 2.read finish report count
+				  */
+				val reVal =
+					requestArgsQuery().commonExcution(
+						MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+							:: reportDataInOpPhase(jv)
+							:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+					)
+				
+				if ((reVal \ "status").asOpt[String].get == "ok") {
+					val tmp = (reVal \ "result").asOpt[JsValue].get
+					Ok(views.html.version_2.model.report.template(uuid, p, tmp))
+					//Ok(views.html.Module.Report.report_index(uuid)(p)(tmp)(flag))
+				} else Redirect("/login")
+			}
+		}
+	}
+	
 	def takenew = Action { request =>
 		getUserCookie(request) {
 			val user = request.cookies.get("user").get.value
@@ -306,4 +340,6 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 		if ((reVal1 \ "status").asOpt[String].get == "ok") ((reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1 >= p, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1)
 		else (false, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1)
 	}
+
+	
 }

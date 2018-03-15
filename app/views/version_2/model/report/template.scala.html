@@ -1,0 +1,161 @@
+@import java.text.NumberFormat
+@import play.api.libs.json.JsValue
+@*uuid、期数、报告*@
+@(uuid: String, phrase: String, report: JsValue)
+
+@version_2.model.application.template("区域管理模拟平台"){
+    <input type="hidden" name="uuid" value="@uuid" disabled="disabled">
+    <input type="hidden" name="phase" value="@phrase" disabled="disabled">
+    <div class="home">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header">
+                        <div class="row head-describe">
+                            <div class="col-md-11 box bg">
+                                <div class="col-md-5 col-sm-5 col-xs-5">周期(@{phrase})&nbsp;&nbsp;100天计划部署</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7 text-right">
+                                    <div class="config"><i class="glyphicon glyphicon-cog"></i></div>
+                                    <div class="timer"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <button class="btn btn-primary btn-md submit-btn" name="go" type="button">进入周期2</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report">
+                        <div class="row">
+                            <div class="menu box bg">
+                                <ul class="menu-tab box">
+                                    <li class="box active" name="all-about">整体表现</li>
+                                    <li class="box" name="manager-report">经理报告</li>
+                                    <li class="box" name="salesman-report">代表报告</li>
+                                    <li class="box" name="resource-allot">资源分配</li>
+                                    <li class="box" name="sales-report">销售报告</li>
+                                </ul>
+                            </div>
+                            <div class="content box">
+                                <div class="" name="all-about">
+                                    <div class="">
+                                        <table class="table left-tips">
+                                            <tr>
+                                                <td></td>
+                                                <td>原始值</td>
+                                                <td>周期(1)</td>
+                                                <td>周期(2)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>团队能力指数</td>
+                                                <td>52</td>
+                                                <td>18</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>总利润</td>
+                                                <td>5,620,365</td>
+                                                <td>2,419,113</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>总销售</td>
+                                                <td>2,349,027</td>
+                                                <td>2,419,113</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>得分</td>
+                                                <td></td>
+                                                <td>12</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>累计得分</td>
+                                                <td></td>
+                                                <td>12</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="">
+                                        <table class="table left-tips">
+                                            <tr>
+                                                <td><div class="title">产品销售表现</div></td>
+                                                <td>当期销售指标</td>
+                                                <td>上期销售额</td>
+                                                <td>当期销售额</td>
+                                                <td>增长</td>
+                                                <td>增长率(%)</td>
+                                                <td>达成率(%)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>口服抗生素</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>一代降糖药</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>三代降糖药</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>皮肤药</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>总体</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="" name="manager-report" style="display:none;">
+
+                                </div>
+                                <div class="" name="salesman-report" style="display:none;">
+
+                                </div>
+                                <div class="" name="resource-allot" style="display:none;">
+
+                                </div>
+                                <div class="" name="sales-report" style="display:none;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+}

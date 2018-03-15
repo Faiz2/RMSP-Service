@@ -41,6 +41,9 @@ GET     /home/:uuid/:phrase         controllers.RMSPRoutesControllerV2.home(uuid
 GET     /takenew                    controllers.RMSPRoutesControllerV2.takenew
 GET     /takelast/:uuid             controllers.RMSPRoutesControllerV2.takelast(uuid)
 
+GET     /report                     controllers.RMSPRoutesControllerV2.report(uuid = "", phrase = "1")
+GET     /report/:uuid/:phrase       controllers.RMSPRoutesControllerV2.report(uuid, phrase)
+
 
 
 

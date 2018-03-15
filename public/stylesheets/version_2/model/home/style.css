@@ -24,6 +24,10 @@
         height: 30px !important;
     }
 
+    .home .bottom .personnel-training {
+        margin: -5px 0 0 0;
+    }
+
     .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
         padding: 2px 16px 10px !important;
     }
@@ -273,19 +277,32 @@
     top: -15px;
 }
 
+/**
+ * 替代以前的div布局
+ */
+
+.home .message-box {
+    height: 275px;
+}
+
 .home .message-box .hosp-array-info {
+    width: auto;
+    height: 135px;
+    overflow: hidden;
     color: #8E8F98;
     letter-spacing: 0.3rem;
     background-color: #444653;
 }
 
-/**
- * 替代以前的div布局
- */
-.home .message-box .hosp-array-info {
+.home .message-box .hosp-array-masklayer {
     width: auto;
     height: 135px;
-    overflow: hidden;
+    background-color: #ff000000;
+    display: none;
+    position: relative;
+    z-index: auto;
+    top: -135px;
+    left: 0;
 }
 
 .home .message-box .hosp-array-info > ul {

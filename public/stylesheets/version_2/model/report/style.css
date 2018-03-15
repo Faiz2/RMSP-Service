@@ -1,0 +1,96 @@
+.home .header button[class*="submit-btn"] {
+    width: 100px;
+    height: 45px;
+    margin: -4px 0 0 -5px;
+    border: 0;
+    border-radius: 25px;
+    letter-spacing: 0.25rem;
+    background-color: #4A8886;
+    color: #FFFFFF;
+}
+
+.home .report .bg {
+    background-color: #434653;
+}
+
+.home .report .menu {
+    width: 200px;
+    float: left;
+}
+
+.home .report .menu-tab {
+    width: 100%;
+    height: 700px;
+}
+
+.home .report .menu-tab > li {
+    width: 200px;
+    height: 50px;
+    color: #868890;
+    font-size: 2rem;
+    letter-spacing: 0.3rem;
+    line-height: 50px;
+    text-align: center;
+    border-bottom: 1px solid #646774;
+}
+
+.home .report .menu-tab > li.active {
+    color: #ECECEC;
+    background-color: #505565;
+}
+
+
+.home .report .content {
+    height: 700px;
+    margin: 0 0 0 205px;
+}
+
+.home .report .content table {
+    margin-bottom: 5px;
+}
+
+.home .report .content table td, .home .report .content table th {
+    height: 50px;
+    text-align: center;
+    font-size: 1.8rem;
+    letter-spacing: 0.25rem;
+    vertical-align: middle;
+    border: 0;
+}
+
+.home .report .content table tr:first-child td:first-child {
+    border-radius: 5px 0 0 0;
+}
+
+.home .report .content table tr:first-child td:last-child {
+    border-radius: 0 5px 0 0 ;
+}
+
+.home .report .content table tr:last-child td:first-child {
+    border-radius: 0 0 0 5px;
+}
+
+.home .report .content table tr:last-child td:last-child {
+    border-radius: 0 0 5px 0;
+}
+
+.home .report .content table div.title {
+    width: 140px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 5px 2px;
+    background-color: #565964;
+    border-radius: 5px;
+}
+
+.home .report .content table.left-tips td:first-child {
+    width: 210px;
+    text-align: right;
+}
+
+.home .report .content table tr:nth-child(odd) {
+    background-color: #4C5161;
+}
+.home .report .content table tr:nth-child(even) {
+    background-color: #868890;
+}

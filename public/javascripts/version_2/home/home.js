@@ -259,12 +259,15 @@
         var $div = $('.hosp-input-info').filter(function(index){
             return $(this).css("display") === "block";
         });
+
         if(identify === "销售计划") {
             $div.find(".sales-planning").show();
-            $div.find(".personnel-training").hide();
+            $(".personnel-training").hide();
+            $('.home .message-box .hosp-array-masklayer').hide();
         } else {
-            $div.find(".personnel-training").show();
+            $(".personnel-training").show();
             $div.find(".sales-planning").hide();
+            $('.home .message-box .hosp-array-masklayer').show();
         }
     }
 
@@ -292,7 +295,7 @@
 
         let person = ["xiaosong", "xiaobai", "xiaolan", "xiaomu", "xiaoqing"];
 
-        var hospital_code = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        var hospital_code = [1]
 
         person.forEach(function(val) {
             setPersonData(val);
@@ -310,12 +313,20 @@
             detailsBtn();
         });
 
+
         //资源页面 收起按钮
         $('#backup-btn').click(function() {
             $('div[name="message-box"]').show();
             $('div[name="input-box"]').show();
             $('div[name="answer-tab"]').show();
             $('div[name="resource-info"]').hide();
+        });
+
+        //资源页面 tab切换按钮
+        $('div[name="navbar-btn"] button').click(function() {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+            switchHospitalWithProductInfo($(this).text());
         });
 
         // 医院列表点击事件
@@ -326,16 +337,14 @@
         });
 
         //答题页 销售计划于人员培训按钮
-        $('div[name="answer-tab"] button').click(function(){
+        $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
             $(this).addClass("active");
             $(this).siblings().removeClass("active");
             switchSalesAndPersonel($(this).text());
         });
 
-        $('div[name="navbar-btn"] button').click(function() {
-            $(this).addClass("active");
-            $(this).siblings().removeClass("active");
-            switchHospitalWithProductInfo($(this).text());
+        $('button[name="submit-btn"]').click(function(){
+            w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
         });
     });
 
