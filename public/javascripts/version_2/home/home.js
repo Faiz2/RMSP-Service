@@ -1,4 +1,5 @@
 (function($, w) {
+    var selected_salemman = "";
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     const getPersionPieData = function(percent) {
@@ -373,7 +374,41 @@
             }
         });
 
-        
+        //SalesMan下拉选择 禁用、不禁用input
+        $('.hosp-input-info select').change(function(){
+            var that = this;
+            var div = $('.hosp-input-info').filter(function(index, evn){
+                return $(evn).css("display") === "block"
+            });
+
+            var selected = $(div).find('select option:selected');
+            if($(selected).val() !== "") {
+                selected_salemman = $(selected).val();
+                $(div).find('input').attr("disabled", false);
+                $(div).find('option').attr("selected", false);
+                $(div).find('option[value="小白"]').attr("selected", true);
+                w.console.info()
+            }
+
+            // if($(this).val() !== "" && $(this).find("option:selected").text() !== "不分配") {
+            //     selected_salemman = $(this).val();
+            //     $(div).find('input').attr("disabled", false);
+            // } else {
+            //     f.alert.choose_info("分配情况", ["是", "否"], "*******？", function () {
+            //         $(div).find('input').val("").attr("disabled", true);
+            //         setTotalBudget("total-budget", 0);
+            //     }, function () {
+            //
+            //         $(that).find('option').attr("selected", false);
+            //         setTimeout(function(){
+            //                 $('.hosp-input-info select').find('option[value="'+selected_salemman+'"]').attr("selected", true);
+            //         }, 1000)
+            //
+            //
+            //         $(div).find('input').attr("disabled", false);
+            //     });
+            // }
+        });
 
     });
 

@@ -24,10 +24,6 @@
         height: 30px !important;
     }
 
-    .home .bottom .personnel-training {
-        margin: -5px 0 0 0;
-    }
-
     .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
         padding: 2px 16px 10px !important;
     }
@@ -451,6 +447,10 @@
     font-size: 2.4rem;
     background-color: #757984;
     text-align: right;
+}
+
+.home .bottom .personnel-training {
+    margin: -5px 0 0 0;
 }
 
 .home .bottom .personnel-training .input-personel {
