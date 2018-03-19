@@ -5,6 +5,18 @@
         product: List[JsValue], salesman: List[JsValue], totalBudget: JsValue,
         hosp_list: List[JsValue], inputs: List[JsValue])
 
+@*************************************
+*                                   *
+* @numberFormat                     *
+* TODO: 提到view下单独形成一个,        *
+* TODO: 可以被import的包.            *
+*************************************@
+@numberFormat(d: AnyVal) = @{
+    val numberFormat = NumberFormat.getInstance()
+    numberFormat.setGroupingUsed(false)
+    numberFormat.format(d)
+}
+
 @version_2.model.application.template("区域管理模拟平台"){
     <input type="hidden" name="uuid" value="@uuid" disabled="disabled">
     <input type="hidden" name="phase" value="@phrase" disabled="disabled">
@@ -48,23 +60,23 @@
                                         <p>团队成员<br>已分配时间</p>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" id="xiaosong"></div>
+                                        <div class="graphicsy-pie" name="小宋"></div>
                                         <div class="person-name">小宋</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" id="xiaobai"></div>
+                                        <div class="graphicsy-pie" name="小白"></div>
                                         <div class="person-name">小白</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" id="xiaolan"></div>
+                                        <div class="graphicsy-pie" name="小兰"></div>
                                         <div class="person-name">小兰</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" id="xiaomu"></div>
+                                        <div class="graphicsy-pie" name="小木"></div>
                                         <div class="person-name">小木</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" id="xiaoqing"></div>
+                                        <div class="graphicsy-pie" name="小青"></div>
                                         <div class="person-name">小青</div>
                                     </div>
                                 </div>
@@ -77,10 +89,15 @@
                                         <li class={"box "+(if(hosp._2 == 0){"active"})+""} name={(hosp._1 \ "hosp_name").asOpt[String].get}><!--active-->
                                             <div class="content">
                                                 <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
-                                                <p class="text-right"><span>$</span>--<span>%</span></p>
                                                 <p class="text-right">
-                                                    <span><i class="glyphicon glyphicon-user"></i></span>
-                                                    <span>--</span>
+                                                    <span>$</span>
+                                                    <span name="budget">——</span>%
+                                                </p>
+                                                <p class="text-right">
+                                                    <span>
+                                                        <i class="glyphicon glyphicon-user"></i>
+                                                    </span>
+                                                    <span name="salesmen">——</span>
                                                 </p>
                                             </div>
                                         </li>
@@ -97,7 +114,7 @@
                 <div class="col-md-12">
                     <div class="bottom" name="bottom">
                         @hosp_list.zipWithIndex.map { hosp =>
-                            <div class="row hosp-input-info box" name=@{(hosp._1 \ "hosp_name").asOpt[String].get} @if(hosp._2 != 0){style="display: none;"}>
+                            <div class="row hosp-input-info box" name=@{(hosp._1 \ "hosp_name").asOpt[String].get} @if(hosp._2 != 0){style="display: none"}>
                                 <div class="sales-planning">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -109,25 +126,36 @@
                                                     </div>
                                                     <div class="selected-salesman">
                                                         <span>请指派代表</span><br>
-                                                        <select class="" name="">
-                                                            <option value="">未分配</option>
-                                                            <option value="">不分配</option>
-
-                                                            @salesman.reverse.map { person =>
-                                                                <option value="@{(person \ "name").asOpt[String]}">@{(person \ "name").asOpt[String]}</option>
+                                                        <select>
+                                                            <option value="" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"></option>
+                                                            <option value="不分配" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}">不分配</option>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                @salesman.reverse.map { person =>
+                                                                    <option value="@{(person \ "name").asOpt[String]}"
+                                                                            hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                            @if((data \ "salesmen").as[String] == (person \ "name").as[String]) {selected="selected"}>
+                                                                        @{(person \ "name").asOpt[String]}
+                                                                    </option>
+                                                                }
                                                             }
-                                                            <!--<option value="小宋">小宋</option>
-                                                            <option value="小白">小白</option>
-                                                            <option value="小兰">小兰</option>
-                                                            <option value="小木">小木</option>
-                                                            <option value="小青">小青</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="input-budget">
                                                     <p>
                                                         <span>分配推广预算</span>
-                                                        <span><input type="text" name="input-budget" maxlength="4" disabled>&nbsp;%</span>
+                                                        <span>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <input type="text"
+                                                                        name="input-budget"
+                                                                        hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                        maxlength="4"
+                                                                        value="@{
+                                                                            val budget = (data \ "budget").as[Double]
+                                                                            if(budget == 0) {""} else {numberFormat(budget)}
+                                                                        }"/>
+                                                            } &nbsp;%
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -153,8 +181,29 @@
                                                                 <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "口服抗生素").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
                                                                 <span>元</span>
                                                             </li>
-                                                            <li><input type="text">&nbsp;元</li>
-                                                            <li><input type="text">&nbsp;天</li>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <li>
+                                                                    <input type="text" name="prod_value"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "口服抗生素").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "口服抗生素").get("prod_value").as[Double]
+                                                                                if(sales == 0) {""} else {numberFormat(sales)}
+                                                                            }"/>&nbsp;元
+                                                                </li>
+
+                                                                <li>
+                                                                    <input type="text" name="prod_hours"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "口服抗生素").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val hours = (data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "口服抗生素").get("prod_hours").as[Double]
+                                                                                if(hours == 0) {""} else {numberFormat(hours)}
+                                                                            }"/>&nbsp;天
+                                                                </li>
+                                                            }
                                                         </ul>
                                                     </li>
                                                     <li>
@@ -168,8 +217,29 @@
                                                                 <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "一代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
                                                                 <span>元</span>
                                                             </li>
-                                                            <li><input type="text">&nbsp;元</li>
-                                                            <li><input type="text">&nbsp;天</li>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <li>
+                                                                    <input type="text" name="prod_value"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "一代降糖药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "一代降糖药").get("prod_value").as[Double]
+                                                                                if(sales == 0) {""} else {numberFormat(sales)}
+                                                                            }"/>&nbsp;元
+                                                                </li>
+
+                                                                <li>
+                                                                    <input type="text" name="prod_hours"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "一代降糖药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val hours = (data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "一代降糖药").get("prod_hours").as[Double]
+                                                                                if(hours == 0) {""} else {numberFormat(hours)}
+                                                                            }"/>&nbsp;天
+                                                                </li>
+                                                            }
                                                         </ul>
                                                     </li>
                                                     <li>
@@ -183,8 +253,29 @@
                                                                 <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "三代降糖药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
                                                                 <span>元</span>
                                                             </li>
-                                                            <li><input type="text">&nbsp;元</li>
-                                                            <li><input type="text">&nbsp;天</li>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <li>
+                                                                    <input type="text" name="prod_value"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "三代降糖药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "三代降糖药").get("prod_value").as[Double]
+                                                                                if(sales == 0) {""} else {numberFormat(sales)}
+                                                                            }"/>&nbsp;元
+                                                                </li>
+
+                                                                <li>
+                                                                    <input type="text" name="prod_hours"
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "三代降糖药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val hours = (data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "三代降糖药").get("prod_hours").as[Double]
+                                                                                if(hours == 0) {""} else {numberFormat(hours)}
+                                                                            }"/>&nbsp;天
+                                                                </li>
+                                                            }
                                                         </ul>
                                                     </li>
                                                     <li>
@@ -198,8 +289,29 @@
                                                                 <span class="hosp-budget-number">@{NumberFormat.getInstance().format((hosp._1 \ "皮肤药").asOpt[List[String]].get.head.replace(",", "").toDouble)}</span>
                                                                 <span>元</span>
                                                             </li>
-                                                            <li><input type="text">&nbsp;元</li>
-                                                            <li><input type="text">&nbsp;天</li>
+                                                            @inputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <li>
+                                                                    <input type="text" name="prod_value" @if(((data \ "hosp_name").as[String] == "人民医院" || (data \ "hosp_name").as[String] == "军区医院" || (data \ "hosp_name").as[String] == "中日医院" || (data \ "hosp_name").as[String] == "西河医院") && phrase == "2") {} else {disabled="disabled"}
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "皮肤药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "皮肤药").get("prod_value").as[Double]
+                                                                                if(sales == 0) {""} else {numberFormat(sales)}
+                                                                            }"/>&nbsp;元
+                                                                </li>
+
+                                                                <li>
+                                                                    <input type="text" name="prod_hours" @if(((data \ "hosp_name").as[String] == "人民医院" || (data \ "hosp_name").as[String] == "军区医院" || (data \ "hosp_name").as[String] == "中日医院" || (data \ "hosp_name").as[String] == "西河医院") && phrase == "2") {} else {disabled="disabled"}
+                                                                            hospital-code="@{(hosp._1 \ "hosp_code").as[String]}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").as[String]}"
+                                                                            pharbers-type="@{(data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "皮肤药").get("prod_name").as[String]}"
+                                                                            value="@{
+                                                                                val hours = (data \ "visit_hours").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "皮肤药").get("prod_hours").as[Double];
+                                                                                if(hours == 0) {""} else {numberFormat(hours)}
+                                                                            }"/>&nbsp;天
+                                                                </li>
+                                                            }
                                                         </ul>
                                                     </li>
                                                 </ul>
