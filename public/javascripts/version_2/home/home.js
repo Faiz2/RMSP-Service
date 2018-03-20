@@ -53,14 +53,19 @@
 
     // Allot Time Pie
     const getAllotTimePieData = function(percents) {
-        return [
-            {value:30, name:'协助拜访'},
-            {value:31, name:'能力辅助'},
-            {value:3, name:'例会/团建'},
-            {value:8, name:'KPI分析'},
-            {value:12, name:'行政工作'},
-            {value:16, name:'未分配'}
-        ];
+        var tmp = [];
+        $.each(percents, function(i, v){
+            tmp.push(v);
+        })
+        return tmp;
+        // return [
+        //     {value:30, name:'协助拜访'},
+        //     {value:31, name:'能力辅助'},
+        //     {value:3, name:'例会/团建'},
+        //     {value:8, name:'KPI分析'},
+        //     {value:12, name:'行政工作'},
+        //     {value:16, name:'未分配'}
+        // ];
     }
 
     // salesman分配时间
@@ -195,7 +200,6 @@
 
     // 经理分配时间
     const setAllotTime = function(id, p) {
-        let percent;
         let allotTimePie = echarts.init(document.getElementById(id));
         let option = {
             tooltip: {
@@ -230,7 +234,7 @@
                             show: false
                         }
                     },
-                    data: getAllotTimePieData()
+                    data: getAllotTimePieData(p)
                 }
             ]
         };
@@ -264,10 +268,10 @@
 
         if(identify === "销售计划") {
             $div.find(".sales-planning").show();
-            $(".personnel-training").hide();
+            $(".personal-training").hide();
             $('.home .message-box .hosp-array-masklayer').hide();
         } else {
-            $(".personnel-training").show();
+            $(".personal-training").show();
             $div.find(".sales-planning").hide();
             $('.home .message-box .hosp-array-masklayer').show();
         }
@@ -323,6 +327,46 @@
         return result;
     }
 
+    // 经理时间大于100 验证
+    var verifyManageTimelg = function(array) {
+        var sum = 0;
+        $.each(array, function(i, v){
+            $.each(v.apply, function(i, data){
+                    sum += data.days
+            });
+        });
+        if(sum > 100) return false; else return true;
+    }
+
+    // 经理协作拜访时间大于代表 验证
+    var verufyManageVisitTimelg = function(array) {
+        var tmp = $(array).filter(function(index, dom){
+            return dom.type === "实地协访";
+        }).map(function(index, dom){
+            return dom.apply;
+        }).get(0);
+
+        var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
+        var result = false;
+        $.each(salesmen, function(i, name) {
+            var sum = 0;
+            var allottArray = getAllInputAllotTime().filter(function(obj, index){ return obj.salesmen === name;});
+            $.each(allottArray, function(n, time) {sum += time.allotTime});
+            var personal = $(tmp).filter(function(index, dom){
+                return dom.personal === name
+            });
+            if(personal.get(0).days > sum) {
+                f.alert.alert_warn("警告", "fuck");
+                result = false;
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        return result;
+    }
+
     // 是否选中代表 验证
     var verifySalesMen = function(hosp_identify) {
         var selected = $('div[name="'+hosp_identify+'"] select option:selected');
@@ -359,20 +403,49 @@
         setTotalBudget("total-budget", sum);
     }
 
-    // 获取所有的input AllotTime输入
+    // 获取代表所有的input AllotTime输入
     var getAllInputAllotTime = function() {
         var tmp = [];
+        var trainingSum = 0;
+        //人员培训下代表产品培训input
+        var trainingInput = $('div[name="personal-training"]')
+                            .find('div[name="input-training"]')
+                            .find('input[name="产品培训"]');
+        //人员培训下团建/列会input
+        var meetingInput = $('div[name="personal-training"]')
+                            .find('div[name="input-training"]')
+                            .find('input[name="团队例会和团建"]');
+        //人员培训下1对1辅导
+        var coachInput = $('div[name="personal-training"]')
+                            .find('div[name="input-training"]')
+                            .find('input[name="能力辅导"]');
+
 
         $.each($('.hosp-input-info'), function(i, dom){
-            var selected = $(dom).find('div[name="hosp-info"] select option:selected');
+            var selected = $(dom)
+                        .find('div[name="hosp-info"] select option:selected');
+            //医院下input
             var inputs = $(dom).find('input[name="prod_hours"]');
+
             var sumInput = 0;
             $.each(inputs, function(n, v){
                 sumInput += parseInt($(v).val()) || 0;
             });
+
+            var product = trainingInput.filter(function(index, dom){
+                return $(dom).attr("personal") === $(selected).val();
+            });
+
+            var coach = coachInput.filter(function(index, dom){
+                return $(dom).attr("personal") === $(selected).val();
+            });
+
             tmp.push({
                 salesmen: $(selected).val(),
-                allotTime: sumInput,
+                allotTime: (parseInt($(product).val()) || 0)
+                            + (parseInt($(meetingInput).val()) || 0)
+                            + (parseInt($(coach).val()) || 0)
+                            + sumInput,
                 hospital: $(selected).attr("hosp-name")
             });
         });
@@ -380,7 +453,7 @@
         return tmp;
     }
 
-    // 计算沟通时间
+    // 计算代表时间
     var calcAllotTime = function(inputObj) {
         var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
         var tmp = getAllInputAllotTime();
@@ -413,113 +486,200 @@
 
     }
 
+    // 获取经理分配时间所有Input 输入
+    var getManageAllotTime = function() {
+        var tmp = [];
+        var personalDiv = $('div[name="personal-training"]');
+
+        //经理协助拜访input
+        var visit = $(personalDiv)
+                     .find('div[name="input-personal"]')
+                     .find('div[name="input-manager"]')
+                     .find('input');
+         //人员培训下1对1辅导
+         var coachInput = $(personalDiv)
+                             .find('div[name="input-training"]')
+                             .find('input[name="能力辅导"]');
+        //人员培训下团建/列会input
+        var meetingInput = $(personalDiv)
+                            .find('div[name="input-training"]')
+                            .find('input[name="团队例会和团建"]');
+        // KPIinput
+        var kpi = $(personalDiv)
+                    .find('div[name="input-display"]')
+                    .find('input[name="KPI 报告分析"]');
+        // 行政input
+        var administrative = $(personalDiv)
+                                .find('div[name="input-display"]')
+                                .find('input[name="行政工作"]');
+
+
+        var array = [visit, coachInput, meetingInput, kpi, administrative];
+        $.each(array, function(i, o) {
+            var obj = o.map(function(index, dom) {
+                return {
+                    personal: $(dom).attr("personal"),
+                    days: parseInt($(dom).val()) || 0
+                }
+            });
+            tmp.push({
+                type: $(o).attr('name'),
+                apply: obj
+            });
+
+        });
+
+        return tmp;
+    }
+
+    // 计算经理分配时间
+    var calcManageAllotTime = function(inputObj) {
+        var total = 100;
+        var result = getManageAllotTime();
+        if(!verifyManageTimelg(result)) {
+            inputObj.val("");
+            f.alert.alert_warn("警告", "经理时间分配超出100天")
+        } else if(!verufyManageVisitTimelg(result)) {
+            inputObj.val("");
+        }
+
+        var reval = $(result).map(function(index, dom){
+            var sum = 0;
+            $.each(dom.apply, function(i, v){sum += v.days})
+            return {
+                name: dom.type,
+                value: sum
+            }
+        });
+        setAllotTime("hospcode-allot-time", reval);
+    }
+
+
+
     $(function(){
 
-        setAllotTime("hospcode-1-allot-time");
 
-
-
-        showSelectSalesMen();
-        calcBudget();
-        calcAllotTime();
-
-
-        //答题页 查看详情按钮
-        $('button[name="details-btn"]').click(function() {
-            detailsBtn();
-        });
-
-        //资源页面 收起按钮
-        $('#backup-btn').click(function() {
-            $('div[name="message-box"]').show();
-            $('div[name="input-box"]').show();
-            $('div[name="answer-tab"]').show();
-            $('div[name="resource-info"]').hide();
-        });
-
-        //资源页面 tab切换按钮
-        $('div[name="navbar-btn"] button').click(function() {
-            $(this).addClass("active");
-            $(this).siblings().removeClass("active");
-            switchHospitalWithProductInfo($(this).text());
-        });
-
-        // 医院列表点击事件
-        $('ul[name="hosp-list"] li').click(function() {
-            $(this).addClass("active");
-            $(this).siblings().removeClass("active");
-            switchHospitalInfo($(this).attr("name"));
-        });
-
-        //答题页 销售计划于人员培训按钮
-        $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
-            $(this).addClass("active");
-            $(this).siblings().removeClass("active");
-            switchSalesAndPersonel($(this).text());
-        });
-
-        //提交按钮
-        $('button[name="submit-btn"]').click(function(){
-            w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
-        });
-
-
-
-
-
-
-
-        // 分配推广预算keyup设置图
-        $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]').keyup(function() {
-            calcBudget();
-        });
-
-        // 分配推广预算blur设置检查超出100
-        $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]').blur(function() {
-            if(!verifyBudgetlg()) {
-                f.alert.alert_warn("警告", "Budget超出预算");
-                $(this).val("");
-                calcBudget();
-            }
-        });
-
-        // 分配沟通时间keyup
-        $('div[name="hosp-budget"] input[name="prod_hours"]').keyup(function() {
-            var that = this;
-            calcAllotTime($(that));
-        });
-
-        // 分配沟通时间blur
-        $('div[name="hosp-budget"] input[name="prod_hours"]').blur(function() {
-            var that = this;
-            calcAllotTime($(that))
-            if(!verifySalesMen($(that).attr("hospital-name"))) {
-                f.alert.alert_warn("警告", "未指定代表");
-            }
-
-        });
-
-        // salesmen select change
-        var salesmen = "";
-        $('.hosp-input-info select').change(function() {
-            var that = this;
-            var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input');
-            if($(this).val() === "不分配") {
-                f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
-                    inputs.val("");
-                    inputs.prop("disabled", true);
-                }, function () {
-                    w.console.info($('div[name="'+$(that).find('option:selected').attr("hosp-name")+'"] select option[value="' + salesmen + '"]'));
-                    $('div[name="'+$(that).find('option:selected').attr("hosp-name")+'"] select option[value="' + salesmen + '"]').prop("selected", true);
-                })
-
-            } else {
-                salesmen = $(this).val();
-                inputs.prop("disabled", false)
-            }
+        init: {
             showSelectSalesMen();
+            calcBudget();
             calcAllotTime();
-        });
+            calcManageAllotTime();
+        }
+
+        events: {
+            //答题页 查看详情按钮
+            $('button[name="details-btn"]').click(function() {
+                detailsBtn();
+            });
+
+            //资源页面 收起按钮
+            $('#backup-btn').click(function() {
+                $('div[name="message-box"]').show();
+                $('div[name="input-box"]').show();
+                $('div[name="answer-tab"]').show();
+                $('div[name="resource-info"]').hide();
+            });
+
+            //资源页面 tab切换按钮
+            $('div[name="navbar-btn"] button').click(function() {
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+                switchHospitalWithProductInfo($(this).text());
+            });
+
+            // 医院列表点击事件
+            $('ul[name="hosp-list"] li').click(function() {
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+                switchHospitalInfo($(this).attr("name"));
+            });
+
+            //答题页 销售计划于人员培训按钮
+            $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+                switchSalesAndPersonel($(this).text());
+            });
+
+            //提交按钮
+            $('button[name="submit-btn"]').click(function(){
+                w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
+            });
+
+
+
+            // 分配推广预算keyup设置图
+            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
+                .keyup(function() {
+                calcBudget();
+            });
+
+            // 分配推广预算blur设置检查超出100
+            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
+                .blur(function() {
+                if(!verifyBudgetlg()) {
+                    f.alert.alert_warn("警告", "Budget超出预算");
+                    $(this).val("");
+                    calcBudget();
+                }
+            });
+
+            // 分配沟通时间keyup
+            $('div[name="hosp-budget"] input[name="prod_hours"]'+
+            ', div[name="personal-training"] div[name="input-training"] input')
+                .keyup(function() {
+                var that = this;
+                calcAllotTime($(that));
+                calcManageAllotTime($(that));
+            });
+
+            // 分配沟通时间blur
+            $('div[name="hosp-budget"] input[name="prod_hours"]'+
+            ', div[name="personal-training"] div[name="input-training"] input')
+                .blur(function() {
+                var that = this;
+                calcAllotTime($(that))
+                calcManageAllotTime($(that));
+                if(!verifySalesMen($(that).attr("hospital-name"))) {
+                    f.alert.alert_warn("警告", "未指定代表");
+                }
+
+            });
+
+            // salesmen select change
+            $('.hosp-input-info select').change(function() {
+                var that = this;
+                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input');
+                if($(this).val() === "不分配") {
+                    f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
+                        inputs.val("");
+                        inputs.prop("disabled", true);
+                    }, function () {
+                        $('div[name="'+$(that).find('option:selected').attr("hosp-name")+'"] select option[value="' + selected_salemman + '"]').prop("selected", true);
+                        showSelectSalesMen();
+                    })
+                } else {
+                    selected_salemman = $(this).val();
+                    inputs.prop("disabled", false)
+                }
+                showSelectSalesMen();
+                calcAllotTime();
+            });
+
+            //实地协防keyup
+            $('div[name="personal-training"] div[name="input-manager"] input, '+
+                'div[name="input-display"] input').keyup(function(){
+                var that = this;
+                calcManageAllotTime($(that));
+            });
+
+            // 实地协防blur
+            $('div[name="personal-training"] div[name="input-manager"] input, '+
+                'div[name="input-display"] input').blur(function(){
+                var that = this;
+                calcManageAllotTime($(that));
+            });
+        }
 
 
 

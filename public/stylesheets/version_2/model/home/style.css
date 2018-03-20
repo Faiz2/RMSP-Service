@@ -24,24 +24,24 @@
         height: 30px !important;
     }
 
-    .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+    .home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
         padding: 2px 16px 10px !important;
     }
 
-    .home .bottom .personnel-training .input-training td.input-meeting input {
+    .home .bottom .personal-training .input-training td.input-meeting input {
         width: 575px !important;
         height: 33px !important;
     }
 
-    .home .bottom .personnel-training .input-personel {
+    .home .bottom .personal-training .input-personal {
         width: 760px !important;
     }
 
-    .home .bottom .personnel-training .input-display {
+    .home .bottom .personal-training .input-display {
         margin-left: 765px !important;
     }
 
-    .home .bottom .personnel-training .input-display .text-display {
+    .home .bottom .personal-training .input-display .text-display {
         margin: 30px 0 0 35px !important;
     }
 }
@@ -73,23 +73,23 @@
         height: 30px !important;
     }
 
-    .home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+    .home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
         padding: 2px 16px 10px !important;
     }
 
-    .home .bottom .personnel-training .input-training td.input-meeting input {
+    .home .bottom .personal-training .input-training td.input-meeting input {
         width: 575px !important;
     }
 
-    .home .bottom .personnel-training .input-personel {
+    .home .bottom .personal-training .input-personal {
         width: 760px !important;
     }
 
-    .home .bottom .personnel-training .input-display {
+    .home .bottom .personal-training .input-display {
         margin-left: 765px !important;
     }
 
-    .home .bottom .personnel-training .input-display .text-display {
+    .home .bottom .personal-training .input-display .text-display {
         margin: 30px 0 0 35px !important;
     }
 }
@@ -449,52 +449,52 @@
     text-align: right;
 }
 
-.home .bottom .personnel-training {
+.home .bottom .personal-training {
     margin: -5px 0 0 0;
 }
 
-.home .bottom .personnel-training .input-personel {
+.home .bottom .personal-training .input-personal {
     width: 650px;
     height: 370px;
     float: left;
 }
 
-.home .bottom .personnel-training .input-display {
+.home .bottom .personal-training .input-display {
     /* width: 603px; */
     height: 370px;
     margin-left: 655px;
 }
 
-.home .bottom .personnel-training .input-manager {
+.home .bottom .personal-training .input-manager {
     height: 110px;
     margin-bottom: 5px;
     padding: 25px 0 0 15px;
 }
 
-.home .bottom .personnel-training .input-personel td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+.home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
     padding: 2px 5px 10px;
 }
 
-.home .bottom .personnel-training td > div.tag {
+.home .bottom .personal-training td > div.tag {
     width: 12px;
     height: 12px;
     margin: 0 10px 0 0;
     border-radius: 2px;
 }
 
-.home .bottom .personnel-training td.assist-tag > div.tag {
+.home .bottom .personal-training td.assist-tag > div.tag {
     background-color: #00ACFF;
 }
 
-.home .bottom .personnel-training td.training-tag > div.tag {
+.home .bottom .personal-training td.training-tag > div.tag {
     background-color: #356BFF;
 }
 
-.home .bottom .personnel-training td.meeting-tag > div.tag {
+.home .bottom .personal-training td.meeting-tag > div.tag {
     background-color: #6BD8FA;
 }
 
-.home .bottom .personnel-training td.kpi-tag > div.tag {
+.home .bottom .personal-training td.kpi-tag > div.tag {
     background-color: #D6E9F7;
     position: relative;
     z-index: auto;
@@ -502,7 +502,7 @@
     left: 30px;
 }
 
-.home .bottom .personnel-training td.administrativ-tag > div.tag {
+.home .bottom .personal-training td.administrativ-tag > div.tag {
     background-color: #374066;
     position: relative;
     z-index: auto;
@@ -510,7 +510,7 @@
     left: 30px;
 }
 
-.home .bottom .personnel-training td.undistributed-tag > div.tag {
+.home .bottom .personal-training td.undistributed-tag > div.tag {
     background-color: #DCDBDC;
     position: relative;
     z-index: auto;
@@ -519,20 +519,20 @@
 }
 
 
-.home .bottom .personnel-training td {
+.home .bottom .personal-training td {
     font-size: 1.4rem;
     letter-spacing: 0.15rem;
 }
 
-.home .bottom .personnel-training td.person-tips {
+.home .bottom .personal-training td.person-tips {
     text-align: center;
 }
 
-.home .bottom .personnel-training td.name-tips {
+.home .bottom .personal-training td.name-tips {
     text-align: right;
 }
 
-.home .bottom .personnel-training td input {
+.home .bottom .personal-training td input {
     background-color: #6F727E;
     text-align: right;
     font-size: 2rem;
@@ -544,48 +544,48 @@
     border-bottom: 0;
 }
 
-.home .bottom .personnel-training .input-manager td input {
+.home .bottom .personal-training .input-manager td input {
     width: 90px;
     height: 33px;
 }
 
-.home .bottom .personnel-training .input-training td input {
+.home .bottom .personal-training .input-training td input {
     width: 90px;
     height: 33px;
 }
 
-.home .bottom .personnel-training .input-training td.input-meeting input {
+.home .bottom .personal-training .input-training td.input-meeting input {
     width: 490px;
     height: 33px;
 }
 
-.home .bottom .personnel-training .input-training {
+.home .bottom .personal-training .input-training {
     height: 255px;
     padding: 25px 0 0 15px;
 }
 
-.home .bottom .personnel-training .input-display td input {
+.home .bottom .personal-training .input-display td input {
     width: 90px;
     height: 33px;
 }
 
-.home .bottom .personnel-training .input-display .text-display {
+.home .bottom .personal-training .input-display .text-display {
     margin: 30px 0 0 3px;
 }
 
-.home .bottom .personnel-training .input-display .text-display td {
+.home .bottom .personal-training .input-display .text-display td {
     text-align: right;
 }
 
-.home .bottom .personnel-training .input-display .text-display td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag):not(.kpi-tag):not(.administrativ-tag):not(.undistributed-tag) {
+.home .bottom .personal-training .input-display .text-display td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag):not(.kpi-tag):not(.administrativ-tag):not(.undistributed-tag) {
     padding: 30px 0 30px 10px;
 }
 
-.home .bottom .personnel-training .input-display .text-display .big-text {
+.home .bottom .personal-training .input-display .text-display .big-text {
     font-size: 2.4rem;
     letter-spacing: 0.3rem;
 }
-.home .bottom .personnel-training .input-display .allot-time {
+.home .bottom .personal-training .input-display .allot-time {
     width: 250px;
     height: 250px;
     margin-top: 30px;
