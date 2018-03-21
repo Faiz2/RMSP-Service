@@ -124,9 +124,6 @@
                                                     }</td>
                                                 </tr>
                                             }
-
-
-
                                         </table>
                                     </div>
                                     <div class="">
@@ -140,51 +137,24 @@
                                                 <td>增长率(%)</td>
                                                 <td>达成率(%)</td>
                                             </tr>
-                                            <tr>
-                                                <td>口服抗生素</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>一代降糖药</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>三代降糖药</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>皮肤药</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>总体</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            @{
+                                                val reVal = (report \ "report").as[List[JsValue]]
+                                                        .find(f => (f \ "report_name").as[String] == "销售报告_销售额每产品").get
+
+                                                (reVal \ "result").as[List[JsValue]].map { antibiotics =>
+                                                    <tr>
+                                                        <td>{(antibiotics \ "prod_name").as[String]}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "current_target").asOpt[Int].get.toDouble)}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "last_revenue").asOpt[Int].get.toDouble)}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "current_revenue").asOpt[Int].get.toDouble)}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "increase_revenue").asOpt[Int].get.toDouble)}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "increase_ratio").asOpt[Double].get)}</td>
+                                                        <td>{NumberFormat.getInstance().format((antibiotics \ "target_realization").asOpt[Double].get)}</td>
+                                                    </tr>
+                                                }
+
+                                            }
+
                                         </table>
                                     </div>
                                 </div>
@@ -201,11 +171,17 @@
                                             </tr>
                                             <tr>
                                                 <td>绩效奖金</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                @{
+                                                    val reVal = (report \ "report").as[List[JsValue]]
+                                                            .find(f => (f \ "report_name").as[String] == "经理报告_职员成本").get
+
+                                                    (reVal \ "result").as[List[JsValue]].map{ salesmen =>
+                                                            if((salesmen \ "salesmen").as[String] != "总体") {
+                                                                    <td>{NumberFormat.getInstance().format((salesmen \ "bonus").as[Int])}</td>
+                                                            }else {}
+                                                    }
+                                                }
+
                                             </tr>
                                         </table>
                                     </div>
@@ -215,30 +191,17 @@
                                                 <td><div class="title">经理时间分配</div></td>
                                                 <td>天数</td>
                                             </tr>
-                                            <tr>
-                                                <td>能力辅导</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>经理随访</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>团队会议</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>KPI分析</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>行政工作</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>总工作时间</td>
-                                                <td></td>
-                                            </tr>
+                                            @{
+                                                val reVal = (report \ "report").as[List[JsValue]]
+                                                        .find(f => (f \ "report_name").as[String] == "经理报告_时间分配").get
+
+                                                (reVal \ "result").as[List[JsValue]].map{ allottime =>
+                                                    <tr>
+                                                        <td>{(allottime \ "general_names").as[String].dropRight(3)}</td>
+                                                        <td>{(allottime \ "values").as[Int]}</td>
+                                                    </tr>
+                                                }
+                                            }
                                         </table>
                                     </div>
                                 </div>
