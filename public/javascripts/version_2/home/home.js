@@ -551,6 +551,8 @@
                 value: sum
             }
         });
+        reval = reval.toArray();
+        reval.push({name: "未分配", value: parseInt($('span[name="other-days"]').text() || 0)});
         setAllotTime("hospcode-allot-time", reval);
         setTipsDays(inputObj);
     }
@@ -634,7 +636,6 @@
         $('div[name="input-display"] span[name="other-days"]').text(otherDays);
 
     }
-
 
     $(function(){
 
