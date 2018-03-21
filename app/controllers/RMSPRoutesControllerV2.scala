@@ -89,7 +89,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 				val salesman = brd(uuid) // 代表们的详细介绍
 				val decision = decisions(uuid, phrase) //总预算，各个医院基本信息与潜力，代表、上次输入
 				val management = managements(uuid, phrase)// 人员培训 上次输入
-				
+
 				Ok(views.html.version_2.model.home.template(uuid, phrase, market("news"),
 					product("product"), salesman("salesman"), decision("budget"),
 					decision("hospital").as[List[JsValue]], decision("decisioInputs").as[List[JsValue]], management("manageInput").as[List[JsValue]]))
@@ -252,12 +252,12 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 				"decisioInputs" -> toJson(inputs))
 		} else Map("error" -> toJson("/login"))
 	}
-	
+
 	def managements(uuid : String, phrase : String): String Map JsValue = {
 		val p = (if (phrase == "") "1"
 		else phrase)
 		val pi = p.toInt
-		
+
 		val jv =
 			toJson(Map(
 				"phase" -> toJson(pi),
@@ -271,10 +271,10 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: queryUserManagementInOpPhase(jv)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		Map("manageInput" -> toJson((reVal \ "result" \ "input" \ "management").asOpt[List[JsValue]].get))
 	}
-	
+
 	def report(uuid : String, phrase : String) = Action { request =>
 		val p = (if (phrase == "") "1"
 		else phrase)
