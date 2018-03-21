@@ -45,36 +45,88 @@
                                                 <td>周期(1)</td>
                                                 <td>周期(2)</td>
                                             </tr>
-                                            <tr>
-                                                <td>团队能力指数</td>
-                                                <td>52</td>
-                                                <td>18</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>总利润</td>
-                                                <td>5,620,365</td>
-                                                <td>2,419,113</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>总销售</td>
-                                                <td>2,349,027</td>
-                                                <td>2,419,113</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>得分</td>
-                                                <td></td>
-                                                <td>12</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>累计得分</td>
-                                                <td></td>
-                                                <td>12</td>
-                                                <td></td>
-                                            </tr>
+                                            @{
+                                                val reVal = (report \ "report").as[List[JsValue]]
+                                                        .find(f => (f \ "report_name").as[String] == "市场销售报告_商业价值").get
+
+                                                val team = (reVal \ "result").as[List[JsValue]]
+                                                        .find(f => (f \ "general_names").as[String] == "团队能力(指数)").get
+
+                                                val totalProfits = (reVal \ "result").as[List[JsValue]]
+                                                        .find(f => (f \ "general_names").as[String] == "总利润(元)").get
+
+                                                val totalSales = (reVal \ "result").as[List[JsValue]]
+                                                        .find(f => (f \ "general_names").as[String] == "总销售(元)").get
+
+                                                val score = (reVal \ "result").as[List[JsValue]]
+                                                        .find(f => (f \ "general_names").as[String] == "得分").get
+
+                                                val totalScore = (reVal \ "result").as[List[JsValue]]
+                                                        .find(f => (f \ "general_names").as[String] == "累计得分").get
+
+                                                <tr>
+                                                    <td>团队能力指数</td>
+                                                    <td>{(team \ "phase0").as[Int]}</td>
+                                                    <td>{(team \ "phase1").as[Int]}</td>
+                                                    <td>{
+                                                        if((team \ "phase2").as[Int] != -1) (team \ "phase2").as[Int]
+                                                    }</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>总利润</td>
+                                                    <td>{
+                                                        NumberFormat.getInstance().format((totalProfits \ "phase0").as[Double])
+                                                    }</td>
+                                                    <td>{
+                                                        NumberFormat.getInstance().format((totalProfits \ "phase1").as[Double])
+                                                    }</td>
+                                                    <td>{
+                                                        if((team \ "phase2").as[Int] != -1)
+                                                            NumberFormat.getInstance().format((totalProfits \ "phase2").as[Double])
+                                                    }</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>总销售</td>
+                                                    <td>{
+                                                        NumberFormat.getInstance().format((totalSales \ "phase0").as[Double])
+                                                    }</td>
+                                                    <td>{
+                                                        NumberFormat.getInstance().format((totalSales \ "phase1").as[Double])
+                                                    }</td>
+                                                    <td>{
+                                                        if((team \ "phase2").as[Int] != -1)
+                                                            NumberFormat.getInstance().format((totalSales \ "phase2").as[Double])
+                                                    }</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>得分</td>
+                                                    <td>{
+                                                        if((score \ "phase0").as[Int] != -1) (totalScore \ "phase0").as[Int]
+                                                    }</td>
+                                                    <td>{
+                                                        (score \ "phase1").as[Double]
+                                                    }</td>
+                                                    <td>{
+                                                        if((score \ "phase2").as[Int] != -1) (score \ "phase2").as[Double]
+                                                    }</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>累计得分</td>
+                                                    <td>{
+                                                        if((totalScore \ "phase0").as[Int] != -1) (totalScore \ "phase0").as[Int]
+                                                    }</td>
+                                                    <td>{
+                                                        (totalScore \ "phase1").as[Int]
+                                                    }</td>
+                                                    <td>{
+                                                        if((totalScore \ "phase2").as[Int] != -1) (totalScore \ "phase2").as[Int]
+                                                    }</td>
+                                                </tr>
+                                            }
+
+
+
                                         </table>
                                     </div>
                                     <div class="">
