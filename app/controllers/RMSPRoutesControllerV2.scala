@@ -22,23 +22,27 @@ import play.api.mvc._
 
 //TODO： 新版本要重构
 class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceManager, att: AuthTokenTrait) extends Controller with RoutesFilter {
-	
+
 	implicit val as: ActorSystem = as_inject
 	implicit val db_basic : DBTrait = dbt.queryDBInstance("stp").get
 	implicit val attoken: AuthTokenTrait = att
-	
+
 //	def indexV2 = Action {
 //		Ok(views.html.version_2.model.home.template())
 //	}
-	
+
 	def login = Action {
 		Ok(views.html.Login.login())
 	}
-	
+
+	def start = Action {
+		Ok(views.html.version_2.model.start.template())
+	}
+
 	def indexV2(uuid : String) = Action { request =>
 		getUserCookie(request) {
 			val user = request.cookies.get("user").get.value
-			
+
 			val jv = toJson(Map("condition" -> toJson(Map("user_id" -> user))))
 			val reVal = {
 				requestArgsQuery().commonExcution(
@@ -47,11 +51,11 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 						:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 				)
 			}
-			
+
 			if ((reVal \ "status").asOpt[String].get == "ok") {
 				val hasOp = (reVal \ "result" \ "hasLastOp").asOpt[Int].get
 				val uuid = (reVal \ "result" \ "uuid").asOpt[String].get
-				
+
 				if (hasOp == 1) Ok(views.html.uuid_index(uuid))
 				else {
 					val uid = UUID.randomUUID().toString
@@ -63,19 +67,19 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 								:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 						)
 					}
-					
+
 					if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/market/" + uid + "/1")
 					else Redirect("/login")
 				}
 			} else Redirect("/login")
 		}
 	}
-	
+
 	def home(uuid: String, phrase: String) = Action { request =>
 		val p = (if (phrase == "") "1"
 		else phrase)
 		val pi = p.toInt
-		
+
 		val flag = checkInputPhase(uuid, pi)
 		if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
 		else {
@@ -92,12 +96,12 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 			}
 		}
 	}
-	
+
 	def markets(uuid: String, phrase: String): String Map JsValue = {
 		val p = if (phrase == "") "1"
 		else phrase
 		val pi = p.toInt
-		
+
 		val jv = toJson(Map("phrases" -> toJson(1 :: 2 :: Nil)))
 		val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil),
 			"condition" -> toJson(Map(
@@ -111,7 +115,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
 		}
-		
+
 		val reVal2 = {
 			requestArgsQuery().commonExcution(
 				MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -121,7 +125,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 		}
 		Map("news" -> (reVal2 \ "result" \ "preresult").asOpt[JsValue].get,
 			"potential" -> (reVal1 \ "result" \ "hospital_potential").asOpt[JsValue].get)
-		
+
 //		if ((reVal1 \ "status").asOpt[String].get == "ok" &&
 //			(reVal2 \ "status").asOpt[String].get == "ok") {
 //			Ok(views.html.Module.MarketInfo.market_index(
@@ -132,7 +136,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 //
 //		null
 	}
-	
+
 	def products(uuid : String): String Map List[JsValue] = {
 		val jv = toJson("")
 		val reVal =
@@ -141,10 +145,10 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: productInProposal(jv)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		Map("product" -> (reVal \ "result" \ "products").asOpt[List[JsValue]].get)
 	}
-	
+
 	def brd(uuid : String): String Map List[JsValue]  = {
 		val jv = toJson("")
 		val reVal = requestArgsQuery().commonExcution(
@@ -154,18 +158,18 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 			)
 		Map("salesman" -> (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get)
 	}
-	
+
 	def decisions(uuid : String, phrase : String): String Map JsValue = {
 		val p = (if (phrase == "") "1"
 		else phrase)
 		val pi = p.toInt
-		
+
 		val jv1 = toJson(Map("phrases" -> toJson(pi :: Nil),
 			"condition" -> toJson(Map(
 				"uuid" -> toJson(uuid)
 			))
 		))
-		
+
 		val reVal1 = {
 			requestArgsQuery().commonExcution(
 				MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -173,7 +177,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
 		}
-		
+
 		val reVal2 = {
 			requestArgsQuery().commonExcution(
 				MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -181,7 +185,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
 		}
-		
+
 		val reVal3 = {
 			requestArgsQuery().commonExcution(
 				MessageRoutes(msg_log(toJson(Map("method" -> toJson("alOutExcelVcalueWithHtml"))), jv1)
@@ -189,7 +193,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
 		}
-		
+
 		val jv = toJson("")
 		val reVal =
 			requestArgsQuery().commonExcution(
@@ -197,7 +201,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: salesMenInProposal(jv)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		val jv2 =
 			toJson(Map(
 				"phase" -> toJson(pi),
@@ -211,22 +215,22 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: queryUserInputInOpPhase(jv2)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		if ((reVal \ "status").asOpt[String].get == "ok" &&
 			(reVal1 \ "status").asOpt[String].get == "ok" &&
 			(reVal2 \ "status").asOpt[String].get == "ok" &&
 			(reVal3 \ "status").asOpt[String].get == "ok" &&
 			(reVal4 \ "status").asOpt[String].get == "ok") {
-			
+
 			val budget = (reVal1 \ "result" \ "budget").asOpt[JsValue].get
 			val preresult = (reVal3 \ "result" \ "preresult").asOpt[JsValue].get
 			val hosp_potential = (reVal2 \ "result" \ "hospital_potential").asOpt[JsValue].get
 			val sales_men = (reVal \ "result" \ "salesmen").asOpt[List[JsValue]].get
 			val inputs = (reVal4 \ "result" \ "input" \ "decision").asOpt[List[JsValue]].get
-			
+
 			val tmp1 = (preresult \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
 			val tmp2 = (hosp_potential \ p).asOpt[List[JsValue]].map (y => y.sortBy(s => (s \ "hosp_code").asOpt[String].map (x => x.toInt).getOrElse(0))).getOrElse(Nil)
-			
+
 			val tmp =
 				tmp1 zip tmp2 map { x =>
 					toJson(Map(
@@ -239,9 +243,9 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 						"皮肤药" -> toJson((x._1 \ "皮肤药").asOpt[String].get :: ((x._2) \ "皮肤药").asOpt[String].get :: Nil)
 					))
 				}
-			
-			
-			
+
+
+
 			Map("budget" -> budget,
 				"hospital" -> toJson(tmp),
 				"salesmen" -> toJson(sales_men),
@@ -275,7 +279,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 		val p = (if (phrase == "") "1"
 		else phrase)
 		val pi = p.toInt
-		
+
 		getUserCookie(request) {
 			val flag = checkPhase(uuid, pi)
 			if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
@@ -295,7 +299,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 							:: reportDataInOpPhase(jv)
 							:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 					)
-				
+
 				if ((reVal \ "status").asOpt[String].get == "ok") {
 					val tmp = (reVal \ "result").asOpt[JsValue].get
 					Ok(views.html.version_2.model.report.template(uuid, p, tmp))
@@ -304,11 +308,11 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 			}
 		}
 	}
-	
+
 	def takenew = Action { request =>
 		getUserCookie(request) {
 			val user = request.cookies.get("user").get.value
-			
+
 			val uid = UUID.randomUUID().toString
 			val jv = toJson(Map("user_id" -> user, "uuid" -> uid))
 			val reVal = {
@@ -318,18 +322,18 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 						:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 				)
 			}
-			
+
 			if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/home/" + uid + "/1")
 			else Redirect("/login")
 		}
 	}
-	
+
 	def takelast(uuid : String) = Action { request =>
 		getUserCookie(request) {
 			Redirect("/home/" + uuid + "/1")
 		}
 	}
-	
+
 	def checkPhase(uuid : String, p : Int) : (Boolean, Int) = {
 		val jv = toJson(Map(
 			"condition" -> toJson(Map(
@@ -342,11 +346,11 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: reportLastFinishedPhase(jv)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		if ((reVal1 \ "status").asOpt[String].get == "ok") ((reVal1 \ "result" \ "finished_phase").asOpt[Int].get >= p, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get)
 		else (false, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get)
 	}
-	
+
 	def checkInputPhase(uuid : String, p : Int) : (Boolean, Int) = {
 		val jv = toJson(Map(
 			"condition" -> toJson(Map(
@@ -359,10 +363,10 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 					:: reportLastFinishedPhase(jv)
 					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 			)
-		
+
 		if ((reVal1 \ "status").asOpt[String].get == "ok") ((reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1 >= p, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1)
 		else (false, (reVal1 \ "result" \ "finished_phase").asOpt[Int].get + 1)
 	}
 
-	
+
 }

@@ -1,0 +1,83 @@
+
+@()
+@version_2.model.application.template("区域管理模拟平台"){
+    <div class="start">
+        <div id="list" class="divlist">
+            <div class="content divFirst" id="div_1">
+                <div class="leftdiv">
+                    first div left area
+                </div>
+                <div class="rightdiv">
+                    First div text is here
+                    <div class="link-div">
+                        <a class="skip" onclick="skiplink()">SKIP</a>
+                        <a class="btn btn-1" id="btn_1" onclick="btn_1_click()">下一步</a>
+                    </div>
+                </div>
+            </div>
+            <div class="content divSecond originsmall" id="div_2">
+                <!-- <a class="btn btn-2" id="btn_2">下一步</a> -->
+                <div class="leftdiv">
+                    area of second
+                </div>
+                <div class="rightdiv">
+                    second div content is here
+                    <div class="link-div">
+                        <a class="skip" onclick="skiplink()">SKIP</a>
+                        <a class="btn btn-2" id="btn_2" onclick="btn_2_click()">下一步</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content divThird originsmall" id="div_3">
+                <!-- <a class="btn btn-6" id="btn_3">下一步</a> -->
+                <div class="leftdiv">
+                    third
+                </div>
+                <div class="rightdiv">
+                    this is third div
+                    <div class="link-div">
+                        <a class="skip" onclick="skiplink()">SKIP</a>
+                        <a class="btn btn-3" id="btn_3" onclick="btn_3_click()">下一步</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content divFourth originsmall" id="div_4">
+                <!-- <a class="btn btn-4" id="btn_4">下一步</a> -->
+                <div class="leftdiv">
+                    fourth div is here
+                </div>
+                <div class="rightdiv">
+                    forth
+                    <div class="link-div">
+                        <a class="skip" onclick="skiplink()">SKIP</a>
+                        <a class="btn btn-4" id="btn_4" onclick="btn_4_click()">下一步</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content divFifth originsmall" id="div_5">
+                <!-- <a class="btn btn-5" id="btn_5">查看</a> -->
+                <div class="leftdiv">
+                    last one right area
+                </div>
+                <div class="rightdiv">
+                    last one
+                    <div class="link-div">
+                        <!-- <a class="skip">SKIP</a> -->
+                        <a class="btn btn-5" id="btn_5" onclick="goHomePage()">开始部署</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="bottombtn" id="buttons">
+            <span class="on" index="1" ></span>
+            <span index="2"></span>
+            <span index="3"></span>
+            <span index="4"></span>
+            <span index="5"></span>
+        </div>
+    </div>
+}

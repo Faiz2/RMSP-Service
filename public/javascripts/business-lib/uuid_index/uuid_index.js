@@ -9,7 +9,7 @@
             var uuid = "7aeddad0-3509-4dd2-8411-2dd4cfc923fc";//$("#pharbers_uuid").attr("pharbers-uuid");
             w.location.href = "/takelast/" + uuid;
         }, function () {
-            w.location.href = '/takenew';
+            w.location.href = '/start';
         })
     });
 })(jQuery, window);

@@ -29,6 +29,8 @@
 # version 2.0
 #GET     /                           controllers.RMSPRoutesControllerV2.indexV2
 
+GET     /start                       controllers.RMSPRoutesControllerV2.start
+
 GET     /                           controllers.RMSPRoutesController.login
 GET     /login                      controllers.RMSPRoutesController.login
 
