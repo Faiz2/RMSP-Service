@@ -433,11 +433,11 @@
                                                     <tr>
                                                         <td class="meeting-tag"></td>
                                                         <td class="name-tips">总计</td>
-                                                        <td><input type="text" disabled="disabled"></td>
-                                                        <td><input type="text" disabled="disabled"></td>
-                                                        <td><input type="text" disabled="disabled"></td>
-                                                        <td><input type="text" disabled="disabled"></td>
-                                                        <td><input type="text" disabled="disabled"></td>
+                                                        <td><input type="text" name="小宋" disabled="disabled"></td>
+                                                        <td><input type="text" name="小兰" disabled="disabled"></td>
+                                                        <td><input type="text" name="小木" disabled="disabled"></td>
+                                                        <td><input type="text" name="小白" disabled="disabled"></td>
+                                                        <td><input type="text" name="小青" disabled="disabled"></td>
                                                     </tr>
                                                 </table>
 
@@ -456,7 +456,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="assist-tag"></td>
-                                                        <td><span class="big-text">30</span>天</td>
+                                                        <td><span class="big-text" name="visit-days">0</span>天</td>
                                                         <td class="kpi-tag"></td>
                                                         <td>
                                                             @manageInputs.filter(f => (f \ "project_name").as[String] == "KPI 报告分析").map { data =>
@@ -482,7 +482,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="training-tag"></td>
-                                                        <td><span class="big-text">31</span>天</td>
+                                                        <td><span class="big-text" name="coach-days">0</span>天</td>
                                                         <td class="administrativ-tag"></td>
                                                         <td>
                                                             @manageInputs.filter(f => (f \ "project_name").as[String] == "行政工作").map { data =>
@@ -508,9 +508,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="meeting-tag"></td>
-                                                        <td><span class="big-text">3</span>天</td>
+                                                        <td><span class="big-text" name="meeting-days">0</span>天</td>
                                                         <td class="undistributed-tag"></td>
-                                                        <td><span class="big-text">16</span>天</td>
+                                                        <td><span class="big-text" name="other-days">100</span>天</td>
                                                     </tr>
                                                 </table>
                                             </div>

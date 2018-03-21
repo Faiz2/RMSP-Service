@@ -1,5 +1,6 @@
 (function($, w) {
     var selected_salemman = "";
+
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     const getPersionPieData = function(percent) {
@@ -356,7 +357,7 @@
                 return dom.personal === name
             });
             if(personal.get(0).days > sum) {
-                f.alert.alert_warn("警告", "fuck");
+                f.alert.alert_warn("警告", name+"fuck");
                 result = false;
                 return false;
             } else {
@@ -534,7 +535,6 @@
 
     // 计算经理分配时间
     var calcManageAllotTime = function(inputObj) {
-        var total = 100;
         var result = getManageAllotTime();
         if(!verifyManageTimelg(result)) {
             inputObj.val("");
@@ -552,8 +552,88 @@
             }
         });
         setAllotTime("hospcode-allot-time", reval);
+        setTipsDays(inputObj);
     }
 
+    // 计算人员培训的分配天数并显示
+    var setTipsDays = function(inputObj) {
+        var total = 100;
+        var visitSum = 0;
+        var coachSum = 0;
+        var kpiSum = 0;
+        var administrativeSum = 0;
+        var manageResult = getManageAllotTime();
+
+        //人员培训下代表产品培训input
+        var trainingInput = $('div[name="personal-training"]')
+                            .find('div[name="input-training"]')
+                            .find('input[name="产品培训"]');
+
+
+        var visitArray = $(manageResult).filter(function(index, dom){
+            return dom.type === "实地协访";
+        });
+
+        var coachArray = $(manageResult).filter(function(index, dom){
+            return dom.type === "能力辅导";
+        });
+
+        var kpiArray = $(manageResult).filter(function(index, dom){
+            return dom.type === "KPI 报告分析";
+        });
+
+        var administrativeArray = $(manageResult).filter(function(index, dom){
+            return dom.type === "行政工作";
+        });
+
+        var meetingSum =  $(manageResult).filter(function(index, dom){
+            return dom.type === "团队例会和团建";
+        }).get(0).apply.get(0).days;
+
+
+
+        $.each(visitArray, function(i, v) {
+            $.each(v.apply, function(n, d){
+                visitSum += parseInt(d.days)
+            });
+        });
+
+        $.each(kpiArray, function(i, v) {
+            $.each(v.apply, function(n, d){
+                kpiSum += parseInt(d.days)
+            });
+        });
+
+        $.each(administrativeArray, function(i, v) {
+            $.each(v.apply, function(n, d){
+                administrativeSum += parseInt(d.days)
+            });
+        });
+
+        $.each(coachArray, function(i, v){
+            $.each(v.apply, function(n, d){
+                coachSum += parseInt(d.days)
+                var product = trainingInput.filter(function(index, dom){
+                    return $(dom).attr("personal") === d.personal;
+                });
+                var coach = coachArray.get(0).apply.filter(function(index, dom){
+                    return dom.personal === d.personal
+                });
+
+                $('div[name="input-training"] input[name="'+d.personal+'"]')
+                .val( parseInt($(product).val() || 0)
+                    + parseInt(coach.get(0).days || 0)
+                    + parseInt(meetingSum || 0))
+            });
+        });
+        // debugger;
+        $('div[name="input-display"] span[name="meeting-days"]').text(meetingSum);
+        $('div[name="input-display"] span[name="coach-days"]').text(coachSum);
+        $('div[name="input-display"] span[name="visit-days"]').text(visitSum);
+        var otherDays = total - meetingSum - coachSum - visitSum - kpiSum - administrativeSum;
+        $('div[name="input-display"] span[name="other-days"]').text(otherDays);
+
+    }
 
 
     $(function(){
@@ -666,7 +746,7 @@
                 calcAllotTime();
             });
 
-            //实地协防keyup
+            // 实地协防keyup
             $('div[name="personal-training"] div[name="input-manager"] input, '+
                 'div[name="input-display"] input').keyup(function(){
                 var that = this;
@@ -679,6 +759,8 @@
                 var that = this;
                 calcManageAllotTime($(that));
             });
+
+
         }
 
 
