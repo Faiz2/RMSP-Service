@@ -15,11 +15,11 @@
 
 .start .divlist .content {
     position: absolute;
-    /*display: flex;*/
     top: 50%;
     width: 945px;
     height: 555px;
     border-radius: 10px;
+    background-color:#282a38;
 }
 
 .start .divlist .content .leftdiv, .start .divlist .content .rightdiv {
@@ -32,26 +32,26 @@
     /*flex: 3;*/
     float: left;
     width: 569px;
+    text-align: center;
     border:0;
-    background: #282a38;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    /*background: #282a38;*/
+
 }
 
 .start .divlist .content .rightdiv {
     width: 376px;
     border:0;
     float: left;
-    /*flex: 2;*/
     border-radius: 10px;
-    /*background:url("../../../../images/version_2/start_right.png");*/
     background:url("/assets/images/version_2/start_right.png");
     -webkit-background-size: 376px 555px;
     background-size: 376px 555px;
 }
 
 .start .divFirst {
-    background-color: #1a2226;
+    /*background-color: #1a2226;*/
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -79,7 +79,7 @@
     line-height: 2.0rem;
 }
 .start .divSecond {
-    background: lightcoral;
+    /*background: lightcoral;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
     z-index: 2;
@@ -104,13 +104,13 @@
     letter-spacing: 2px;
 }
 .start .divThird {
-    background: lightskyblue;
+    /*background: lightskyblue;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
 }
 
 .start .divFourth {
-    background: lightslategray;
+    /*background: lightslategray;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
 }
@@ -125,8 +125,6 @@
     position: absolute;
     right: 15px;
     bottom: 15px;
-    /*display: inline-block;*/
-    /*width: 200px;*/
     height: 45px;
     border-radius: 10px;
     line-height: 45px;
@@ -194,7 +192,22 @@
     border-radius: 50%;
     cursor: pointer;
 }
-
+.start .exit {
+    position: fixed;
+    left: 50px;
+    right: 50px;
+    width:128px;
+    height: 45px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.start .exit a {
+    font-size: 1.8rem;
+    color:#fff;
+}
+.start .exit a:hover {
+    text-decoration: none;
+}
 .on {
     background: #fff;
 }
