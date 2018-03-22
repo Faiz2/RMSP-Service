@@ -40,7 +40,7 @@ class RMSPRoutesController @Inject()(as_inject: ActorSystem, dbt: dbInstanceMana
 
     /*version 2.0 Start*/
 
-   
+
     /*version 2.0 END*/
 
 	def login = Action {

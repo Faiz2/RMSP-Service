@@ -55,7 +55,6 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 			if ((reVal \ "status").asOpt[String].get == "ok") {
 				val hasOp = (reVal \ "result" \ "hasLastOp").asOpt[Int].get
 				val uuid = (reVal \ "result" \ "uuid").asOpt[String].get
-
 				if (hasOp == 1) Ok(views.html.uuid_index(uuid))
 				else {
 					val uid = UUID.randomUUID().toString
@@ -68,7 +67,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 						)
 					}
 
-					if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/market/" + uid + "/1")
+					if ((reVal \ "status").asOpt[String].get == "ok") Redirect("/home/" + uid + "/1")
 					else Redirect("/login")
 				}
 			} else Redirect("/login")
@@ -92,7 +91,7 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 
 				Ok(views.html.version_2.model.home.template(uuid, phrase, market("news"),
 					product("product"), salesman("salesman"), decision("budget"),
-					decision("hospital").as[List[JsValue]], decision("decisioInputs").as[List[JsValue]], management("manageInput").as[List[JsValue]]))
+					decision("hospital").as[List[JsValue]], decision("decisioInputs").as[List[JsValue]], management("manageInput").as[List[JsValue]], flag))
 			}
 		}
 	}
@@ -330,7 +329,8 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 
 	def takelast(uuid : String) = Action { request =>
 		getUserCookie(request) {
-			Redirect("/home/" + uuid + "/1")
+			val pharse = if(checkInputPhase(uuid, 1)._2 > 2) 2 else checkInputPhase(uuid, 1)._2
+			Redirect("/home/" + uuid + "/" + pharse)
 		}
 	}
 

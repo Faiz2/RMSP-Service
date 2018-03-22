@@ -821,7 +821,7 @@
             });
 
             // 分配沟通时间keyup
-            $('div[name="hosp-budget"] input[name="prod_hours"]'+
+            $('div[name="hosp-budget"] input[name="prod_hours"]' +
             ', div[name="personal-training"] div[name="input-training"] input')
                 .keyup(function() {
                 var that = this;
@@ -830,7 +830,7 @@
             });
 
             // 分配沟通时间blur
-            $('div[name="hosp-budget"] input[name="prod_hours"]'+
+            $('div[name="hosp-budget"] input[name="prod_hours"]' +
             ', div[name="personal-training"] div[name="input-training"] input')
                 .blur(function() {
                 var that = this;
@@ -879,10 +879,6 @@
 
 
         }
-
-
-
-
     });
 
 
