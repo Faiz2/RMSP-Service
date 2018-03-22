@@ -5,10 +5,17 @@
         <div id="list" class="divlist">
             <div class="content divFirst" id="div_1">
                 <div class="leftdiv">
-                    first div left area
+                    <img width="569" height="444" src=@{routes.Assets.versioned("images/version_2/start_left_1.png")} alt="first page">
                 </div>
                 <div class="rightdiv">
-                    First div text is here
+                    <div class="right_avatar">
+                        <img width="200" height="200" src="@{routes.Assets.versioned("images/version_2/start_avatar.png")}" alt="avatar">
+                    </div>
+                    <div class="right_text_1">
+                        <p>您好，xxx</p>
+                        <p>您是一名地方的销售经理，您与所带领的团队，负责了市内10所医院的药物销售工作。</p>
+                        <p>新的一年即将开始，新的挑战即将展开</p>
+                    </div>
                     <div class="link-div">
                         <a class="skip" onclick="skiplink()">SKIP</a>
                         <a class="btn btn-1" id="btn_1" onclick="btn_1_click()">下一步</a>
@@ -18,10 +25,18 @@
             <div class="content divSecond originsmall" id="div_2">
                 <!-- <a class="btn btn-2" id="btn_2">下一步</a> -->
                 <div class="leftdiv">
-                    area of second
+                    <img width="569" height="444" src=@{routes.Assets.versioned("images/version_2/start_left_1.png")} alt="first page">
                 </div>
                 <div class="rightdiv">
-                    second div content is here
+                    <div class="right_text_2 right_text">
+                        <p class="text_title">公司战略安排通知：</p>
+                        <p>年度计划安排</p>
+                        <ul>
+                            <li>一年，将分为两个销售周期，每个周期均为100个有效工作日。</li>
+                            <li>经理必须在每个周期的销售任务执行前，需要事先妥善的部署周期内的销售计划。</li>
+                            <li>上个周期中的销售计划执行结果，将对下个周期造成影响。</li>
+                        </ul>
+                    </div>
                     <div class="link-div">
                         <a class="skip" onclick="skiplink()">SKIP</a>
                         <a class="btn btn-2" id="btn_2" onclick="btn_2_click()">下一步</a>
@@ -32,10 +47,18 @@
             <div class="content divThird originsmall" id="div_3">
                 <!-- <a class="btn btn-6" id="btn_3">下一步</a> -->
                 <div class="leftdiv">
-                    third
+                    <img width="569" height="444" src=@{routes.Assets.versioned("images/version_2/start_left_1.png")} alt="first page">
                 </div>
                 <div class="rightdiv">
-                    this is third div
+                    <div class="right_text_3 right_text">
+                        <p class="text_title">公司战略安排通知：</p>
+                        <p>计划部署要求</p>
+                        <ul>
+                            <li>您需要参考信息部门提供的市场信息，并依据科学化管理思维与经验，做相应的策略安排，以获得最好的ROI。</li>
+                            <li>对团队人员的能力与专业培养是十分重要的，在日常工作中，透过高校的科学化管理提升团队成员们的能力。</li>
+
+                        </ul>
+                    </div>
                     <div class="link-div">
                         <a class="skip" onclick="skiplink()">SKIP</a>
                         <a class="btn btn-3" id="btn_3" onclick="btn_3_click()">下一步</a>
@@ -46,10 +69,17 @@
             <div class="content divFourth originsmall" id="div_4">
                 <!-- <a class="btn btn-4" id="btn_4">下一步</a> -->
                 <div class="leftdiv">
-                    fourth div is here
+                    <img width="569" height="444" src=@{routes.Assets.versioned("images/version_2/start_left_1.png")} alt="first page">
                 </div>
                 <div class="rightdiv">
-                    forth
+                    <div class="right_text_4 right_text">
+                        <p class="text_title">公司战略安排通知：</p>
+                        <p>经理年终考核维度</p>
+                        <ul>
+                            <li>年终考核中，将从<br />团队管理、资源分配、数据分析、人员培养、信息决策、统筹部署，多维度进行考核与评判一年的工作成果与您的科学化管理能力。</li>
+
+                        </ul>
+                    </div>
                     <div class="link-div">
                         <a class="skip" onclick="skiplink()">SKIP</a>
                         <a class="btn btn-4" id="btn_4" onclick="btn_4_click()">下一步</a>
@@ -60,12 +90,18 @@
             <div class="content divFifth originsmall" id="div_5">
                 <!-- <a class="btn btn-5" id="btn_5">查看</a> -->
                 <div class="leftdiv">
-                    last one right area
+                    <img width="569" height="444" src=@{routes.Assets.versioned("images/version_2/start_left_1.png")} alt="first page">
                 </div>
                 <div class="rightdiv">
-                    last one
+                    <div class="right_text_5 right_text">
+                        <p class="text_title">公司战略安排通知：</p>
+                        <p>  &nbsp;</p>
+                        <ul>
+                            <li>您与团队所获得的成绩，将与公司内部团队与外部团队进行比对，获得排名。</li>
+
+                        </ul>
+                    </div>
                     <div class="link-div">
-                        <!-- <a class="skip">SKIP</a> -->
                         <a class="btn btn-5" id="btn_5" onclick="goHomePage()">开始部署</a>
                     </div>
                 </div>
@@ -73,11 +109,14 @@
             </div>
         </div>
         <div class="bottombtn" id="buttons">
-            <span class="on" index="1" ></span>
-            <span index="2"></span>
-            <span index="3"></span>
-            <span index="4"></span>
-            <span index="5"></span>
+            <span class="hit-point on" index="1" ></span>
+            <span class="hit-point" index="2"></span>
+            <span class="hit-point" index="3"></span>
+            <span class="hit-point" index="4"></span>
+            <span class="hit-point" index="5"></span>
+        </div>
+        <div class="exit">
+            <p><img width="30" height="40" src=@{routes.Assets.versioned("images/version_2/start_icon.png")} alt=""></p>
         </div>
     </div>
 }

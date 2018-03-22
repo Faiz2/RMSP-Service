@@ -173,7 +173,7 @@
 .home .report .content .bottom-table .bottom-table-container .inside-div table {
     max-width: 103%;
 }
-.home .report .content .bottom-table .resource-allot-bottom-inside {
+.home .report .content .bottom-table .bottom-table-container {
     height: 600px;
     width: 100%;
     overflow: hidden;
@@ -184,7 +184,7 @@
 .home .report .content .bottom-table .resource-allot-bottom-inside table tr:last-child{
     border-radius: 0 0 5px 5px;
 }
-.home .report .content .bottom-table .resource-allot-bottom-inside .inside-div {
+.home .report .content .bottom-table .bottom-table-container .inside-div {
     box-sizing: content-box;
     height: 600px;
     width: 100%;
