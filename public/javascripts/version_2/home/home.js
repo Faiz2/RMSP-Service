@@ -637,6 +637,15 @@
 
     }
 
+    // 删除空的Option
+    var removeSelectNoneOption = function() {
+        $('.hosp-input-info select').find('option:selected').filter(function(index, dom){
+            return $(dom).val() !== ""
+        }).parent().find('option').filter(function(index, dom){
+            return $(dom).val() === "";
+        }).remove();
+    }
+
     $(function(){
 
 
@@ -646,6 +655,7 @@
             calcAllotTime();
             setTipsDays();
             calcManageAllotTime();
+            removeSelectNoneOption();
         }
 
         events: {
@@ -816,6 +826,7 @@
             // salesmen select change
             $('.hosp-input-info select').change(function() {
                 var that = this;
+                removeSelectNoneOption();
                 var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input').not('[pharbers-type="皮肤药"]');
                 if($(this).val() === "不分配") {
                     f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
