@@ -115,6 +115,7 @@
                     <div class="bottom" name="bottom">
                         @hosp_list.zipWithIndex.map { hosp =>
                             <div class="row hosp-input-info box" name=@{(hosp._1 \ "hosp_name").asOpt[String].get} @if(hosp._2 != 0){style="display: none"}>
+                                <input type="hidden" name="hospital-code" value=@{(hosp._1 \ "hosp_code").asOpt[String].get}>
                                 <div class="sales-planning">
                                     <div class="col-md-12">
                                         <div class="row">

@@ -19,13 +19,11 @@ var len = contentdiv.length;
 
 // skip按钮的跳转
 function skiplink() {
-    var uuid = "7aeddad0-3509-4dd2-8411-2dd4cfc923fc";//$("#pharbers_uuid").attr("pharbers-uuid");
-    window.location.href = "/takelast/" + uuid;
+    window.location.href = "/takenew";
 };
 // 开始部署按钮逻辑
 function goHomePage() {
-    var uuid = "7aeddad0-3509-4dd2-8411-2dd4cfc923fc";//$("#pharbers_uuid").attr("pharbers-uuid");
-    window.location.href = "/takelast/" + uuid;
+    window.location.href = "/takenew";
 };
 // 设置z-index
 function set_zIndex(i) {

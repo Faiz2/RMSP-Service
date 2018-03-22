@@ -684,7 +684,93 @@
 
             //提交按钮
             $('button[name="submit-btn"]').click(function(){
-                w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
+
+                var uuid = $('input:hidden[name="uuid"]').val();
+                var phase = parseInt($('input:hidden[name="phase"]').val());
+                var userId = $.cookie("user");
+
+                var decisionDivs = $('.hosp-input-info');
+                var decision = decisionDivs.map(function(index, div) {
+                    var sales = $(div).find('input[name="prod_value"]').map(function(index, input){
+                        return {
+                            "prod_name": $(input).attr('pharbers-type'),
+                            "prod_value": parseInt($(input).val()|| 0)
+                        };
+                    });
+                    var visitHours = $(div).find('input[name="prod_hours"]').map(function(index, input){
+                        return {
+                            "prod_name": $(input).attr('pharbers-type'),
+                            "prod_hours": parseInt($(input).val()|| 0)
+                        };
+                    });
+                    return {
+                        "hosp_code": parseInt($(div).find('input[name="hospital-code"]').val()),
+                        "hosp_name": $(div).attr("name"),
+                        "phase": phase,
+                        "budget": parseInt($(div).find('input[name="input-budget"]').val()),
+                        "salesmen": $(div).find('select option:selected').val(),
+                        "sales": sales.toArray(),
+                        "visit_hours": visitHours.toArray()
+                    };
+                });
+
+                var projectNames = ["能力辅导", "实地协访", "团队例会和团建", "KPI 报告分析", "行政工作", "产品培训"];
+                var managementDiv = $('div[name="personal-training"]')
+                var management = $(projectNames).map(function(index, name){
+                    var projectCode = parseInt($(managementDiv).find('input[name="'+ name +'"]').eq(0).attr("code"));
+                    var apply = $(managementDiv).find('input[name="'+ name +'"]').map(function(index, input){
+                        return {
+                            "personal": $(input).attr("personal"),
+                            "days": parseInt($(input).val())
+                        };
+                    });
+                    return {
+                        "phase": phase,
+                        "project_name": name,
+                        "project_code": projectCode,
+                        "apply": apply.toArray()
+                    };
+                });
+
+                var userInfo = {
+                    "user_id": userId,
+                    "uuid": uuid
+                };
+
+                var decisionTmp = {
+                    "user_id": userId,
+                    "uuid": uuid,
+                    "phase": phase,
+                    "decision": decision.toArray()
+                };
+
+                var managerTmp = {
+                    "user_id": userId,
+                    "uuid": uuid,
+                    "phase": phase,
+                    "management": management.toArray()
+                };
+
+                var decisionJson = JSON.stringify($.extend(decisionTmp, f.parameterPrefixModule.conditions(userInfo)));
+                var managementJson = JSON.stringify($.extend(managerTmp, f.parameterPrefixModule.conditions(userInfo)));
+
+                f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
+                    if(r.status === 'ok' && r.result.input_update === 'success') {
+                        f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
+                            if(rr.status === 'ok' && rr.result.input_update === 'success') {
+                                f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
+                                    if(rrr.status === 'ok' && rrr.result.data === 'success') {
+                                        // layer.closeAll('loading');
+                                        f.alert.alert_success("消息", "模拟成功");
+                                        w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
             });
 
 
