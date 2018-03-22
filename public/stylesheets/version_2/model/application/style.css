@@ -7,6 +7,12 @@
     outline:none !important;
 }
 
+html input:disabled {
+    background-color: #6b6c6f !important;
+    border: #565861 !important;
+    cursor: not-allowed !important;
+}
+
 
 body {
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";

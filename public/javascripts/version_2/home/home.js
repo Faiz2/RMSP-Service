@@ -644,6 +644,7 @@
             showSelectSalesMen();
             calcBudget();
             calcAllotTime();
+            setTipsDays();
             calcManageAllotTime();
         }
 
@@ -753,14 +754,14 @@
 
                 var decisionJson = JSON.stringify($.extend(decisionTmp, f.parameterPrefixModule.conditions(userInfo)));
                 var managementJson = JSON.stringify($.extend(managerTmp, f.parameterPrefixModule.conditions(userInfo)));
-
+                f.alert.loading();
                 f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
                     if(r.status === 'ok' && r.result.input_update === 'success') {
                         f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
                             if(rr.status === 'ok' && rr.result.input_update === 'success') {
                                 f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
                                     if(rrr.status === 'ok' && rrr.result.data === 'success') {
-                                        // layer.closeAll('loading');
+                                        layer.closeAll('loading');
                                         f.alert.alert_success("消息", "模拟成功");
                                         w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
                                     }
@@ -770,7 +771,6 @@
                     }
                 });
 
-                // w.location = "/report/7aeddad0-3509-4dd2-8411-2dd4cfc923fc/1"
             });
 
 
@@ -816,7 +816,7 @@
             // salesmen select change
             $('.hosp-input-info select').change(function() {
                 var that = this;
-                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input');
+                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input').not('[pharbers-type="皮肤药"]');
                 if($(this).val() === "不分配") {
                     f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
                         inputs.val("");
