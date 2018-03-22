@@ -1,17 +1,21 @@
 @import java.text.NumberFormat
 @import controllers.routes
 @import play.api.libs.json.JsValue
-@(phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue])
+@(phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue], checkInputPhase: (Boolean, Int))
 <div class="resource-content">
     <div class="navbar-resource">
-        <div class="col-md-7 col-sm-6 col-xs-6">
+        <div class="col-md-9 col-sm-9 col-xs-9">
             <div class="btn-group navbar-btn" name="navbar-btn" role="group">
                 <button type="button " class="btn btn-default" name="hosp-info-btn">医院信息</button>
                 <button type="button" class="btn btn-default active" name="delegate-info-btn">代表信息</button>
                 <button type="button" class="btn btn-default" name="product-info-btn">产品信息</button>
+                @{if(checkInputPhase._2 > phrase.toInt) {
+                        <button type="button" class="btn btn-default" name="phrase-report">周期(1)报告</button>
+                } else {}}
+
             </div>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-2 col-md-offset-3 col-sm-offset-4 col-xs-offset-4 text-right">
+        <div class="col-md-1 col-sm-1 col-xs-1 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 text-right">
             <button class="btn btn-primary btn-md backup-btn" type="button" id="backup-btn">收起</button>
         </div>
     </div>

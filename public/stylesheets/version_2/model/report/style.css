@@ -126,13 +126,13 @@
     text-align: right;
 }
 .home .report .content .salesman-bottom .salesman-bottom-inside{
-    height: 349px;
+    height: 349px !important;
     width:100%;
     overflow: hidden;
 }
 .home .report .content .salesman-bottom .salesman-bottom-inside .inside-div{
     box-sizing: content-box;
-    height: 349px;
+    height: 349px !important;
     width:100%;
     overflow: auto;
 }

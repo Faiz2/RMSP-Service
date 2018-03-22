@@ -631,8 +631,9 @@
 
             <!--资源管理详情-->
             <div class="row resource-info" name="resource-info" style="display:none;">
-                @version_2.model.rsinformation.template(phrase, salesman, hosp_news, hosp_list, product)
+                @version_2.model.rsinformation.template(phrase, salesman, hosp_news, hosp_list, product, checkInputPhase)
             </div>
         </div>
     </div>
+    <script src="@routes.Assets.versioned("javascripts/version_2/home/home.js")" type="text/javascript" defer="defer"></script>
 }

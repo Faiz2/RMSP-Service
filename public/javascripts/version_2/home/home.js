@@ -641,6 +641,7 @@
                 .val( parseInt($(product).val() || 0)
                     + parseInt(coach.get(0).days || 0)
                     + parseInt(meetingSum || 0))
+
             });
         });
         // debugger;
@@ -662,7 +663,6 @@
     }
 
     $(function(){
-
 
         init: {
             showSelectSalesMen();
