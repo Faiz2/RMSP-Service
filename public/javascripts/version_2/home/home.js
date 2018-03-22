@@ -374,6 +374,19 @@
         if(selected.val() == "") {return false;} else {return true;}
     }
 
+    // 填写Budget但为选择代表 验证
+    var verifyBudgetNotSalesMen = function() {
+        var result = false;
+        $.each(getAllInputBudget(), function(i, v) {
+            if(v.salesmen === "" && v.budget > 0) {
+                f.alert.alert_warn("警告", v.hospital+"未选择代表");
+                result = false;
+                return false;
+            } else {result = true;}
+        });
+        return result;
+    }
+
     // 获取所有input Budget输入
     var getAllInputBudget = function() {
         var tmp = [];
@@ -382,11 +395,11 @@
             var budgetNum = $(dom).find('input[name="input-budget"]');
             tmp.push({
                 salesmen: $(selected).val(),
-                budget: parseInt($(budgetNum).val()) || 0,
+                budget: $(budgetNum).val(),
                 hospital: $(selected).attr("hosp-name")
             });
         });
-        var ftmp = tmp.filter(function(obj, index) { return obj.budget > 0});
+        var ftmp = tmp.filter(function(obj, index) { return obj.budget >= 0 });
         return ftmp;
     }
 
@@ -395,11 +408,13 @@
         var sum = 0;
         $('ul[name="hosp-list"] li span[name="budget"]').text("——");
         $.each(getAllInputBudget(), function(i, v) {
-            if(v.salesmen === "") {
-                f.alert.alert_warn("警告", v.hospital+"未选择代表")
-                return false;
-            } else {sum += v.budget}
-            $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
+            sum += parseInt(v.budget) || 0;
+            if(v.budget === "") {
+                $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text("——");
+            }else {
+                $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
+            }
+
         });
         setTotalBudget("total-budget", sum);
     }
@@ -788,7 +803,11 @@
             // 分配推广预算keyup设置图
             $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
                 .keyup(function() {
-                calcBudget();
+                if(verifyBudgetNotSalesMen()) {
+                    calcBudget($(this));
+                } else {
+                    $(this).val("");
+                }
             });
 
             // 分配推广预算blur设置检查超出100
