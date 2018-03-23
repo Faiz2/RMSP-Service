@@ -31,8 +31,11 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 //		Ok(views.html.version_2.model.home.template())
 //	}
 
+//	def login = Action {
+//		Ok(views.html.Login.login())
+//	}
 	def login = Action {
-		Ok(views.html.Login.login())
+		Ok(views.html.version_2.model.login.template())
 	}
 
 	def start = Action {
