@@ -88,10 +88,11 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 				val salesman = brd(uuid) // 代表们的详细介绍
 				val decision = decisions(uuid, phrase) //总预算，各个医院基本信息与潜力，代表、上次输入
 				val management = managements(uuid, phrase)// 人员培训 上次输入
+				val report = getReport(uuid, "1") // 获取report
 
 				Ok(views.html.version_2.model.home.template(uuid, phrase, market("news"),
 					product("product"), salesman("salesman"), decision("budget"),
-					decision("hospital").as[List[JsValue]], decision("decisioInputs").as[List[JsValue]], management("manageInput").as[List[JsValue]], flag))
+					decision("hospital").as[List[JsValue]], decision("decisioInputs").as[List[JsValue]], management("manageInput").as[List[JsValue]], flag, report))
 			}
 		}
 	}
@@ -273,37 +274,43 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 
 		Map("manageInput" -> toJson((reVal \ "result" \ "input" \ "management").asOpt[List[JsValue]].get))
 	}
+	
+	def getReport(uuid: String, phrase: String): Option[JsValue] = {
+		val p = if (phrase == "") "1" else phrase
+		val pi = p.toInt
+		
+		val jv = toJson(Map(
+			"phase" -> toJson(pi),
+			"condition" -> toJson(Map(
+				"uuid" -> toJson(uuid)
+			))
+		))
+		/**
+		  * 2.read finish report count
+		  */
+		val reVal =
+			requestArgsQuery().commonExcution(
+				MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
+					:: reportDataInOpPhase(jv)
+					:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+			)
+		
+		if ((reVal \ "status").asOpt[String].get == "ok") (reVal \ "result").asOpt[JsValue] else None
+	}
 
 	def report(uuid : String, phrase : String) = Action { request =>
-		val p = (if (phrase == "") "1"
-		else phrase)
+		val p = if (phrase == "") "1" else phrase
 		val pi = p.toInt
 
 		getUserCookie(request) {
 			val flag = checkPhase(uuid, pi)
 			if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
 			else {
-				val jv = toJson(Map(
-					"phase" -> toJson(pi),
-					"condition" -> toJson(Map(
-						"uuid" -> toJson(uuid)
-					))
-				))
-				/**
-				  * 2.read finish report count
-				  */
-				val reVal =
-					requestArgsQuery().commonExcution(
-						MessageRoutes(msg_log(toJson(Map("method" -> toJson("query finished phase"))), jv)
-							:: reportDataInOpPhase(jv)
-							:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
-					)
-
-				if ((reVal \ "status").asOpt[String].get == "ok") {
-					val tmp = (reVal \ "result").asOpt[JsValue].get
+				val result = getReport(uuid, phrase)
+				if(result.isEmpty) Redirect("/login") else {
+					val tmp = (result.get \ "result").asOpt[JsValue].get
 					Ok(views.html.version_2.model.report.template(uuid, p, tmp))
-					//Ok(views.html.Module.Report.report_index(uuid)(p)(tmp)(flag))
-				} else Redirect("/login")
+				}
 			}
 		}
 	}
