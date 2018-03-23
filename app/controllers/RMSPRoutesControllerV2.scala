@@ -38,7 +38,9 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 	def start = Action {
 		Ok(views.html.version_2.model.start.template())
 	}
-
+	def transition(uuid: String, phrase: String) = Action {
+		Ok(views.html.version_2.model.transition.template(uuid, phrase))
+	}
 	def indexV2(uuid : String) = Action { request =>
 		getUserCookie(request) {
 			val user = request.cookies.get("user").get.value

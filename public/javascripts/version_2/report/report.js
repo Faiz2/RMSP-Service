@@ -23,7 +23,8 @@
         }
         event: {
             $('button[name="go-phrase"]').click(function(){
-                w.location.href = "/home/" + $('input[name="uuid"]').val() + "/2"
+                // w.location.href = "/home/" + $('input[name="uuid"]').val() + "/2"
+                w.location.href = "/transition/" + $('input[name="uuid"]').val() + "/"+ $('input[name="phrase"]').val()
             });
             // 点击li时切换右边对应内容，并隐藏滚动条
             $(".menu-tab li").click(function() {
