@@ -28,9 +28,9 @@
                         <div class="row head-describe box bg">
                             <div class="col-md-12">
                                 <div class="col-md-5 col-sm-5 col-xs-5">周期(@{phrase})&nbsp;&nbsp;100天计划部署</div>
-                                <div class="col-md-7 col-sm-7 col-xs-7 text-right">
+                                <div class="col-md-7 col-sm-7 col-xs-7 text-right" >
                                     <div class="config"><i class="glyphicon glyphicon-cog"></i></div>
-                                    <div class="timer"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
+                                    <div class="timer" style="display: none;"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
                                 </div>
                             </div>
                         </div>
@@ -129,8 +129,10 @@
                                                         <span>请指派代表</span><br>
                                                         <select @{if(checkInputPhase._2 > phrase.toInt) {"disabled=disabled"} else {}}>
                                                             <option value="" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"></option>
-                                                            <option value="不分配" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}">不分配</option>
                                                             @decisioInputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
+                                                                <option value="不分配" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                    @if((data \ "salesmen").as[String] == "不分配") {selected="selected"}
+                                                                >不分配</option>
                                                                 @salesman.reverse.map { person =>
                                                                     <option value="@{(person \ "name").asOpt[String]}"
                                                                             hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"

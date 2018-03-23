@@ -698,7 +698,7 @@
                         "hosp_code": parseInt($(div).find('input[name="hospital-code"]').val()),
                         "hosp_name": $(div).attr("name"),
                         "phase": phase,
-                        "budget": parseInt($(div).find('input[name="input-budget"]').val()),
+                        "budget": parseInt($(div).find('input[name="input-budget"]').val() || 0),
                         "salesmen": $(div).find('select option:selected').val(),
                         "sales": sales.toArray(),
                         "visit_hours": visitHours.toArray()
@@ -752,7 +752,8 @@
                                 f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
                                     if(rrr.status === 'ok' && rrr.result.data === 'success') {
                                         layer.closeAll('loading');
-                                        f.alert.alert_success("消息", "模拟成功");
+                                        // f.alert.alert_success("消息", "模拟成功");
+                                        layer.msg('模拟成功');
                                         w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
                                     }
                                 });
@@ -809,7 +810,7 @@
             $('.hosp-input-info select').change(function() {
                 var that = this;
                 removeSelectNoneOption();
-                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input').not('[pharbers-type="皮肤药"]');
+                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input').not('[pharbers-type="皮肤药"]').not('[name="hospital-code"]');
                 if($(this).val() === "不分配") {
                     f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
                         inputs.val("");

@@ -25,7 +25,7 @@
                 $div.find(".report-list").show();
             }
         }
-    }
+    };
 
     $(function(){
 
@@ -47,5 +47,5 @@
 
 
         }
-    })
+    });
 })(jQuery, window);

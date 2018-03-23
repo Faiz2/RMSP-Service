@@ -310,8 +310,8 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 			else {
 				val result = getReport(uuid, phrase)
 				if(result.isEmpty) Redirect("/login") else {
-					val tmp = (result.get \ "result").asOpt[JsValue].get
-					Ok(views.html.version_2.model.report.template(uuid, p, tmp))
+					
+					Ok(views.html.version_2.model.report.template(uuid, p, result.get))
 				}
 			}
 		}

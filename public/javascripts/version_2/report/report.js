@@ -21,7 +21,7 @@
                 resetTableWidth();
             });
         }
-        event: {
+        events: {
             $('button[name="go-phrase"]').click(function(){
                 // w.location.href = "/home/" + $('input[name="uuid"]').val() + "/2"
                 w.location.href = "/transition/" + $('input[name="uuid"]').val() + "/"+ $('input[name="phrase"]').val()
@@ -208,17 +208,22 @@
     });
     // 判断是哪个有滚动条的表格显示
     function whichTable() {
-        if (overflowTableContainer[0].offsetWidth == 0) {
-            if (overflowTableContainer[1].offsetWidth == 0) {
-                overflowTableContainerEle = overflowTableContainer[2];
+        try {
+            if (overflowTableContainer[0].offsetWidth == 0) {
+                if (overflowTableContainer[1].offsetWidth == 0) {
+                    overflowTableContainerEle = overflowTableContainer[2];
+                } else {
+                    overflowTableContainerEle = overflowTableContainer[1];
+                }
             } else {
-                overflowTableContainerEle = overflowTableContainer[1];
+                overflowTableContainerEle = overflowTableContainer[0];
             }
-        } else {
-            overflowTableContainerEle = overflowTableContainer[0];
+            scrollBarLength = overflowTableContainerEle.offsetWidth - overflowTableContainerEle.clientWidth;
+            overflowTableContainerEle.style.paddingRight = scrollBarLength + "px";
+        } catch(err) {
+            w.console.info(err)
         }
-        scrollBarLength = overflowTableContainerEle.offsetWidth - overflowTableContainerEle.clientWidth;
-        overflowTableContainerEle.style.paddingRight = scrollBarLength + "px";
+
     }
 
     // 消除滚动条
