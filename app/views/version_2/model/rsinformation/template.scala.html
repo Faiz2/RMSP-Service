@@ -1,7 +1,7 @@
 @import java.text.NumberFormat
 @import controllers.routes
 @import play.api.libs.json.JsValue
-@(phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue], checkInputPhase: (Boolean, Int))
+@(uuid: String, phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue], report: Option[JsValue])
 <div class="resource-content">
     <div class="navbar-resource">
         <div class="col-md-9 col-sm-9 col-xs-9">
@@ -127,6 +127,23 @@
             </div>
         </div>
     </div>
+    <div class="report-list" style="display: none;">
+
+        @if(report.isDefined) {
+            <div class="home">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="padding: 0 5px;">
+                            @version_2.model.report.reportContent(uuid, phrase, report.get)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        } else{}
+    </div>
 </div>
 
 <script src="@routes.Assets.versioned("javascripts/version_2/rsinformation/rsinformation.js")" type="text/javascript" defer="defer"></script>
+<script src="@routes.Assets.versioned("javascripts/version_2/report/report.js")" type="text/javascript" defer="defer"></script>

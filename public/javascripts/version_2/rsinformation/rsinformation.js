@@ -7,16 +7,22 @@
                 $div.find(".person-list").show();
                 $div.find(".hospital-list").hide();
                 $div.find(".product-list").hide();
+                $div.find(".report-list").hide();
             } else if(identify === "医院信息"){
                 $div.find(".hospital-list").show();
                 $div.find(".person-list").hide();
                 $div.find(".product-list").hide();
+                $div.find(".report-list").hide();
             } else if(identify === "产品信息"){
                 $div.find(".hospital-list").hide();
                 $div.find(".person-list").hide();
                 $div.find(".product-list").show();
+                $div.find(".report-list").hide();
             } else {
-                
+                $div.find(".hospital-list").hide();
+                $div.find(".person-list").hide();
+                $div.find(".product-list").hide();
+                $div.find(".report-list").show();
             }
         }
     }

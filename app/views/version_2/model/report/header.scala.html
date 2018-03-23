@@ -1,0 +1,17 @@
+@import java.text.NumberFormat
+@import play.api.libs.json.JsValue
+@(uuid: String, phrase: String, report: JsValue)
+<div class="header">
+    <div class="row head-describe">
+        <div class="col-md-11 box bg">
+            <div class="col-md-5 col-sm-5 col-xs-5">周期(@{phrase})&nbsp;&nbsp;100天计划部署</div>
+            <div class="col-md-7 col-sm-7 col-xs-7 text-right">
+                <div class="config"><i class="glyphicon glyphicon-cog"></i></div>
+                <div class="timer"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-right">
+            <button class="btn btn-primary btn-md submit-btn" name="go-phrase" type="button">进入周期2</button>
+        </div>
+    </div>
+</div>

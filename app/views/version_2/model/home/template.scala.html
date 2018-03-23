@@ -1,9 +1,9 @@
 @import java.text.NumberFormat
 @import play.api.libs.json.JsValue
-@*uuid、期数、医院新闻、产品、代表 , 总预算，医院列表, decision输入, management输入, 进行到周期几*@
+@*uuid、期数、医院新闻、产品、代表 , 总预算，医院列表, decision输入, management输入, 进行到周期几, 报告*@
 @(uuid: String, phrase: String, hosp_news: JsValue,
         product: List[JsValue], salesman: List[JsValue], totalBudget: JsValue,
-        hosp_list: List[JsValue], decisioInputs: List[JsValue], manageInputs: List[JsValue], checkInputPhase: (Boolean, Int))
+        hosp_list: List[JsValue], decisioInputs: List[JsValue], manageInputs: List[JsValue], checkInputPhase: (Boolean, Int), report: Option[JsValue])
 
 @*************************************
 *                                   *
@@ -631,7 +631,7 @@
 
             <!--资源管理详情-->
             <div class="row resource-info" name="resource-info" style="display:none;">
-                @version_2.model.rsinformation.template(phrase, salesman, hosp_news, hosp_list, product, checkInputPhase)
+                @version_2.model.rsinformation.template(uuid, phrase, salesman, hosp_news, hosp_list, product, report)
             </div>
         </div>
     </div>
