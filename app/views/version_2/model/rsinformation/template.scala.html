@@ -9,7 +9,7 @@
                 <button type="button " class="btn btn-default" name="hosp-info-btn">医院信息</button>
                 <button type="button" class="btn btn-default active" name="delegate-info-btn">代表信息</button>
                 <button type="button" class="btn btn-default" name="product-info-btn">产品信息</button>
-                @{if(checkInputPhase._2 > phrase.toInt) {
+                @{if(phrase.toInt == 2) {
                         <button type="button" class="btn btn-default" name="phrase-report">周期(1)报告</button>
                 } else {}}
 
@@ -78,59 +78,49 @@
                         <div class="media-body">
                             <p class="media-heading">能力值</p>
                             <div class="radar-map">
-                                <img src="@{routes.Assets.versioned("images/version_2/1-"+(person._2 + 1)+".png")}" width="280" height="192">
+                                <img src="@{routes.Assets.versioned("images/version_2/"+(phrase)+"-"+(person._2 + 1)+".png")}" width="280" height="192">
                             </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        <div class="product-list" style="display:none;">
-            <div class="product"></div>
-        </div>
+
     </div>
     <div class="product-list" style="display:none;">
         <div class="table-responsive" style="padding: 0 0 0 5px;">
             <table class="table">
                 <tr>
-                    <th style="width:160px;">药品类别/名称</th>
-                    <th style="width:160px;">产品展示</th>
-                    <th style="width:144px;">上市时间</th>
-                    <th style="width:144px;">公司考核价</th>
-                    <th style="width:144px;">单位成本</th>
-                    <th style="width:144px;">医保</th>
-                    <th style="width:144px;">类型</th>
-                    <th style="width:320px;">竞品信息</th>
+                    <th style="width:156px;">药品类别/名称</th>
+                    <th style="width:156px;">产品展示</th>
+                    <th style="width:156px;">上市时间</th>
+                    <th style="width:156px;">公司考核价</th>
+                    <th style="width:156px;">单位成本</th>
+                    <th style="width:156px;">医保</th>
+                    <th style="width:156px;">类型</th>
+                    <th style="width:273px;">竞品信息</th>
                 </tr>
             </table>
         </div>
         <div class="product">
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <tr>
-                        <th style="width:155px;"></th>
-                        <th style="width:180px;"></th>
-                        <th style="width:144px;"></th>
-                        <th style="width:144px;"></th>
-                        <th style="width:144px;"></th>
-                        <th style="width:144px;"></th>
-                        <th style="width:144px;"></th>
-                        <th style="width:320px;"></th>
-                    </tr>
+                <table class="table">
                     @product.map { pro =>
                         <tr>
-                            <td align="center">
+                            <td style="width:155px;" align="center">
                                 @{(pro \ "prod_name").as[String]}
                                 <br>
                                 @{(pro \ "prod_brand").as[String]}
                             </td>
-                            <td align="center"><img class="img-rounded" src="@routes.Assets.versioned("images/version_2/大学医院.jpg")" alt="" width="100" height="100"></td>
-                            <td class="number">@{(pro \ "prod_sales_time").as[String]}</td>
-                            <td class="number">@{(pro \ "prod_unit_price").as[String]}元</td>
-                            <td class="number">@{(pro \ "prod_unit_cost").as[String]}元</td>
-                            <td class="number">@{(pro \ "prod_insurance").as[String]}</td>
-                            <td class="number">@{(pro \ "prod_cat").as[String]}</td>
-                            <td style="text-align:left;">@{(pro \ "prod_competition").as[String]}</td>
+                            <td style="width:156px;" align="center"><img class="img-rounded" src="@routes.Assets.versioned("images/version_2/大学医院.jpg")" alt="" width="100" height="100"></td>
+                            <td style="width:156px;" class="number">@{(pro \ "prod_sales_time").as[String]}</td>
+                            <td style="width:156px;" class="number">@{(pro \ "prod_unit_price").as[String]}元</td>
+                            <td style="width:156px;" class="number">@{(pro \ "prod_unit_cost").as[String]}元</td>
+                            <td style="width:156px;" class="number">@{(pro \ "prod_insurance").as[String]}</td>
+                            <td style="width:156px;" class="number">@{(pro \ "prod_cat").as[String]}</td>
+                            <td style="width:273px;">
+                                <p style="text-align: left; padding:0 25px;">@{(pro \ "prod_competition").as[String]}</p>
+                            </td>
                         </tr>
                     }
                 </table>
@@ -138,3 +128,5 @@
         </div>
     </div>
 </div>
+
+<script src="@routes.Assets.versioned("javascripts/version_2/rsinformation/rsinformation.js")" type="text/javascript" defer="defer"></script>

@@ -3,7 +3,7 @@
 
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
-    const getPersionPieData = function(percent) {
+    var getPersionPieData = function(percent) {
         return [{
             value: percent,
             itemStyle: {
@@ -30,7 +30,7 @@
     };
 
     // Total Budget Bar
-    const getTotalBudgetData = function(percent) {
+    var getTotalBudgetData = function(percent) {
         return [{
             value: percent,
             itemStyle: {
@@ -53,7 +53,7 @@
     };
 
     // Allot Time Pie
-    const getAllotTimePieData = function(percents) {
+    var getAllotTimePieData = function(percents) {
         var tmp = [];
         $.each(percents, function(i, v){
             tmp.push(v);
@@ -70,11 +70,11 @@
     }
 
     // salesman分配时间
-    const setPersonData = function(id, p) {
-        let percent = p || 0;
+    var setPersonData = function(id, p) {
+        var percent = p || 0;
         //document.getElementById(id)
-        let personPie = echarts.init($('.person-details-info .detail div[name="' + id + '"]')[0]);
-        let option = {
+        var personPie = echarts.init($('.person-details-info .detail div[name="' + id + '"]')[0]);
+        var option = {
             // backgroundColor: '#474B5A',
             title: {
                 text: percent + "天",
@@ -146,9 +146,9 @@
     };
 
     // 总预算
-    const setTotalBudget = function(id, p) {
-        let percent = p || 0;
-        let totalBudgetBar = echarts.init(document.getElementById(id));
+    var setTotalBudget = function(id, p) {
+        var percent = p || 0;
+        var totalBudgetBar = echarts.init(document.getElementById(id));
         option = {
             xAxis: [{
                 axisTick: {show: false},
@@ -200,9 +200,9 @@
     };
 
     // 经理分配时间
-    const setAllotTime = function(id, p) {
-        let allotTimePie = echarts.init(document.getElementById(id));
-        let option = {
+    var setAllotTime = function(id, p) {
+        var allotTimePie = echarts.init(document.getElementById(id));
+        var option = {
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -243,7 +243,7 @@
     }
 
     // 查看详情Btn
-    const detailsBtn = function() {
+    var detailsBtn = function() {
         $('div[name="message-box"]').hide();
         $('div[name="input-box"]').hide();
         $('div[name="answer-tab"]').hide();
@@ -251,7 +251,7 @@
     };
 
     // 简单切换HospitalInfo 多的情况有性能问题，后续重构再改吧
-    const switchHospitalInfo = function(hospital_name) {
+    var switchHospitalInfo = function(hospital_name) {
         $.each($('div[class*="hosp-input-info"]'), function(i, v) {
             if($(v).attr("name") === hospital_name) {
                 $(v).show();
@@ -275,26 +275,6 @@
             $(".personal-training").show();
             $div.find(".sales-planning").hide();
             $('.home .message-box .hosp-array-masklayer').show();
-        }
-    }
-
-    // 医院、代表、产品信息切换
-    var switchHospitalWithProductInfo = function(identify) {
-        var $div = $('div[name="resource-info"]');
-        if($div.css("display") === "block") {
-            if(identify === "代表信息") {
-                $div.find(".person-list").show();
-                $div.find(".hospital-list").hide();
-                $div.find(".product-list").hide();
-            } else if(identify === "医院信息"){
-                $div.find(".hospital-list").show();
-                $div.find(".person-list").hide();
-                $div.find(".product-list").hide();
-            } else {
-                $div.find(".hospital-list").hide();
-                $div.find(".person-list").hide();
-                $div.find(".product-list").show();
-            }
         }
     }
 
@@ -679,21 +659,6 @@
                 detailsBtn();
             });
 
-            //资源页面 收起按钮
-            $('#backup-btn').click(function() {
-                $('div[name="message-box"]').show();
-                $('div[name="input-box"]').show();
-                $('div[name="answer-tab"]').show();
-                $('div[name="resource-info"]').hide();
-            });
-
-            //资源页面 tab切换按钮
-            $('div[name="navbar-btn"] button').click(function() {
-                $(this).addClass("active");
-                $(this).siblings().removeClass("active");
-                switchHospitalWithProductInfo($(this).text());
-            });
-
             // 医院列表点击事件
             $('ul[name="hosp-list"] li').click(function() {
                 $(this).addClass("active");
@@ -798,8 +763,6 @@
 
             });
 
-
-
             // 分配推广预算keyup设置图
             $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
                 .keyup(function() {
@@ -876,7 +839,6 @@
                 var that = this;
                 calcManageAllotTime($(that));
             });
-
 
         }
     });

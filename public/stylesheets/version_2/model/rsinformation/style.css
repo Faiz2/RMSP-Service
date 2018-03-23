@@ -151,32 +151,36 @@
     overflow-x: hidden;
 }
 
-.resource-info .resource-content .product-list table td, .resource-info .resource-content .product-list table th {
+.resource-info .resource-content .product-list .product table td, .resource-info .resource-content .product-list table th {
     text-align: center;
     font-size: 1.4rem;
     letter-spacing: 0.25rem;
     border: 0;
 }
 
-.resource-info .resource-content .product-list table tr:not(:first-child) td {
-    height: 175px;
+.resource-info .resource-content .product-list .product table tr td {
+    height: 165px;
     vertical-align: middle;
 }
 
-.resource-info .resource-content .product-list table tr:not(:first-child) td.number {
+.resource-info .resource-content .product-list .product table tr td.number {
     font-size: 2rem;
     letter-spacing: 0.5rem;
 }
 
-.resource-info .resource-content .product-list table tr:not(:first-child) td > span {
+.resource-info .resource-content .product-list .product table tr td > span {
     position: relative;
     left: 10px;
     top: 0px;
     z-index: auto;
 }
+/*:not(:first-child)*/
 
-.resource-info .resource-content .product-list table.table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: #545865;
+.resource-info .resource-content .product-list .product table tr:nth-child(odd) {
+    background-color: #555865;
+}
+.resource-info .resource-content .product-list .product table tr:nth-child(even) {
+    background-color: #484C59;
 }
 
 .resource-info .resource-content .details.even{
