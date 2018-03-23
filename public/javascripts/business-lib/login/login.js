@@ -1,5 +1,5 @@
 (function($, w){
-    var f = new Facade();
+    // var f = new Facade();
     $(function() {
         $('#signin').click(function() {
             var user = JSON.stringify(f.parameterPrefixModule.conditions({"account": $('#user-name').val(), "password": md5($('#user-password').val())}));

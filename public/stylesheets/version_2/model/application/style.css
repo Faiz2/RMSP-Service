@@ -11,6 +11,7 @@ html input:disabled {
     background-color: #6b6c6f !important;
     border: #565861 !important;
     cursor: not-allowed !important;
+
 }
 
 html select:disabled {

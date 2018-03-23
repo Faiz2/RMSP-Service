@@ -33,7 +33,8 @@ GET     /start                       controllers.RMSPRoutesControllerV2.start
 GET     /transition/:uuid/:phrase   controllers.RMSPRoutesControllerV2.transition(uuid, phrase)
 
 GET     /                           controllers.RMSPRoutesController.login
-GET     /login                      controllers.RMSPRoutesController.login
+#GET     /login                      controllers.RMSPRoutesController.login
+GET     /login                      controllers.RMSPRoutesControllerV2.login
 
 GET     /index                      controllers.RMSPRoutesControllerV2.indexV2(uuid = "")
 GET     /index/:uuid                controllers.RMSPRoutesControllerV2.indexV2(uuid)
