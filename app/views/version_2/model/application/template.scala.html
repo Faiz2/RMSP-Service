@@ -24,6 +24,7 @@
                         </div>
                         <div class="col-md-2 col-md-offset-2 col-sm-2 col-sm-offset-2">
                             <p class="navbar-text navbar-right" name="account">Account</p>
+                            <div class="exit-area"><p>退出</p></div>
                         </div>
                     </div>
                 </div>
@@ -31,6 +32,8 @@
         </nav>
         @content
         @Resources.script()
+        <script src="@routes.Assets.versioned("javascripts/version_2/application/application.js")" type="text/javascript" defer="defer"></script>
+
         <script>
                 asset_resources = @routes.Assets.versioned("");
         </script>

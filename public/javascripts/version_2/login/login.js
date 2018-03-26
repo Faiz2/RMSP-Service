@@ -17,9 +17,6 @@
         event: {
 
         }
-        // $(window).resize(function() {
-        //     resetWrapperSize();
-        // });
         $('#signin').click(function() {
             var user = JSON.stringify(f.parameterPrefixModule.conditions({"account": $('#user-name').val(), "password": md5($('#user-password').val())}));
             f.cookieModule.setCookie("log_status" ,"1");

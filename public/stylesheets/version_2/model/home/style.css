@@ -188,11 +188,39 @@
     border-right: 1px solid #7C7F87;
 }
 .home .header .config {
+    position: relative;
     width: 45px;
     float: right;
     cursor: pointer;
 }
-
+.home .header .config .config-toggle-content {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    right: -19px;
+    top: 44px;
+    padding:0 10px;
+    -webkit-box-shadow: 3px 3px 10px 1px #303030;
+    -moz-box-shadow: 3px 3px 10px 1px  #303030;
+    box-shadow: 3px 3px 10px 1px  #303030;
+    -webkit-border-radius: 4px 0 4px 4px ;
+    -moz-border-radius: 4px 0 4px 4px ;
+    border-radius: 4px 0 4px 4px ;
+    background-color: #515465;
+    
+}
+.home .header .config .config-toggle-content p {
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+.home .header .config .config-toggle-content p:first-child {
+    border-bottom: 1px solid #6b6c6e99;
+}
 .home .header .head-describe div[class^="col-md"] {
     min-height: 45px;
     line-height: 45px;

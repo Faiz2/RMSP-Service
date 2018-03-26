@@ -11,9 +11,8 @@
     // var div_4 = document.getElementById("div_4");
     var div_5 = document.getElementById("div_5");
     var points = document.getElementById("buttons");
-var spans = document.getElementsByClassName("hit-point");
+    var spans = document.getElementsByClassName("hit-point");
 
-    // var spans = document.getElementsByTagName("span");
     var skip = document.getElementsByClassName("skip");
     var contentdiv = document.getElementsByClassName('content');
     var pointIndex = 0;
@@ -67,7 +66,7 @@ function goHomePage() {
         div_1.classList.remove("rightbigger");
         div_1.style.opacity = 0.6;
         div_2.classList.add("origindivstyle");
-        div_2.classList.remove("scaledivstyle", "rightsmaller");
+        div_2.classList.remove("scaledivstyle", "rightsmaller", "originsmall");
         div_2.style.zIndex = 4;
         div_2.style.opacity = 1;
         div_3.classList.add("originsmall");
@@ -81,7 +80,7 @@ function goHomePage() {
     function btn_2_click(){
         div_1.style.zIndex = 1;
         div_1.style.opacity = 0;
-        div_2.classList.remove("rightbigger");
+        div_2.classList.remove("rightbigger","origindivstyle");
         div_2.classList.add('scaledivstyle');
         div_2.style.zIndex = 3;
         div_2.style.opacity = 0.6;
@@ -117,9 +116,9 @@ function goHomePage() {
         div_2.style.opacity = 0;
         div_3.style.zIndex = 3;
         div_3.style.opacity = 0.6;
-        div_3.classList.remove("rightbigger");
+        div_3.classList.remove("rightbigger","origindivstyle");
         div_3.classList.add('scaledivstyle');
-        div_5.classList.remove("scaledivstyle", "rightsmaller")
+        div_5.classList.remove("scaledivstyle", "rightsmaller","originsmall")
         div_5.classList.add("origindivstyle");
         div_5.style.zIndex = 4;
         div_5.style.opacity = 1;
