@@ -1,5 +1,6 @@
 .login-wrapper {
     height: 100%;
+    background-color: #434652;
     background-image: url("/assets/images/version_2/login_bg.png");
     -webkit-background-size: cover;
     background-size: cover;
@@ -10,11 +11,16 @@
     position: relative;
     left: 50%;
     top: 50%;
+    border-radius: 15px;
     -webkit-transform: translate(-50%,-50%);
     -moz-transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     -o-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
+    background: -webkit-linear-gradient(left bottom, #2d303e , #686b75); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(top right, #2d303e, #686b75); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(top right, #2d303e, #686b75); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to top right, #2d303e , #686b75);
     background-image: url("/assets/images/version_2/login_inside_bg.png");
     -webkit-background-size: 100%;
     background-size: 100% ;

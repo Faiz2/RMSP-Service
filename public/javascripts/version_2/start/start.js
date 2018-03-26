@@ -11,9 +11,8 @@
     // var div_4 = document.getElementById("div_4");
     var div_5 = document.getElementById("div_5");
     var points = document.getElementById("buttons");
-var spans = document.getElementsByClassName("hit-point");
+    var spans = document.getElementsByClassName("hit-point");
 
-    // var spans = document.getElementsByTagName("span");
     var skip = document.getElementsByClassName("skip");
     var contentdiv = document.getElementsByClassName('content');
     var pointIndex = 0;
