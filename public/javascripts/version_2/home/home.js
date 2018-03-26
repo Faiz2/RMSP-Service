@@ -1,6 +1,6 @@
 (function($, w) {
     var selected_salemman = "";
-
+    var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     var getPersionPieData = function(percent) {
@@ -279,7 +279,7 @@
     }
 
     // Budget 输入超过100 验证
-    var verifyBudgetlg = function(){
+    var verifyBudgetlg = function() {
         var inputs = $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]');
         var sum = 0;
         $.each(inputs, function(i, v) {
@@ -288,16 +288,57 @@
         if(sum > 100) {return false;}else {return true;}
     }
 
+    // 只要选中代表 budget 就必须填写 验证
+    var verifyBudgeteq = function() {
+        var result = false;
+        var selected = $('div[name="hosp-info"] select option:selected').filter(function(i, dom){
+            return $(dom).val() !== "" && $(dom).val() !== "不分配";
+        });
+        $.each(selected, function(i, v){
+            var input = $('input[name="input-budget"][hospital-name="'+$(v).attr("hospital-name")+'"]');
+            if(input.val() === "") {
+                f.alert.alert_warn("警告", $(v).attr("hospital-name") + "下的"
+                        + input.attr("pharbers-type") + "未分配");
+                result = false;
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        return result;
+    }
+
     // 代表时间大于100 验证
-    var verifyTimelg = function(array) {
-        var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
+    var verifyTimelg = function() {
+        var array = getAllInputAllotTime();
         var result = false;
         $.each(salesmen, function(i, name) {
             var sum = 0;
             var allottArray = array.filter(function(obj, index){ return obj.salesmen === name;});
             $.each(allottArray, function(n, time) {sum += time.allotTime});
             if(sum > 100) {
-                f.alert.alert_warn("警告", name+"的沟通时间超出预算");
+                f.alert.alert_warn("警告", name+"的沟通时间超出预设");
+                result = false;
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        return result;
+    }
+
+    // 代表时间是否等于 0 验证
+    var verifyTimeeq = function() {
+        var array = getAllInputAllotTime();
+        var result = false;
+        $.each(salesmen, function(i, name) {
+            var sum = 0;
+            var allottArray = array.filter(function(obj, index){ return obj.salesmen === name;});
+            $.each(allottArray, function(n, time) {sum += time.allotTime});
+            if(sum === 0) {
+                f.alert.alert_warn("警告", name+"的沟通时间未分配");
                 result = false;
                 return false;
             } else {
@@ -309,14 +350,18 @@
     }
 
     // 经理时间大于100 验证
-    var verifyManageTimelg = function(array) {
+    var verifyManageTimelg = function() {
+        var array = getManageAllotTime();
         var sum = 0;
         $.each(array, function(i, v){
             $.each(v.apply, function(i, data){
                     sum += data.days
             });
         });
-        if(sum > 100) return false; else return true;
+        if(sum > 100) {
+            f.alert.alert_warn("警告", "经理时间分配超出100天");
+            return false;
+        } else return true;
     }
 
     // 经理协作拜访时间大于代表 验证
@@ -327,7 +372,6 @@
             return dom.apply;
         }).get(0);
 
-        var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
         var result = false;
         $.each(salesmen, function(i, name) {
             var sum = 0;
@@ -348,13 +392,13 @@
         return result;
     }
 
-    // 是否选中代表 验证
-    var verifySalesMen = function(hosp_identify) {
+    // 当前医院是否选中代表 验证
+    var verifyCurrHospitalSalesMen = function(hosp_identify) {
         var selected = $('div[name="'+hosp_identify+'"] select option:selected');
         if(selected.val() == "") {return false;} else {return true;}
     }
 
-    // 填写Budget但为选择代表 验证
+    // 填写Budget但未选择代表 验证
     var verifyBudgetNotSalesMen = function() {
         var result = false;
         $.each(getAllInputBudget(), function(i, v) {
@@ -367,6 +411,50 @@
         return result;
     }
 
+    // 提交检查所有人是否被选中
+    var verifyAllSalesMenIsSelected = function() {
+        var result = false;
+        var allSelectedSalesMen = $('div[name="hosp-info"]').filter(function(index, dom){
+            var selected = $(dom).find('select option:selected');
+            return selected.val() !== "" && selected.val() !== "不分配"
+        }).map(function(index, dom){
+            return $(dom).find('select option:selected').val();
+        }).toArray();
+
+        $.each(salesmen, function(i, v){
+            if ($.inArray(v, allSelectedSalesMen) < 0) {
+                result = false;
+                f.alert.alert_warn("警告", v + "代表漏选！")
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        return result;
+    }
+
+    // 验证所有输入框是否为数字
+    var verifyAllInputIsNumber = function() {
+        var result = false;
+        var inputs = $('input').filter(function(index, dom){
+            return $(dom).attr("disabled") !== "disabled" && $(dom).val() !== "" && $(dom).attr("type") !== "hidden";
+        });
+        $.each(inputs, function(i, v){
+            if( !regexExce(numberzzs, $(v).val()) ) {
+                f.alert.alert_warn("警告", $(v).attr("hospital-name")+"下的"+$(v).attr("pharbers-type")+"不是正整数")
+                result = false;
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        if(inputs.toArray().length === 0){result = true;}
+        return result;
+    }
+
+
     // 获取所有input Budget输入
     var getAllInputBudget = function() {
         var tmp = [];
@@ -376,7 +464,7 @@
             tmp.push({
                 salesmen: $(selected).val(),
                 budget: $(budgetNum).val(),
-                hospital: $(selected).attr("hosp-name")
+                hospital: $(selected).attr("hospital-name")
             });
         });
         var ftmp = tmp.filter(function(obj, index) { return obj.budget >= 0 });
@@ -442,7 +530,7 @@
                             + (parseInt($(meetingInput).val()) || 0)
                             + (parseInt($(coach).val()) || 0)
                             + sumInput,
-                hospital: $(selected).attr("hosp-name")
+                hospital: $(selected).attr("hospital-name")
             });
         });
 
@@ -451,19 +539,21 @@
 
     // 计算代表时间
     var calcAllotTime = function(inputObj) {
-        var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
-        var tmp = getAllInputAllotTime();
-        if(verifyTimelg(tmp)) {
+        if(verifyTimelg()) {
             $.each(salesmen, function(i, name) {
                 var sum = 0;
-                var allottArray = tmp.filter(function(obj, index){ return obj.salesmen === name;});
+                var allottArray = getAllInputAllotTime().filter(function(obj, index){ return obj.salesmen === name;});
                 $.each(allottArray, function(n, time) {
                     sum += time.allotTime
                 });
                 setPersonData(name, sum);
             });
         } else {
-            inputObj.val("");
+            try {
+                inputObj.val("");
+            } catch(err) {
+
+            }
         }
 
     }
@@ -476,8 +566,8 @@
             var salesmenpic = "salesmen-picture";
             if($(v).val() === "") salesmen = "——"; else salesmen = $(v).val();
             if($(v).val() === "不分配" || $(v).val() === "") { salesmenpic = "salesmen-picture"; } else {salesmenpic = $(v).val()}
-            $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hosp-name") + '"]').find('span[name="salesmen"]').text(salesmen);
-            $('div[name="' + $(v).attr("hosp-name") + '"] .salesman-picture img').attr("src", asset_resources+"images/version_2/" + salesmenpic + ".png")
+            $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hospital-name") + '"]').find('span[name="salesmen"]').text(salesmen);
+            $('div[name="' + $(v).attr("hospital-name") + '"] .salesman-picture img').attr("src", asset_resources+"images/version_2/" + salesmenpic + ".png")
         });
 
     }
@@ -531,9 +621,9 @@
     // 计算经理分配时间
     var calcManageAllotTime = function(inputObj) {
         var result = getManageAllotTime();
-        if(!verifyManageTimelg(result)) {
+        if(!verifyManageTimelg()) {
             inputObj.val("");
-            f.alert.alert_warn("警告", "经理时间分配超出100天")
+
         } else if(!verufyManageVisitTimelg(result)) {
             inputObj.val("");
         }
@@ -673,6 +763,100 @@
                 switchSalesAndPersonel($(this).text());
             });
 
+            // 分配推广预算keyup设置图
+            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
+                .keyup(function() {
+                if(verifyBudgetNotSalesMen()) {
+                    calcBudget($(this));
+                } else {
+                    $(this).val("");
+                }
+            });
+
+            // 分配推广预算blur设置检查超出100
+            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
+                .blur(function() {
+                if(!verifyBudgetlg()) {
+                    f.alert.alert_warn("警告", "Budget超出预算");
+                    $(this).val("");
+                    calcBudget();
+                }
+            });
+
+            // 分配沟通时间keyup
+            $('div[name="hosp-budget"] input[name="prod_hours"]' +
+            ', div[name="personal-training"] div[name="input-training"] input')
+                .keyup(function() {
+                var that = this;
+                calcAllotTime($(that));
+                calcManageAllotTime($(that));
+            });
+
+            // 分配沟通时间blur
+            $('div[name="hosp-budget"] input[name="prod_hours"]' +
+            ', div[name="personal-training"] div[name="input-training"] input')
+                .blur(function() {
+                var that = this;
+                calcAllotTime($(that))
+                calcManageAllotTime($(that));
+                if(!verifyCurrHospitalSalesMen($(that).attr("hospital-name"))) {
+                    f.alert.alert_warn("警告", "未指定代表");
+                }
+
+            });
+
+            // salesmen select change
+            $('.hosp-input-info select').change(function() {
+                var phrase = $('input[name="phase"]').val();
+                var that = this;
+                removeSelectNoneOption();
+                var inputs = $('div[name="'+$(this).find('option:selected').attr("hospital-name")+'"]')
+                            .find('input')
+                            .not('[pharbers-type="皮肤药"]')
+                            .not('[name="hospital-code"]');
+                if(phrase == 2) {
+                    inputs = $('div[name="'+$(this).find('option:selected').attr("hospital-name")+'"]')
+                            .find('input')
+                            .not('[hospital-name="铁路医院"]')
+                            .not('[hospital-name="海港医院"]')
+                            .not('[hospital-name="第六医院"]')
+                            .not('[hospital-name="小营医院"]')
+                            .not('[hospital-name="光华医院"]')
+                            .not('[hospital-name="大学医院"]')
+                            .not('[name="hospital-code"]');
+                }
+                if($(this).val() === "不分配") {
+                    f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
+                        inputs.val("");
+                        inputs.prop("disabled", true);
+                        calcBudget();
+                    }, function () {
+                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + selected_salemman + '"]').prop("selected", true);
+                        showSelectSalesMen();
+                    })
+                } else {
+                    selected_salemman = $(this).val();
+                    inputs.prop("disabled", false)
+                }
+                showSelectSalesMen();
+                calcAllotTime();
+            });
+
+            // 实地协防keyup
+            $('div[name="personal-training"] div[name="input-manager"] input, '+
+                'div[name="input-display"] input').keyup(function(){
+                var that = this;
+                calcManageAllotTime($(that));
+            });
+
+            // 实地协防blur
+            $('div[name="personal-training"] div[name="input-manager"] input, '+
+                'div[name="input-display"] input').blur(function(){
+                var that = this;
+                calcManageAllotTime($(that));
+            });
+
+
             //提交按钮
             $('button[name="submit-btn"]').click(function(){
 
@@ -712,7 +896,7 @@
                     var apply = $(managementDiv).find('input[name="'+ name +'"]').map(function(index, input){
                         return {
                             "personal": $(input).attr("personal"),
-                            "days": parseInt($(input).val())
+                            "days": parseInt($(input).val() || 0)
                         };
                     });
                     return {
@@ -742,103 +926,38 @@
                     "management": management.toArray()
                 };
 
+
                 var decisionJson = JSON.stringify($.extend(decisionTmp, f.parameterPrefixModule.conditions(userInfo)));
                 var managementJson = JSON.stringify($.extend(managerTmp, f.parameterPrefixModule.conditions(userInfo)));
-                f.alert.loading();
-                f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
-                    if(r.status === 'ok' && r.result.input_update === 'success') {
-                        f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
-                            if(rr.status === 'ok' && rr.result.input_update === 'success') {
-                                f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
-                                    if(rrr.status === 'ok' && rrr.result.data === 'success') {
-                                        layer.closeAll('loading');
-                                        // f.alert.alert_success("消息", "模拟成功");
-                                        layer.msg('模拟成功');
-                                        w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
 
-            });
+                // w.console.info(verifyAllSalesMenIsSelected())
+                // w.console.info(verifyAllInputIsNumber())
+                // w.console.info(verifyManageTimelg())
+                // w.console.info(verifyTimelg())
+                // w.console.info(verifyBudgeteq())
+                if(verifyAllSalesMenIsSelected() && verifyAllInputIsNumber() && verifyBudgeteq() && verifyManageTimelg() && verifyTimelg() && verifyTimeeq()) {
+                    // w.console.info("aa")
 
-            // 分配推广预算keyup设置图
-            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
-                .keyup(function() {
-                if(verifyBudgetNotSalesMen()) {
-                    calcBudget($(this));
+                    f.alert.loading();
+                    f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
+                        if(r.status === 'ok' && r.result.input_update === 'success') {
+                            f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
+                                if(rr.status === 'ok' && rr.result.input_update === 'success') {
+                                    f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
+                                        if(rrr.status === 'ok' && rrr.result.data === 'success') {
+                                            layer.closeAll('loading');
+                                            f.alert.alert_success("消息", "模拟成功");
+                                            w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
                 } else {
-                    $(this).val("");
+
                 }
-            });
-
-            // 分配推广预算blur设置检查超出100
-            $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
-                .blur(function() {
-                if(!verifyBudgetlg()) {
-                    f.alert.alert_warn("警告", "Budget超出预算");
-                    $(this).val("");
-                    calcBudget();
-                }
-            });
-
-            // 分配沟通时间keyup
-            $('div[name="hosp-budget"] input[name="prod_hours"]' +
-            ', div[name="personal-training"] div[name="input-training"] input')
-                .keyup(function() {
-                var that = this;
-                calcAllotTime($(that));
-                calcManageAllotTime($(that));
-            });
-
-            // 分配沟通时间blur
-            $('div[name="hosp-budget"] input[name="prod_hours"]' +
-            ', div[name="personal-training"] div[name="input-training"] input')
-                .blur(function() {
-                var that = this;
-                calcAllotTime($(that))
-                calcManageAllotTime($(that));
-                if(!verifySalesMen($(that).attr("hospital-name"))) {
-                    f.alert.alert_warn("警告", "未指定代表");
-                }
-
-            });
-
-            // salesmen select change
-            $('.hosp-input-info select').change(function() {
-                var that = this;
-                removeSelectNoneOption();
-                var inputs = $('div[name="'+$(this).find('option:selected').attr("hosp-name")+'"]').find('input').not('[pharbers-type="皮肤药"]').not('[name="hospital-code"]');
-                if($(this).val() === "不分配") {
-                    f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
-                        inputs.val("");
-                        inputs.prop("disabled", true);
-                    }, function () {
-                        $('div[name="'+$(that).find('option:selected').attr("hosp-name")+'"] select option[value="' + selected_salemman + '"]').prop("selected", true);
-                        showSelectSalesMen();
-                    })
-                } else {
-                    selected_salemman = $(this).val();
-                    inputs.prop("disabled", false)
-                }
-                showSelectSalesMen();
-                calcAllotTime();
-            });
-
-            // 实地协防keyup
-            $('div[name="personal-training"] div[name="input-manager"] input, '+
-                'div[name="input-display"] input').keyup(function(){
-                var that = this;
-                calcManageAllotTime($(that));
-            });
-
-            // 实地协防blur
-            $('div[name="personal-training"] div[name="input-manager"] input, '+
-                'div[name="input-display"] input').blur(function(){
-                var that = this;
-                calcManageAllotTime($(that));
             });
 
         }

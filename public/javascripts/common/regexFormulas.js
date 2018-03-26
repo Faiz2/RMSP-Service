@@ -55,7 +55,7 @@ const regexExce = function(reg, value) {
 /**
  *
  * @param reg 正则表达式
- * @param array 一维数组，不包含Object 如：[1, 2, 3]
+ * @param array 一维数组，如：[1, 2, 3] 不包含Object
  * @return Boolean
  */
 const regexArrayExce = function(reg, array) {

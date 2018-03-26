@@ -128,14 +128,14 @@
                                                     <div class="selected-salesman">
                                                         <span>请指派代表</span><br>
                                                         <select @{if(checkInputPhase._2 > phrase.toInt) {"disabled=disabled"} else {}}>
-                                                            <option value="" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"></option>
+                                                            <option value="" hospital-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"></option>
                                                             @decisioInputs.filter(f => (f \ "hosp_code").as[Int] == (hosp._1 \ "hosp_code").as[String].toInt).map { data =>
-                                                                <option value="不分配" hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                <option value="不分配" hospital-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
                                                                     @if((data \ "salesmen").as[String] == "不分配") {selected="selected"}
                                                                 >不分配</option>
                                                                 @salesman.reverse.map { person =>
                                                                     <option value="@{(person \ "name").asOpt[String]}"
-                                                                            hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                            hospital-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
                                                                             @if((data \ "salesmen").as[String] == (person \ "name").as[String]) {selected="selected"}>
                                                                         @{(person \ "name").asOpt[String]}
                                                                     </option>
@@ -152,7 +152,8 @@
                                                                 <input type="text"
                                                                         @{if(checkInputPhase._2 > phrase.toInt) {"disabled=disabled"} else {}}
                                                                         name="input-budget"
-                                                                        hosp-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                        hospital-name="@{(hosp._1 \ "hosp_name").asOpt[String].get}"
+                                                                        pharbers-type="推广预算"
                                                                         maxlength="4"
                                                                         value="@{
                                                                             val budget = (data \ "budget").as[Double]
