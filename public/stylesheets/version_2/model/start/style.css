@@ -29,15 +29,12 @@
 }
 
 .start .divlist .content .leftdiv {
-    /*flex: 3;*/
     float: left;
     width: 569px;
     text-align: center;
     border:0;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    /*background: #282a38;*/
-
 }
 
 .start .divlist .content .rightdiv {
@@ -45,13 +42,13 @@
     border:0;
     float: left;
     border-radius: 10px;
-    background:url("/assets/images/version_2/start_right.png");
+    background-color: #8b8e94;
+    background-image: url("/assets/images/version_2/start_right.png");
     -webkit-background-size: 376px 555px;
     background-size: 376px 555px;
 }
 
 .start .divFirst {
-    /*background-color: #1a2226;*/
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 1;
@@ -72,15 +69,19 @@
 }
 .start .divFirst .rightdiv .right_text_1 {
     height: 310px;
-    padding:0 70px ;
+    padding:0 35px ;
     color:#fff;
-    font-size: 1.6rem;
+    font-size: 14px;
+    letter-spacing: 1.8px;
 }
-.start .divFirst .rightdiv .right_text_1 p:nth-child(2) {
-    line-height: 2.0rem;
+.start .divFirst .rightdiv .right_text_1 p:first-child {
+    margin-bottom: 20px;
+}
+.start .divFirst .rightdiv .right_text_1 p {
+    line-height: 3.0rem;
+    margin:0;
 }
 .start .divSecond {
-    /*background: lightcoral;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
     z-index: 2;
@@ -88,32 +89,46 @@
 }
 .start .content .rightdiv .right_text {
     height: 505px;
-    padding:40px 40px;
+    padding:40px 25px;
     color:#fff;
-    font-size: 1.6rem;
+    font-size: 14px;
 }
 .start .content .rightdiv .right_text .text_title {
-    font-size: 2.0rem;
-    font-weight: 700;
+    margin:0;
+    font-size: 24px;
+    letter-spacing: 2.4px;
+    line-height: 40px;
+    font-weight: 500;
+
+}
+.start .content .rightdiv .right_text p:nth-child(2){
+    font-size: 14px;
+    letter-spacing: 1.8px;
+    line-height: 30px;
 }
 .start .content .rightdiv .right_text ul {
     padding-left: 20px;
 }
 .start .content .rightdiv .right_text ul li{
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     list-style-type: disc;
-    line-height: 2.6rem;
-    letter-spacing: 2px;
+    line-height: 30px;
+    letter-spacing: 1.8px;
+}
+.start .content .rightdiv .right_text_5 ul ul.some-dimension {
+
+}
+.start .content .rightdiv .right_text_5 ul ul.some-dimension li {
+    list-style-type: square;
+    padding-bottom: 0;
 }
 .start .divThird {
-    /*background: lightskyblue;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
     opacity: 0;
 }
 
 .start .divFourth {
-    /*background: lightslategray;*/
     transform-origin: 50% 0;
     transform: scale(0.8) translateY(-50%);
     opacity: 0;
@@ -150,10 +165,10 @@
     display: inline-block;
     width: 128px;
     height: 45px;
-    background: #77777b;
+    background-color: #4488a7;
     font-size:1.8rem;
     line-height: 33px;
-    border-radius: 10px;
+    border-radius: 22.5px;
 }
 
 
@@ -168,7 +183,8 @@
 }
 
 .originsmall {
-    left: 80%;
+    /*left: 80%;*/
+    right:-506px
 }
 
 .scaledivstyle {
@@ -250,13 +266,15 @@
 
 @keyframes torightsmaller {
     from {
-        transform: scale(1) translate(-50%, -50%);
-        left: 50%;
+        transform: scale(1) translate(50%, -50%);
+        /*left: 50%;*/
+        right:50%;
         /* top: 50%; */
     }
     to {
         transform: scale(0.8) translateY(-50%);
-        left: 80%;
+        /*left: 80%;*/
+        right:-506px;
     }
 }
 
@@ -276,11 +294,13 @@
 @keyframes tobigger {
     from {
         transform: scale(0.8) translateY(-50%);
-        left: 80%;
+        /*left: 80%;*/
+        right:-506px;
     }
     to {
-        transform: scale(1) translate(-50%, -50%);
-        left: 50%;
+        transform: scale(1) translate(50%, -50%);
+        /*left: 50%;*/
+        right:50%;
         top: 50%;
     }
 }
