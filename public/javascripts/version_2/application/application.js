@@ -13,6 +13,8 @@
         $('.exit-area').click(function(e){
             e.stopPropagation();
             w.location.href = "/"
-        })
+        });
+
+        $('p[name="account"]').text($.cookie("user"));
     });
 })(jQuery,window);
