@@ -253,10 +253,17 @@
     // 简单切换HospitalInfo 多的情况有性能问题，后续重构再改吧
     var switchHospitalInfo = function(hospital_name) {
         $.each($('div[class*="hosp-input-info"]'), function(i, v) {
+            $(v).finish();
             if($(v).attr("name") === hospital_name) {
                 $(v).show();
+                $(v).css("display","block");
+                $(v).addClass('slideInRight');
+                $(v).removeClass('slideOutRight');
             } else {
-                $(v).hide();
+                // $(v).hide("slow");
+                $(v).addClass('slideOutRight').delay(300).hide(300);
+                $(v).removeClass('slideInRight');
+
             }
         });
     }
@@ -266,13 +273,17 @@
         var $div = $('.hosp-input-info').filter(function(index){
             return $(this).css("display") === "block";
         });
-
+        $(".personal-training").finish();
         if(identify === "销售计划") {
             $div.find(".sales-planning").show();
-            $(".personal-training").hide();
+            $div.find(".sales-planning").addClass('slideInRight');
+            $(".personal-training").removeClass('zoomIn')
+            $(".personal-training").addClass('zoomOut').delay(400).hide(400);
             $('.home .message-box .hosp-array-masklayer').hide();
         } else {
             $(".personal-training").show();
+            $(".personal-training").removeClass('zoomOut')
+            $(".personal-training").addClass('zoomIn');
             $div.find(".sales-planning").hide();
             $('.home .message-box .hosp-array-masklayer').show();
         }
@@ -971,6 +982,21 @@
             // 导入/导出区域的按钮冒泡阻止
             $('div[name="area-import-export"]').click(function(e){
                 e.stopPropagation();
+            });
+            // 拖动事件
+            $('button[name="btn-right"]').click(function () {
+                if($('ul[name="hosp-list"]').position().left == 0) {
+                    $('ul[name="hosp-list"]').animate({left:'-64px'},500);
+                } else if ($('ul[name="hosp-list"]').position().left == -64){
+                    $('ul[name="hosp-list"]').animate({left:'-200px'},1000);
+                }
+            });
+            $('button[name="btn-left"]').click(function () {
+                if($('ul[name="hosp-list"]').position().left == -200) {
+                    $('ul[name="hosp-list"]').animate({left:'-135px'},500);
+                } else if ($('ul[name="hosp-list"]').position().left == -135){
+                    $('ul[name="hosp-list"]').animate({left:'0px'},1000);
+                }
             })
         }
     });
