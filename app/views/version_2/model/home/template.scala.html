@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="row hosp-array-info box">
-                            <ul name="hosp-list">
+                            <ul name="hosp-list" unselectable="on" onselectstart="return false;" style="-moz-user-select:none;">
                                 @{
                                     hosp_list.zipWithIndex.map { hosp =>
                                         <li class={"box "+(if(hosp._2 == 0){"active"})+""} name={(hosp._1 \ "hosp_name").asOpt[String].get}><!--active-->
@@ -111,6 +111,8 @@
                                     }
                                 }
                             </ul>
+                            <button class="arrow-left" name="btn-left"><-</button>
+                            <button class="arrow-right" name="btn-right">-></button>
                         </div>
                         <div class="row hosp-array-masklayer"></div>
                     </div>
