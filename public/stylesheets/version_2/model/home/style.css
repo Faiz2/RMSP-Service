@@ -1,5 +1,5 @@
 
-@media (min-width: 1388px) { /*不小于1300px*/
+@media (min-width: 1388px) {
     .home .container{
         width: 1370px !important;
     }
@@ -12,7 +12,7 @@
     }
 
     .home .bottom .hosp-budget > ul {
-        padding: 70px 0 0 20px !important;
+        padding: 70px 0 0 18px !important;
     }
 
     .home .bottom .hosp-budget > ul > li > ul > li {
@@ -61,7 +61,7 @@
     }
 
     .home .bottom .hosp-budget > ul {
-        padding: 70px 0 0 20px !important;
+        padding: 70px 0 0 18px !important;
     }
 
     .home .bottom .hosp-budget > ul > li > ul > li {
@@ -207,7 +207,7 @@
     -moz-border-radius: 4px 0 4px 4px ;
     border-radius: 4px 0 4px 4px ;
     background-color: #515465;
-    
+
 }
 .home .header .config .config-toggle-content p {
     width: 150px;
@@ -435,7 +435,7 @@
 }
 
 .home .bottom .sales-planning .hosp-budget > ul {
-    padding: 75px 0 0 10px;
+    padding: 75px 0 0 8px;
 }
 
 .home .bottom .sales-planning .hosp-budget > ul > li {
@@ -458,7 +458,7 @@
     text-align: right;
 }
 
-.home .bottom .sales-planning .hosp-budget > ul > li:not(:first-child) > ul {
+.home .bottom .sales-planning .hosp-budget > ul > li:not(:first-child):not(:last-child) > ul {
     border-right: 1px solid #626673;
 }
 
