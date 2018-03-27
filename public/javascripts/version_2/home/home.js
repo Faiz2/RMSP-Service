@@ -422,7 +422,7 @@
         return result;
     }
 
-    // 提交检查所有人是否被选中
+    // 提交检查所有人是否被选中 验证
     var verifyAllSalesMenIsSelected = function() {
         var result = false;
         var allSelectedSalesMen = $('div[name="hosp-info"]').filter(function(index, dom){
@@ -445,7 +445,7 @@
         return result;
     }
 
-    // 验证所有输入框是否为数字
+    // 所有输入框是否为数字 验证
     var verifyAllInputIsNumber = function() {
         var result = false;
         var inputs = $('input').filter(function(index, dom){
@@ -465,6 +465,24 @@
         return result;
     }
 
+    // 人员培训非空 验证
+    var verifyAllPersonnelTraining = function() {
+        var result = false;
+        var reVal = $('div[name="personal-training"] input').filter(function(index, dom){
+            return $(dom).attr("disabled") !== "disabled";
+        });
+        $.each(reVal, function(i, v){
+            if($(v).val() === "") {
+                f.alert.alert_warn("警告", "人员培训下有未填写选项");
+                result = false;
+                return false;
+            } else {
+                result = true;
+                return true;
+            }
+        });
+        return result;
+    }
 
     // 获取所有input Budget输入
     var getAllInputBudget = function() {
@@ -812,6 +830,7 @@
                 calcManageAllotTime($(that));
                 if(!verifyCurrHospitalSalesMen($(that).attr("hospital-name"))) {
                     f.alert.alert_warn("警告", "未指定代表");
+                    $(that).val("");
                 }
 
             });
@@ -902,7 +921,7 @@
 
                 var projectNames = ["能力辅导", "实地协访", "团队例会和团建", "KPI 报告分析", "行政工作", "产品培训"];
                 var managementDiv = $('div[name="personal-training"]')
-                var management = $(projectNames).map(function(index, name){
+                var management = $(projectNames).map(function(index, name) {
                     var projectCode = parseInt($(managementDiv).find('input[name="'+ name +'"]').eq(0).attr("code"));
                     var apply = $(managementDiv).find('input[name="'+ name +'"]').map(function(index, input){
                         return {
@@ -946,8 +965,8 @@
                 // w.console.info(verifyManageTimelg())
                 // w.console.info(verifyTimelg())
                 // w.console.info(verifyBudgeteq())
-                if(verifyAllSalesMenIsSelected() && verifyAllInputIsNumber() && verifyBudgeteq() && verifyManageTimelg() && verifyTimelg() && verifyTimeeq()) {
-                    // w.console.info("aa")
+                 // w.console.info(verifyAllPersonnelTraining())
+                if(verifyAllSalesMenIsSelected() && verifyAllInputIsNumber() && verifyBudgeteq() && verifyManageTimelg() && verifyTimelg() && verifyTimeeq() && verifyAllPersonnelTraining()) {
 
                     f.alert.loading(true);
                     f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
@@ -970,6 +989,7 @@
 
                 }
             });
+
             // 显示导出/导入excel区域按钮
             $('div[name = "toggle-import-export"]').click(function(e){
                 $('div[name="area-import-export"]').toggle();
@@ -978,6 +998,7 @@
                 });
                 e.stopPropagation();
             });
+
             // 导入/导出区域的按钮冒泡阻止
             $('div[name="area-import-export"]').click(function(e){
                 e.stopPropagation();
