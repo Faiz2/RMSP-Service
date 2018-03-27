@@ -12,6 +12,7 @@
 
         $('.exit-area').click(function(e){
             e.stopPropagation();
+            w.location.href = "/"
         })
     });
 })(jQuery,window);

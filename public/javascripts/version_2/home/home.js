@@ -392,7 +392,7 @@
                 return dom.personal === name
             });
             if(personal.get(0).days > sum) {
-                f.alert.alert_warn("警告", name+"fuck");
+                f.alert.alert_warn("警告", "经理协作时间大于，代表："+name+"所分配时间");
                 result = false;
                 return false;
             } else {
@@ -949,14 +949,14 @@
                 if(verifyAllSalesMenIsSelected() && verifyAllInputIsNumber() && verifyBudgeteq() && verifyManageTimelg() && verifyTimelg() && verifyTimeeq()) {
                     // w.console.info("aa")
 
-                    f.alert.loading();
+                    f.alert.loading(true);
                     f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
                         if(r.status === 'ok' && r.result.input_update === 'success') {
                             f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
                                 if(rr.status === 'ok' && rr.result.input_update === 'success') {
                                     f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
                                         if(rrr.status === 'ok' && rrr.result.data === 'success') {
-                                            layer.closeAll('loading');
+                                            f.alert.loading(false);
                                             f.alert.alert_success("消息", "模拟成功");
                                             w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
                                         }
@@ -970,7 +970,6 @@
 
                 }
             });
-
             // 显示导出/导入excel区域按钮
             $('div[name = "toggle-import-export"]').click(function(e){
                 $('div[name="area-import-export"]').toggle();

@@ -54,8 +54,14 @@ function Alert() {}
             layer.close(num);
         });
     };
-    this.loading = function() {
-        layer.load();
+    this.loading = function(display) {
+        if(display === true) {
+            $('.loading').show();
+        } else {
+            $('.loading').hide();
+        }
+
+
     };
 
 
