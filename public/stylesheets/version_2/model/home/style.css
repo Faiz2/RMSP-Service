@@ -40,12 +40,21 @@
     .home .bottom .personal-training .input-display {
         margin-left: 765px !important;
     }
+    .home .bottom .personal-training .input-display .allot-time {
+        margin-left: 0 !important;
+    }
+    /*.home .bottom .personal-training .input-display .col-md-5 {*/
+        /*padding:0;*/
+    /*}*/
 
     .home .bottom .personal-training .input-display .text-display {
         margin: 30px 0 0 35px !important;
     }
     .home .message-box .hosp-array-info .arrow-left,.home .message-box .hosp-array-info .arrow-right{
         display: none !important;
+    }
+    .home .message-box .hosp-array-info > ul {
+        left: 0 !important;
     }
 }
 
@@ -92,8 +101,18 @@
         margin-left: 765px !important;
     }
 
+    .home .bottom .personal-training .input-display .allot-time {
+        margin-left: 0 !important;
+    }
+
     .home .bottom .personal-training .input-display .text-display {
         margin: 30px 0 0 35px !important;
+    }
+    .home .message-box .hosp-array-info .arrow-left,.home .message-box .hosp-array-info .arrow-right{
+        display: none !important;
+    }
+    .home .message-box .hosp-array-info > ul {
+        left: 0 !important;
     }
 }
 
@@ -701,6 +720,9 @@
     height: 370px;
     margin-left: 655px;
 }
+.home .bottom .personal-training .input-display .col-md-5 {
+    padding:0;
+}
 
 .home .bottom .personal-training .input-manager {
     height: 110px;
@@ -823,10 +845,10 @@
     letter-spacing: 0.3rem;
 }
 .home .bottom .personal-training .input-display .allot-time {
-    width: 290px;
+    width: 250px;
     height: 250px;
     margin-top: 30px;
-    margin-left: -50px;
+    margin-left: -17px;
 }
 
 .home .answer-tab {
