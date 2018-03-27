@@ -503,16 +503,37 @@
     // 计算所有Input Budget输入
     var calcBudget = function() {
         var sum = 0;
-        $('ul[name="hosp-list"] li span[name="budget"]').text("——");
-        $.each(getAllInputBudget(), function(i, v) {
-            sum += parseInt(v.budget) || 0;
-            if(v.budget === "") {
-                $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text("——");
-            }else {
-                $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
+        // $('ul[name="hosp-list"] li span[name="budget"]').text("——");
+        var options = $('.selected-salesman').find('select option:selected').not('[value=""]');
+        $.each(options, function(i, v){
+            $.each(getAllInputBudget(), function(i, d) {
+                if($(v).attr("hospital-name") === d.hospital) {
+                    sum += parseInt(d.budget) || 0;
+                    $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text(d.budget);
+                }
+                if(d.budget === "") {
+                    $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text("——");
+                }
+                // sum += parseInt(v.budget) || 0;
+                // if(v.budget === ""){
+                //     $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text("——");
+                // } else {
+                //     $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
+                // }
+            });
+            if(($(v).val() || "") === "不分配") {
+                $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hospital-name") + '"] span[name="budget"]').text("0");
             }
-
         });
+        // $.each(getAllInputBudget(), function(i, v) {
+        //     sum += parseInt(v.budget) || 0;
+        //     if(v.budget === ""){
+        //         $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text("——");
+        //     } else {
+        //         $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
+        //     }
+        // });
+
         setTotalBudget("total-budget", sum);
     }
 
@@ -589,12 +610,14 @@
 
     // 显示选择代表
     var showSelectSalesMen = function() {
-        var selected = $('.selected-salesman').find('select option:selected');
+        var selected = $('.selected-salesman').find('select option:selected').not('[value=""]');
+        // selected.not('[value=""]')
         $.each(selected, function(i, v){
             var salesmen = "——";
             var salesmenpic = "salesmen-picture";
             if($(v).val() === "") salesmen = "——"; else salesmen = $(v).val();
-            if($(v).val() === "不分配" || $(v).val() === "") { salesmenpic = "salesmen-picture"; } else {salesmenpic = $(v).val()}
+            if($(v).val() === "不分配" || $(v).val() === "") {salesmenpic = "salesmen-picture";} else {salesmenpic = $(v).val()}
+
             $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hospital-name") + '"]').find('span[name="salesmen"]').text(salesmen);
             $('div[name="' + $(v).attr("hospital-name") + '"] .salesman-picture img').attr("src", asset_resources+"images/version_2/" + salesmenpic + ".png")
         });
