@@ -3,11 +3,14 @@
 .start {
     position: relative;
     overflow: hidden;
-    height: 800px;
+    height: 900px;
+    background-image: url("/assets/images/version_2/login_bg.png");
+    -webkit-background-size: cover;
+    background-size: cover;
 }
 
 .start .divlist {
-    height: 800px;
+    height: 900px;
     width: 1370px;
     margin: 0 auto;
     overflow: hidden;
@@ -20,6 +23,9 @@
     height: 555px;
     border-radius: 10px;
     background-color:#282a38;
+    -webkit-box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
+    -moz-box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
+    box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
 }
 
 .start .divlist .content .leftdiv, .start .divlist .content .rightdiv {
@@ -158,21 +164,35 @@
     display: inline-block;
     font-size: 1.4rem;
     cursor: pointer;
-    padding-right: 10px;
+    padding-right: 25px;
     line-height: 100%;
     letter-spacing: 2px;
 }
 
-.start .link-div .btn {
-    display: inline-block;
-    width: 128px;
-    height: 45px;
-    background-color: #4488a7;
-    font-size:1.8rem;
-    line-height: 33px;
-    border-radius: 22.5px;
+.start .link-div .skip:hover {
+    color:#4488a7;
 }
 
+.start .link-div .btn {
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    background-color: #4488a7;
+    font-size:1.4rem;
+    line-height: 28px;
+    border-radius: 20px;
+    letter-spacing: 2.5px;
+    -webkit-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    -moz-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+}
+
+.start .link-div .btn:hover {
+    -webkit-animation: scaletobigger 0.1s;
+    -o-animation: scaletobigger 0.1s;
+    animation: scaletobigger 0.1s;
+    animation-fill-mode: both;
+}
 
 .start .leftdiv {
     left: -40%;
@@ -304,5 +324,24 @@
         /*left: 50%;*/
         right:50%;
         top: 50%;
+    }
+}
+
+@keyframes scaletobigger {
+    from {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        font-size: 1.4rem;
+    }
+    to {
+        -webkit-transform: scaleX(1.05);
+        -moz-transform: scaleX(1.05);
+        -ms-transform: scaleX(1.05);
+        -o-transform: scaleX(1.05);
+        transform: scaleX(1.05);
+        font-size: 1.4rem;
     }
 }

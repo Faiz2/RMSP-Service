@@ -1,6 +1,7 @@
 (function($, w) {
 
     var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
+    var hospListIndex = 2;
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     var getPersionPieData = function(percent) {
@@ -837,13 +838,27 @@
 
             // 医院列表点击事件
             $('ul[name="hosp-list"] li').click(function() {
-                $(this).addClass("active");
-                $(this).siblings().removeClass("active");
+                $(this).addClass("hospactive");
+                $(this).siblings().removeClass("hospactive");
                 switchHospitalInfo($(this).attr("name"));
             });
 
             //答题页 销售计划于人员培训按钮
             $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
+
+
+                console.log($(this).text())
+                if($(this).text() == "人员培训") {
+                    hospListIndex = $('.hospactive').index();
+                    console.log("hospListIndex:"+hospListIndex+typeof(hospListIndex));
+                    $('ul[name="hosp-list"] li').addClass("hospactive");
+                } else {
+                    $('ul[name="hosp-list"] li').removeClass("hospactive");
+                    console.log($('ul[name="hosp-list"] li:nth-child(1)'));
+
+                    $('ul[name="hosp-list"] li:eq('+(hospListIndex)+')').addClass("hospactive");
+                }
+
                 $(this).addClass("active");
                 $(this).siblings().removeClass("active");
                 switchSalesAndPersonel($(this).text());
