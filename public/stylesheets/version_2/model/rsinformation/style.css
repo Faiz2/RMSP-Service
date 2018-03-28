@@ -8,12 +8,13 @@
 
 .resource-info .resource-content .navbar-resource {
     height: 70px;
-    /* position: relative;
-    z-index: auto;
-    left: 0;
-    top: 0; */
+    position: relative;
+    z-index: 2;
     padding: 15px;
+    /*box-shadow: 0 4px 4px 4px rgba(50,50,50,.6);*/
+    /*box-shadow:0 0 3px #888*/
 }
+
 
 .resource-info .resource-content .navbar-resource .navbar-btn {
     margin: 0;
@@ -22,6 +23,8 @@
 .resource-info .resource-content .navbar-resource .navbar-btn > button {
     width: 190px;
     height: 40px;
+    font-size:1.6rem;
+    letter-spacing: 3px;
     background-color: #525565;
     border-color: #525565;
     color: #ADAFB6;
@@ -38,12 +41,26 @@
     height: 40px;
     margin-right: 20px;
     border-radius: 20px;
-    background-color: #5388A9;
+    letter-spacing: 2.5px;
     margin-left: -15px;
-
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    background-color: #5388A9;
 }
 
-/*TODO: 重构时废除*/
+/*@keyframes scaletobigger {*/
+    /*from {*/
+        /*width:100px;*/
+    /*}*/
+    /*to {*/
+        /*width:110px;*/
+    /*}*/
+/*}*/
+
+.resource-info .resource-content .backup-btn:hover {
+    animation: scaletobigger 0.4s;
+    animation-fill-mode: both;
+}
+    /*TODO: 重构时废除*/
 .resource-info .resource-content .person-list {
     width: 100%;
     height: 700px;
@@ -79,6 +96,7 @@
 .resource-info .resource-content .person-list > .person > .details .person-name {
     font-size: 2rem;
     margin-top: 20px;
+    letter-spacing: 4px;
 }
 
 .resource-info .resource-content .person-list > .person > .details .media-left {
@@ -114,7 +132,7 @@
 }
 
 .resource-info .resource-content .hospital-list > .hospital > .details .describe {
-    width: 410px;
+    /*width: 410px;*/
     text-indent:2rem;
     margin-top: 20px;
 }
@@ -122,11 +140,13 @@
 .resource-info .resource-content .hospital-list > .hospital > .details .potential {
     margin: 0 0 0 75px;
     width: 300px;
+    margin-top: 20px;
 }
 
 .resource-info .resource-content .hospital-list > .hospital > .details .hospital-name {
     font-size: 2rem;
     margin-top: 20px;
+    letter-spacing: 4px;
 }
 
 .resource-info .resource-content .hospital-list > .hospital > .details .media-left {
@@ -134,9 +154,11 @@
 }
 
 .resource-info .resource-content .hospital-list > .hospital > .details .media-body {
-    padding-right: 50px;
+    padding-right: 0px;
 }
-
+.resource-info .resource-content .hospital-list > .hospital > .details .media-body:last-child {
+    padding-left: 120px;
+}
 .resource-info .resource-content .product-list {
     height: 700px;
     overflow: hidden;

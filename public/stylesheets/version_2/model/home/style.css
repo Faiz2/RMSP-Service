@@ -16,7 +16,7 @@
     }
 
     .home .bottom .hosp-budget > ul > li > ul > li {
-        margin: 0 22px 22px 22px !important;
+        margin: 0 22px 22px 21px !important;
     }
 
     .home .bottom .hosp-budget > ul > li > ul > li > input {
@@ -24,13 +24,13 @@
         height: 30px !important;
     }
 
-    .home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
-        padding: 2px 16px 10px !important;
+    .home .bottom .personal-training .input-personal tr:not(:first-child):not(:last-child) td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
+        padding: 2px 15px 20px !important;
     }
 
     .home .bottom .personal-training .input-training td.input-meeting input {
         width: 575px !important;
-        height: 33px !important;
+        height: 30px !important;
     }
 
     .home .bottom .personal-training .input-personal {
@@ -40,9 +40,9 @@
     .home .bottom .personal-training .input-display {
         margin-left: 765px !important;
     }
-    .home .bottom .personal-training .input-display .allot-time {
-        margin-left: 0 !important;
-    }
+    /*.home .bottom .personal-training .input-display .allot-time {*/
+        /*margin-left: 0 !important;*/
+    /*}*/
     /*.home .bottom .personal-training .input-display .col-md-5 {*/
         /*padding:0;*/
     /*}*/
@@ -55,6 +55,9 @@
     }
     .home .message-box .hosp-array-info > ul {
         left: 0 !important;
+    }
+    .home .bottom .personal-training .input-manager table tr:first-child td {
+        padding: 2px 15px 0px !important;
     }
 }
 
@@ -86,7 +89,7 @@
     }
 
     .home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
-        padding: 2px 16px 10px !important;
+        padding: 2px 15px 10px !important;
     }
 
     .home .bottom .personal-training .input-training td.input-meeting input {
@@ -315,6 +318,24 @@
     }
 }
 
+@keyframes scaletobigger {
+    from {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+
+    }
+    to {
+        -webkit-transform: scaleX(1.05);
+        -moz-transform: scaleX(1.05);
+        -ms-transform: scaleX(1.05);
+        -o-transform: scaleX(1.05);
+        transform: scaleX(1.05);
+
+    }
+}
 
 .slideInRight {
     -webkit-animation-name: slideInRight;
@@ -355,6 +376,7 @@
 .home {
     /* min-height: 680px; */
     color: #EEEEEE;
+    padding-bottom: 50px;
 }
 
 .home .bg {
@@ -366,9 +388,20 @@
 }
 
 .home .btn-tenuous {
-    padding: 4px 30px;
+    padding: 4px 20px;
+    letter-spacing: 2.5px;
+    -webkit-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    -moz-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
 }
-
+.home .btn-tenuous:hover {
+    background-color: #337ab7;
+    border-color: #337ab7;
+    -webkit-animation: scaletobigger 0.1s;
+    -o-animation: scaletobigger 0.1s;
+    animation: scaletobigger 0.1s;
+    animation-fill-mode: both;
+}
 .home .header {
     width: 100%;
     /* height: 305px; */
@@ -376,9 +409,19 @@
     /*background-color: #44651b;*/
 }
 
+.home .header .head-describe .col-md-12 {
+    padding-left: 0;
+}
+
+.home .header .head-describe .col-md-12 .col-md-5 {
+    padding-left: 12px;
+}
 .home .box {
     border-radius: 5px;
     margin-bottom: 5px;
+    -webkit-box-shadow: 2px 2px 4px 2px rgba(50,50,50,.6);
+    -moz-box-shadow: 2px 2px 4px 2px rgba(50,50,50,.6);
+    box-shadow: 2px 2px 4px 2px rgba(50,50,50,.6);
 }
 
 .home .header .timer {
@@ -404,7 +447,7 @@
     box-shadow: 3px 3px 10px 1px  #303030;
     -webkit-border-radius: 4px 0 4px 4px ;
     -moz-border-radius: 4px 0 4px 4px ;
-    border-radius: 4px 0 4px 4px ;
+    border-radius: 4px 0 4px 4px;
     background-color: #515465;
 
 }
@@ -426,6 +469,7 @@
     font-size: 2rem;
     letter-spacing: 0.4rem;
     padding-right: 9px !important;
+
 }
 
 .home .message-box .show-info .decision-info-btn {
@@ -448,7 +492,7 @@
     margin: 3px 0;
     padding: 10px;
     float: left;
-    letter-spacing: 0.3rem;
+    letter-spacing:2.5px;
     border-right: 1px solid #5D616E;
 }
 
@@ -479,6 +523,7 @@
 
 .home .message-box .show-info .resource-manager-info .person-details-info p {
     padding: 10px;
+    letter-spacing: 2.5px;
 }
 
 .home .message-box .show-info .resource-manager-info .person-details-info .graphicsy-pie {
@@ -498,6 +543,7 @@
     position: relative;
     left: 90px;
     top: -15px;
+    letter-spacing: 2.5px;
 }
 
 /**
@@ -516,6 +562,11 @@
     color: #8E8F98;
     letter-spacing: 0.3rem;
     background-color: #444653;
+}
+.home .message-box .hosp-array-info ul[name='hosp-list'] li {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 .home .message-box .hosp-array-info .arrow-left,.home .message-box .hosp-array-info .arrow-right{
     display: inline-block;
@@ -561,6 +612,7 @@
     width: 137px;
     height: 135px;
     display: inline-block;
+    border-radius: 0;
 }
 
 .home .message-box .hosp-array-info > ul > li:hover {
@@ -571,7 +623,8 @@
 }
 
 .home .message-box .hosp-array-info > ul > li:not(:last-child) {
-    border-right: 1px solid #51535E;
+    border-right: 1px solid #373a44;
+
 }
 
 .home .message-box .hosp-array-info > ul > li > div[class*="content"] {
@@ -580,7 +633,9 @@
     font-size: 1.8rem;
     /* opacity: 0.4; */
 }
-
+/*.home .message-box .hosp-array-info > ul > li > div[class*="content"] p span:first-child {*/
+    /*text-align: left;*/
+/*}*/
 
 .home .bottom {
     width: 100%;
@@ -672,8 +727,11 @@
     height: 30px;
     vertical-align: middle;
     text-align: center;
-    letter-spacing: .15rem;
+    letter-spacing: 2.5px;
     margin: 0 5px 20px 5px;
+}
+.home .bottom .sales-planning .hosp-budget > ul > li > ul > li.top-tetile {
+    font-size: 1.6rem;
 }
 
 .home .bottom .sales-planning .hosp-budget > ul li[class="left-title"] {
@@ -690,12 +748,12 @@
 
 .home .bottom .sales-planning .hosp-budget > ul li > span[class="hosp-budget-number"] {
     font-size: 2.4rem;
-    letter-spacing: .15rem;
+    letter-spacing: 3px;
 }
 
 .home .bottom .sales-planning .hosp-budget > ul > li > ul > li > input {
     width: 145px;
-    height: 35px;
+    height: 30px;
     border: 1px solid #757984;
     border-radius: 5px;
     font-size: 2.4rem;
@@ -724,16 +782,24 @@
     padding:0;
 }
 
+.home .bottom .personal-training .input-display p {
+    letter-spacing: 2.5px;
+}
+
 .home .bottom .personal-training .input-manager {
+    position: relative;
     height: 110px;
     margin-bottom: 5px;
     padding: 25px 0 0 15px;
 }
 
 .home .bottom .personal-training .input-personal td:not(.name-tips):not(.assist-tag):not(.training-tag):not(.meeting-tag) {
-    padding: 2px 5px 10px;
+    padding: 2px 15px 10px;
 }
-
+.home .bottom .personal-training .input-personal tr:last-child td.name-tips{
+    /*padding: 2px 15px 10px;*/
+    padding-bottom: 4px;
+}
 .home .bottom .personal-training td > div.tag {
     width: 12px;
     height: 12px;
@@ -780,9 +846,21 @@
 
 .home .bottom .personal-training td {
     font-size: 1.4rem;
-    letter-spacing: 0.15rem;
+    letter-spacing: 2.5px;
 }
 
+.home .bottom .personal-training .input-manager table tr:first-child td {
+    padding: 13px 15px 0px !important;
+}
+.home .bottom .personal-training .input-manager table tr:last-child td:first-child {
+    margin-right: 18px;
+}
+.home .bottom .personal-training .input-manager table tr:last-child td:nth-child(2) {
+    width: 104px;
+}
+.home .bottom .personal-training .input-manager table tr:last-child td:not(:first-child):not(:nth-child(2)) {
+    width: 121px;
+}
 .home .bottom .personal-training td.person-tips {
     text-align: center;
 }
@@ -796,7 +874,7 @@
     text-align: right;
     font-size: 2rem;
     letter-spacing: 0.3rem;
-    border-radius: 5px;
+    border-radius: 3px;
     border-top: 0;
     border-left: 0;
     border-right: 0;
@@ -805,27 +883,42 @@
 
 .home .bottom .personal-training .input-manager td input {
     width: 90px;
-    height: 33px;
+    height: 30px;
 }
 
 .home .bottom .personal-training .input-training td input {
     width: 90px;
-    height: 33px;
+    height: 30px;
 }
 
 .home .bottom .personal-training .input-training td.input-meeting input {
     width: 490px;
-    height: 33px;
+    height: 30px;
 }
 
 .home .bottom .personal-training .input-training {
+    position: relative;
     height: 255px;
     padding: 25px 0 0 15px;
 }
 
+.home .bottom .personal-training .input-training tr:first-child td {
+    padding: 2px 15px 0px !important;
+}
+
+.home .bottom .personal-training .input-personal .input-training table tr:not(:last-child) td:first-child, .home .bottom .personal-training .input-personal .input-training table tr:not(:last-child) td:nth-child(2){
+    padding-bottom: 18px;
+}
+/*.home .bottom .personal-training .input-personal .input-training table  td.name-tips,.home .bottom .personal-training .input-personal .input-training table td.training-tag {*/
+    /*padding-bottom: 18px;*/
+/*}*/
+
+.home .bottom .personal-training .input-personal .input-manager table td.name-tips,.home .bottom .personal-training .input-personal .input-manager table td.assist-tag {
+    padding-bottom: 8px;
+}
 .home .bottom .personal-training .input-display td input {
     width: 90px;
-    height: 33px;
+    height: 30px;
 }
 
 .home .bottom .personal-training .input-display .text-display {
@@ -858,6 +951,7 @@
 .home .answer-tab button {
     width: 170px;
     height: 45px;
+    font-size: 1.8rem;
     letter-spacing: .3rem;
     border-radius: 50px;
     /* border: 1px solid #4C515F; */
@@ -865,8 +959,12 @@
     border-bottom-width: 0;
     border-right-width: 0;
     border-top-width: 0;
-    background-color: #4C515F;
-    color: #97989C;
+    background-color: #58595D;
+    color: #373A44;
+}
+
+.home .answer-tab button:hover {
+    color:#ffffff;
 }
 
 .home .answer-tab button.active:active {
@@ -875,14 +973,95 @@
 
 .home .answer-tab button.active {
     box-shadow: 1px 0 2px #454649;
-    background-color: #58595D;
-    color: #373A44;
+    background-color: #4C515F;
+    color: #ffffff;
 }
 
 .home .answer-tab button[class*="submit-btn"] {
     width: 120px;
     height: 45px;
+    font-size: 1.4rem;
+    letter-spacing: 4px;
     margin-right: -25px;
     background-color: #4A8886;
     color: #FFFFFF;
+    -webkit-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    -moz-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+}
+.home .answer-tab button[class*="submit-btn"]:hover {
+    -webkit-animation: scaletobigger 0.1s;
+    -o-animation: scaletobigger 0.1s;
+    animation: scaletobigger 0.1s;
+    animation-fill-mode: both;
+}
+.home .input-manager p:first-child,.home .input-training p:first-child {
+    position: relative;
+    top: -16px;
+    margin-bottom: 0;
+
+}
+.home .input-manager p:first-child span,.home .input-training p:first-child span {
+    display: inline-block;
+    position: absolute;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #e7e7e7;
+}
+.home .input-manager p:first-child span:first-child,.home .input-training p:first-child span:first-child {
+    left: 0;
+    top: 0;
+}
+.home .input-manager p:first-child span:last-child {
+    right: 19px;
+    top: 0;
+}
+
+.home .disabled-count td  input:disabled {
+    background-color: transparent !important;
+}
+.home .disabled-count td input:disabled {
+    width:70px !important;
+    padding-right: 5px;
+}
+
+.home .media-body{
+    width: 538px;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+}
+.home .person .media .media-body:last-child{
+    padding-left: 0;
+}
+.home div.media .media-body:first-child{
+    width: 538px;
+    padding-left: 0;
+}
+.home div.media .media-body:last-child{
+
+    padding-left: 100px;
+}
+
+.home .personal-training .input-display .input-display-inside {
+    display: inline-block;
+
+}
+.home .personal-training .input-display .input-display-inside-left {
+    width: 255px;
+    vertical-align: top;
+}
+.home .personal-training .input-display .input-display-inside-left table.text-display {
+    margin:0;
+
+}
+.home .personal-training .input-display .input-display-inside-right {
+    width: 345px;
+    vertical-align: top;
+}
+.home .personal-training .input-display .input-display-inside-right .allot-time {
+    margin: 30px auto;
+}
+.hospactive {
+    color: #e7e7e7;
+    background-color: #515565;
 }

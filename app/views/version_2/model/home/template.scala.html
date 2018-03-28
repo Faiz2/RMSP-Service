@@ -71,16 +71,16 @@
                                         <div class="person-name">小宋</div>
                                     </div>
                                     <div class="detail">
-                                        <div class="graphicsy-pie" name="小白"></div>
-                                        <div class="person-name">小白</div>
-                                    </div>
-                                    <div class="detail">
                                         <div class="graphicsy-pie" name="小兰"></div>
                                         <div class="person-name">小兰</div>
                                     </div>
                                     <div class="detail">
                                         <div class="graphicsy-pie" name="小木"></div>
                                         <div class="person-name">小木</div>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="graphicsy-pie" name="小白"></div>
+                                        <div class="person-name">小白</div>
                                     </div>
                                     <div class="detail">
                                         <div class="graphicsy-pie" name="小青"></div>
@@ -93,14 +93,14 @@
                             <ul name="hosp-list" unselectable="on" onselectstart="return false;" style="-moz-user-select:none;">
                                 @{
                                     hosp_list.zipWithIndex.map { hosp =>
-                                        <li class={"box "+(if(hosp._2 == 0){"active"})+""} name={(hosp._1 \ "hosp_name").asOpt[String].get}><!--active-->
+                                        <li class={"box "+(if(hosp._2 == 0){"hospactive"})+""} name={(hosp._1 \ "hosp_name").asOpt[String].get}><!--active-->
                                             <div class="content">
                                                 <p class="text-right">{(hosp._1 \ "hosp_name").asOpt[String].get}</p>
-                                                <p class="text-right">
-                                                    <span>$</span>
+                                                <p class="text-left">
+                                                    <span><i class="glyphicon glyphicon-yen"></i></span>
                                                     <span name="budget">——</span>%
                                                 </p>
-                                                <p class="text-right">
+                                                <p class="text-left">
                                                     <span>
                                                         <i class="glyphicon glyphicon-user"></i>
                                                     </span>
@@ -350,7 +350,7 @@
                                     <div class="row">
                                         <div class="input-personal" name="input-personal">
                                             <div class="input-manager box bg" name="input-manager">
-                                                <p></p>
+                                                <p><span>单位：天</span><span>经理协访天数，不可超过該代表总拜访天数</span></p>
                                                 @manageInputs.filter(f => (f \ "project_name").as[String] == "实地协访").map { data =>
                                                     <table>
                                                         <tr>
@@ -398,7 +398,7 @@
 
                                             </div>
                                             <div class="input-training box bg" name="input-training">
-                                                <p></p>
+                                                <p><span>单位：天</span></p>
                                                 <table>
                                                     @manageInputs.map { data =>
                                                             @{
@@ -445,7 +445,7 @@
                                                                 if((data \ "project_name").as[String] == "团队例会和团建") {
                                                                         <tr>
                                                                             <td class="meeting-tag"><div class="tag"></div></td>
-                                                                            <td class="name-tips">列会/团建</td>
+                                                                            <td class="name-tips">例会/团建</td>
                                                                             <td colspan="7" class="input-meeting">
                                                                             {(data \ "apply").as[List[String Map JsValue]].map { person =>
                                                                                 if(checkInputPhase._2 > phrase.toInt) {
@@ -505,14 +505,14 @@
                                                             }
                                                         }
                                                     }
-                                                    <tr>
+                                                    <tr class="disabled-count">
                                                         <td class="meeting-tag"></td>
                                                         <td class="name-tips">总计</td>
-                                                        <td><input type="text" name="小宋" disabled="disabled"></td>
-                                                        <td><input type="text" name="小兰" disabled="disabled"></td>
-                                                        <td><input type="text" name="小木" disabled="disabled"></td>
-                                                        <td><input type="text" name="小白" disabled="disabled"></td>
-                                                        <td><input type="text" name="小青" disabled="disabled"></td>
+                                                        <td><input type="text" name="小宋" disabled="disabled">天</td>
+                                                        <td><input type="text" name="小兰" disabled="disabled">天</td>
+                                                        <td><input type="text" name="小木" disabled="disabled">天</td>
+                                                        <td><input type="text" name="小白" disabled="disabled">天</td>
+                                                        <td><input type="text" name="小青" disabled="disabled">天</td>
                                                     </tr>
                                                 </table>
 
@@ -521,7 +521,7 @@
                                             </div>
                                         </div>
                                         <div class="input-display box bg" name="input-display">
-                                            <div class="col-md-7">
+                                            <div class="input-display-inside input-display-inside-left">
                                                 <table class="text-display">
                                                     <tr>
                                                         <td class="assist-tag"><div class="tag"></div></td>
@@ -614,7 +614,7 @@
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="input-display-inside input-display-inside-right">
                                                 <div class="allot-time" id="hospcode-allot-time"></div>
                                                 <p class="text-center">经理的分配时间比例</p>
                                             </div>

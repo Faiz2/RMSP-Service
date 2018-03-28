@@ -24,6 +24,9 @@
     background-image: url("/assets/images/version_2/login_inside_bg.png");
     -webkit-background-size: 100%;
     background-size: 100% ;
+    -webkit-box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
+    -moz-box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
+    box-shadow: 4px 4px 10px 4px rgba(50, 50, 50,0.6);
 }
 .login-wrapper .login-content .login-left {
     float: left;
@@ -56,7 +59,7 @@
 }
 .login-wrapper .login-content .login-right .login-right-inside .login-title {
     font-size: 2.0rem;
-    letter-spacing: 3.0px;
+    letter-spacing: 4.0px;
     padding-left: 5px;
     margin-bottom: 20px;
     color:#fff;
@@ -69,8 +72,11 @@
     height: 33px;
     border:0;
     padding-left: 20px;
-    background-color: #666873;
+
     border-radius: 5px;
+    font-size: 14px;
+    letter-spacing: 2.5px;
+    background-color: rgba(255,255,255,.3);
     color:#fff;
 }
 
@@ -92,7 +98,8 @@
 .login-wrapper .login-content .login-right .login-right-inside .login-data .login-forgot {
     margin-top: 7px;
     text-align: right;
-
+    font-size: 10px;
+    letter-spacing: 2.5px;
 }
 .login-wrapper .login-content .login-right .login-right-inside .login-data .login-forgot a{
     font-size: 1.4rem;
@@ -110,7 +117,14 @@
     border-radius: 16.5px;
     text-align: center;
     line-height: 22px;
-    font-size: 1.4rem;
+    font-size: 14px;
+    letter-spacing: 2.5px;
     color:#fff;
-    background-color: #2380B0;
+    background-color: rgba(35,128,176,.5);
+    -webkit-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    -moz-box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+}
+.login-wrapper .login-content .login-right .btn-login:hover {
+    transform: scale(1.1);
 }
