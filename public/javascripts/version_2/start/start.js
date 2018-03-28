@@ -17,16 +17,7 @@
     var contentdiv = document.getElementsByClassName('content');
     var pointIndex = 0;
     var len = contentdiv.length;
-    var screenWidth = 0;
-    var screenHeight = document.html.clientHeight;
-    var screenAvailHeight = window.screen.availHeight;
-// resetScreenBig
-function resetScreenBig() {
-    console.log(screenHeight);
-    console.log(screenAvailHeight)
-    document.body.style.height = screenHeight;
 
-}
 
 // skip按钮的跳转
 function skiplink() {
@@ -155,7 +146,6 @@ function goHomePage() {
 
         var len = contentdiv.length;
 
-        resetScreenBig();
         function changeBiggerPlace(){
 
         };
@@ -266,7 +256,4 @@ function goHomePage() {
             })(i)
         }
     }
-resetScreenBig();
 // })(jQuery, window);
-
-
