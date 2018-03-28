@@ -506,14 +506,19 @@
         var sum = 0;
         // $('ul[name="hosp-list"] li span[name="budget"]').text("——");
         var options = $('.selected-salesman').find('select option:selected').not('[value=""]');
+
         $.each(options, function(i, v){
             $.each(getAllInputBudget(), function(i, d) {
                 if($(v).attr("hospital-name") === d.hospital) {
-                    sum += parseInt(d.budget) || 0;
-                    $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text(d.budget);
-                }
-                if(d.budget === "") {
-                    $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text("——");
+                    sum += parseInt(d.budget || 0);
+                    $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text(parseInt(d.budget || 0));
+                    w.console.info($(v).val())
+                    if(d.budget === "" && $(v).val() !== "不分配") {
+                        $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text("——");
+                    }
+                    if(($(v).val() || "") === "不分配" && d.budget === "") {
+                        $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hospital-name") + '"] span[name="budget"]').text("0");
+                    }
                 }
                 // sum += parseInt(v.budget) || 0;
                 // if(v.budget === ""){
@@ -522,9 +527,7 @@
                 //     $('ul[name="hosp-list"]').find('li[name="' + v.hospital + '"] span[name="budget"]').text(v.budget);
                 // }
             });
-            if(($(v).val() || "") === "不分配") {
-                $('ul[name="hosp-list"]').find('li[name="' + $(v).attr("hospital-name") + '"] span[name="budget"]').text("0");
-            }
+
         });
         // $.each(getAllInputBudget(), function(i, v) {
         //     sum += parseInt(v.budget) || 0;
@@ -828,6 +831,7 @@
             setTipsDays();
             calcManageAllotTime();
             removeSelectNoneOption();
+            window.localStorage.clear();
         }
 
         events: {
@@ -896,7 +900,7 @@
             // 分配沟通时间blur
             $('div[name="hosp-budget"] input[name="prod_hours"]' +
             ', div[name="personal-training"] div[name="input-training"] input')
-                .blur(function() {
+                .blur(function() {ii
                 var that = this;
                 calcAllotTime($(that))
                 calcManageAllotTime($(that));
@@ -933,8 +937,8 @@
                         inputs.prop("disabled", true);
                         calcBudget();
                     }, function () {
-                        var aa = window.localStorage.getItem("select-"+$(that).find('option:selected').attr("hospital-name"))
-                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + aa + '"]').prop("selected", true);
+                        var preselected = window.localStorage.getItem("select-"+$(that).find('option:selected').attr("hospital-name"))
+                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + preselected + '"]').prop("selected", true);
                         showSelectSalesMen();
                         calcAllotTime();
                     })
@@ -945,7 +949,7 @@
                 }
                 showSelectSalesMen();
                 calcAllotTime();
-
+                calcBudget();
             });
 
             // 实地协防keyup
