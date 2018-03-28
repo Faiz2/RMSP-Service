@@ -324,11 +324,15 @@
     // 代表时间大于100 验证
     var verifyTimelg = function() {
         var array = getAllInputAllotTime();
+        var trainingArray = getTrainingTotalInput();
         var result = false;
         $.each(salesmen, function(i, name) {
             var sum = 0;
             var allottArray = array.filter(function(obj, index){ return obj.salesmen === name;});
+            var trainingInput = trainingArray
+                .filter(function(index, dom){return dom.salesmen === name}).get(0);
             $.each(allottArray, function(n, time) {sum += time.allotTime});
+            sum += trainingInput.allotTime
             if(sum > 100) {
                 f.alert.alert_warn("警告", name+"的沟通时间超出预设");
                 result = false;
@@ -454,7 +458,7 @@
         });
         $.each(inputs, function(i, v){
             if( !regexExce(numberzzs, $(v).val()) ) {
-                f.alert.alert_warn("警告", $(v).attr("hospital-name")+"下的"+$(v).attr("pharbers-type")+"不是正整数")
+                f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + "下的"+ ($(v).attr("pharbers-type") || "") +"不是正整数")
                 result = false;
                 return false;
             } else {
@@ -851,14 +855,14 @@
             $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
 
 
-                console.log($(this).text())
+                // console.log($(this).text())
                 if($(this).text() == "人员培训") {
                     hospListIndex = $('.hospactive').index();
-                    console.log("hospListIndex:"+hospListIndex+typeof(hospListIndex));
+                    // console.log("hospListIndex:"+hospListIndex+typeof(hospListIndex));
                     $('ul[name="hosp-list"] li').addClass("hospactive");
                 } else {
                     $('ul[name="hosp-list"] li').removeClass("hospactive");
-                    console.log($('ul[name="hosp-list"] li:nth-child(1)'));
+                    // console.log($('ul[name="hosp-list"] li:nth-child(1)'));
 
                     $('ul[name="hosp-list"] li:eq('+(hospListIndex)+')').addClass("hospactive");
                 }
@@ -900,7 +904,7 @@
             // 分配沟通时间blur
             $('div[name="hosp-budget"] input[name="prod_hours"]' +
             ', div[name="personal-training"] div[name="input-training"] input')
-                .blur(function() {ii
+                .blur(function() {
                 var that = this;
                 calcAllotTime($(that))
                 calcManageAllotTime($(that));
