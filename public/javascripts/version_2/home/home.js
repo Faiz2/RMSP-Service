@@ -1,5 +1,5 @@
 (function($, w) {
-    var selected_salemman = "";
+
     var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
@@ -537,10 +537,8 @@
         setTotalBudget("total-budget", sum);
     }
 
-    // 获取代表所有的input AllotTime输入
-    var getAllInputAllotTime = function() {
-        var tmp = [];
-        var trainingSum = 0;
+    // 获取人员培训的代表分配的总时间Input
+    var getTrainingTotalInput = function() {
         //人员培训下代表产品培训input
         var trainingInput = $('div[name="personal-training"]')
                             .find('div[name="input-training"]')
@@ -554,6 +552,37 @@
                             .find('div[name="input-training"]')
                             .find('input[name="能力辅导"]');
 
+        return $(salesmen).map(function(index, sm) {
+            return {
+                salesmen: sm,
+                allotTime:
+                    parseInt(trainingInput.filter('[personal="'+sm+'"]').val() || 0)+
+                    parseInt(meetingInput.filter('[personal="经理"]').val() || 0)+
+                    parseInt(coachInput.filter('[personal="'+sm+'"]').val() || 0)
+            }
+        });
+    };
+
+    // 获取代表所有的input AllotTime输入
+    var getAllInputAllotTime = function() {
+        var tmp = [];
+        //人员培训下代表产品培训input
+        // var trainingInput = $('div[name="personal-training"]')
+        //                     .find('div[name="input-training"]')
+        //                     .find('input[name="产品培训"]');
+        // //人员培训下团建/列会input
+        // var meetingInput = $('div[name="personal-training"]')
+        //                     .find('div[name="input-training"]')
+        //                     .find('input[name="团队例会和团建"]');
+        // //人员培训下1对1辅导
+        // var coachInput = $('div[name="personal-training"]')
+        //                     .find('div[name="input-training"]')
+        //                     .find('input[name="能力辅导"]');
+
+
+        // var totalSalesMenInput = $('div[name="personal-training"]')
+        //                         .find('div[name="input-training"]')
+        //                         .find('input[disabled="disabled"]');
 
         $.each($('.hosp-input-info'), function(i, dom){
             var selected = $(dom)
@@ -566,20 +595,20 @@
                 sumInput += parseInt($(v).val()) || 0;
             });
 
-            var product = trainingInput.filter(function(index, dom){
-                return $(dom).attr("personal") === $(selected).val();
-            });
-
-            var coach = coachInput.filter(function(index, dom){
-                return $(dom).attr("personal") === $(selected).val();
-            });
+            // var product = trainingInput.filter(function(index, dom){
+            //     return $(dom).attr("personal") === $(selected).val();
+            // });
+            //
+            // var coach = coachInput.filter(function(index, dom){
+            //     return $(dom).attr("personal") === $(selected).val();
+            // });
 
             tmp.push({
                 salesmen: $(selected).val(),
-                allotTime: (parseInt($(product).val()) || 0)
-                            + (parseInt($(meetingInput).val()) || 0)
-                            + (parseInt($(coach).val()) || 0)
-                            + sumInput,
+                allotTime: //(parseInt($(product).val()) || 0)
+                            //+ (parseInt($(meetingInput).val()) || 0)
+                            //+ (parseInt($(coach).val()) || 0)
+                            sumInput,
                 hospital: $(selected).attr("hospital-name")
             });
         });
@@ -589,23 +618,28 @@
 
     // 计算代表时间
     var calcAllotTime = function(inputObj) {
-        if(verifyTimelg()) {
-            $.each(salesmen, function(i, name) {
-                var sum = 0;
-                var allottArray = getAllInputAllotTime().filter(function(obj, index){ return obj.salesmen === name;});
-                $.each(allottArray, function(n, time) {
-                    sum += time.allotTime
+        try {
+            var trainingArray = getTrainingTotalInput();
+            // w.console.info(trainingArray)
+            if(verifyTimelg()) {
+                $.each(salesmen, function(i, name) {
+                    var sum = 0;
+                    var allottArray = getAllInputAllotTime()
+                        .filter(function(obj, index){ return obj.salesmen === name;});
+                    var trainingInput = trainingArray
+                        .filter(function(index, dom){return dom.salesmen === name}).get(0);
+                    // w.console.info(trainingInput)
+                    sum += trainingInput.allotTime
+                    $.each(allottArray, function(n, time) {sum += time.allotTime});
+                    setPersonData(name, sum);
                 });
-                setPersonData(name, sum);
-            });
-        } else {
-            try {
+                // setTipsDays(inputObj);
+            } else {
                 inputObj.val("");
-            } catch(err) {
-
             }
+        } catch(err) {
+            w.console.error(err)
         }
-
     }
 
     // 显示选择代表
@@ -884,15 +918,19 @@
                         inputs.prop("disabled", true);
                         calcBudget();
                     }, function () {
-                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + selected_salemman + '"]').prop("selected", true);
+                        var aa = window.localStorage.getItem("select-"+$(that).find('option:selected').attr("hospital-name"))
+                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + aa + '"]').prop("selected", true);
                         showSelectSalesMen();
+                        calcAllotTime();
                     })
                 } else {
                     selected_salemman = $(this).val();
+                    window.localStorage.setItem("select-"+$(this).find('option:selected').attr('hospital-name'), $(this).val());
                     inputs.prop("disabled", false)
                 }
                 showSelectSalesMen();
                 calcAllotTime();
+
             });
 
             // 实地协防keyup
