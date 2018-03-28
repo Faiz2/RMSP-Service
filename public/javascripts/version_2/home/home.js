@@ -913,7 +913,7 @@
                             .not('[name="hospital-code"]');
                 }
                 if($(this).val() === "不分配") {
-                    f.alert.choose_info("是否清空", ["是", "否"], "即将清空当前填写项，是否操作？", function () {
+                    f.alert.choose_info("是否清空", ["是", "否"], "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。", function () {
                         inputs.val("");
                         inputs.prop("disabled", true);
                         calcBudget();
