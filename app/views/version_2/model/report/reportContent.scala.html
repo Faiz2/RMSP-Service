@@ -9,7 +9,9 @@
                 <li class="box" name="manager-report">经理报告</li>
                 <li class="box" name="salesman-report">代表报告</li>
                 <li class="box" name="resource-allot">资源分配</li>
-                <li class="box " name="sales-report">销售报告</li>
+                <li class="box " name="sales-report">医院销售报告</li>
+                <li class="box " name="prod-report">产品销售报告</li>
+                <li class="box " name="salesman-sale-report">代表销售报告</li>
             </ul>
         </div>
         <div class="content box">
@@ -103,36 +105,157 @@
                         }
                     </table>
                 </div>
-                <div class="">
-                    <table class="table left-tips">
-                        <tr>
-                            <td><div class="title">产品销售表现</div></td>
-                            <td>当期销售指标</td>
-                            <td>上期销售额</td>
-                            <td>当期销售额</td>
-                            <td>增长</td>
-                            <td>增长率(%)</td>
-                            <td>达成率(%)</td>
-                        </tr>
-                        @{
-                            val reVal = (report \ "report").as[List[JsValue]]
-                                    .find(f => (f \ "report_name").as[String] == "销售报告_销售额每产品").get
+                <div class="blank-line"></div>
+                <div class="all-about-bottom bottom-table">
+                    <table class="table left-tips overflow-table-head">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td>上期总销售(元)</td>
+                                <td>当期总销售(元)</td>
 
-                            (reVal \ "result").as[List[JsValue]].map { antibiotics =>
-                                <tr>
-                                    <td>{(antibiotics \ "prod_name").as[String]}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "current_target").asOpt[Int].get.toDouble)}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "last_revenue").asOpt[Int].get.toDouble)}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "current_revenue").asOpt[Int].get.toDouble)}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "increase_revenue").asOpt[Int].get.toDouble)}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "increase_ratio").asOpt[Double].get)}</td>
-                                    <td>{NumberFormat.getInstance().format((antibiotics \ "target_realization").asOpt[Double].get)}</td>
-                                </tr>
-                            }
-
-                        }
-
+                            </tr>
+                        </thead>
                     </table>
+                    <div class="all-about-bottom-inside bottom-table-container">
+                        <div class="inside-div">
+                            <table class="table overflow-table">
+                                <tbody>
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "人民医院").get
+                                        val hosp_0_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_0_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>人民医院</td>
+                                            <td>{hosp_0_last}</td>
+                                            <td>{hosp_0_current}</td>
+                                            </tr>
+                                    }
+
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "军区医院").get
+                                        val hosp_1_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_1_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>军区医院</td>
+                                            <td>{hosp_1_last}</td>
+                                            <td>{hosp_1_current}</td>
+                                            </tr>
+                                    }
+
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "中日医院").get
+                                        val hosp_2_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_2_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>中日医院</td>
+                                            <td>{hosp_2_last}</td>
+                                            <td>{hosp_2_current}</td>
+                                            </tr>
+                                    }
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "铁路医院").get
+                                        val hosp_3_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_3_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>铁路医院</td>
+                                            <td>{hosp_3_last}</td>
+                                            <td>{hosp_3_current}</td>
+                                            </tr>
+                                    }
+
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "海港医院").get
+                                        val hosp_4_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_4_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>海港医院</td>
+                                            <td>{hosp_4_last}</td>
+                                            <td>{hosp_4_current}</td>
+
+                                            </tr>
+                                    }
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "第六医院").get
+                                        val hosp_5_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_5_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>第六医院</td>
+                                            <td>{hosp_5_last}</td>
+                                            <td>{hosp_5_current}</td>
+
+                                            </tr>
+                                    }
+
+
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "小营医院").get
+                                        val hosp_6_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_6_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>小营医院</td>
+                                            <td>{hosp_6_last}</td>
+                                            <td>{hosp_6_current}</td>
+
+                                            </tr>
+                                    }
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "西河医院").get
+                                        val hosp_7_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_7_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>西河医院</td>
+                                            <td>{hosp_7_last}</td>
+                                            <td>{hosp_7_current}</td>
+
+                                            </tr>
+                                    }
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "光华医院").get
+                                        val hosp_8_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_8_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>光华医院</td>
+                                            <td>{hosp_8_last}</td>
+                                            <td>{hosp_8_current}</td>
+                                            </tr>
+                                    }
+                                    @{
+                                        val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                        val salesPerformance = tmp.find(f => (f \ "report_name" ).as[String] == "市场销售报告_销售业绩").get
+                                        var hosp_list = (salesPerformance \ "result").as[List[JsValue]].find(f => (f \ "hosp_name").as[String] == "大学医院").get
+                                        val hosp_8_last = (hosp_list \ "last_total_revenue").asOpt[Int].get
+                                        val hosp_8_current= (hosp_list \ "current_total_revenue").asOpt[Int].get
+                                            <tr>
+                                            <td>大学医院</td>
+                                            <td>{hosp_8_last}</td>
+                                            <td>{hosp_8_current}</td>
+                                            </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="content-container container_1 unvisible" name="manager-report" >
@@ -162,6 +285,7 @@
                         </tr>
                     </table>
                 </div>
+                <div class="blank-line"></div>
                 <div class="manager-bottom bottom-table">
                     <table class="table left-tips">
                         <tr>
@@ -288,6 +412,7 @@
                         }
                     </table>
                 </div>
+                <div class="blank-line"></div>
                 <div class="salesman-bottom bottom-table">
                     <table class="table left-tips overflow-table-head">
                         <thead>
@@ -3350,6 +3475,640 @@
                                                             <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
                                                             <td>{(saleReportItem \ "increase_revenue").asOpt[Int].get}</td>
                                                             <td>{(saleReportItem \ "increase_ratio").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-container container_5 unvisible" name="prod-report">
+                <div class="">
+                    <table class="table left-tips">
+                        <tr>
+                            <td><div class="title">产品销售表现</div></td>
+                            <td>当期销售指标</td>
+                            <td>上期销售额</td>
+                            <td>当期销售额</td>
+                            <td>增长</td>
+                            <td>增长率(%)</td>
+                            <td>达成率(%)</td>
+                        </tr>
+                        @{
+                            val reVal = (report \ "report").as[List[JsValue]]
+                                    .find(f => (f \ "report_name").as[String] == "销售报告_销售额每产品").get
+
+                            (reVal \ "result").as[List[JsValue]].map { antibiotics =>
+                                <tr>
+                                <td>{(antibiotics \ "prod_name").as[String]}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "current_target").asOpt[Int].get.toDouble)}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "last_revenue").asOpt[Int].get.toDouble)}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "current_revenue").asOpt[Int].get.toDouble)}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "increase_revenue").asOpt[Int].get.toDouble)}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "increase_ratio").asOpt[Double].get)}</td>
+                                <td>{NumberFormat.getInstance().format((antibiotics \ "target_realization").asOpt[Double].get)}</td>
+                                </tr>
+                            }
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <div class="content-container container_6 unvisible" name="salesman-sale-report">
+                <div class="salesman-sale-report-select select-area">
+                    <div class="sales-select-area select-salesman">
+                        <span>选择代表</span>
+                        <select class="salesman" name="salesman-sale-report-salesman">
+                            <option selected="selected"   value='s_all'>ALL</option>
+                            <option value="s_1">小宋</option>
+                            <option value="s_2">小兰</option>
+                            <option value="s_3">小木</option>
+                            <option value="s_4">小白</option>
+                            <option value="s_5">小青</option>
+                        </select>
+                    </div>
+                    <div class="sales-select-area select-prod">
+                        <span>选择产品</span>
+                        <select class="prod" name="salesman-sale-report-prod">
+                            <option selected="selected"   value='p_all'>ALL</option>
+                            <option value="p_1">口服抗生素</option>
+                            <option value="p_2">一代降糖药</option>
+                            <option value="p_3">三代降糖药</option>
+                            <option value="p_4">皮肤药</option>
+                            <option value="p_5">总体</option>
+
+
+                        </select>
+                    </div>
+                </div>
+                <div class="salesman-sale-report-bottom bottom-table">
+                    <table class="table overflow-table-head">
+                        <tr>
+                            <td>销售代表</td>
+                            <td>产品</td>
+                            <td>当期销售指标</td>
+                            <td>上期销售额</td>
+                            <td>当期销售额</td>
+                            <td>销售额达成率(%)</td>
+                        </tr>
+                    </table>
+                    <div class="salesman-sale-report-bottom-inside bottom-table-container">
+                        <div class="inside-div">
+                            <table class="table overflow-table">
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小宋") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "口服抗生素") {
+                                                            <tr salesmen="小宋" salesmenprod="口服抗生素">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小宋") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "一代降糖药") {
+                                                            <tr salesmen="小宋" salesmenprod="一代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小宋") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "三代降糖药") {
+                                                            <tr salesmen="小宋" salesmenprod="三代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小宋") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "皮肤药") {
+                                                            <tr salesmen="小宋" salesmenprod="皮肤药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小宋") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "总体") {
+                                                            <tr salesmen="小宋" salesmenprod="总体">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小兰") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "口服抗生素") {
+                                                            <tr salesmen="小兰" salesmenprod="口服抗生素">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小兰") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "一代降糖药") {
+                                                            <tr salesmen="小兰" salesmenprod="一代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小兰") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "三代降糖药") {
+                                                            <tr salesmen="小兰" salesmenprod="三代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小兰") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "皮肤药") {
+                                                            <tr salesmen="小兰" salesmenprod="皮肤药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小兰") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "总体") {
+                                                            <tr salesmen="小兰" salesmenprod="总体">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小木") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "口服抗生素") {
+                                                            <tr salesmen="小木" salesmenprod="口服抗生素">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小木") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "一代降糖药") {
+                                                            <tr salesmen="小木" salesmenprod="一代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小木") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "三代降糖药") {
+                                                            <tr salesmen="小木" salesmenprod="三代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小木") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "皮肤药") {
+                                                            <tr salesmen="小木" salesmenprod="皮肤药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小木") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "总体") {
+                                                            <tr salesmen="小木" salesmenprod="总体">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小白") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "口服抗生素") {
+                                                            <tr salesmen="小白" salesmenprod="口服抗生素">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小白") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "一代降糖药") {
+                                                            <tr salesmen="小白" salesmenprod="一代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小白") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "三代降糖药") {
+                                                            <tr salesmen="小白" salesmenprod="三代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小白") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "皮肤药") {
+                                                            <tr salesmen="小白" salesmenprod="皮肤药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小白") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "总体") {
+                                                            <tr salesmen="小白" salesmenprod="总体">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小青") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "口服抗生素") {
+                                                            <tr salesmen="小青" salesmenprod="口服抗生素">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小青") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "一代降糖药") {
+                                                            <tr salesmen="小青" salesmenprod="一代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小青") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "三代降糖药") {
+                                                            <tr salesmen="小青" salesmenprod="三代降糖药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小青") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "皮肤药") {
+                                                            <tr salesmen="小青" salesmenprod="皮肤药">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
+                                                            </tr>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @{
+                                    val tmp = (report \ "report").asOpt[List[JsValue]].get
+                                    tmp.map{obj =>
+                                        if((obj \ "report_name").asOpt[String].get == "销售报告_销售额每代表") {
+                                            val saleReport = (obj \ "result").asOpt[List[JsValue]].get
+                                            saleReport.map{ saleReportItem =>
+                                                if((saleReportItem \ "salesmen").asOpt[String].get == "小青") {
+                                                    if((saleReportItem \ "prod_name").asOpt[String].get == "总体") {
+                                                            <tr salesmen="小青" salesmenprod="总体">
+                                                            <td>{(saleReportItem \ "salesmen").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "prod_name").asOpt[String].get}</td>
+                                                            <td>{(saleReportItem \ "target_realization").asOpt[Double].get}</td>
+                                                            <td>{(saleReportItem \ "last_revenue").asOpt[Int].get}</td>
+                                                            <td>{(saleReportItem \ "current_revenue").asOpt[Int].get}</td>
                                                             <td>{(saleReportItem \ "current_target").asOpt[Int].get}</td>
                                                             </tr>
                                                     }

@@ -188,10 +188,7 @@
 }
 
 .start .link-div .btn:hover {
-    -webkit-animation: scaletobigger 0.1s;
-    -o-animation: scaletobigger 0.1s;
-    animation: scaletobigger 0.1s;
-    animation-fill-mode: both;
+    background-color:rgb(35,128,176);
 }
 
 .start .leftdiv {
@@ -218,7 +215,7 @@
 
 .start .bottombtn {
     position: absolute;
-    bottom: 60px;
+    bottom: 120px;
     z-index: 2;
     height: 10px;
     width: 130px;
@@ -324,24 +321,5 @@
         /*left: 50%;*/
         right:50%;
         top: 50%;
-    }
-}
-
-@keyframes scaletobigger {
-    from {
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -ms-transform: scale(1);
-        -o-transform: scale(1);
-        transform: scale(1);
-        font-size: 1.4rem;
-    }
-    to {
-        -webkit-transform: scaleX(1.05);
-        -moz-transform: scaleX(1.05);
-        -ms-transform: scaleX(1.05);
-        -o-transform: scaleX(1.05);
-        transform: scaleX(1.05);
-        font-size: 1.4rem;
     }
 }

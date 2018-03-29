@@ -6,6 +6,8 @@
         screenHeight = $(window).height();
         $(".login-wrapper").width(screenWidth);
         $(".login-wrapper").height(screenHeight);
+        console.log(screenWidth);
+        console.log()
     };
     $(function(){
         init: {

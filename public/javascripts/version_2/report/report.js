@@ -204,6 +204,68 @@
                     $(".sales-report-bottom-inside table tr[prod != '总体']").hide()
                 }
             });
+
+            // 代表销售报告中的代表选择栏
+            $("select[name='salesman-sale-report-salesman']").change(function(){
+                salesmenProdValue = $("select[name='salesman-sale-report-prod']").find('option:selected').text();
+                var optionValue = $(this).find('option:selected').text();
+                // $(".salesman-sale-report-bottom-inside table tr").filter(function () {
+                //
+                // });
+                if(optionValue == "ALL") {
+                    $(".salesman-sale-report-bottom-inside table tr").show();
+                    chooseSalesmenByProd();
+                } else if (optionValue == "小宋"){
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen = '小宋']").show();
+                    chooseSalesmenByProd();
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen != '小宋']").hide();
+                } else if (optionValue == "小兰") {
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen = '小兰']").show();
+                    chooseSalesmenByProd();
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen != '小兰']").hide()
+                } else if (optionValue == "小木") {
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen = '小木']").show();
+                    chooseSalesmenByProd();
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen != '小木']").hide()
+                } else if (optionValue == "小白") {
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen = '小白']").show();
+                    chooseSalesmenByProd();
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen != '小白']").hide()
+                } else if (optionValue == "小青") {
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen = '小青']").show();
+                    chooseSalesmenByProd();
+                    $(".salesman-sale-report-bottom-inside table tr[salesmen != '小青']").hide()
+                }
+            });
+            // 代表销售报告中的产品选择栏
+            $("select[name='salesman-sale-report-prod']").change(function(){
+                salesmenValue = $("select[name='salesman-sale-report-salesman']").find('option:selected').text();
+                var optionValue = $(this).find('option:selected').text();
+                if(optionValue == "ALL") {
+                    $(".salesman-sale-report-bottom-inside table tr").show();
+                    chooseProdBySalesmen();
+                } else if (optionValue == "口服抗生素"){
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod = '口服抗生素']").show();
+                    chooseProdBySalesmen();
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '口服抗生素']").hide();
+                } else if (optionValue == "一代降糖药") {
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod = '一代降糖药']").show();
+                    chooseProdBySalesmen();
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '一代降糖药']").hide()
+                } else if (optionValue == "三代降糖药") {
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod = '三代降糖药']").show();
+                    chooseProdBySalesmen();
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '三代降糖药']").hide()
+                } else if (optionValue == "皮肤药") {
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod = '皮肤药']").show();
+                    chooseProdBySalesmen();
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '皮肤药']").hide()
+                } else if (optionValue == "总体") {
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod = '总体']").show();
+                    chooseProdBySalesmen();
+                    $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '总体']").hide()
+                }
+            });
         }
     });
     // 判断是哪个有滚动条的表格显示
@@ -211,7 +273,15 @@
         try {
             if (overflowTableContainer[0].offsetWidth == 0) {
                 if (overflowTableContainer[1].offsetWidth == 0) {
-                    overflowTableContainerEle = overflowTableContainer[2];
+                    if(overflowTableContainer[2].offsetWidth == 0) {
+                        if(overflowTableContainer[3].offsetWidth == 0) {
+                            overflowTableContainerEle = overflowTableContainer[4];
+                        }else {
+                            overflowTableContainerEle = overflowTableContainer[3];
+                        }
+                    }else {
+                        overflowTableContainerEle = overflowTableContainer[2];
+                    }
                 } else {
                     overflowTableContainerEle = overflowTableContainer[1];
                 }
@@ -325,4 +395,34 @@
         }
     }
 
+    // 代表销售报告中当选择代表的时候验证产品的选择状态
+    function chooseSalesmenByProd(){
+        if(salesmenProdValue == "ALL"){
+        } else if (salesmenProdValue == "口服抗生素") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '口服抗生素']").hide();
+        } else if (salesmenProdValue == "一代降糖药") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '一代降糖药']").hide()
+        } else if (salesmenProdValue == "三代降糖药") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '三代降糖药']").hide()
+        } else if (salesmenProdValue == "皮肤药") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '皮肤药']").hide()
+        } else if (salesmenProdValue == "总体") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '总体']").hide()
+        }
+    }
+    // 代表销售报告中当选择代表的时候验证产品的选择状态
+    function chooseProdBySalesmen(){
+        if(salesmenValue == "ALL") {
+        } else if (salesmenValue == "小宋") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小宋']").hide();
+        } else if (salesmenValue == "小兰") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小兰']").hide();
+        } else if (salesmenValue == "小木") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小木']").hide();
+        } else if (salesmenValue == "小白") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小白']").hide();
+        } else if (salesmenValue == "小青") {
+            $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小青']").hide();
+        }
+    }
 })(jQuery, window);
