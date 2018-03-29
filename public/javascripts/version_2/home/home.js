@@ -458,7 +458,8 @@
         });
         $.each(inputs, function(i, v){
             if( !regexExce(numberzzs, $(v).val()) ) {
-                f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + "下的"+ ($(v).attr("pharbers-type") || "") +"不是正整数")
+                f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + " "+ ($(v).attr("pharbers-type") || "") +" 不是正整数")
+                $(v).val("");
                 result = false;
                 return false;
             } else {
@@ -485,6 +486,53 @@
                 result = true;
                 return true;
             }
+        });
+        return result;
+    }
+
+    // 所有医院是否分配 验证
+    var verifyAllHospitalAllot = function() {
+        var result = false;
+        var nonSelectedHosp =
+            $('div[name="input-box"] div[name="bottom"] div[name="hosp-info"] '+
+              'select option:selected').filter(function(index, dom) {
+                  return $(dom).val() === "";
+        });
+        $.each(nonSelectedHosp, function(i, v) {
+            f.alert.alert_warn("警告", $(v).attr("hospital-name") + "未分配代表");
+            result = false;
+            return false;
+        });
+        if(nonSelectedHosp.length === 0) result = true;
+        return result;
+    }
+
+    // 分配的医院下不能有空 验证
+    var verifyAllotHositalNotNull = function() {
+        var result = false;
+        var allotSelectedHospInput =
+            $('div[name="input-box"] div[name="bottom"] div[name="hosp-info"] '+
+              'select option:selected').filter(function(index, dom) {
+                  return $(dom).val() !== "" && $(dom).val() !== "不分配";
+        }).map(function(index, dom){
+            return $('div[name="input-box"] div[name="bottom"] .hosp-input-info')
+                .filter('[name="' + $(dom).attr("hospital-name") + '"]').find('input')
+                .not('[disabled="disabled"]')
+        });
+
+        $.each(allotSelectedHospInput, function(i, hospDiv) {
+            $.each(hospDiv,function(n, v) {
+                if($(v).val() === "") {
+                    f.alert.alert_warn("警告", $(v).attr("hospital-name") + " "
+                        + $(v).attr("pharbers-type") + "内容为空")
+                    result = false;
+                    return false;
+                } else {
+                    result = true;
+                    return true;
+                }
+            });
+            return result;
         });
         return result;
     }
@@ -516,7 +564,7 @@
                 if($(v).attr("hospital-name") === d.hospital) {
                     sum += parseInt(d.budget || 0);
                     $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text(parseInt(d.budget || 0));
-                    w.console.info($(v).val())
+                    // w.console.info($(v).val())
                     if(d.budget === "" && $(v).val() !== "不分配") {
                         $('ul[name="hosp-list"]').find('li[name="' + d.hospital + '"] span[name="budget"]').text("——");
                     }
@@ -839,7 +887,7 @@
         }
 
         events: {
-            //答题页 查看详情按钮
+            // 答题页 查看详情按钮
             $('button[name="details-btn"]').click(function() {
                 detailsBtn();
             });
@@ -875,7 +923,7 @@
             // 分配推广预算keyup设置图
             $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
                 .keyup(function() {
-                if(verifyBudgetNotSalesMen()) {
+                if(verifyBudgetNotSalesMen() && verifyAllInputIsNumber()) {
                     calcBudget($(this));
                 } else {
                     $(this).val("");
@@ -896,9 +944,11 @@
             $('div[name="hosp-budget"] input[name="prod_hours"]' +
             ', div[name="personal-training"] div[name="input-training"] input')
                 .keyup(function() {
-                var that = this;
-                calcAllotTime($(that));
-                calcManageAllotTime($(that));
+                if(verifyAllInputIsNumber()) {
+                    var that = this;
+                    calcAllotTime($(that));
+                    calcManageAllotTime($(that));
+                }
             });
 
             // 分配沟通时间blur
@@ -915,37 +965,69 @@
 
             });
 
+            // 指标设定keyup
+            $('div[name="hosp-budget"] input[name="prod_value"]').keyup(function(){
+                verifyAllInputIsNumber()
+            });
+
             // salesmen select change
             $('.hosp-input-info select').change(function() {
                 var phrase = $('input[name="phase"]').val();
+
                 var that = this;
+                var localStorage = window.localStorage.
+                                            getItem("select-"+
+                                            $(that).find('option:selected')
+                                            .attr("hospital-name"));
+
                 removeSelectNoneOption();
-                var inputs = $('div[name="'+$(this).find('option:selected').attr("hospital-name")+'"]')
+                var inputs = $('div[name="'+$(this).find('option:selected')
+                            .attr("hospital-name")+'"]')
                             .find('input')
                             .not('[pharbers-type="皮肤药"]')
                             .not('[name="hospital-code"]');
+
                 if(phrase == 2) {
-                    inputs = $('div[name="'+$(this).find('option:selected').attr("hospital-name")+'"]')
+                    inputs = $('div[name="'+$(this).find('option:selected')
+                            .attr("hospital-name")+'"]')
                             .find('input')
-                            .not('[hospital-name="铁路医院"]')
-                            .not('[hospital-name="海港医院"]')
-                            .not('[hospital-name="第六医院"]')
-                            .not('[hospital-name="小营医院"]')
-                            .not('[hospital-name="光华医院"]')
-                            .not('[hospital-name="大学医院"]')
-                            .not('[name="hospital-code"]');
+                            .not('[name="hospital-code"]')
+                            .not('[hospital-name="铁路医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="海港医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="第六医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="小营医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="光华医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="大学医院"][pharbers-type="皮肤药"]')
                 }
+
                 if($(this).val() === "不分配") {
-                    f.alert.choose_info("是否清空", ["是", "否"], "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。", function () {
+                    if(localStorage == null) {
+                        f.alert.alert_warn("警告",
+                            "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。")
                         inputs.val("");
                         inputs.prop("disabled", true);
                         calcBudget();
-                    }, function () {
-                        var preselected = window.localStorage.getItem("select-"+$(that).find('option:selected').attr("hospital-name"))
-                        $('div[name="'+$(that).find('option:selected').attr("hospital-name")+'"] select option[value="' + preselected + '"]').prop("selected", true);
-                        showSelectSalesMen();
-                        calcAllotTime();
-                    })
+                    } else {
+                        f.alert.choose_info("是否清空",
+                            ["是", "否"],
+                            "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。",
+                            function () {
+                                inputs.val("");
+                                inputs.prop("disabled", true);
+                                calcBudget();
+                            },
+                            function () {
+                                var identify = 'div[name="' +
+                                                $(that).find('option:selected')
+                                                    .attr("hospital-name") + '"] ' +
+                                                'select option[value="' + localStorage + '"]'
+
+                                $(identify).prop("selected", true);
+                                showSelectSalesMen();
+                                calcAllotTime();
+                            });
+                    }
+
                 } else {
                     selected_salemman = $(this).val();
                     window.localStorage.setItem("select-"+$(this).find('option:selected').attr('hospital-name'), $(this).val());
@@ -959,19 +1041,22 @@
             // 实地协防keyup
             $('div[name="personal-training"] div[name="input-manager"] input, '+
                 'div[name="input-display"] input').keyup(function(){
-                var that = this;
-                calcManageAllotTime($(that));
+                if(verifyAllInputIsNumber()) {
+                    var that = this;
+                    calcManageAllotTime($(that));
+                }
             });
 
             // 实地协防blur
             $('div[name="personal-training"] div[name="input-manager"] input, '+
                 'div[name="input-display"] input').blur(function(){
-                var that = this;
-                calcManageAllotTime($(that));
+                if(verifyAllInputIsNumber()) {
+                    var that = this;
+                    calcManageAllotTime($(that));
+                }
             });
 
-
-            //提交按钮
+            // 提交按钮
             $('button[name="submit-btn"]').click(function(){
 
                 var uuid = $('input:hidden[name="uuid"]').val();
@@ -1049,8 +1134,20 @@
                 // w.console.info(verifyManageTimelg())
                 // w.console.info(verifyTimelg())
                 // w.console.info(verifyBudgeteq())
-                 // w.console.info(verifyAllPersonnelTraining())
-                if(verifyAllSalesMenIsSelected() && verifyAllInputIsNumber() && verifyBudgeteq() && verifyManageTimelg() && verifyTimelg() && verifyTimeeq() && verifyAllPersonnelTraining()) {
+                // w.console.info(verifyAllPersonnelTraining())
+                //
+                // w.console.info(verifyAllHospitalAllot());
+                // w.console.info(verifyAllotHositalNotNull()）
+
+                if(verifyAllInputIsNumber() &&
+                    verifyAllSalesMenIsSelected() &&
+                    verifyAllHospitalAllot() &&
+                    verifyAllotHositalNotNull() &&
+                    verifyBudgeteq() &&
+                    verifyManageTimelg() &&
+                    verifyTimelg() &&
+                    verifyTimeeq() &&
+                    verifyAllPersonnelTraining()) {
 
                     f.alert.loading(true);
                     f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
@@ -1087,6 +1184,7 @@
             $('div[name="area-import-export"]').click(function(e){
                 e.stopPropagation();
             });
+
             // 拖动事件
             $('button[name="btn-right"]').click(function () {
                 if($('ul[name="hosp-list"]').position().left == 0) {
