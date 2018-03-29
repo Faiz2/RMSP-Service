@@ -1,3 +1,6 @@
+input {
+    padding-right: 5px;
+}
 .home .header button[class*="submit-btn"] {
     width: 100px;
     height: 45px;
@@ -6,10 +9,21 @@
     border-radius: 25px;
     letter-spacing: 0.25rem;
     background-color: #4A8886;
-    color: #FFFFFF;
+    color: #e7e7e7;
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+}
+.home .header button[class*="submit-btn"]:hover {
+    background-color: #2d6765;
+    /*transform: scale(1.1);*/
+}
+.home .header button[class*="submit-btn"] span:hover {
+    transform:none;
+    animation:none;
+
 }
 
 .home .report .bg {
+    /*box-shadow: none;*/
     background-color: #434653;
 }
 
@@ -21,24 +35,29 @@
 .home .report .menu-tab {
     width: 100%;
     height: 700px;
+    box-shadow: none;
 }
 
 .home .report .menu-tab > li {
     width: 200px;
     height: 50px;
     color: #868890;
-    font-size: 2rem;
+    font-size: 1.8rem;
     letter-spacing: 0.3rem;
     margin-bottom: 0;
     padding-bottom: 5px;
     line-height: 50px;
+    box-shadow: none;
+    border-radius: 0;
     text-align: center;
     border-bottom: 1px solid #646774;
     cursor: pointer;
 }
-
+.home .report .menu-tab > li:hover {
+    color: #e7e7e7;
+}
 .home .report .menu-tab > li.active {
-    color: #ECECEC;
+    color: #e7e7e7;
     background-color: #505565;
 }
 
@@ -46,6 +65,7 @@
 .home .report .content {
     height: 700px;
     margin: 0 0 0 205px;
+    box-shadow: none;
 }
 .unvisible {
     display: none;
@@ -57,7 +77,7 @@
 .home .report .content table td, .home .report .content table th {
     height: 50px;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     letter-spacing: 0.25rem;
     vertical-align: middle;
     border: 0;
@@ -84,20 +104,39 @@
     text-align: center;
     margin: 0 auto;
     padding: 5px 2px;
-    background-color: #565964;
+    color:#e7e7e7;
     border-radius: 5px;
+    background-color: #4A8886;
 }
 
-.home .report .content table.left-tips td:first-child {
-    width: 210px;
+.home .report .content .all-about-bottom table.left-tips tr td:first-child {
+    flex: 0 0 210px !important;
+
+}
+.home .report .content .all-about-bottom table.overflow-table tr td:first-child {
+    flex: 0 0 210px !important;
+    /*width: 210px;*/
     text-align: right;
 }
-
+.home .report .content .all-about-bottom .overflow-table-head tr {
+    border-radius: 5px 5px 0 0;
+}
+.home .report .content .all-about-bottom table.overflow-table tr td:first-child {
+    flex: 0 0 210px !important;
+    /*width: 210px;*/
+    text-align: right;
+}
+.home .report .content .all-about-bottom .all-about-bottom-inside {
+    height: 305px !important;
+}
+.home .report .content .all-about-bottom .all-about-bottom-inside .inside-div {
+    height: 305px !important;
+}
 .home .report .content table tr:nth-child(odd) {
     background-color: #4C5161;
 }
 .home .report .content table tr:nth-child(even) {
-    background-color: #868890;
+    background-color: rgba(255,255,255,0.2);
 }
 .home .report .content table.overflow-table tbody tr:first-child td:first-child{
     border-radius: 0;
@@ -116,7 +155,7 @@
     background-color: #4C5161;
 }
 .home .report .content table.overflow-table tbody tr:nth-child(odd) {
-    background-color: #868890;
+    background-color: rgba(255,255,255,.2);
 }
 .home .report .content .bottom-table table:first-child {
     margin-bottom: 0;
@@ -126,13 +165,13 @@
     text-align: right;
 }
 .home .report .content .salesman-bottom .salesman-bottom-inside{
-    height: 349px !important;
+    height: 305px !important;
     width:100%;
     overflow: hidden;
 }
 .home .report .content .salesman-bottom .salesman-bottom-inside .inside-div{
     box-sizing: content-box;
-    height: 349px !important;
+    height: 305px !important;
     width:100%;
     overflow: auto;
 }
@@ -157,7 +196,7 @@
 .home .report .content .select-area div span {
     display: inline-block;
     width: 120px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     letter-spacing: 0.25rem;
     line-height: 55px;
     height: 55px;
@@ -205,3 +244,22 @@
 .home .report .content .salesman-bottom .overflow-table-head tr {
     border-radius: 5px 5px 0 0;
 }
+.home .blank-line {
+    height: 45px;
+}
+.home .report table td:first-child {
+    width: 210px;
+    text-align: right;
+}
+.home .report .content .salesman-sale-report-bottom table tr td:first-child {
+    text-align: center;
+}
+.home .report .content .salesman-sale-report-bottom .inside-div table tr:last-child {
+    border-radius: 0 0 5px 5px;
+}
+.home .report .content .sales-report-bottom table tr td:first-child {
+    text-align: center;
+}
+.home .report .content .resource-allot-bottom table tr td:first-child {
+     text-align: center;
+ }

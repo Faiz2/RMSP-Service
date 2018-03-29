@@ -65,7 +65,7 @@ ul,li {
     letter-spacing: 0.12em;
 }
 .application p[class="navbar-text"] {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 0;
 }
 .application p[name="account"] {
@@ -84,4 +84,7 @@ ul,li {
     background-color: #515465;
     color: #ffffff;
     cursor: pointer;
+}
+.application .tiemalogo-container {
+    padding-left: 7px !important;
 }
