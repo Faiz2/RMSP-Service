@@ -1162,6 +1162,7 @@
                 //
                 // w.console.info(verifyAllHospitalAllot());
                 // w.console.info(verifyAllotHositalNotNull()）
+                // f.alert.loading(true);
 
                 if(verifyAllInputIsNumber() &&
                     verifyAllSalesMenIsSelected() &&
@@ -1180,9 +1181,13 @@
                                 if(rr.status === 'ok' && rr.result.input_update === 'success') {
                                     f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
                                         if(rrr.status === 'ok' && rrr.result.data === 'success') {
-                                            f.alert.loading(false);
-                                            f.alert.alert_success("消息", "模拟成功");
-                                            w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+
+                                            setTimeout(function () {
+                                                f.alert.loading(false);
+                                                f.alert.alert_success("消息", "模拟成功");
+                                                w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                                            },1600)
+
                                         }
                                     });
                                 }
