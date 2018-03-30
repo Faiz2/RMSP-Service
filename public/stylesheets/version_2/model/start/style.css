@@ -3,14 +3,14 @@
 .start {
     position: relative;
     overflow: hidden;
-    height: 900px;
+    height: 907px;
     background-image: url("/assets/images/version_2/login_bg.png");
     -webkit-background-size: cover;
     background-size: cover;
 }
 
 .start .divlist {
-    height: 900px;
+    height: 907px;
     width: 1370px;
     margin: 0 auto;
     overflow: hidden;
@@ -177,7 +177,7 @@
     display: inline-block;
     width: 100px;
     height: 40px;
-    background-color: #4488a7;
+    background-color: rgb(35,128,176);
     font-size:1.4rem;
     line-height: 28px;
     border-radius: 20px;
@@ -188,7 +188,7 @@
 }
 
 .start .link-div .btn:hover {
-    background-color:rgb(35,128,176);
+    background-color:rgb(58, 114, 145);
 }
 
 .start .leftdiv {

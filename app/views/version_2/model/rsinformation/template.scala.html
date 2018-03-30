@@ -46,7 +46,7 @@
                                         <p>口服抗生素：{NumberFormat.getInstance().format((x._1 \ "口服抗生素").as[List[String]].tail.head.toDouble)}</p>
                                         <p>一代降糖药：{NumberFormat.getInstance().format((x._1 \ "一代降糖药").as[List[String]].tail.head.toDouble)}</p>
                                         <p>三代降糖药：{NumberFormat.getInstance().format((x._1 \ "三代降糖药").as[List[String]].tail.head.toDouble)}</p>
-                                        <p>皮肤药：{if((x._1 \ "皮肤药").as[List[String]].tail.head.isEmpty) {0} else {NumberFormat.getInstance().format((x._1 \ "皮肤药").as[List[String]].tail.head.toDouble)}}</p>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;皮肤药：{if((x._1 \ "皮肤药").as[List[String]].tail.head.isEmpty) {0} else {NumberFormat.getInstance().format((x._1 \ "皮肤药").as[List[String]].tail.head.toDouble)}}</p>
                                     </div>
                                 </div>
                             </div>

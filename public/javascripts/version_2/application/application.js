@@ -2,7 +2,7 @@
 
     $(function(){
        // 点击account 退出
-       $('p[name="account"]').click(function(e){
+       $('.navbar-exit').click(function(e){
            $('.exit-area').toggle();
            $(document).one("click", function(){
                $(".exit-area").hide();

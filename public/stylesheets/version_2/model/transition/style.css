@@ -1,11 +1,11 @@
 .transition {
-    
+
 }
 .transition-wrapper {
     position: relative;
     width: 727px;
     margin: 123px auto 0;
-    
+
 }
 .transition-wrapper .items {
     position: relative;
@@ -21,7 +21,7 @@
     transform-origin: 50% 50%;
 }
 .transition-wrapper .first-item {
-    
+
 }
 .transition-wrapper .second-item {
     display: none;
@@ -55,12 +55,15 @@
     border-radius: 22.5px;
     bottom: 10px;
     right: 20px;
-    background-color: #2380B0;
+    background-color: rgb(35,128,176);
     opacity: 0.8;
     color: #fff;
     font-size: 14px;
     letter-spacing: 2.5px;
     line-height: 33px;
+}
+.transition-wrapper .btn:hover {
+    background-color: rgb(58, 114, 145);
 }
 .transition-wrapper .btn-go {
     width: 146px;

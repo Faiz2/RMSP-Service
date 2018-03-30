@@ -28,9 +28,16 @@
             });
             // 点击li时切换右边对应内容，并隐藏滚动条
             $(".menu-tab li").click(function() {
+
                 $(".menu-tab li").removeClass("active")
                 $(this).addClass("active");
                 order = $(this).index();
+                if(order == 0) {
+                    $(this).css('borderRadius','5px 5px 0 0 ');
+                    $(this).siblings().css('borderRadius','0 ');
+                }else {
+                    $(this).css('borderRadius','0 ');
+                }
                 $(".content .content-container").addClass("unvisible");
                 $(".container_" + order).removeClass("unvisible");
                 whichTable();
@@ -271,6 +278,7 @@
     // 判断是哪个有滚动条的表格显示
     function whichTable() {
         try {
+            // console.log(overflowTableContainer[0].offsetWidth);
             if (overflowTableContainer[0].offsetWidth == 0) {
                 if (overflowTableContainer[1].offsetWidth == 0) {
                     if(overflowTableContainer[2].offsetWidth == 0) {
@@ -287,9 +295,11 @@
                 }
             } else {
                 overflowTableContainerEle = overflowTableContainer[0];
+                // console.log(overflowTableContainerEle);
             }
             scrollBarLength = overflowTableContainerEle.offsetWidth - overflowTableContainerEle.clientWidth;
             overflowTableContainerEle.style.paddingRight = scrollBarLength + "px";
+            // console.log("scrollBarLength"+scrollBarLength);
         } catch(err) {
             w.console.info(err)
         }
@@ -299,10 +309,17 @@
     // 消除滚动条
     function resetTableWidth() {
         oldTableWidth = 0;
+        // console.log(tableHeade[0].clientWidth);
         // console.log("resetTableWidth function is running");
         for (var i = 0; i < tablelen; i++) {
-            oldTableWidth = overflowTableContainer[i].clientWidth;
-            table[i].style.width = tableHeade[i].clientWidth + "px";
+            // if(i === 0) {
+            //     table[i].style.width = 1155 + "px";
+            // }else {
+                oldTableWidth = overflowTableContainer[i].clientWidth;
+                table[i].style.width = tableHeade[i].clientWidth + "px";
+            // }
+            // oldTableWidth = overflowTableContainer[i].clientWidth;
+            // table[i].style.width = tableHeade[i].clientWidth + "px";
             // table[i].style.width = oldTableWidth + scrollBarLength + "px";
         }
     }

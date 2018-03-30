@@ -59,6 +59,7 @@ input {
 .home .report .menu-tab > li.active {
     color: #e7e7e7;
     background-color: #505565;
+    border-radius: 5px 5px 0 0;
 }
 
 
@@ -205,7 +206,7 @@ input {
 .home .report .content .select-area div select {
     width: 60%;
     height: 40px;
-    background-color: #717480;
+    background-color: #757984;
     border-color: #717480;
     border-radius: 5px;
 }

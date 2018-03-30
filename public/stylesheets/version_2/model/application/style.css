@@ -57,6 +57,7 @@ ul,li {
     padding-top: 50px;
     background: #373A44;
 }
+
 .application > .header {
     min-height: 50px;
     background: #484D5B;
@@ -68,8 +69,23 @@ ul,li {
     margin-top: 5px;
     margin-bottom: 0;
 }
-.application p[name="account"] {
+.application .header .navbar-exit {
+
+    position: absolute;
+    right: 15px;
+    top:0;
     cursor: pointer;
+    margin:0;
+
+}
+.application .header .navbar-exit p {
+    display: inline-block;
+    margin-right: 5px;
+}
+.application .header .navbar-exit span {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
 }
 .application div.exit-area {
     display: none;
