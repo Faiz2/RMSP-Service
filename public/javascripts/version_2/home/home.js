@@ -691,7 +691,23 @@
                 });
                 // setTipsDays(inputObj);
             } else {
-                inputObj.val("");
+                if (inputObj[0].tagName === "SELECT") {
+                    var hospital = inputObj.find('option:selected')
+                                    .attr("hospital-name");
+
+                    var localStorage = window.localStorage.
+                                                getItem("select-" + hospital);
+                    window.localStorage.
+                            setItem("select-" + hospital, localStorage);
+
+                    var identify = 'div[name="' + hospital + '"] ' +
+                                    'select option[value="' + localStorage + '"]'
+
+                    $(identify).prop("selected", true);
+                    w.console.info(localStorage)
+                } else {
+                    inputObj.val("");
+                }
             }
         } catch(err) {
             w.console.error(err)
@@ -981,7 +997,7 @@
                                             .attr("hospital-name"));
 
                 removeSelectNoneOption();
-                var inputs = $('div[name="'+$(this).find('option:selected')
+                var inputs = $('div[name="'+$(that).find('option:selected')
                             .attr("hospital-name")+'"]')
                             .find('input')
                             .not('[pharbers-type="皮肤药"]')
@@ -1000,7 +1016,7 @@
                             .not('[hospital-name="大学医院"][pharbers-type="皮肤药"]')
                 }
 
-                if($(this).val() === "不分配") {
+                if($(that).val() === "不分配") {
                     if(localStorage == null) {
                         f.alert.alert_warn("警告",
                             "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。")
@@ -1014,6 +1030,8 @@
                             function () {
                                 inputs.val("");
                                 inputs.prop("disabled", true);
+                                calcAllotTime($(that));
+                                showSelectSalesMen();
                                 calcBudget();
                             },
                             function () {
@@ -1029,12 +1047,15 @@
                     }
 
                 } else {
-                    selected_salemman = $(this).val();
-                    window.localStorage.setItem("select-"+$(this).find('option:selected').attr('hospital-name'), $(this).val());
-                    inputs.prop("disabled", false)
+                    calcAllotTime($(that));
+                    showSelectSalesMen();
+                    window.localStorage.
+                        setItem("select-" + $(that).
+                                find('option:selected').attr('hospital-name'),
+                                $(that).val());
+                    inputs.prop("disabled", false);
                 }
                 showSelectSalesMen();
-                calcAllotTime();
                 calcBudget();
             });
 
