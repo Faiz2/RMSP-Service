@@ -4,15 +4,16 @@
 
 .resource-info {
     background-color: #484C59;
+    border-radius: 5px;
 }
+.resource-info .resource-content {
 
+}
 .resource-info .resource-content .navbar-resource {
     height: 70px;
     position: relative;
     z-index: 2;
     padding: 15px;
-    /*box-shadow: 0 4px 4px 4px rgba(50,50,50,.6);*/
-    /*box-shadow:0 0 3px #888*/
 }
 
 
@@ -46,17 +47,18 @@
     letter-spacing: 2.5px;
     margin-left: -15px;
     box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
-    background-color: #5388A9;
+    background-color: rgb(35,128,176);
 }
 
 .resource-info .resource-content .backup-btn:hover {
-    background-color: rgb(35,128,176);
+    background-color: rgb(58, 114, 145);
 }
     /*TODO: 重构时废除*/
 .resource-info .resource-content .person-list {
     width: 100%;
     height: 700px;
     overflow: hidden;
+    border-radius: 0 0 5px 5px;
 }
 
 .resource-info .resource-content .person-list > .person{
@@ -106,6 +108,7 @@
     width: 100%;
     height: 700px;
     overflow: hidden;
+    border-radius: 0 0 5px 5px;
 }
 
 .resource-info .resource-content .hospital-list > .hospital{
@@ -154,6 +157,7 @@
 .resource-info .resource-content .product-list {
     height: 700px;
     overflow: hidden;
+    border-radius: 0 0 5px 5px;
 }
 
 .resource-info .resource-content .product {

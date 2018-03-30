@@ -1,5 +1,12 @@
 // (function($,w){
-
+    var startScreenWidth = $(window).width();
+    var startScreenHeight = $(window).height();
+    function resetWrapperSize(){
+        startScreenWidth = $(window).width();
+        startScreenHeight = $(window).height() - 50;
+        $(".start").width(startScreenWidth);
+        $(".start").height(startScreenHeight);
+    };
     var btn_1 = document.getElementById('btn_1');
     var btn_2 = document.getElementById('btn_2');
     var btn_3 = document.getElementById('btn_3');
@@ -143,12 +150,11 @@ function goHomePage() {
 //     };
 
     window.onload = function() {
-
+            resetWrapperSize();
+            $(window).resize(function() {
+                resetWrapperSize();
+            });
         var len = contentdiv.length;
-
-        function changeBiggerPlace(){
-
-        };
 
         // 判断当前显示的画面的index
         function getIndex() {

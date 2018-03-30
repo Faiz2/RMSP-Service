@@ -2,6 +2,7 @@
 
     var salesmen = ['小宋', '小白', '小兰', '小木', '小青'];
     var hospListIndex = 2;
+    var oldHospListIndex = 0;
     // TODO: 从2018年3月12日后，暂时封印ES6的写法, IE11一下不支持
     // Persion Pie
     var getPersionPieData = function(percent) {
@@ -11,10 +12,11 @@
                 normal: {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                             "offset": 0,
-                            "color": '#4930EF'
+                            "color": '#2496db',
+
                         }, {
                             "offset": 1,
-                            "color": '#00FFC7'
+                            "color": '#1BE8F2'
                         }]),
                     shadowBlur: 10,
                     shadowColor: '#1195C4'
@@ -39,12 +41,13 @@
                     barBorderRadius: [20, 25, 25, 20],
                     color: {
                         type: 'bar',
+                        color:'red',
                         colorStops: [{
                             offset: 0,
-                            color: '#00FFC7' // 0% 处的颜色
+                            color: '#2496db' // 0% 处的颜色
                         }, {
                             offset: 1,
-                            color: '#4930EF' // 100% 处的颜色
+                            color: '#1BE8F2' // 100% 处的颜色
                         }],
                         globalCoord: false // 缺省为 false
                     }
@@ -912,26 +915,26 @@
             $('ul[name="hosp-list"] li').click(function() {
                 $(this).addClass("hospactive");
                 $(this).siblings().removeClass("hospactive");
+                $('div[name="answer-tab"] div[name="btn-group"] button:eq(0)').attr('disabled',"true");
                 switchHospitalInfo($(this).attr("name"));
             });
 
             //答题页 销售计划于人员培训按钮
             $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
-
-
-                // console.log($(this).text())
+                if($())
                 if($(this).text() == "人员培训") {
                     hospListIndex = $('.hospactive').index();
-                    // console.log("hospListIndex:"+hospListIndex+typeof(hospListIndex));
+                    oldHospListIndex = $('.hospactive').index();
                     $('ul[name="hosp-list"] li').addClass("hospactive");
                 } else {
+
+                    hospListIndex = $('.hospactive').index();
                     $('ul[name="hosp-list"] li').removeClass("hospactive");
-                    // console.log($('ul[name="hosp-list"] li:nth-child(1)'));
-
-                    $('ul[name="hosp-list"] li:eq('+(hospListIndex)+')').addClass("hospactive");
+                    $('ul[name="hosp-list"] li:eq('+(oldHospListIndex)+')').addClass("hospactive");
                 }
-
                 $(this).addClass("active");
+                $(this).attr('disabled',"true");
+                $(this).siblings().removeAttr("disabled");
                 $(this).siblings().removeClass("active");
                 switchSalesAndPersonel($(this).text());
             });
