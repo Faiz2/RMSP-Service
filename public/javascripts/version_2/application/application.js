@@ -15,6 +15,6 @@
             w.location.href = "/"
         });
 
-        $('p[name="account"]').text($.cookie("user"));
+        $('#login-name').text($.cookie("user"));
     });
 })(jQuery,window);
