@@ -12,7 +12,15 @@
 
         $('.exit-area').click(function(e){
             e.stopPropagation();
-            w.location.href = "/"
+
+            f.alert.choose_info("提示", ["是", "否"], "是否退出？", function () {
+                // var uuid = "7aeddad0-3509-4dd2-8411-2dd4cfc923fc";//$("#pharbers_uuid").attr("pharbers-uuid");
+                w.location.href = "/"
+            }, function () {
+                
+            });
+
+
         });
 
         $('#login-name').text($.cookie("user"));

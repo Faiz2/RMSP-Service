@@ -30,7 +30,7 @@
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object img-rounded" src={"/assets/images/version_2/"+(x._1 \ "hosp_name").as[String]+".jpg"}  width="140" height="140" alt="人" />
+                                        <img class="media-object img-rounded" src={"/assets/images/version_2/"+(x._1 \ "hosp_name").as[String]+".jpg"}  width="140" height="140" alt="医院" />
                                     </a>
                                     <p class="text-center hospital-name">{(x._1 \ "hosp_name").as[String]}</p>
                                 </div>
@@ -78,7 +78,7 @@
                         <div class="media-body">
                             <p class="media-heading">能力值</p>
                             <div class="radar-map">
-                                <img src="@{routes.Assets.versioned("images/version_2/"+(phrase)+"-"+(person._2 + 1)+".png")}" width="280" height="192">
+                                <img src="@{routes.Assets.versioned("images/version_2/"+(phrase)+"-"+(person._1 \ "name").asOpt[String].get+".png")}" width="280" height="192">
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                 <br>
                                 @{(pro \ "prod_brand").as[String]}
                             </td>
-                            <td style="width:156px;" align="center"><img class="img-rounded" src="@routes.Assets.versioned("images/version_2/大学医院.jpg")" alt="" width="100" height="100"></td>
+                            <td style="width:156px;" align="center"><img class="img-rounded" src=@{"/assets/images/version_2/"+(pro \ "prod_name").as[String]+".png"} alt="" width="100" height="100"></td>
                             <td style="width:156px;" class="number">@{(pro \ "prod_sales_time").as[String]}</td>
                             <td style="width:156px;" class="number">@{(pro \ "prod_unit_price").as[String]}元</td>
                             <td style="width:156px;" class="number">@{(pro \ "prod_unit_cost").as[String]}元</td>
