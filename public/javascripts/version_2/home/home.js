@@ -337,7 +337,7 @@
             $.each(allottArray, function(n, time) {sum += time.allotTime});
             sum += trainingInput.allotTime
             if(sum > 100) {
-                f.alert.alert_warn("警告", name+"的沟通时间超出预设");
+                f.alert.alert_warn("警告", name+" 的分配时间已超出上限(100天)，<br/>请重新分配！");
                 result = false;
                 return false;
             } else {
@@ -378,7 +378,7 @@
             });
         });
         if(sum > 100) {
-            f.alert.alert_warn("警告", "经理时间分配超出100天");
+            f.alert.alert_warn("警告", "经理的分配时间已超出上限(100天)，<br/>请重新分配！");
             return false;
         } else return true;
     }
@@ -400,7 +400,8 @@
                 return dom.personal === name
             });
             if(personal.get(0).days > sum) {
-                f.alert.alert_warn("警告", "经理协作时间大于，代表："+name+"所分配时间");
+                // f.alert.alert_warn("警告", "经理协作时间大于，代表："+name+"所分配时间");
+                f.alert.alert_warn("警告", "经理协访时间不可大于 " + name + " 被分配的沟通时间！");
                 result = false;
                 return false;
             } else {
@@ -422,7 +423,8 @@
         var result = false;
         $.each(getAllInputBudget(), function(i, v) {
             if(v.salesmen === "" && v.budget > 0) {
-                f.alert.alert_warn("警告", v.hospital+"未选择代表");
+                // f.alert.alert_warn("提示", v.hospital+"未选择代表");
+                f.alert.alert_warn("提示", "请先指派代表，才可部署预算分配！");
                 result = false;
                 return false;
             } else {result = true;}
@@ -443,7 +445,8 @@
         $.each(salesmen, function(i, v){
             if ($.inArray(v, allSelectedSalesMen) < 0) {
                 result = false;
-                f.alert.alert_warn("警告", v + "代表漏选！")
+                // f.alert.alert_warn("提示", v + "代表漏选！");
+                f.alert.alert_warn("提示", "每位代表都需要被分配销售计划，请再次检查！")
                 return false;
             } else {
                 result = true;
@@ -461,8 +464,10 @@
         });
         $.each(inputs, function(i, v){
             if( !regexExce(numberzzs, $(v).val()) ) {
-                f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + " "+ ($(v).attr("pharbers-type") || "") +" 不是正整数")
+                // f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + " "+ ($(v).attr("pharbers-type") || "") +" 不是正整数")
+                f.alert.alert_warn("警告", "请输入正整数");
                 $(v).val("");
+                // $(v).focus();
                 result = false;
                 return false;
             } else {
@@ -482,7 +487,7 @@
         });
         $.each(reVal, function(i, v){
             if($(v).val() === "") {
-                f.alert.alert_warn("警告", "人员培训下有未填写选项");
+                f.alert.alert_warn("提示", "您的人员培训计划尚未完成，请再次检查！");
                 result = false;
                 return false;
             } else {
@@ -502,7 +507,8 @@
                   return $(dom).val() === "";
         });
         $.each(nonSelectedHosp, function(i, v) {
-            f.alert.alert_warn("警告", $(v).attr("hospital-name") + "未分配代表");
+            // f.alert.alert_warn("提示", $(v).attr("hospital-name") + "未分配代表");
+            f.alert.alert_warn("提示", "尚未对 " + $(v).attr("hospital-name") + " 部署销售计划，请重新检查！");
             result = false;
             return false;
         });
@@ -526,8 +532,12 @@
         $.each(allotSelectedHospInput, function(i, hospDiv) {
             $.each(hospDiv,function(n, v) {
                 if($(v).val() === "") {
-                    f.alert.alert_warn("警告", $(v).attr("hospital-name") + " "
-                        + $(v).attr("pharbers-type") + "内容为空")
+                    // f.alert.alert_warn("提示", $(v).attr("hospital-name") + " "
+                    //     + $(v).attr("pharbers-type") + "内容为空")
+                    //
+                    // f.alert.alert_warn("提示", "尚未分配 " + $(v).attr("hospital-name") + " "
+                    //     + $(v).attr("pharbers-type"))
+                    f.alert.alert_warn("提示", $(v).attr("hospital-name") + " 的销售计划尚未完成，请再次检查！")
                     result = false;
                     return false;
                 } else {
@@ -797,10 +807,10 @@
                 value: sum
             }
         });
+        setTipsDays(inputObj);
         reval = reval.toArray();
         reval.push({name: "未分配", value: parseInt($('span[name="other-days"]').text() || 0)});
         setAllotTime("hospcode-allot-time", reval);
-        setTipsDays(inputObj);
     }
 
     // 计算人员培训的分配天数并显示
@@ -921,7 +931,7 @@
 
             //答题页 销售计划于人员培训按钮
             $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
-                if($())
+                // if($())
                 if($(this).text() == "人员培训") {
                     hospListIndex = $('.hospactive').index();
                     oldHospListIndex = $('.hospactive').index();
@@ -953,7 +963,7 @@
             $('div[name="bottom"] div[name="hosp-info"] input[name="input-budget"]')
                 .blur(function() {
                 if(!verifyBudgetlg()) {
-                    f.alert.alert_warn("警告", "Budget超出预算");
+                    f.alert.alert_warn("警告", "总预算超出上限，请重新分配！");
                     $(this).val("");
                     calcBudget();
                 }
@@ -978,7 +988,7 @@
                 calcAllotTime($(that))
                 calcManageAllotTime($(that));
                 if(!verifyCurrHospitalSalesMen($(that).attr("hospital-name"))) {
-                    f.alert.alert_warn("警告", "未指定代表");
+                    f.alert.alert_warn("提示", "请先指派代表，才可设置沟通时间！");
                     $(that).val("");
                 }
 
@@ -1021,15 +1031,15 @@
 
                 if($(that).val() === "不分配") {
                     if(localStorage == null) {
-                        f.alert.alert_warn("警告",
-                            "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。")
+                        f.alert.alert_warn("提示",
+                            "若选择不分配代表，则放弃该医院销售任务，无法分配预算、设定指标、沟通时间。")
                         inputs.val("");
                         inputs.prop("disabled", true);
                         calcBudget();
                     } else {
-                        f.alert.choose_info("是否清空",
+                        f.alert.choose_info("提示",
                             ["是", "否"],
-                            "若选择不分配代表，则无法分配预算 设定指标 及沟通时间。",
+                            "若选择不分配代表，则放弃该医院销售任务，无法分配预算、设定指标、沟通时间。",
                             function () {
                                 inputs.val("");
                                 inputs.prop("disabled", true);
@@ -1081,7 +1091,7 @@
             });
 
             // 提交按钮
-            $('button[name="submit-btn"]').click(function(){
+            $('button[name="submit-btn"]').click(function() {
 
                 var uuid = $('input:hidden[name="uuid"]').val();
                 var phase = parseInt($('input:hidden[name="phase"]').val());
@@ -1159,10 +1169,9 @@
                 // w.console.info(verifyTimelg())
                 // w.console.info(verifyBudgeteq())
                 // w.console.info(verifyAllPersonnelTraining())
-                //
+                // w.console.info(verifyTimeeq())
                 // w.console.info(verifyAllHospitalAllot());
                 // w.console.info(verifyAllotHositalNotNull()）
-                // f.alert.loading(true);
 
                 if(verifyAllInputIsNumber() &&
                     verifyAllSalesMenIsSelected() &&
@@ -1201,7 +1210,7 @@
             });
 
             // 显示导出/导入excel区域按钮
-            $('div[name = "toggle-import-export"]').click(function(e){
+            $('div[name = "toggle-import-export"]').click(function(e) {
                 $('div[name="area-import-export"]').toggle();
                 $(document).one("click", function(){
                     $('div[name="area-import-export"]').hide();
@@ -1210,7 +1219,7 @@
             });
 
             // 导入/导出区域的按钮冒泡阻止
-            $('div[name="area-import-export"]').click(function(e){
+            $('div[name="area-import-export"]').click(function(e) {
                 e.stopPropagation();
             });
 
