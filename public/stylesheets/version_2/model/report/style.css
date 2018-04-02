@@ -1,7 +1,7 @@
 input {
     padding-right: 5px;
 }
-.home .header button[class*="submit-btn"] {
+.home .header button[class*="submit-btn"] ,.home .header button[class*="check-result-btn"]{
     width: 100px;
     height: 45px;
     margin: -4px 0 0 -5px;
@@ -12,7 +12,8 @@ input {
     color: #e7e7e7;
     box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
 }
-.home .header button[class*="submit-btn"]:hover {
+
+.home .header button[class*="submit-btn"]:hover ,.home .header button[class*="check-result-btn"]:hover{
     background-color: #2d6765;
     /*transform: scale(1.1);*/
 }
@@ -263,4 +264,30 @@ input {
 }
 .home .report .content .resource-allot-bottom table tr td:first-child {
      text-align: center;
+ }
+
+.header .config .config-toggle-result{
+     position: absolute;
+     display: none;
+     z-index: 10;
+     right: -19px;
+     top: 44px;
+     padding:0 10px;
+     -webkit-box-shadow: 3px 3px 10px 1px #303030;
+     -moz-box-shadow: 3px 3px 10px 1px  #303030;
+     box-shadow: 3px 3px 10px 1px  #303030;
+     -webkit-border-radius: 4px 0 4px 4px ;
+     -moz-border-radius: 4px 0 4px 4px ;
+     border-radius: 4px 0 4px 4px;
+     background-color: #515465;
+
+ }
+.header .config .config-toggle-result p {
+     width: 150px;
+     height: 50px;
+     line-height: 50px;
+     margin: 0;
+     text-align: center;
+     font-size: 14px;
+     color: #fff;
  }
