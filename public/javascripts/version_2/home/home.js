@@ -1164,7 +1164,7 @@
 
                 var decisionJson = JSON.stringify($.extend(decisionTmp, f.parameterPrefixModule.conditions(userInfo)));
                 var managementJson = JSON.stringify($.extend(managerTmp, f.parameterPrefixModule.conditions(userInfo)));
-                w.console.info(decisionJson)
+                // w.console.info(decisionJson)
 
                 // w.console.info(verifyAllSalesMenIsSelected())
                 // w.console.info(verifyAllInputIsNumber())
@@ -1176,40 +1176,40 @@
                 // w.console.info(verifyAllHospitalAllot());
                 // w.console.info(verifyAllotHositalNotNull()）
 
-                // if(verifyAllInputIsNumber() &&
-                //     verifyAllSalesMenIsSelected() &&
-                //     verifyAllHospitalAllot() &&
-                //     verifyAllotHositalNotNull() &&
-                //     verifyBudgeteq() &&
-                //     verifyManageTimelg() &&
-                //     verifyTimelg() &&
-                //     verifyTimeeq() &&
-                //     verifyAllPersonnelTraining()) {
-                //
-                //     f.alert.loading(true);
-                //     f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
-                //         if(r.status === 'ok' && r.result.input_update === 'success') {
-                //             f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
-                //                 if(rr.status === 'ok' && rr.result.input_update === 'success') {
-                //                     f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
-                //                         if(rrr.status === 'ok' && rrr.result.data === 'success') {
-                //
-                //                             setTimeout(function () {
-                //                                 f.alert.loading(false);
-                //                                 f.alert.alert_success("消息", "模拟成功");
-                //                                 w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
-                //                             },1600)
-                //
-                //                         }
-                //                     });
-                //                 }
-                //             });
-                //         }
-                //     });
-                //
-                // } else {
-                //
-                // }
+                if(verifyAllInputIsNumber() &&
+                    verifyAllSalesMenIsSelected() &&
+                    verifyAllHospitalAllot() &&
+                    verifyAllotHositalNotNull() &&
+                    verifyBudgeteq() &&
+                    verifyManageTimelg() &&
+                    verifyTimelg() &&
+                    verifyTimeeq() &&
+                    verifyAllPersonnelTraining()) {
+
+                    f.alert.loading(true);
+                    f.ajaxModule.baseCall("/decision/proceed", decisionJson, 'POST', function(r){
+                        if(r.status === 'ok' && r.result.input_update === 'success') {
+                            f.ajaxModule.baseCall("/management/proceed", managementJson, 'POST', function (rr) {
+                                if(rr.status === 'ok' && rr.result.input_update === 'success') {
+                                    f.ajaxModule.baseCall('/submit/submitdata', managementJson, 'POST', function(rrr){
+                                        if(rrr.status === 'ok' && rrr.result.data === 'success') {
+
+                                            setTimeout(function () {
+                                                f.alert.loading(false);
+                                                // f.alert.alert_success("消息", "模拟成功");
+                                                w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
+                                            },1600)
+
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                } else {
+
+                }
             });
 
             // 显示导出/导入excel区域按钮
