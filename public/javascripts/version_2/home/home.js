@@ -463,7 +463,7 @@
             return $(dom).attr("disabled") !== "disabled" && $(dom).val() !== "" && $(dom).attr("type") !== "hidden";
         });
         $.each(inputs, function(i, v){
-            if( !regexExce(numberzzs, $(v).val()) ) {
+            if( !regexExce(numberzzs, $(v).val().replace(/,/g, "")) ) {
                 // f.alert.alert_warn("警告", ($(v).attr("hospital-name") || "") + " "+ ($(v).attr("pharbers-type") || "") +" 不是正整数")
                 f.alert.alert_warn("警告", "请输入正整数");
                 $(v).val("");
@@ -997,6 +997,8 @@
             // 指标设定keyup
             $('div[name="hosp-budget"] input[name="prod_value"]').keyup(function(){
                 verifyAllInputIsNumber()
+                $(this).attr('data-value', $(this).val().replace(/,/g, ""))
+                $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')))
             });
 
             // salesmen select change
@@ -1102,7 +1104,7 @@
                     var sales = $(div).find('input[name="prod_value"]').map(function(index, input){
                         return {
                             "prod_name": $(input).attr('pharbers-type'),
-                            "prod_value": parseInt($(input).val()|| 0)
+                            "prod_value": parseInt($(input).attr('data-value')|| 0)
                         };
                     });
                     var visitHours = $(div).find('input[name="prod_hours"]').map(function(index, input){
@@ -1162,6 +1164,7 @@
 
                 var decisionJson = JSON.stringify($.extend(decisionTmp, f.parameterPrefixModule.conditions(userInfo)));
                 var managementJson = JSON.stringify($.extend(managerTmp, f.parameterPrefixModule.conditions(userInfo)));
+                // w.console.info(decisionJson)
 
                 // w.console.info(verifyAllSalesMenIsSelected())
                 // w.console.info(verifyAllInputIsNumber())
@@ -1193,7 +1196,7 @@
 
                                             setTimeout(function () {
                                                 f.alert.loading(false);
-                                                f.alert.alert_success("消息", "模拟成功");
+                                                // f.alert.alert_success("消息", "模拟成功");
                                                 w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
                                             },1600)
 

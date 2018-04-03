@@ -205,7 +205,8 @@
                                                                             value="@{
                                                                                 val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "口服抗生素").get("prod_value").as[Double]
                                                                                 if(sales == 0) {""} else {numberFormat(sales)}
-                                                                            }"/>&nbsp;元
+                                                                            }"
+                                                                            data-value=0/>&nbsp;元
                                                                 </li>
 
                                                                 <li>
@@ -243,7 +244,8 @@
                                                                             value="@{
                                                                                 val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "一代降糖药").get("prod_value").as[Double]
                                                                                 if(sales == 0) {""} else {numberFormat(sales)}
-                                                                            }"/>&nbsp;元
+                                                                            }"
+                                                                            data-value=0/>&nbsp;元
                                                                 </li>
 
                                                                 <li>
@@ -281,7 +283,8 @@
                                                                             value="@{
                                                                                 val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "三代降糖药").get("prod_value").as[Double]
                                                                                 if(sales == 0) {""} else {numberFormat(sales)}
-                                                                            }"/>&nbsp;元
+                                                                            }"
+                                                                            data-value=0/>&nbsp;元
                                                                 </li>
 
                                                                 <li>
@@ -319,7 +322,8 @@
                                                                             value="@{
                                                                                 val sales = (data \ "sales").as[List[String Map JsValue]].find(f => f("prod_name").as[String] == "皮肤药").get("prod_value").as[Double]
                                                                                 if(sales == 0) {""} else {numberFormat(sales)}
-                                                                            }"/>&nbsp;元
+                                                                            }"
+                                                                            data-value=0/>&nbsp;元
                                                                 </li>
 
                                                                 <li>
