@@ -273,6 +273,11 @@
                     $(".salesman-sale-report-bottom-inside  table tr[salesmenprod != '总体']").hide()
                 }
             });
+
+            // 查看测评报告按钮
+            $('button[name="coming-soon"]').click(function(){
+                layer.alert('即将推出');
+            })
         }
     });
     // 判断是哪个有滚动条的表格显示
