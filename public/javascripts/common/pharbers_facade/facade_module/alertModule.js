@@ -10,7 +10,7 @@ function Alert() {}
             title: t,
             icon: 1,
             closeBtn: 0,
-            anim: 4
+            anim: 0
         });
     };
 
@@ -22,7 +22,7 @@ function Alert() {}
             title: t,
             icon: 2,
             closeBtn: 0,
-            anim: 4
+            anim: 0
         });
     };
 
@@ -34,7 +34,7 @@ function Alert() {}
             title: t,
             icon: 3,
             closeBtn: 0,
-            anim: 4
+            anim: 0
         });
     };
     this.choose_info = function (title , options, message ,func_one, func_two) {

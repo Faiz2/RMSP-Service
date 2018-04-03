@@ -61,6 +61,16 @@
     z-index: 4;
     opacity: 1;
 }
+.start .divFirst .leftdiv {
+    background-image: url("/assets/images/version_2/start_left_1_bg.png");
+    background-size: cover;
+}
+/* .start .divFirst .leftdiv img:first-child {
+    position: absolute;
+    left: 0;
+    transform: translateY(0);
+    top:54px;
+} */
 .start .content .leftdiv img{
     position:relative;
     top:50%;
