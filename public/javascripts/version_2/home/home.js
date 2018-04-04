@@ -19,7 +19,8 @@
                             "color": '#1BE8F2'
                         }]),
                     shadowBlur: 10,
-                    shadowColor: '#1195C4'
+                    shadowColor: '#1195C4',
+
                 }
             }
         }, {
@@ -85,7 +86,7 @@
                 x: 'center',
                 y: 'center',
                 textStyle: {
-                    color: '#98a0c4',
+                    color: '#ccced8',
                     // fontWeight: 'bolder',
                     fontSize: 24,
                 }
@@ -1198,7 +1199,7 @@
                                                 f.alert.loading(false);
                                                 // f.alert.alert_success("消息", "模拟成功");
                                                 w.location = "/report/" + $('input:hidden[name="uuid"]').val() + "/" + $('input:hidden[name="phase"]').val();
-                                            },1600)
+                                            },600)
 
                                         }
                                     });
