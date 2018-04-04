@@ -528,7 +528,7 @@ html::-webkit-scrollbar{width:0px}
 
 .home .message-box .show-info .resource-manager-info .person-details-info .detail .person-name {
     width: 50px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     z-index: auto;
     position: relative;
     left: 90px;
