@@ -273,13 +273,13 @@
         });
     }
 
-    // 销售计划于人员培训切换
+    // 业务决策于管理决策切换
     var switchSalesAndPersonel = function(identify) {
         var $div = $('.hosp-input-info').filter(function(index){
             return $(this).css("display") === "block";
         });
         $(".personal-training").finish();
-        if(identify === "销售计划") {
+        if(identify === "业务决策") {
             $div.find(".sales-planning").show();
             $div.find(".sales-planning").addClass('slideInRight');
             $(".personal-training").removeClass('zoomIn')
@@ -447,7 +447,7 @@
             if ($.inArray(v, allSelectedSalesMen) < 0) {
                 result = false;
                 // f.alert.alert_warn("提示", v + "代表漏选！");
-                f.alert.alert_warn("提示", "每位代表都需要被分配销售计划，请再次检查！")
+                f.alert.alert_warn("提示", "每位代表都需要被分配销售任务，请再次检查！")
                 return false;
             } else {
                 result = true;
@@ -480,7 +480,7 @@
         return result;
     }
 
-    // 人员培训非空 验证
+    // 管理决策非空 验证
     var verifyAllPersonnelTraining = function() {
         var result = false;
         var reVal = $('div[name="personal-training"] input').filter(function(index, dom){
@@ -488,7 +488,7 @@
         });
         $.each(reVal, function(i, v){
             if($(v).val() === "") {
-                f.alert.alert_warn("提示", "您的人员培训计划尚未完成，请再次检查！");
+                f.alert.alert_warn("提示", "您的 管理决策 尚未完成，请再次检查！");
                 result = false;
                 return false;
             } else {
@@ -509,7 +509,7 @@
         });
         $.each(nonSelectedHosp, function(i, v) {
             // f.alert.alert_warn("提示", $(v).attr("hospital-name") + "未分配代表");
-            f.alert.alert_warn("提示", "尚未对 " + $(v).attr("hospital-name") + " 部署销售计划，请重新检查！");
+            f.alert.alert_warn("提示", "尚未对 " + $(v).attr("hospital-name") + " 进行 业务决策，请重新检查！");
             result = false;
             return false;
         });
@@ -538,7 +538,7 @@
                     //
                     // f.alert.alert_warn("提示", "尚未分配 " + $(v).attr("hospital-name") + " "
                     //     + $(v).attr("pharbers-type"))
-                    f.alert.alert_warn("提示", $(v).attr("hospital-name") + " 的销售计划尚未完成，请再次检查！")
+                    f.alert.alert_warn("提示", $(v).attr("hospital-name") + " 的 业务决策 尚未完成，请再次检查！")
                     result = false;
                     return false;
                 } else {
@@ -930,10 +930,10 @@
                 switchHospitalInfo($(this).attr("name"));
             });
 
-            //答题页 销售计划于人员培训按钮
+            //答题页 业务决策与管理决策按钮
             $('div[name="answer-tab"] div[name="btn-group"] button').click(function(){
                 // if($())
-                if($(this).text() == "人员培训") {
+                if($(this).text() == "管理决策") {
                     hospListIndex = $('.hospactive').index();
                     oldHospListIndex = $('.hospactive').index();
                     $('ul[name="hosp-list"] li').addClass("hospactive");
