@@ -2,9 +2,11 @@
 @import controllers.routes
 @import play.api.libs.json.JsValue
 @(uuid: String, phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue], report: Option[JsValue])
+<input type="hidden" name="uuid" value="@{uuid}">
+<input type="hidden" name="phrase" value="@{phrase}">
 <div class="resource-content">
     <div class="navbar-resource">
-        <div class="col-md-9 col-sm-9 col-xs-9">
+        <div class="col-md-7 col-sm-7 col-xs-7">
             <div class="btn-group navbar-btn" name="navbar-btn" role="group">
                 <button type="button " class="btn btn-default" name="hosp-info-btn">医院信息</button>
                 <button type="button" class="btn btn-default active" name="delegate-info-btn">代表信息</button>
@@ -15,7 +17,8 @@
 
             </div>
         </div>
-        <div class="col-md-1 col-sm-1 col-xs-1 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 text-right">
+        <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 text-right">
+            <button class="btn btn-primary btn-md download-btn" type="button" id="download-btn">下载医院数据</button>
             <button class="btn btn-primary btn-md backup-btn" type="button" id="backup-btn">收起</button>
         </div>
     </div>

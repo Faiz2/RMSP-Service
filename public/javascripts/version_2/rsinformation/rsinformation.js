@@ -46,6 +46,7 @@
 
     // 医院、代表、产品信息切换
     var switchHospitalWithProductInfo = function(identify) {
+        // download-btn
         var $div = $('div[name="resource-info"]');
         if($div.css("display") === "block") {
             if(identify === "代表信息") {
@@ -53,22 +54,26 @@
                 $div.find(".hospital-list").hide();
                 $div.find(".product-list").hide();
                 $div.find(".report-list").hide();
+                $div.find(".download-btn").hide();
             } else if(identify === "医院信息"){
                 $div.find(".hospital-list").show();
                 $div.find(".person-list").hide();
                 $div.find(".product-list").hide();
                 $div.find(".report-list").hide();
+                $div.find(".download-btn").show();
             } else if(identify === "产品信息"){
                 $div.find(".hospital-list").hide();
                 $div.find(".person-list").hide();
                 $div.find(".product-list").show();
                 $div.find(".report-list").hide();
+                $div.find(".download-btn").hide();
             } else {
 
                 $div.find(".hospital-list").hide();
                 $div.find(".person-list").hide();
                 $div.find(".product-list").hide();
                 $div.find(".report-list").show();
+                $div.find(".download-btn").hide();
                 whichTable();
                 resetTableWidth();
             }
@@ -86,6 +91,15 @@
                 $('div[name="resource-info"]').hide();
             });
 
+            $('#download-btn').click(function(){
+                var jsonObj = JSON.stringify(f.parameterPrefixModule.conditions({
+                    uuid: $('input[name="uuid"]').val(),
+                    phase: parseInt($('input[name="phase"]').val())
+                }));
+                f.ajaxModule.baseCall('/hospital/create', jsonObj, 'POST', function(r){
+                    console.info(r)
+                });
+            });
             //资源页面 tab切换按钮
             $('div[name="navbar-btn"] button').click(function() {
                 $(this).addClass("active");
