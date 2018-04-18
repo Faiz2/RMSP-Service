@@ -55,11 +55,19 @@ object RsInformationModel extends ModuleTrait with RsInformationData {
 	                     (pr: Option[String Map JsValue])
 	                     (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
+			val phrase = (data \ "condition" \ "phase").as[Int]
+			val uuid = (data \ "condition" \ "uuid").as[String]
 			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).
 				getOrElse(throw new Exception("no db connection"))
 			val db = conn.queryDBInstance("stp").get
-			val reVal = db.queryMultipleObject(DBObject(), "preresult")(previousResultConvertMap)
-			val result = MergeStepResult(toJson(Map("describe" -> reVal)), Some(pr.get("data").as[JsObject].value.toMap) )
+			val reVal =
+				if (phrase == 1) {
+					db.queryMultipleObject(DBObject(), "preresult")(initialResultConvertMap(_, phrase))
+				} else {
+					(db.queryMultipleObject(DBObject("uuid" -> uuid), "report")
+						(previousResultConvertMap(_, phrase - 1, "销售报告_销售额每客户"))).head("result").as[List[String Map JsValue]]
+				}
+			val result = MergeStepResult(toJson(Map("period" -> reVal)), Some(pr.get("data").as[JsObject].value.toMap) )
 			(Some(Map("data" -> result)), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
@@ -70,10 +78,12 @@ object RsInformationModel extends ModuleTrait with RsInformationData {
 	                        (pr: Option[String Map JsValue])
 	                        (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			val resVal = generateFile(pr.get("data"), (data \ "condition" \ "phase").as[Int])
+			val resVal = generateFile(pr.get("data"), (data \ "condition" \ "phase").as[Int] - 1)
 			(Some(Map("data" -> toJson(resVal))), None)
 		} catch {
-			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
+			case ex: Exception =>
+				println(ex.getMessage)
+				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
 }

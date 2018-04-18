@@ -96,8 +96,13 @@
                     uuid: $('input[name="uuid"]').val(),
                     phase: parseInt($('input[name="phase"]').val())
                 }));
+                f.alert.loading(true);
                 f.ajaxModule.baseCall('/hospital/create', jsonObj, 'POST', function(r){
-                    console.info(r)
+                    if (r.status === 'ok') {
+                        f.alert.loading(false);
+                        // w.window.open('/download/file/' + r.result.data);
+                        w.location.href = '/download/file/' + r.result.data
+                    }
                 });
             });
             //资源页面 tab切换按钮

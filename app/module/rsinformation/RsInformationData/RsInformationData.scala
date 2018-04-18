@@ -40,38 +40,73 @@ trait RsInformationData {
 		)
 	}
 	
-	def previousResultConvertMap(o: DBObject): String Map JsValue = {
-		val result = o.getAs[MongoDBList]("pre_result").get.toList.asInstanceOf[List[BasicDBObject]]
-		
-		val preresult = result.map { x =>
-			val num = x.getAs[Number]("stage").get.intValue()
-			"phrase_"+num -> toJson(x.getAs[String]("phrase_"+num))
-		}.toMap
+	def initialResultConvertMap(o: DBObject, phase: Int): String Map JsValue = {
+		val result = o.getAs[MongoDBList]("pre_result").get.toList.asInstanceOf[List[BasicDBObject]].
+			find(f => f.getAs[Number]("stage").get.intValue() == phase).get
 		
 		Map("hospitalCode" ->  toJson(o.getAs[String]("hosp_code")),
-			"phrase_1" -> preresult("phrase_1"),
-			"phrase_2" -> preresult("phrase_2"),
-			"phrase_3" -> preresult("phrase_3"),
-			"phrase_4" -> preresult("phrase_4")
+			"oralAntibiotics" -> toJson(result.getAs[String]("1")),
+			"aHypoglycemicAgent" -> toJson(result.getAs[String]("2")),
+			"threeHypoglycemicAgent" -> toJson(result.getAs[String]("3")),
+			"skinMedicine" -> toJson(result.getAs[String]("4"))
 		)
 	}
 	
+	def previousResultConvertMap(o: DBObject, phase: Int, reportName: String): String Map JsValue = {
+		val reVal = o.getAs[MongoDBList]("report").get.toList.asInstanceOf[List[BasicDBObject]].
+			find(f => f.getAs[Number]("phase").get.intValue() == phase &&
+					f.getAs[String]("report_name").get == reportName).get.getAs[MongoDBList]("result").get.
+						toList.asInstanceOf[List[BasicDBObject]]
+		
+		val result = reVal.groupBy(g => g.getAs[Number]("hosp_code").get.intValue()).map{ x =>
+			Map("hospitalCode" -> toJson(x._1.toString),
+				"oralAntibiotics" -> toJson(thousandsConvert(Some(x._2.find(f =>
+					f.getAs[String]("prod_name").get == "口服抗生素").get.getAs[Number]("last_revenue").get.doubleValue().toString))),
+				"aHypoglycemicAgent" -> toJson(thousandsConvert(Some(x._2.find(f =>
+					f.getAs[String]("prod_name").get == "一代降糖药").get.getAs[Number]("last_revenue").get.doubleValue().toString))),
+				"threeHypoglycemicAgent" -> toJson(thousandsConvert(Some(x._2.find(f =>
+					f.getAs[String]("prod_name").get == "三代降糖药").get.getAs[Number]("last_revenue").get.doubleValue().toString))),
+				"skinMedicine" -> toJson(thousandsConvert(Some(x._2.find(f =>
+					f.getAs[String]("prod_name").get == "皮肤药").get.getAs[Number]("last_revenue").get.doubleValue().toString)))
+			)
+		}.toList
+		Map("result" -> toJson(result))
+	}
+	
 	def generateFile(data: JsValue, phase: Int): String = {
+		val productNames = Map("chname" -> "口服抗生素", "enname" -> "oralAntibiotics") ::
+						   Map("chname" -> "一代降糖药", "enname" -> "aHypoglycemicAgent") ::
+				           Map("chname" -> "三代降糖药", "enname" -> "threeHypoglycemicAgent") ::
+					       Map("chname" -> "皮肤药", "enname" -> "skinMedicine") ::
+			               Nil
 		val file =  UUID.randomUUID().toString + ".xlsx"
 		val path = "./files/" + file
-		val describe = (data \ "describe").as[List[String Map String]]
+		val period = (data \ "period").as[List[String Map String]]
 		val phrase = (data \ "phrase").as[List[String Map String]]
 		val hospitals = (data \ "hospitals").as[List[String Map String]]
-		val content = hospitals.map { x =>
-			Map("hospitalName" -> x("hospitalName"),
-				"survey" ->  describe.find(f =>  f("hospitalCode") == x("hospitalCode")).get("phrase_" + phase),
-				"oralAntibiotics" -> phrase.find(f =>  f("hospitalCode") == x("hospitalCode")).get("oralAntibiotics"),
-				"aHypoglycemicAgent" -> phrase.find(f =>  f("hospitalCode") == x("hospitalCode")).get("aHypoglycemicAgent"),
-				"threeHypoglycemicAgent" -> phrase.find(f =>  f("hospitalCode") == x("hospitalCode")).get("threeHypoglycemicAgent"),
-				"hospitalCode" -> phrase.find(f =>  f("hospitalCode") == x("hospitalCode")).get("hospitalCode")
-			)
+		
+		val content = hospitals.map { hosp =>
+			productNames.map { pn =>
+				Map(
+					"周期" -> phase.toString,
+					"医院名称" -> hosp("hospitalName").toString,
+					"产品名称" -> pn("chname"),
+					"潜力" -> phrase.find(f => f("hospitalCode") == hosp("hospitalCode")).get(pn("enname")).toString,
+					"上期销售额" -> period.find(f => f("hospitalCode") == hosp("hospitalCode")).get(pn("enname")).toString
+				)
+			}
 		}
-		phHandleExcel().writeByList(content, path)
+		
+		val title = Map(
+			"周期" -> 0,
+			"医院名称" -> 1,
+			"产品名称" -> 2,
+			"潜力" -> 3,
+			"上期销售额" -> 4
+		)
+//		println(toJson(content.flatten))
+		
+		phHandleExcel().writeByList(content.flatten, path, cellNumArg = title)
 		file
 	}
 }
