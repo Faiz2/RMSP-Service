@@ -81,7 +81,8 @@
                         <div class="media-body">
                             <p class="media-heading">能力值</p>
                             <div class="radar-map">
-                                <img src="@{routes.Assets.versioned("images/version_2/"+(phrase)+"-"+(person._1 \ "name").asOpt[String].get+".png")}" width="280" height="192">
+                                <div name="@{(person._1 \ "name").asOpt[String]}" style="width: 280px; height: 200px;"></div>
+                                @*<img src="@{routes.Assets.versioned("images/version_2/"+(phrase)+"-"+(person._1 \ "name").asOpt[String].get+".png")}" width="280" height="192">*@
                             </div>
                         </div>
                     </div>
