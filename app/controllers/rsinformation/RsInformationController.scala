@@ -17,8 +17,14 @@ class RsInformationController @Inject()(as_inject: ActorSystem, dbt: dbInstanceM
 	implicit val as: ActorSystem = as_inject
 	
 	def generateHospitalFile = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
-		MessageRoutes(msg_log(toJson(Map("method" -> toJson("callCalcRscript"))), jv)
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("generateHospitalFile"))), jv)
 			:: MsgGetHospitals(jv) :: MsgGetPhrase(jv) :: MsgGetPreviousResult(jv) :: MsgGenerateHospitalFile(jv)
+			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
+	})
+	
+	def salesmenRadarMap = Action(request => requestArgsQuery().requestArgsV2(request) { jv =>
+		MessageRoutes(msg_log(toJson(Map("method" -> toJson("salesmenRadarMap"))), jv)
+			:: MsgSalesMenRadarMap(jv)
 			:: msg_CommonResultMessage() :: Nil, None)(CommonModules(Some(Map("db" -> dbt, "att" -> att))))
 	})
 	

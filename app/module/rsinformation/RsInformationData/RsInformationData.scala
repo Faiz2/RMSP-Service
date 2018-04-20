@@ -109,4 +109,14 @@ trait RsInformationData {
 		phHandleExcel().writeByList(content.flatten, path, cellNumArg = title)
 		file
 	}
+	
+	def salesmenResultConvertMap(o: DBObject): String Map JsValue = {
+		val abilityValue = o.getAs[DBObject]("ability_value").get
+		Map("name" -> toJson(o.getAs[String]("name")),
+			"productValue" -> toJson(abilityValue.getAs[Number]("products_value").get.intValue()),
+			"experienceValue" -> toJson(abilityValue.getAs[Number]("experience_value").get.intValue()),
+			"salesValue" -> toJson(abilityValue.getAs[Number]("sales_value").get.intValue()),
+			"workValue" -> toJson(abilityValue.getAs[Number]("work_value").get.intValue())
+		)
+	}
 }

@@ -19,6 +19,7 @@ object RsInformationModel extends ModuleTrait with RsInformationData {
 		case MsgGetPhrase(data) => getPhrase(data)(pr)
 		case MsgGetPreviousResult(data) => getPreviousResult(data)(pr)
 		case MsgGenerateHospitalFile(data) => generateHospitalFile(data)(pr)
+		case MsgSalesMenRadarMap(data) => salesmenRadarMap(data)
 	}
 	
 	def getHospitals(data: JsValue)(implicit  cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
@@ -84,6 +85,18 @@ object RsInformationModel extends ModuleTrait with RsInformationData {
 			case ex: Exception =>
 				println(ex.getMessage)
 				(None, Some(ErrorCode.errorToJson(ex.getMessage)))
+		}
+	}
+	
+	def salesmenRadarMap(data: JsValue)(implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
+		try {
+			val conn = cm.modules.get.get("db").map(x => x.asInstanceOf[dbInstanceManager]).
+				getOrElse(throw new Exception("no db connection"))
+			val db = conn.queryDBInstance("stp").get
+			val resVal = db.queryMultipleObject(DBObject(), "presalesmen")(salesmenResultConvertMap)
+			(Some(Map("data" -> toJson(resVal))), None)
+		} catch {
+			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))
 		}
 	}
 }

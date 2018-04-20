@@ -38,16 +38,16 @@
                 });
             });
             // 显示导出/导入excel区域按钮
-            $('div[name = "toggle-import-export"]').click(function(e) {
-                $('div[name="area-import-export"]').toggle();
+            $('div[name = "toggle-export"]').click(function(e) {
+                $('div[name="area-export"]').toggle();
                 $(document).one("click", function(){
-                    $('div[name="area-import-export"]').hide();
+                    $('div[name="area-export"]').hide();
                 });
                 e.stopPropagation();
             });
 
             // 导入/导出区域的按钮冒泡阻止
-            $('div[name="area-import-export"]').click(function(e) {
+            $('div[name="area-export"]').click(function(e) {
                 e.stopPropagation();
             });
 

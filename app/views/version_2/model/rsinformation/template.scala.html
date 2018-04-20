@@ -1,6 +1,7 @@
 @import java.text.NumberFormat
 @import controllers.routes
 @import play.api.libs.json.JsValue
+
 @(uuid: String, phrase: String, salesman: List[JsValue], hosp_new: JsValue, hosp_list: List[JsValue], product: List[JsValue], report: Option[JsValue])
 <input type="hidden" name="uuid" value="@{uuid}">
 <input type="hidden" name="phrase" value="@{phrase}">
@@ -133,6 +134,39 @@
     </div>
     <div class="report-list" style="display: none;">
         @if((report.get \ "report").as[List[JsValue]].nonEmpty) {
+            <div name="radar-values" style="display: none;">
+                @{
+                    val tmp = (report.get \ "report").asOpt[List[JsValue]].get
+                    val hash = Map("report_name" -> "代表报告_产品知识", "general_names" -> "产品知识(指数)") ::
+                                Map("report_name" -> "代表报告_经验", "general_names" -> "经验") ::
+                                Map("report_name" -> "代表报告_销售技巧", "general_names" -> "销售技巧(指数)") ::
+                                Map("report_name" -> "代表报告_工作积极性", "general_names" -> "工作积极性(指数)") :: Nil
+                    hash.map{ x =>
+                        val content = (tmp.find(f => (f \ "report_name").as[String] == x("report_name")).get \ "result")
+                                        .as[List[JsValue]]
+
+
+                        val pre = content.find(f => (f \ "general_names").as[String] == ("前期"+x("general_names"))).get
+                        val cur = content.find(f => (f \ "general_names").as[String] == ("当期"+x("general_names"))).get
+                        <div name={x("report_name")} style="display: none;">
+                            <div name="pre">
+                                <span name="小宋">{(pre \ "salesmen_first").asOpt[Int].get}</span>
+                                <span name="小兰">{(pre \ "salesmen_second").asOpt[Int].get}</span>
+                                <span name="小木">{(pre \ "salesmen_third").asOpt[Int].get}</span>
+                                <span name="小白">{(pre \ "salesmen_fourth").asOpt[Int].get}</span>
+                                <span name="小青">{(pre \ "salesmen_fifth").asOpt[Int].get}</span>
+                            </div>
+                            <div name="cur">
+                                <span name="小宋">{(cur \ "salesmen_first").asOpt[Int].get}</span>
+                                <span name="小兰">{(cur \ "salesmen_second").asOpt[Int].get}</span>
+                                <span name="小木">{(cur \ "salesmen_third").asOpt[Int].get}</span>
+                                <span name="小白">{(cur \ "salesmen_fourth").asOpt[Int].get}</span>
+                                <span name="小青">{(cur \ "salesmen_fifth").asOpt[Int].get}</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
             <div class="home">
                 <div class="container">
                     <div class="row">

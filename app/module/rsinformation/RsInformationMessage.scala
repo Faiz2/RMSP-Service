@@ -13,4 +13,6 @@ object RsInformationMessage {
 	case class MsgGetPreviousResult(data: JsValue) extends MsgRsInformationCommand
 	
 	case class MsgGenerateHospitalFile(data: JsValue) extends MsgRsInformationCommand
+	
+	case class MsgSalesMenRadarMap(data: JsValue) extends MsgRsInformationCommand
 }

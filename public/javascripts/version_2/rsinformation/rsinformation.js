@@ -79,7 +79,31 @@
         }
     };
 
-    var personRadarMap = function(identify) {
+    function getPersonRadarMapData(data) {
+
+        return [
+            {
+                value : data.cur,
+                name : '当期',
+                itemStyle: {
+                    normal: {
+                        color: '#0E86A4'
+                    }
+                }
+            },
+            {
+                value : data.pre,
+                name : '上期',
+                itemStyle: {
+                    normal: {
+                        color: '#A6A921'
+                    }
+                }
+            }
+        ];
+    }
+
+    var personRadarMap = function(identify, data) {
         var radarmap = echarts.init($('.person-list div[name="'+ identify +'"]')[0]);
         var lineStyle = {
             normal: {
@@ -87,7 +111,6 @@
                 opacity: 0.9
             }
         };
-
         var option = {
             tooltip: {
                 confine: true
@@ -176,39 +199,88 @@
                     symbol: 'none',
                     lineStyle: lineStyle,
                     areaStyle: {normal: {}},
-                    data : [
-                        {
-                            value : [40, 90, 50 ],
-                            name : '当期',
-                            itemStyle: {
-                                normal: {
-                                    color: '#0E86A4'
-                                }
-                            }
-                        },
-                        {
-                            value : [80, 50, 12],
-                            name : '上期',
-                            itemStyle: {
-                                normal: {
-                                    color: '#A6A921'
-                                }
-                            }
-                        }
-                    ]
+                    data : getPersonRadarMapData(data)
                 }
             ]
         };
         radarmap.setOption(option);
     };
 
+    function radarMapData() {
+        var phrase = $('input[name="phrase"]').val();
+        if (phrase === "1") {
+            f.ajaxModule.baseCall('/salesmen/init/radarmap', JSON.stringify({"phrase": phrase}), 'POST', function(r) {
+                if (r.status === 'ok') {
+                   $.each(r.result.data, function(i, v){
+                       var data = {
+                           "cur": [0, 0, 0],
+                           "pre": [v.salesValue, v.productValue, v.workValue]
+                       };
+                       personRadarMap(v.name, data)
+                   });
+                }
+            });
+        } else {
+            var salesmen = ["小宋", "小兰", "小木", "小白", "小青"];
+            var radar = $('div[name="radar-values"]').children();
+            var product = radar.filter(function(i, dom){return $(dom).attr("name") === "代表报告_产品知识"});
+            var experience = radar.filter(function(i, dom){return $(dom).attr("name") === "代表报告_经验"});
+            var sales = radar.filter(function(i, dom){return $(dom).attr("name") === "代表报告_销售技巧"});
+            var work = radar.filter(function(i, dom){return $(dom).attr("name") === "代表报告_工作积极性"});
+            function preData(name) {
+                var pValue = product.children().filter(function(index, dom){return $(dom).attr("name") === "pre"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var eValue = experience.children().filter(function(index, dom){return $(dom).attr("name") === "pre"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var sValue = sales.children().filter(function(index, dom){return $(dom).attr("name") === "pre"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var wValue = work.children().filter(function(index, dom){return $(dom).attr("name") === "pre"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                return [parseInt(sValue), parseInt(pValue), parseInt(wValue)]
+            }
+            function curData(name) {
+                var pValue = product.children().filter(function(index, dom){return $(dom).attr("name") === "cur"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var eValue = experience.children().filter(function(index, dom){return $(dom).attr("name") === "cur"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var sValue = sales.children().filter(function(index, dom){return $(dom).attr("name") === "cur"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                var wValue = work.children().filter(function(index, dom){return $(dom).attr("name") === "cur"})
+                    .children().filter(function(index, dom){return $(dom).attr("name") === name}).text();
+
+                return [parseInt(sValue), parseInt(pValue), parseInt(wValue)]
+            }
+
+            $.each(salesmen, function(i, v){
+                var data = {
+                    "cur": curData(v),
+                    "pre": preData(v)
+                };
+                // var data = {
+                //     "cur": [0, 0, 0],
+                //     "pre": [0, 0, 0]
+                // };
+                // console.info(data)
+                personRadarMap(v, data);
+            });
+        }
+    }
+
     $(function(){
 
         init: {
-            var person = ["小宋", "小兰", "小木", "小白", "小青"];
-            $.each(person, function(i, v){
-                personRadarMap(v)
-            });
+            radarMapData()
+            // var person = ["小宋", "小兰", "小木", "小白", "小青"];
+            // $.each(person, function(i, v){
+            //     personRadarMap(v)
+            // });
         }
         events: {
             //资源页面 收起按钮
