@@ -25,7 +25,6 @@ object RscriptModule extends ModuleTrait {
 			val phase = (data \ "phase").asOpt[Int].map(x => x).getOrElse(throw new Exception("wrong input"))
 			val rfile = RConfig().program_path + RConfig().rfile()
 			val r = CallRFile2(rfile, uuid, phase).excute
-			println(r)
 			(Some(Map("data" -> toJson("success"))), None)
 		} catch {
 			case ex: Exception => (None, Some(ErrorCode.errorToJson(ex.getMessage)))

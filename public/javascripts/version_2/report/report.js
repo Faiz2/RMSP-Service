@@ -22,6 +22,35 @@
             });
         }
         events: {
+            //导出Excel
+            $('#exportExcel').click(function(){
+                let json = JSON.stringify(f.parameterPrefixModule.conditions({
+                    "uuid": $('input[name="uuid"]').val(),
+                    "phase": parseInt($('input[name="phrase"]').val())
+                }));
+                f.alert.loading(true);
+                f.ajaxModule.baseCall('/submit/create', json, 'POST', function(r) {
+                    if(r.status === 'ok' && r.result.data.flag === 'ok') {
+                        f.alert.loading(false);
+                        // w.window.open('/download/report/' + r.result.data.path);
+                        w.location = '/download/file/' + r.result.data.path
+                    }
+                });
+            });
+            // 显示导出/导入excel区域按钮
+            $('div[name = "toggle-export"]').click(function(e) {
+                $('div[name="area-export"]').toggle();
+                $(document).one("click", function(){
+                    $('div[name="area-export"]').hide();
+                });
+                e.stopPropagation();
+            });
+
+            // 导入/导出区域的按钮冒泡阻止
+            $('div[name="area-export"]').click(function(e) {
+                e.stopPropagation();
+            });
+
             $('button[name="go-phrase"]').click(function(){
                 // w.location.href = "/home/" + $('input[name="uuid"]').val() + "/2"
                 w.location.href = "/transition/" + $('input[name="uuid"]').val() + "/"+ $('input[name="phrase"]').val()
@@ -447,4 +476,6 @@
             $(".salesman-sale-report-bottom-inside  table tr[salesmen != '小青']").hide();
         }
     }
+
+
 })(jQuery, window);

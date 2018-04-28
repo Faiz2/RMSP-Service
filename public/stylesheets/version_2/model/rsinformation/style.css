@@ -53,6 +53,23 @@
 .resource-info .resource-content .backup-btn:hover {
     background-color: rgb(58, 114, 145);
 }
+
+.resource-info .resource-content .download-btn {
+    width: 150px;
+    height: 40px;
+    display: none;
+    margin-right: 20px;
+    border-radius: 20px;
+    letter-spacing: 2.5px;
+    margin-left: -15px;
+    box-shadow: 2px 2px 8px 2px rgba(50, 50, 50,0.3);
+    background-color: rgb(35,128,176);
+}
+
+.resource-info .resource-content .download-btn:hover {
+    background-color: rgb(58, 114, 145);
+}
+
     /*TODO: 重构时废除*/
 .resource-info .resource-content .person-list {
     width: 100%;
