@@ -41,6 +41,9 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 	def start = Action {
 		Ok(views.html.version_2.model.start.template())
 	}
+	def summary = Action {
+		Ok(views.html.version_2.model.summary.template())
+	}
 	def transition(uuid: String, phrase: String) = Action {
 		Ok(views.html.version_2.model.transition.template(uuid, phrase))
 	}

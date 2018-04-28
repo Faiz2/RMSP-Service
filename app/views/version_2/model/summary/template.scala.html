@@ -1,0 +1,33 @@
+
+@()
+@version_2.model.application.template("区域管理模拟平台"){
+    <div class="home">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="header">
+                        <div class="row head-describe">
+                            <div class="col-md-12 box bg">
+                                <div class="col-md-5 col-sm-5 col-xs-5">测评报告</div>
+                                <div class="col-md-7 col-sm-7 col-xs-7 text-right" >
+                                    <div class="config" name="toggle-export">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                        <div class="config-toggle-content" name="area-export">
+                                            <p id="exportExcel">下载报告</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="timer" style="display: none;"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary" style="margin: 0 -15px;">
+                        <img width="100%" src="@{routes.Assets.versioned("images/version_2/summary.png")}" alt="summary picture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="@routes.Assets.versioned("javascripts/version_2/summary/summary.js")" type="text/javascript" defer="defer"></script>
+}
