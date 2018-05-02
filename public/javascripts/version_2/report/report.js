@@ -305,7 +305,14 @@
 
             // 查看测评报告按钮
             $('button[name="coming-soon"]').click(function(){
-                layer.alert('即将推出');
+                // layer.alert('即将推出');
+                f.alert.loading(true);
+                setTimeout(function () {
+                    w.location.href = "/summary";
+                },1000);
+                setTimeout(function () {
+                    f.alert.loading(false);
+                },1100)
             })
         }
     });
