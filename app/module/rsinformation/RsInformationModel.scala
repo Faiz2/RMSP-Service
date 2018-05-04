@@ -79,7 +79,7 @@ object RsInformationModel extends ModuleTrait with RsInformationData {
 	                        (pr: Option[String Map JsValue])
 	                        (implicit cm: CommonModules): (Option[String Map JsValue], Option[JsValue]) = {
 		try {
-			val resVal = generateFile(pr.get("data"), (data \ "condition" \ "phase").as[Int] - 1)
+			val resVal = generateFile(pr.get("data"), (data \ "condition" \ "phase").as[Int])
 			(Some(Map("data" -> toJson(resVal))), None)
 		} catch {
 			case ex: Exception =>
