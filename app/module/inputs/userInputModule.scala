@@ -129,6 +129,12 @@ object userInputModule extends ModuleTrait {
 
                 db.updateObject(obj, "inputs", "uuid")
 
+                if (phase == 1) {
+                    obj += "decision" -> (decision.filterNot(p => p.getAs[Number]("phase").get.intValue == 2) ++ decision_new)
+
+                    db.updateObject(obj, "inputs", "uuid")
+                }
+
                 Map("a" -> toJson(""))
             }
 
@@ -203,6 +209,12 @@ object userInputModule extends ModuleTrait {
                 obj += "management" -> (decision.filterNot(p => p.getAs[Number]("phase").map (x => x.intValue).getOrElse(1) == phase) ++ decision_new)
 
                 db.updateObject(obj, "inputs", "uuid")
+
+                if (phase == 1) {
+                    obj += "management" -> (decision.filterNot(p => p.getAs[Number]("phase").map (x => x.intValue).getOrElse(1) == 2) ++ decision_new)
+
+                    db.updateObject(obj, "inputs", "uuid")
+                }
 
                 Map("a" -> toJson(""))
             }
