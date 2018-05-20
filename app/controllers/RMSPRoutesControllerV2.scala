@@ -311,15 +311,20 @@ class RMSPRoutesControllerV2 @Inject()(as_inject: ActorSystem, dbt: dbInstanceMa
 		val pi = p.toInt
 
 		getUserCookie(request) {
-			val flag = checkPhase(uuid, pi)
-			if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
-			else {
-				val result = getReport(uuid, phrase)
-				if(result.isEmpty) Redirect("/login") else {
-					
-					Ok(views.html.version_2.model.report.template(uuid, p, result.get))
-				}
+			val result = getReport(uuid, phrase)
+			if(result.isEmpty) Redirect("/login") else {
+				
+				Ok(views.html.version_2.model.report.template(uuid, p, result.get))
 			}
+//			val flag = checkPhase(uuid, pi)
+//			if (!flag._1) Redirect("/phase_error/" + uuid + "/" + phrase)
+//			else {
+//				val result = getReport(uuid, phrase)
+//				if(result.isEmpty) Redirect("/login") else {
+//
+//					Ok(views.html.version_2.model.report.template(uuid, p, result.get))
+//				}
+//			}
 		}
 	}
 

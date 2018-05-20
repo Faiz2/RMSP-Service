@@ -12,6 +12,8 @@ import module.inputs.userInputMessages._
 import play.api.libs.json.{JsObject, JsValue}
 import play.api.libs.json.Json.toJson
 
+import scala.collection.JavaConversions._
+
 object userInputModule extends ModuleTrait {
     def dispatchMsg(msg: MessageDefines)
                    (pr: Option[String Map JsValue])
@@ -128,10 +130,17 @@ object userInputModule extends ModuleTrait {
                 obj += "decision" -> (decision.filterNot(p => p.getAs[Number]("phase").get.intValue == phase) ++ decision_new)
 
                 db.updateObject(obj, "inputs", "uuid")
-
+	            
                 if (phase == 1) {
-//                    data.as[JsObject].toMap
-                    obj += "decision" -> (decision.filterNot(p => p.getAs[Number]("phase").get.intValue == 2) ++ decision_new)
+                    val tempJV = data.as[JsObject].value
+                    val obj_decision = obj.getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]
+                    val temp_decision_list = tempJV("decision").as[List[String Map JsValue]].map( x => x ++ Map("phase" -> toJson(2)))
+
+                    val json = toJson(tempJV.toMap ++ Map("phase" -> toJson(2)) ++ Map("decision" -> toJson(temp_decision_list)))
+                    
+                    val temp_decision = inner_trait.decision_m2d(json).getAs[MongoDBList]("decision").get.toList.asInstanceOf[List[BasicDBObject]]
+                    
+                    obj += "decision" -> (obj_decision.filterNot(p => p.getAs[Number]("phase").get.intValue == 2) ++ temp_decision)
 
                     db.updateObject(obj, "inputs", "uuid")
                 }
@@ -210,13 +219,21 @@ object userInputModule extends ModuleTrait {
                 obj += "management" -> (decision.filterNot(p => p.getAs[Number]("phase").map (x => x.intValue).getOrElse(1) == phase) ++ decision_new)
 
                 db.updateObject(obj, "inputs", "uuid")
-
+    
                 if (phase == 1) {
-                    obj += "management" -> (decision.filterNot(p => p.getAs[Number]("phase").map (x => x.intValue).getOrElse(1) == 2) ++ decision_new)
-
+                    val tempJV = data.as[JsObject].value
+                    val obj_management= obj.getAs[MongoDBList]("management").get.toList.asInstanceOf[List[BasicDBObject]]
+                    val temp_management_list = tempJV("management").as[List[String Map JsValue]].map( x => x ++ Map("phase" -> toJson(2)))
+        
+                    val json = toJson(tempJV.toMap ++ Map("phase" -> toJson(2)) ++ Map("management" -> toJson(temp_management_list)))
+        
+                    val temp_decision = inner_trait.mag_m2d(json).getAs[MongoDBList]("management").get.toList.asInstanceOf[List[BasicDBObject]]
+    
+                    obj += "management" -> (obj_management.filterNot(p => p.getAs[Number]("phase").map (x => x.intValue).getOrElse(1) == 2) ++ temp_decision)
+    
                     db.updateObject(obj, "inputs", "uuid")
                 }
-
+                
                 Map("a" -> toJson(""))
             }
 
