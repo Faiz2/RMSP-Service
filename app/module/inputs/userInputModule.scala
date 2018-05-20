@@ -9,7 +9,7 @@ import com.pharbers.common.cmd.rcmd.CallRFile2
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import module.inputs.userInputData.{userInputCondition, userInputCreate, userInputData, userManagementData}
 import module.inputs.userInputMessages._
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsObject, JsValue}
 import play.api.libs.json.Json.toJson
 
 object userInputModule extends ModuleTrait {
@@ -130,6 +130,7 @@ object userInputModule extends ModuleTrait {
                 db.updateObject(obj, "inputs", "uuid")
 
                 if (phase == 1) {
+//                    data.as[JsObject].toMap
                     obj += "decision" -> (decision.filterNot(p => p.getAs[Number]("phase").get.intValue == 2) ++ decision_new)
 
                     db.updateObject(obj, "inputs", "uuid")
