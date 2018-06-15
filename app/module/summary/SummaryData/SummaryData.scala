@@ -22,5 +22,6 @@ trait SummaryData {
 		val phase = (jv \ "condition" \ "phase").as[String]
 		val result = db.getAs[DBObject]("result").map(_.getAs[DBObject](phase).get).get
 		toJson(Json.parse(result.toString)).as[JsObject].value
+		null
 	}
 }
