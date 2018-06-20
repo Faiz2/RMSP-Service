@@ -17,7 +17,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="timer" style="display: block;"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
+                                    <div class="timer" style="display: none;"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                                    <li>总销售额</li>
                                </ul>
                                 <p class="top-p" id="total-sales">11,940,324</p>
-                                <p class="bot-p" id="sales-ratio">12.4%</p>
+                                <p class="bot-p" ><i class="glyphicon glyphicon-arrow-up"></i><span id="sales-ratio">12.4%</span></p>
 
 
                             </div>
@@ -126,7 +126,7 @@
                                     <li>團隊指數</li>
                                 </ul>
                                 <p class="top-p" id="team-ability">11,940,324</p>
-                                <p class="bot-p" id="ability-ratio">12.4%</p>
+                                <p class="bot-p"><i class="glyphicon glyphicon-arrow-down"></i><span id="ability-ratio">12.4%</span></p>
                             </div>
                         </div>
                     </div>
@@ -366,52 +366,29 @@
                         <div class="head">
                             <h1>态势与发展分析</h1>
                         </div>
-                        <div class="curve"></div>
+                        <div class="curve">
+                            <div id="con" style="height: 100%"></div>
+                        </div>
                         <div class="explain">
-                            <div class="point">
+                            <div class="point" id="grow-potential" style="display:none;">
                                 <p class="title">發展潛力</p>
-                                <ul>
-                                    <li>
-                                        报表数据分析能力，是成为顶尖经理的重要能力之一，在此你已达到十分优秀的水平，在日常工作中，持续尝试利用数据分析辅助决策，并试着梳理收集的的信息，建立团队的信息困，借着掌握全局优势，能有效降低决策错误的风险。
-                                    </li>
-                                    <li>
-                                        对信息、数字、资讯具备出色的洞察力，能预测环境和政策因素对不同层面的影响，并能透过良好的数据分析思维，解析内部现状，更进一步的结合自身行业经验对市場趨勢进行预判。在如今，快速变动的市场环境中，你具备把握先机的优势。在真实工作中，勤加练习，进一步梳理一套自己的方法论，并进行多方交流，交换想法。
-                                    </li>
+                                <ul id="grow">
+
                                 </ul>
                             </div>
-                            <div class="point">
-                                <p class="title">發展潛力</p>
-                                <ul>
-                                    <li>
-                                        报表数据分析能力，是成为顶尖经理的重要能力之一，在此你已达到十分优秀的水平，在日常工作中，持续尝试利用数据分析辅助决策，并试着梳理收集的的信息，建立团队的信息困，借着掌握全局优势，能有效降低决策错误的风险。
-                                    </li>
-                                    <li>
-                                        对信息、数字、资讯具备出色的洞察力，能预测环境和政策因素对不同层面的影响，并能透过良好的数据分析思维，解析内部现状，更进一步的结合自身行业经验对市場趨勢进行预判。在如今，快速变动的市场环境中，你具备把握先机的优势。在真实工作中，勤加练习，进一步梳理一套自己的方法论，并进行多方交流，交换想法。
-                                    </li>
+                            <div class="point" id="potential-risk" style="display:none;">
+                                <p class="title">潜在风险</p>
+                                <ul id="risk">
+
                                 </ul>
                             </div>
-                            <div class="point">
-                                <p class="title">發展潛力</p>
-                                <ul>
-                                    <li>
-                                        报表数据分析能力，是成为顶尖经理的重要能力之一，在此你已达到十分优秀的水平，在日常工作中，持续尝试利用数据分析辅助决策，并试着梳理收集的的信息，建立团队的信息困，借着掌握全局优势，能有效降低决策错误的风险。
-                                    </li>
-                                    <li>
-                                        对信息、数字、资讯具备出色的洞察力，能预测环境和政策因素对不同层面的影响，并能透过良好的数据分析思维，解析内部现状，更进一步的结合自身行业经验对市場趨勢进行预判。在如今，快速变动的市场环境中，你具备把握先机的优势。在真实工作中，勤加练习，进一步梳理一套自己的方法论，并进行多方交流，交换想法。
-                                    </li>
+                            <div class="point" id="lifting-direction" style="display:none;">
+                                <p class="title" >提升方向</p>
+                                <ul id="promote">
+
                                 </ul>
                             </div>
-                            <div class="point">
-                                <p class="title">發展潛力</p>
-                                <ul>
-                                    <li>
-                                        报表数据分析能力，是成为顶尖经理的重要能力之一，在此你已达到十分优秀的水平，在日常工作中，持续尝试利用数据分析辅助决策，并试着梳理收集的的信息，建立团队的信息困，借着掌握全局优势，能有效降低决策错误的风险。
-                                    </li>
-                                    <li>
-                                        对信息、数字、资讯具备出色的洞察力，能预测环境和政策因素对不同层面的影响，并能透过良好的数据分析思维，解析内部现状，更进一步的结合自身行业经验对市場趨勢进行预判。在如今，快速变动的市场环境中，你具备把握先机的优势。在真实工作中，勤加练习，进一步梳理一套自己的方法论，并进行多方交流，交换想法。
-                                    </li>
-                                </ul>
-                            </div>
+
                         </div>
                     </div>
                 </div>

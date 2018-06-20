@@ -43,6 +43,64 @@
     };
     myChart.setOption(option, true);
 
+
+    var dom = document.getElementById("con");
+    var line_chart = echarts.init(dom);
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['报表分析与决策', '公司战略执行力', '市场洞察力', '目标分级', '销售计划部署', '资源分配与优化', '领导力','111','222'],
+            axisLine: {
+                lineStyle: {
+                    color: '#F9F9F9' //坐标轴线颜色
+                }
+            },
+            axisLabel: {
+                interval:0,
+                // rotate:-10
+            },
+            splitLine:{show: true},
+            position:"top",
+            nameTextStyle: {
+                color:"red"
+            }
+        },
+        yAxis: {
+            type: 'category',
+            data: ['D', 'C', 'B', 'A', 'S'],
+            axisLine: {
+                lineStyle: {
+                    color: '#F9F9F9' //坐标轴线颜色
+                }
+            },
+            axisLabel: {
+                interval:0,
+                // rotate:-10
+            },
+            splitLine:{show: true},
+        },
+        series: [{
+            data: [
+                [0,'B'],
+                [1,'C'],
+                [2,'C'],
+                [3,'B'],
+                [4,'C'],
+                [5,'A'],
+                [6,'C'],
+                [7,'B'],
+                [8,'B'],
+                // 'S', 'A', 'B', 'C', 'D','A','B'
+            ],
+            // symbolSize: symbolSize,
+            type: 'line',
+            color:['#50E3C2']
+        }]
+    };
+
+    line_chart.setOption(option, true);
+
+
     $(function(){
         init: {
             var condition = f.parameterPrefixModule.conditions(
@@ -62,12 +120,14 @@
                     // document.getElementById('totoaa-salex').innerHTML(rd.result.data.total_sales)
                     $.each(rd.result.data.team_achievement, function(i, v){
                         $('#team-achievement').append('<li>'+v.product_name+'</li>');
-                        $('#achievement-radio').append('<li>'+parseFloat(f.thousandsModule.formatNum(v.achievement_ratio)).toFixed(2)+"%"+'</li>');
+                        // $('#achievement-radio').append('<li>'+parseFloat(f.thousandsModule.formatNum(v.achievement_ratio)).toFixed(2)+"%"+'</li>');
+                        $('#achievement-radio').append('<li>'+parseFloat(v.achievement_ratio).toFixed(2)+"%"+'</li>');
+
                     });
                     $.each(rd.result.data.market_share, function (i, v) {
                         $('#product-name').append('<li>'+v.product_name+'</li>');
-                        $('#market-share').append('<li>'+parseFloat(f.thousandsModule.formatNum(v.market_share)).toFixed(2)+"%"+'</li>');
-                        $('#uplift-ratio').append('<li>'+parseFloat(f.thousandsModule.formatNum(v.uplift_ratio)).toFixed(2)+"%"+'</li>');
+                        $('#market-share').append('<li>'+parseFloat(v.market_share).toFixed(2)+"%"+'</li>');
+                        $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
                     });
 
                     // div attr description
@@ -79,6 +139,8 @@
                     var data = [];
                     var value = [];
                     var indicator = [];
+                    var line = [];
+                    var x_line = [];
                     $.each(rd.result.data.radar_map, function(i, v) {
                         var $div = $('div [description='+ v.name +']');
                         var grade = '/assets/images/version_2/' + v.comments.tips + ".png";
@@ -93,13 +155,34 @@
                            max: 5
                         });
                         value.push(v.comments.score);
+
+                        $.each(v.advice, function(i,v) {
+                            // console.info(v.code)
+                            // console.info(v.describe)
+                            if(v.code == 1) {
+                                $('#lifting-direction').css("display","block");
+                                $('#promote').append('<li>' + v.describe + '</li>');
+                            } else if (v.code == 2) {
+                                $('#potential-risk').css("display","block");
+                                $('#risk').append('<li>' + v.describe + '</li>')
+                            } else if (v.code == 3) {
+                                $('#grow-potential').css("display","block");
+                                $('#grow').append('<li>' + v.describe + '</li>')
+                            } else {}
+                        });
+                        x_line.push([
+                            v.name
+                        ])
+                        // console.info(x_line)
+                        line.push([
+                            i,v.comments.tips
+                        ])
+
                     });
+
                     data.push({
                         "value": value
                     });
-
-                    // console.info(indicator)
-                    // console.info(data)
                     myChart.setOption({
                         radar: {
                             indicator: indicator,
@@ -118,17 +201,71 @@
                             }
                         ]
                     }, true);
+
+                    // console.info(line)
+                    line_chart.setOption({
+                        xAxis: {
+                            type: 'category',
+                            data: x_line,
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#F9F9F9' //坐标轴线颜色
+                                }
+                            },
+                            axisLabel: {
+                                interval:0,
+                                textStyle: {
+                                    color: '#fff',   //x轴上的字体颜色
+                                    fontSize:'16'    // x轴字体大小
+                                }
+                                // rotate:-10
+                            }, //坐标轴文字是否显示完全
+                            splitLine:{
+                                show: true,
+                                color:"#F9F9F9",
+                            },
+                            position:"top",
+                            nameTextStyle: {
+                                color:"red"
+                            }
+                        },
+                        yAxis: {
+                            type: 'category',
+                            data: ['D', 'C', 'B', 'A', 'S'],
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#F9F9F9' //坐标轴线颜色
+                                }
+                            },
+                            axisLable: {
+                                backgroundColor: 'red'
+                            },
+                            axisLabel: {
+                                interval:0,
+                                // rotate:-10
+                            },
+                            splitLine:{show: true},
+                        },
+                        grid:{
+                            x:30,
+                            y:45,
+                            x2:5,
+                            y2:20,
+                            borderWidth:1
+                        },
+                        series: [{
+                            data: line,
+                            // symbolSize: symbolSize,
+                            type: 'line',
+                            color:['#50E3C2']
+                        }]
+                    }, true);
+
                 } else {
                     console.error("Error")
                 }
             });
-            // console.info(f.thousandsModule.formatNum("200122555222"))
-            // var total_sale = $('.top-p');
 
-
-            // $.each(total_sale, function (ele) {
-            //     total_sales.push(ele);
-            // });
         }
 
         events: {
