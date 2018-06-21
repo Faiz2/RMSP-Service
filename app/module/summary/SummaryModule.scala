@@ -108,6 +108,7 @@ object SummaryModule extends ModuleTrait with SummaryData{
 			}
 			
 			val result = Map("radar_map" -> toJson(radar_map),
+				"overall_score" -> reVal.get("overall_score"),
 				"total_sales" -> toJson(total_sales),
 				"team_achievement" -> toJson(team_achievement),
 				"market_share" -> toJson(market_share),
