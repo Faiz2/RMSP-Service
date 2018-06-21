@@ -71,8 +71,10 @@ object SummaryModule extends ModuleTrait with SummaryData{
 						as[List[String Map JsValue]].find(_("score").as[Int] == x("basic_score").as[Int]).
 						getOrElse(throw new Exception("data not exist"))
 					val advice = comments("advice").as[List[String Map JsValue]].
-						find(_("code").as[Int] == x("second_score").as[Int])
+						filter(_("describe").as[String] != "")
+//						find(_("code").as[Int] == x("second_score").as[Int])
 					Map("name" -> root.get("name"),
+						"code" -> root.get("code"),
 						"advice" -> toJson(advice),
 						"comments" -> toJson(comments - "advice")
 					)

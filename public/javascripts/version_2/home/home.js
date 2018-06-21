@@ -914,6 +914,8 @@
             calcManageAllotTime();
             removeSelectNoneOption();
             window.localStorage.clear();
+            var uuid = $('input:hidden[name="uuid"]').val();
+            f.cookieModule.setCookie("uuid", uuid)
         }
 
         events: {
