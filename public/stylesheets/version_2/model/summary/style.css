@@ -47,6 +47,7 @@
 .outline .top .outline-right {
     /*background: #fff;*/
     /*display: inline-block;*/
+    min-height: 280px;
 
 }
 .outline .top .outline-right .img {

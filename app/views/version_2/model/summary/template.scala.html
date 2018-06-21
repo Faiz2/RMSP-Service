@@ -10,12 +10,12 @@
                             <div class="col-md-12 box bg">
                                 <div class="col-md-5 col-sm-5 col-xs-5">测评报告</div>
                                 <div class="col-md-7 col-sm-7 col-xs-7 text-right" >
-                                    <div class="config" name="toggle-export">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                        <div class="config-toggle-content" name="area-export">
-                                            <p id="exportExcel">下载报告</p>
-                                        </div>
-                                    </div>
+                                    @*<div class="config" name="toggle-export">*@
+                                        @*<i class="glyphicon glyphicon-cog"></i>*@
+                                        @*<div class="config-toggle-content" name="area-export">*@
+                                            @*<p id="exportExcel">下载报告</p>*@
+                                        @*</div>*@
+                                    @*</div>*@
 
                                     <div class="timer" style="display: none;"><i class="glyphicon glyphicon-time"></i><span>00:00</span></div>
                                 </div>
@@ -27,36 +27,13 @@
                         <div class="outline">
                             <div class="top">
                                 <div class="outline-left">
-                                    <div class="logo-img"><img src="/assets/images/version_2/A.png" alt=""></div>
+                                    <div class="logo-img"><img id="overall_score" src="/assets/images/version_2/gold.png" alt=""></div>
                                     <div class="title">
                                         <p>菁英白銀</p>
                                     </div>
                                 </div>
-                                <div class="outline-right">
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
-                                    <div class="img">
-                                        <img src="/assets/images/version_2/1a.png" alt="">
-                                    </div>
+                                <div class="outline-right" id="outline">
+
                                 </div>
                             </div>
                             <div class="bottom">
@@ -75,7 +52,7 @@
                                    <li>总销售额</li>
                                </ul>
                                 <p class="top-p" id="total-sales">11,940,324</p>
-                                <p class="bot-p" ><i class="glyphicon glyphicon-arrow-up"></i><span id="sales-ratio">12.4%</span></p>
+                                <p class="bot-p" ><i id="sales-ratio-i" ></i><span id="sales-ratio">12.4%</span></p>
 
 
                             </div>
@@ -126,7 +103,7 @@
                                     <li>團隊指數</li>
                                 </ul>
                                 <p class="top-p" id="team-ability">11,940,324</p>
-                                <p class="bot-p"><i class="glyphicon glyphicon-arrow-down"></i><span id="ability-ratio">12.4%</span></p>
+                                <p class="bot-p"><i id="ability-ratio-i"></i><span id="ability-ratio">12.4%</span></p>
                             </div>
                         </div>
                     </div>

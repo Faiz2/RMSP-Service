@@ -2,8 +2,7 @@
 
 
 (function($,w){
-    var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
+    var myChart = echarts.init(document.getElementById("container"));
 
     var option = {
         tooltip: {
@@ -23,7 +22,7 @@
                     {text: '屏幕', max: 5}
                 ],
             center: ['50%','45%'],
-            radius: 200
+            radius: ['50%','20%'],
         },
         series: [
             {
@@ -44,8 +43,7 @@
     myChart.setOption(option, true);
 
 
-    var dom = document.getElementById("con");
-    var line_chart = echarts.init(dom);
+    var line_chart = echarts.init(document.getElementById("con"));
     option = {
         xAxis: {
             type: 'category',
@@ -100,12 +98,13 @@
 
     line_chart.setOption(option, true);
 
+    // console.info($('#sales-ratio').text())
 
     $(function(){
         init: {
             var condition = f.parameterPrefixModule.conditions(
                 {
-                    "uuid": "219776aa-6d5a-4bcf-bc99-74857e86ec7a",
+                    "uuid": $.cookie("uuid"),
                     "phase_key": "final"
                 });
             var c = JSON.stringify(condition);
@@ -114,13 +113,21 @@
                 if ( rd.status === 'ok') {
                     $('#total-sales').text(f.thousandsModule.formatNum(rd.result.data.total_sales.total));
                     $('#sales-ratio').text(parseFloat(f.thousandsModule.formatNum(rd.result.data.total_sales.uplift_ratio)).toFixed(2)+"%");
+                    if(rd.result.data.total_sales.uplift_ratio < 0) {
+                        $('#sales-ratio').css("color","red")
+                    } else {
+                        $('#sales-ratio').css("color","#60b3ad")
+                    };
                     $('#team-ability').text(f.thousandsModule.formatNum(rd.result.data.team_ability.team_ability));
                     $('#ability-ratio').text(parseFloat(f.thousandsModule.formatNum(rd.result.data.team_ability.uplift_ratio)).toFixed(2)+"%");
-                    // $('#total-sales').text(f.thousandsModule.formatNum(rd.result.data.total_sales)) =
-                    // document.getElementById('totoaa-salex').innerHTML(rd.result.data.total_sales)
+                    if(rd.result.data.team_ability.uplift_ratio < 0) {
+                        $('#ability-ratio').css("color","red")
+                    } else {
+                        $('#ability-ratio-i').css("color","#60b3ad")
+                    };
+
                     $.each(rd.result.data.team_achievement, function(i, v){
                         $('#team-achievement').append('<li>'+v.product_name+'</li>');
-                        // $('#achievement-radio').append('<li>'+parseFloat(f.thousandsModule.formatNum(v.achievement_ratio)).toFixed(2)+"%"+'</li>');
                         $('#achievement-radio').append('<li>'+parseFloat(v.achievement_ratio).toFixed(2)+"%"+'</li>');
 
                     });
@@ -129,26 +136,24 @@
                         $('#market-share').append('<li>'+parseFloat(v.market_share).toFixed(2)+"%"+'</li>');
                         $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
                     });
-
-                    // div attr description
-
-                    // indicator：[] Array
-                    // data：[] Array
-
+                    $('#overall_score').attr("src",'/assets/images/version_2/'+ rd.result.data.overall_score + ".png")
 
                     var data = [];
                     var value = [];
                     var indicator = [];
                     var line = [];
                     var x_line = [];
+
                     $.each(rd.result.data.radar_map, function(i, v) {
                         var $div = $('div [description='+ v.name +']');
                         var grade = '/assets/images/version_2/' + v.comments.tips + ".png";
                         var title = '/assets/images/version_2/' + v.name + "-" + v.comments.tips + ".png";
+
                         $div.find('img[name="grade"]').attr('src', grade);
                         $div.find('p[name="explain"]').text(v.comments.describe);
                         if (v.comments.score > 2 ) {
                             $div.find('div[name="title"]').append('<img src="' + title + '" alt="">');
+                            $('#outline').append('<div class="img"><img src="' + title + '" alt=""></div>')
                         }
                         indicator.push({
                            text: v.name,
@@ -157,37 +162,38 @@
                         value.push(v.comments.score);
 
                         $.each(v.advice, function(i,v) {
-                            // console.info(v.code)
-                            // console.info(v.describe)
-                            if(v.code == 1) {
+                            if(v.code === 1) {
                                 $('#lifting-direction').css("display","block");
                                 $('#promote').append('<li>' + v.describe + '</li>');
-                            } else if (v.code == 2) {
+                            } else if (v.code === 2) {
                                 $('#potential-risk').css("display","block");
                                 $('#risk').append('<li>' + v.describe + '</li>')
-                            } else if (v.code == 3) {
+                            } else if (v.code === 3) {
                                 $('#grow-potential').css("display","block");
                                 $('#grow').append('<li>' + v.describe + '</li>')
                             } else {}
                         });
-                        x_line.push([
-                            v.name
-                        ])
-                        // console.info(x_line)
-                        line.push([
-                            i,v.comments.tips
-                        ])
-
+                        x_line.push([v.name]);
+                        line.push([i,v.comments.tips])
                     });
 
-                    data.push({
-                        "value": value
-                    });
+                    data.push({"value": value});
                     myChart.setOption({
                         radar: {
                             indicator: indicator,
                             center: ['50%','45%'],
-                            radius: 200
+                            radius: '80%',
+                            name: {
+                                // backgroundColor: {
+                                //     image: analy,
+                                // },
+                                color: '#fff',
+                                // width: 60,
+                                // height: 60,
+                                // lineHeight: 68*2,
+                                // rich: {}
+
+                                },
                         },
                         series: [
                             {
@@ -217,7 +223,28 @@
                                 textStyle: {
                                     color: '#fff',   //x轴上的字体颜色
                                     fontSize:'16'    // x轴字体大小
+                                },
+                                formatter: function (value) {
+                                    return value;
+                                },
+                                rich: {
+                                    'S': {
+                                        backgroundColor: 'red',
+                                        padding: [1, 1, 1, 1],
+                                        margin: [],
+                                    },
+                                    'A': {
+                                        backgroundColor: 'green',
+                                        padding: [5, 32, 5, 32],
+                                        margin: []
+                                    },
+                                    'B': {
+                                        backgroundColor: 'yellow',
+                                        padding: [5, 32, 5, 32],
+                                        margin: []
+                                    }
                                 }
+
                                 // rotate:-10
                             }, //坐标轴文字是否显示完全
                             splitLine:{
@@ -237,17 +264,16 @@
                                     color: '#F9F9F9' //坐标轴线颜色
                                 }
                             },
-                            axisLable: {
-                                backgroundColor: 'red'
-                            },
                             axisLabel: {
                                 interval:0,
-                                // rotate:-10
+                                color: 'white',
+                                backgroundColor: '#509c91',
+                                padding: [64, 17, 64, 17]
                             },
                             splitLine:{show: true},
                         },
                         grid:{
-                            x:30,
+                            x:50,
                             y:45,
                             x2:5,
                             y2:20,
@@ -303,6 +329,3 @@
     });
 
 })(jQuery, window);
-
-
-
