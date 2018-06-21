@@ -157,7 +157,8 @@
 }
 .keyword .area2 .area-right li {
     font-family: PingFangSC-Semibold;
-    font-size: 20px;
+    font-size: 18px;
+    height: 50px;
     color: #EEEEEE;
     letter-spacing: 2px;
     margin: -13px 0;
@@ -181,8 +182,9 @@
 }
 .keyword .area3 .area-right li {
     font-family: PingFangSC-Semibold;
-    font-size: 20px;
+    font-size: 18px;
     color: #EEEEEE;
+    height: 50px;
     letter-spacing: 2px;
     margin: -13px 0;
 }
@@ -257,6 +259,13 @@
     letter-spacing: 3px;
     margin: 10px 40px;
     line-height: 50px;
+}
+.head-p {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    line-height: 20px;
 }
 .trend .curve {
     height: 850px;

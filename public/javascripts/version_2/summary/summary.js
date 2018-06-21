@@ -118,6 +118,7 @@
                     } else {
                         $('#sales-ratio').css("color","#60b3ad")
                     };
+
                     $('#team-ability').text(f.thousandsModule.formatNum(rd.result.data.team_ability.team_ability));
                     $('#ability-ratio').text(parseFloat(f.thousandsModule.formatNum(rd.result.data.team_ability.uplift_ratio)).toFixed(2)+"%");
                     if(rd.result.data.team_ability.uplift_ratio < 0) {
@@ -134,7 +135,12 @@
                     $.each(rd.result.data.market_share, function (i, v) {
                         $('#product-name').append('<li>'+v.product_name+'</li>');
                         $('#market-share').append('<li>'+parseFloat(v.market_share).toFixed(2)+"%"+'</li>');
-                        $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        // $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        if(v.uplift_ratio < 0) {
+                            $('#uplift-ratio').append('<li style="color:red">'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        } else {
+                            $('#uplift-ratio').append('<li style="color:#60B3AD">'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        }
                     });
                     $('#overall_score').attr("src",'/assets/images/version_2/'+ rd.result.data.overall_score + ".png")
 
@@ -215,8 +221,9 @@
                             data: x_line,
                             axisLine: {
                                 lineStyle: {
-                                    color: '#F9F9F9' //坐标轴线颜色
-                                }
+                                    color: '#F9F9F9', //坐标轴线颜色
+                                },
+                                symbolSize:'symbolSize',
                             },
                             axisLabel: {
                                 interval:0,
@@ -281,7 +288,14 @@
                         },
                         series: [{
                             data: line,
-                            // symbolSize: symbolSize,
+                            itemStyle : {
+                                normal : {
+                                    lineStyle:{
+                                        width:4,//折线宽度
+                                    }
+                                }
+                            },
+                            symbolSize:15,
                             type: 'line',
                             color:['#50E3C2']
                         }]
