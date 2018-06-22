@@ -396,3 +396,70 @@
 
 
 }
+
+.x-line-img1 {
+    position: absolute;
+    left:123px;
+    width: 390px;
+    height: 100px;
+
+}
+.x-line-img2 {
+    position: absolute;
+    left:514px;
+    width: 390px;
+    height: 100px;
+
+}
+.x-line-img3 {
+    position: absolute;
+    left:905px;
+    width: 390px;
+    height: 100px;
+
+}
+.radar-img1 {
+    position: absolute;
+    top: 20px;
+    left: 315px;
+}
+.radar-img2 {
+    position: absolute;
+    top: 80px;
+    left: 150px;
+}
+.radar-img3 {
+    position: absolute;
+    top: 200px;
+    left: 75px;
+}
+.radar-img4 {
+    position: absolute;
+    top: 345px;
+    left: 90px;
+}
+.radar-img5 {
+    position: absolute;
+    top: 510px;
+    left: 205px;
+}
+.radar-img6 {
+    position: absolute;
+    top: 510px;
+    left: 425px;
+}
+.radar-img7 {
+    position: absolute;
+    top: 345px;
+    left: 530px;
+}
+.radar-img8 {
+    position: absolute;
+    top: 200px;
+    left: 550px;
+}
+.radar-img9 {
+    position: absolute;
+    top: 80px;
+    left: 475px;
+}

@@ -154,6 +154,8 @@
                         var $div = $('div [description='+ v.name +']');
                         var grade = '/assets/images/version_2/' + v.comments.tips + ".png";
                         var title = '/assets/images/version_2/' + v.name + "-" + v.comments.tips + ".png";
+                        var radar = '/assets/images/version_2/d'+ v.comments.tips + ".png";
+                        $('#radar-img').find('li>img').attr("src",radar);
 
                         $div.find('img[name="grade"]').attr('src', grade);
                         $div.find('p[name="explain"]').text(v.comments.describe);
@@ -188,7 +190,7 @@
                         radar: {
                             indicator: indicator,
                             center: ['50%','45%'],
-                            radius: '80%',
+                            radius: '70%',
                             name: {
                                 // backgroundColor: {
                                 //     image: analy,
@@ -228,29 +230,29 @@
                             axisLabel: {
                                 interval:0,
                                 textStyle: {
-                                    color: '#fff',   //x轴上的字体颜色
+                                    color: '',   //x轴上的字体颜色
                                     fontSize:'16'    // x轴字体大小
                                 },
-                                formatter: function (value) {
-                                    return value;
-                                },
-                                rich: {
-                                    'S': {
-                                        backgroundColor: 'red',
-                                        padding: [1, 1, 1, 1],
-                                        margin: [],
-                                    },
-                                    'A': {
-                                        backgroundColor: 'green',
-                                        padding: [5, 32, 5, 32],
-                                        margin: []
-                                    },
-                                    'B': {
-                                        backgroundColor: 'yellow',
-                                        padding: [5, 32, 5, 32],
-                                        margin: []
-                                    }
-                                }
+                                // formatter: function (value) {
+                                //     return value;
+                                // },
+                                // rich: {
+                                //     'S': {
+                                //         backgroundColor: 'red',
+                                //         padding: [1, 1, 1, 1],
+                                //         margin: [],
+                                //     },
+                                //     'A': {
+                                //         backgroundColor: 'green',
+                                //         padding: [5, 32, 5, 32],
+                                //         margin: []
+                                //     },
+                                //     'B': {
+                                //         backgroundColor: 'yellow',
+                                //         padding: [5, 32, 5, 32],
+                                //         margin: []
+                                //     }
+                                // }
 
                                 // rotate:-10
                             }, //坐标轴文字是否显示完全
@@ -275,13 +277,13 @@
                                 interval:0,
                                 color: 'white',
                                 backgroundColor: '#509c91',
-                                padding: [64, 17, 64, 17]
+                                padding: [58, 17, 58, 17]
                             },
                             splitLine:{show: true},
                         },
                         grid:{
                             x:50,
-                            y:45,
+                            y:100,
                             x2:5,
                             y2:20,
                             borderWidth:1
