@@ -6,7 +6,7 @@
 
     var option = {
         tooltip: {
-            trigger: 'axis'
+            trigger: 'item'
         },
         radar: {
             indicator:
@@ -22,7 +22,7 @@
                     {text: '屏幕', max: 5}
                 ],
             center: ['50%','45%'],
-            radius: ['50%','20%'],
+            radius: ['50%','20%']
         },
         series: [
             {
@@ -142,7 +142,17 @@
                             $('#uplift-ratio').append('<li style="color:#60B3AD">'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
                         }
                     });
-                    $('#overall_score').attr("src",'/assets/images/version_2/'+ rd.result.data.overall_score + ".png")
+                    $('#overall_score').attr("src",'/assets/images/version_2/'+ rd.result.data.overall_score + ".png");
+                    console.info()
+                    if(rd.result.data.overall_score == "bronze") {
+                        $('#logo-name').text("英勇青铜");
+                    } else if(rd.result.data.overall_score == "gold") {
+                        $('#logo-name').text("资深黄金");
+                    } else if(rd.result.data.overall_score == "silver") {
+                        $('#logo-name').text("精英白银");
+                    } else{
+                        console.error("Error!");
+                    }
 
                     var data = [];
                     var value = [];
@@ -194,26 +204,70 @@
                             } else {}
                         });
                         x_line.push([v.name]);
-                        line.push([i,v.comments.tips])
+                        line.push([v.name,v.comments.tips])
                     });
 
                     data.push({"value": value});
                     myChart.setOption({
+                        tooltip: {
+                            trigger: 'axis'
+                        },
                         radar: {
                             indicator: indicator,
                             center: ['50%','45%'],
                             radius: '70%',
                             name: {
-                                // backgroundColor: {
-                                //     image: analy,
-                                // },
-                                color: '#fff',
-                                // width: 60,
-                                // height: 60,
-                                // lineHeight: 68*2,
-                                // rich: {}
+                                textStyle: {
+                                    fontSize: 10,
+                                    color: 'rgb(236, 236, 236)'
+                                }
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    color: [
+                                        new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            "offset": 0,
+                                            "color": '#2496dc'
 
-                                },
+                                        }, {
+                                            "offset": 1,
+                                            "color": '#FE0059'
+                                        }]),
+
+                                        new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            "offset": 0,
+                                            "color": '#FE601B'
+
+                                        }, {
+                                            "offset": 1,
+                                            "color": '#FE0059'
+                                        }]),
+
+                                        new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            "offset": 0,
+                                            "color": '#FE601B'
+
+                                        }, {
+                                            "offset": 1,
+                                            "color": '#00E8F8'
+                                        }])
+
+                                    ]
+                                    // color: [
+                                    //     'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
+                                    //     'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
+                                    //     'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
+                                    // ].reverse()
+                                }
+                            },
+                            splitArea: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: 'rgba(238, 197, 102, 0.5)'
+                                }
+                            }
                         },
                         series: [
                             {
@@ -222,7 +276,14 @@
                                 tooltip: {
                                     trigger: 'item'
                                 },
-                                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                                itemStyle: {
+                                    normal: {
+                                        areaStyle: {type: 'default'},
+                                        color: '#5f968f',
+                                        borderColor: '#5ac3bd'
+                                        // shadowColor:'rgba(0,0,0,0.5)'
+                                    }
+                                },
                                 data: data
                             }
                         ]
@@ -230,6 +291,9 @@
 
                     // console.info(line)
                     line_chart.setOption({
+                        tooltip: {
+                            trigger: 'axis'
+                        },
                         xAxis: {
                             type: 'category',
                             data: x_line,
