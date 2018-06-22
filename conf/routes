@@ -49,6 +49,7 @@ GET     /report                     controllers.RMSPRoutesControllerV2.report(uu
 GET     /report/:uuid/:phrase       controllers.RMSPRoutesControllerV2.report(uuid, phrase)
 
 GET     /summary                    controllers.RMSPRoutesControllerV2.summary
+GET     /summar2                    controllers.RMSPRoutesControllerV2.summary2
 
 POST    /decision/proceed           controllers.RMSPRoutesController.updatedecision
 POST    /management/proceed         controllers.RMSPRoutesController.updatemanagement

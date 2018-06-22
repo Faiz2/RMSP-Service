@@ -24,7 +24,7 @@
         events: {
             //导出Excel
             $('#exportExcel').click(function(){
-                let json = JSON.stringify(f.parameterPrefixModule.conditions({
+                var json = JSON.stringify(f.parameterPrefixModule.conditions({
                     "uuid": $('input[name="uuid"]').val(),
                     "phase": parseInt($('input[name="phrase"]').val())
                 }));
@@ -39,6 +39,7 @@
             });
             // 显示导出/导入excel区域按钮
             $('div[name = "toggle-export"]').click(function(e) {
+
                 $('div[name="area-export"]').toggle();
                 $(document).one("click", function(){
                     $('div[name="area-export"]').hide();

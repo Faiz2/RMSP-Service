@@ -393,8 +393,24 @@
     font-size: 14px;
     color: #FFFFFF;
     letter-spacing: 2.1px;
+}
+div[class^="img-"] {
+    position: absolute;
+    z-index: 1000;
+}
+.img-1 {
+    top: 30px;
+    left: 46.5%;
+}
 
+.img-2 {
+    top: 120px;
+    left: 50.5%;
+}
 
+.img-3 {
+    top: 260px;
+    left: 46.5%;
 }
 
 .x-line-img1 {
