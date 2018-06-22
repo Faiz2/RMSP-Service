@@ -157,7 +157,8 @@
 }
 .keyword .area2 .area-right li {
     font-family: PingFangSC-Semibold;
-    font-size: 20px;
+    font-size: 18px;
+    height: 50px;
     color: #EEEEEE;
     letter-spacing: 2px;
     margin: -13px 0;
@@ -181,8 +182,9 @@
 }
 .keyword .area3 .area-right li {
     font-family: PingFangSC-Semibold;
-    font-size: 20px;
+    font-size: 18px;
     color: #EEEEEE;
+    height: 50px;
     letter-spacing: 2px;
     margin: -13px 0;
 }
@@ -257,6 +259,13 @@
     letter-spacing: 3px;
     margin: 10px 40px;
     line-height: 50px;
+}
+.head-p {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    line-height: 20px;
 }
 .trend .curve {
     height: 850px;
@@ -404,32 +413,69 @@ div[class^="img-"] {
     left: 46.5%;
 }
 
-.img-4 {
-    top: 30px;
-    left: 46.5%;
-}
+.x-line-img1 {
+    position: absolute;
+    left:123px;
+    width: 390px;
+    height: 100px;
 
-.img-5 {
-    top: 30px;
-    left: 46.5%;
 }
+.x-line-img2 {
+    position: absolute;
+    left:514px;
+    width: 390px;
+    height: 100px;
 
-.img-6 {
-    top: 30px;
-    left: 46.5%;
 }
+.x-line-img3 {
+    position: absolute;
+    left:905px;
+    width: 390px;
+    height: 100px;
 
-.img-7 {
-    top: 30px;
-    left: 46.5%;
 }
-
-.img-8 {
-    top: 30px;
-    left: 46.5%;
+.radar-img1 {
+    position: absolute;
+    top: 20px;
+    left: 315px;
 }
-
-.img-9 {
-    top: 30px;
-    left: 46.5%;
+.radar-img2 {
+    position: absolute;
+    top: 80px;
+    left: 150px;
+}
+.radar-img3 {
+    position: absolute;
+    top: 200px;
+    left: 75px;
+}
+.radar-img4 {
+    position: absolute;
+    top: 345px;
+    left: 90px;
+}
+.radar-img5 {
+    position: absolute;
+    top: 510px;
+    left: 205px;
+}
+.radar-img6 {
+    position: absolute;
+    top: 510px;
+    left: 425px;
+}
+.radar-img7 {
+    position: absolute;
+    top: 345px;
+    left: 530px;
+}
+.radar-img8 {
+    position: absolute;
+    top: 200px;
+    left: 550px;
+}
+.radar-img9 {
+    position: absolute;
+    top: 80px;
+    left: 475px;
 }

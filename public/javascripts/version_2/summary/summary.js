@@ -118,6 +118,7 @@
                     } else {
                         $('#sales-ratio').css("color","#60b3ad")
                     };
+
                     $('#team-ability').text(f.thousandsModule.formatNum(rd.result.data.team_ability.team_ability));
                     $('#ability-ratio').text(parseFloat(f.thousandsModule.formatNum(rd.result.data.team_ability.uplift_ratio)).toFixed(2)+"%");
                     if(rd.result.data.team_ability.uplift_ratio < 0) {
@@ -134,7 +135,12 @@
                     $.each(rd.result.data.market_share, function (i, v) {
                         $('#product-name').append('<li>'+v.product_name+'</li>');
                         $('#market-share').append('<li>'+parseFloat(v.market_share).toFixed(2)+"%"+'</li>');
-                        $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        // $('#uplift-ratio').append('<li>'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        if(v.uplift_ratio < 0) {
+                            $('#uplift-ratio').append('<li style="color:red">'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        } else {
+                            $('#uplift-ratio').append('<li style="color:#60B3AD">'+parseFloat(v.uplift_ratio).toFixed(2)+"%"+'</li>');
+                        }
                     });
                     $('#overall_score').attr("src",'/assets/images/version_2/'+ rd.result.data.overall_score + ".png")
 
@@ -143,11 +149,25 @@
                     var indicator = [];
                     var line = [];
                     var x_line = [];
-
+                    var radar_img = [];
                     $.each(rd.result.data.radar_map, function(i, v) {
                         var $div = $('div [description='+ v.name +']');
                         var grade = '/assets/images/version_2/' + v.comments.tips + ".png";
                         var title = '/assets/images/version_2/' + v.name + "-" + v.comments.tips + ".png";
+                        var radar = '/assets/images/version_2/d'+ v.comments.tips + ".png";
+                        $('#radar-img').find('.radar-img1').attr("src",radar_img[0]);
+                        $('#radar-img').find('.radar-img2').attr("src",radar_img[1]);
+                        $('#radar-img').find('.radar-img3').attr("src",radar_img[2]);
+                        $('#radar-img').find('.radar-img4').attr("src",radar_img[3]);
+                        $('#radar-img').find('.radar-img5').attr("src",radar_img[4]);
+                        $('#radar-img').find('.radar-img6').attr("src",radar_img[5]);
+                        $('#radar-img').find('.radar-img7').attr("src",radar_img[6]);
+                        $('#radar-img').find('.radar-img8').attr("src",radar_img[7]);
+                        $('#radar-img').find('.radar-img9').attr("src",radar_img[radar_img.length-1]);
+                        radar_img.push([radar]);
+                        // // $('#radar-img').find('img').attr("src",radar);
+                        // // console.info($('#radar-img').find('img'))
+                        // console.info(radar_img.length-1)
 
                         $div.find('img[name="grade"]').attr('src', grade);
                         $div.find('p[name="explain"]').text(v.comments.describe);
@@ -182,7 +202,7 @@
                         radar: {
                             indicator: indicator,
                             center: ['50%','45%'],
-                            radius: '80%',
+                            radius: '70%',
                             name: {
                                 // backgroundColor: {
                                 //     image: analy,
@@ -215,35 +235,36 @@
                             data: x_line,
                             axisLine: {
                                 lineStyle: {
-                                    color: '#F9F9F9' //坐标轴线颜色
-                                }
+                                    color: '#F9F9F9', //坐标轴线颜色
+                                },
+                                symbolSize:'symbolSize',
                             },
                             axisLabel: {
                                 interval:0,
                                 textStyle: {
-                                    color: '#fff',   //x轴上的字体颜色
+                                    color: '',   //x轴上的字体颜色
                                     fontSize:'16'    // x轴字体大小
                                 },
-                                formatter: function (value) {
-                                    return value;
-                                },
-                                rich: {
-                                    'S': {
-                                        backgroundColor: 'red',
-                                        padding: [1, 1, 1, 1],
-                                        margin: [],
-                                    },
-                                    'A': {
-                                        backgroundColor: 'green',
-                                        padding: [5, 32, 5, 32],
-                                        margin: []
-                                    },
-                                    'B': {
-                                        backgroundColor: 'yellow',
-                                        padding: [5, 32, 5, 32],
-                                        margin: []
-                                    }
-                                }
+                                // formatter: function (value) {
+                                //     return value;
+                                // },
+                                // rich: {
+                                //     'S': {
+                                //         backgroundColor: 'red',
+                                //         padding: [1, 1, 1, 1],
+                                //         margin: [],
+                                //     },
+                                //     'A': {
+                                //         backgroundColor: 'green',
+                                //         padding: [5, 32, 5, 32],
+                                //         margin: []
+                                //     },
+                                //     'B': {
+                                //         backgroundColor: 'yellow',
+                                //         padding: [5, 32, 5, 32],
+                                //         margin: []
+                                //     }
+                                // }
 
                                 // rotate:-10
                             }, //坐标轴文字是否显示完全
@@ -268,20 +289,27 @@
                                 interval:0,
                                 color: 'white',
                                 backgroundColor: '#509c91',
-                                padding: [64, 17, 64, 17]
+                                padding: [58, 17, 58, 17]
                             },
                             splitLine:{show: true},
                         },
                         grid:{
                             x:50,
-                            y:45,
+                            y:100,
                             x2:5,
                             y2:20,
                             borderWidth:1
                         },
                         series: [{
                             data: line,
-                            // symbolSize: symbolSize,
+                            itemStyle : {
+                                normal : {
+                                    lineStyle:{
+                                        width:4,//折线宽度
+                                    }
+                                }
+                            },
+                            symbolSize:15,
                             type: 'line',
                             color:['#50E3C2']
                         }]
