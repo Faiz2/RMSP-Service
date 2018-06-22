@@ -149,13 +149,25 @@
                     var indicator = [];
                     var line = [];
                     var x_line = [];
-
+                    var radar_img = [];
                     $.each(rd.result.data.radar_map, function(i, v) {
                         var $div = $('div [description='+ v.name +']');
                         var grade = '/assets/images/version_2/' + v.comments.tips + ".png";
                         var title = '/assets/images/version_2/' + v.name + "-" + v.comments.tips + ".png";
                         var radar = '/assets/images/version_2/d'+ v.comments.tips + ".png";
-                        $('#radar-img').find('li>img').attr("src",radar);
+                        $('#radar-img').find('.radar-img1').attr("src",radar_img[0]);
+                        $('#radar-img').find('.radar-img2').attr("src",radar_img[1]);
+                        $('#radar-img').find('.radar-img3').attr("src",radar_img[2]);
+                        $('#radar-img').find('.radar-img4').attr("src",radar_img[3]);
+                        $('#radar-img').find('.radar-img5').attr("src",radar_img[4]);
+                        $('#radar-img').find('.radar-img6').attr("src",radar_img[5]);
+                        $('#radar-img').find('.radar-img7').attr("src",radar_img[6]);
+                        $('#radar-img').find('.radar-img8').attr("src",radar_img[7]);
+                        $('#radar-img').find('.radar-img9').attr("src",radar_img[radar_img.length-1]);
+                        radar_img.push([radar]);
+                        // // $('#radar-img').find('img').attr("src",radar);
+                        // // console.info($('#radar-img').find('img'))
+                        // console.info(radar_img.length-1)
 
                         $div.find('img[name="grade"]').attr('src', grade);
                         $div.find('p[name="explain"]').text(v.comments.describe);
