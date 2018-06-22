@@ -915,7 +915,50 @@
             removeSelectNoneOption();
             window.localStorage.clear();
             var uuid = $('input:hidden[name="uuid"]').val();
-            f.cookieModule.setCookie("uuid", uuid)
+            f.cookieModule.setCookie("uuid", uuid);
+            var phrase = $('input[name="phase"]').val();
+            $.each($('.hosp-input-info select'), function(i, v){
+                if($(v).val() === "不分配") {
+                    var inputs = $('div[name="'+$(v).find('option:selected')
+                        .attr("hospital-name")+'"]')
+                        .find('input')
+                        .not('[pharbers-type="皮肤药"]')
+                        .not('[name="hospital-code"]');
+
+                    if(phrase == 2) {
+                        inputs = $('div[name="'+$(v).find('option:selected')
+                            .attr("hospital-name")+'"]')
+                            .find('input')
+                            .not('[name="hospital-code"]')
+                            .not('[hospital-name="铁路医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="海港医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="第六医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="小营医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="光华医院"][pharbers-type="皮肤药"]')
+                            .not('[hospital-name="大学医院"][pharbers-type="皮肤药"]')
+                    }
+                    // console.info(inputs)
+                    inputs.val("");
+                    inputs.prop("disabled", true);
+                    calcAllotTime($(v));
+                    showSelectSalesMen();
+                    calcBudget();
+                }
+
+
+            });
+            $.each($('div[name="hosp-budget"]'), function(i, v){
+                $(this).attr('data-value', $(v).val().replace(/,/g, ""));
+                $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')));
+            });
+            $.each($('input[name="prod_value"]'), function(i, v){
+                $(this).attr('data-value', $(v).val().replace(/,/g, ""));
+                $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')));
+            });
+            // $('div[name="hosp-budget"] input[name="prod_value"]').keyup(function(){
+            //     $(this).attr('data-value', $(this).val().replace(/,/g, ""))
+            //     $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')))
+            // });
         }
 
         events: {
@@ -999,9 +1042,9 @@
 
             // 指标设定keyup
             $('div[name="hosp-budget"] input[name="prod_value"]').keyup(function(){
-                verifyAllInputIsNumber()
-                $(this).attr('data-value', $(this).val().replace(/,/g, ""))
-                $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')))
+                verifyAllInputIsNumber();
+                $(this).attr('data-value', $(this).val().replace(/,/g, ""));
+                $(this).val(f.thousandsModule.formatNum($(this).attr('data-value')));
             });
 
             // salesmen select change
