@@ -48,7 +48,9 @@
     /*background: #fff;*/
     /*display: inline-block;*/
     min-height: 280px;
-
+}
+.outline .top .outline-right img {
+    margin-right: 30px;
 }
 .outline .top .outline-right .img {
     display: inline-block;
