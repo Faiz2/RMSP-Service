@@ -1,6 +1,5 @@
 (function ($, w) {
     "use strict";
-    debugger;
     var f = new Facade();
     var validation;
 
@@ -10,6 +9,9 @@
             rules: {
                 account: {
                     required: true,
+                    pattern: {
+                        pattern: /^[0-9a-zA-Z]*$/
+                    },
                     remote: function () {
                         var r = {
                             type: "POST",
@@ -203,23 +205,11 @@
 
         };
         return r;
-    }
-    jQuery.validator.addMethod("repeatCheck", function (url ,para) {
-        var v = $("#"+para).val();
-        var obj = {para:v};
-        var js = JSON.stringify(f.parameterPrefixModule.business("user",obj));
-        f.ajaxModule.baseCall("/register/check/name", js, "POST", function (r) {
-            if(data.status === "ok")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        })
+    };
 
-    },"已存在，请重新输入");
-
+    $.validator.addMethod("pattern",function (value, element, param) {
+        return param.pattern.test(value);
+    },"输入只能为字母或数字");
 
 })(jQuery, window);
+

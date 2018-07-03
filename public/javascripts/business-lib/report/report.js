@@ -1,256 +1,115 @@
 (function($, w){
-    var f = new Facade();
-    var $report_tab_li = $('#report-tab li');
 
-    var phase_switch = function(zone, text) {
-        switch (text) {
-            case "周期1":
-                return zone + "1";
-                break;
-            case "周期2":
-                return zone + "2";
-                break;
-            default:
-                console.warn("tab is more")
+    const pharbers_filter = function(inputs_option) {
+        let pharber_filter = inputs_option.pharber_filter;
+        let other_filter = inputs_option.other_filter;
+        let $table = inputs_option.table_jq;
+        function filter_hidden (_, elem) {
+            if(pharber_filter !== "" && other_filter !== "") {
+                return $(elem).attr("pharbers-filter") !== pharber_filter || $(elem).attr("other-filter") !== other_filter
+            } else if(pharber_filter === "" && other_filter !== "") {
+                return $(elem).attr("other-filter") !== other_filter
+            } else if(pharber_filter !== "" && other_filter === ""){
+                return $(elem).attr("pharbers-filter") !== pharber_filter
+            } else return true
         }
+        $table.find('tbody').find('tr').show();
+        if(pharber_filter !== "" || other_filter !== "") $table.find('tbody').find('tr').filter(filter_hidden).hide()
     };
 
-    $(function() {
+    $(function(){
 
-        $report_tab_li.click(function() {
-            market_sales($(this).find('a').text());
-            deputy_report($(this).find('a').text());
-            manager_report($(this).find('a').text());
-            allot_report($(this).find('a').text());
-            sales_customer($(this).find('a').text());
-            sales_deputy($(this).find('a').text());
-            sales_product($(this).find('a').text());
+        $('#download-report').click(function(){
+            let json = JSON.stringify(f.parameterPrefixModule.conditions({
+                "uuid": $('input[name="uuid"]').val(),
+                "phase": parseInt($('input[name="phase"]').val())
+            }));
+            f.alert.loading();
+            f.ajaxModule.baseCall('/submit/create', json, 'POST', function(r) {
+                if(r.status === 'ok' && r.result.data.flag === 'ok') {
+                    layer.closeAll('loading');
+                    w.window.open('/download/report/' + r.result.data.path);
+                    // w.location = "/report/download/" + r.result.data.path
+                }
+            });
         });
 
-        if (cycle1_status) {
-            $('div[name="cycle1-style-controller"]').show();
-            $report_tab_li.eq(0).click();
+
+        {
+            let $allot_hospital_select = $('div[name="allot"] div[name="hospitals"]').find('select');
+            let $allot_dimension_select = $('div[name="allot"] div[name="dimension"]').find('select');
+            let $allot_time_distribution_table = $('div[name="allot"] table[name="time-distribution"]');
+
+            $allot_hospital_select.change(function() {
+                let opt = {
+                    "pharber_filter": $(this).val(),
+                    "other_filter": $allot_dimension_select.val(),
+                    "table_jq": $allot_time_distribution_table
+                };
+                pharbers_filter(opt);
+            });
+
+            $allot_dimension_select.change(function() {
+                let opt = {
+                    "pharber_filter": $allot_hospital_select.val(),
+                    "other_filter": $(this).val(),
+                    "table_jq": $allot_time_distribution_table
+                };
+                pharbers_filter(opt);
+            });
         }
-        if (cycle2_status) {
-            $('div[name="cycle2-style-controller"]').show();
-            $report_tab_li.eq(1).click();
+
+        {
+
+            let $sales_customer_hospital_select = $('div[name="sales"] div[name="sales-customer"] div[name="hospitals"]').find('select');
+            let $sales_customer_product_select = $('div[name="sales"] div[name="sales-customer"] div[name="product"]').find('select');
+            let $salse_customer_table = $('div[name="sales"] div[name="sales-customer"] table[name="sales-customer-tb"]');
+
+            $sales_customer_hospital_select.change(function() {
+                let opt = {
+                    "pharber_filter": $(this).val(),
+                    "other_filter": $sales_customer_product_select.val(),
+                    "table_jq": $salse_customer_table
+                };
+                pharbers_filter(opt);
+            });
+
+            $sales_customer_product_select.change(function() {
+                let opt = {
+                    "pharber_filter": $sales_customer_hospital_select.val(),
+                    "other_filter": $(this).val(),
+                    "table_jq": $salse_customer_table
+                };
+                pharbers_filter(opt);
+            });
+        }
+
+        {
+
+            let $sales_deputy_hospital_select = $('div[name="sales"] div[name="sales-deputy"] div[name="personal"]').find('select');
+            let $sales_deputy_product_select = $('div[name="sales"] div[name="sales-deputy"] div[name="product"]').find('select');
+            let $salse_deputy_personal_table = $('div[name="sales"] div[name="sales-deputy"] table[name="sales-personal-tb"]');
+
+            $sales_deputy_hospital_select.change(function() {
+                let opt = {
+                    "pharber_filter": $(this).val(),
+                    "other_filter": $sales_deputy_product_select.val(),
+                    "table_jq": $salse_deputy_personal_table
+                };
+                pharbers_filter(opt);
+            });
+
+            $sales_deputy_product_select.change(function() {
+                let opt = {
+                    "pharber_filter": $sales_deputy_hospital_select.val(),
+                    "other_filter": $(this).val(),
+                    "table_jq": $salse_deputy_personal_table
+                };
+                pharbers_filter(opt);
+            });
         }
 
 
-        $('#cycle1-down').click(function() {
-            var name = $.cookie('reportname1');
-            window.open('/report/download/' + name);
-        });
-
-        $('#cycle2-down').click(function() {
-            var name = $.cookie('reportname2');
-            window.open('/report/download/' + name);
-        })
     });
-
-    function allot_select_change(hk, dk) {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var $zone = $('#' + phase_switch('allot-report-cycle', li_text));
-        var $hospital_select = $zone.find('select[name="hospital"]');
-        var $dimension_select = $zone.find('select[name="dimension"]');
-        $hospital_select.find('option[value="'+ hk +'"]').attr('selected', true);
-        $dimension_select.find('option[value="'+ dk +'"]').attr('selected', true);
-
-        $hospital_select.change(function () {
-            allot_report(li_text, $(this).val(), $dimension_select.val());
-
-        });
-
-        $dimension_select.change(function () {
-            allot_report(li_text, $hospital_select.val(), $(this).val());
-        });
-    }
-
-    function sales_customer_select_change(hk, pk) {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var $zone = $('#' + phase_switch('sales-details-cycle', li_text));
-        var $hospital_select = $zone.find('select[name="hospital"]');
-        var $product_select = $zone.find('div[name="customer"] select[name="product"]');
-        $hospital_select.find('option[value="'+ hk +'"]').attr('selected', true);
-        $product_select.find('option[value="'+ pk +'"]').attr('selected', true);
-
-        $hospital_select.change(function () {
-            sales_customer(li_text, $(this).val(), $product_select.val());
-
-        });
-
-        $product_select.change(function () {
-            sales_customer(li_text, $hospital_select.val(), $(this).val());
-        });
-    }
-
-    function sales_deputy_select_change(dk, pk) {
-        var li_text = $report_tab_li.filter('.active').find('a').text();
-        var $zone = $('#' + phase_switch('sales-details-cycle', li_text));
-        var $people_select = $zone.find('select[name="people"]');
-        var $product_select = $zone.find('div[name="deputy"] select[name="product"]');
-        $people_select.find('option[value="'+ dk +'"]').attr('selected', true);
-        $product_select.find('option[value="'+ pk +'"]').attr('selected', true);
-
-        $people_select.change(function () {
-            sales_deputy(li_text, $(this).val(), $product_select.val());
-
-        });
-
-        $product_select.change(function () {
-            sales_deputy(li_text, $people_select.val(), $(this).val());
-        });
-    }
-
-    function market_sales(text) {
-       // var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('market-sales-report-cycle', text));
-       f.ajaxModule.baseCall('report/querymarketsales', json, 'POST', function(r) {
-           if(r.status === 'ok') {
-               var html = r.result.data.marketsalesreport;
-               $zone.find('div[name="market-sales"]').empty().html(html);
-               var $tds = $zone.find('.num-format');
-               $.each($tds, function(i, v) {
-                   var $td = $(v);
-                   $td.text(f.thousandsModule.formatNum($td.text().split('.')[0]));
-               });
-           }else {
-               $zone.find('div[name="market-sales"]').empty().html('<h4 style="">暂无数据！</h4>')
-           }
-       });
-   }
-   
-    function deputy_report(text) {
-       // var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('delegate-report-cycle', text));
-
-       f.ajaxModule.baseCall('report/querydelegate', json, 'POST', function(r) {
-           if(r.status === 'ok') {
-               var html = r.result.data.deputyreport;
-               $zone.find('div[name="deputy"]').empty().html(html);
-           }else {
-               $zone.find('div[name="deputy"]').empty().html('<h4 style="">暂无数据！</h4>')
-           }
-       });
-   }
-
-    function manager_report(text) {
-       // var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
-       var $zone = $('#' + phase_switch('manager-report-cycle', text));
-
-       f.ajaxModule.baseCall('report/querymanager', json, 'POST', function(r) {
-           if(r.status === 'ok') {
-               var html = r.result.data.managerreport;
-               $zone.find('div[name="manager"]').empty().html(html);
-               var $tds = $zone.find('.num-format');
-               $.each($tds, function(i, v) {
-                   var $td = $(v);
-                   $td.text(f.thousandsModule.formatNum($td.text().split('.')[0]));
-               });
-           }else {
-               $zone.find('div[name="manager"]').empty().html('<h4 style="">暂无数据！</h4>')
-           }
-       });
-   }
-
-    function allot_report(text, hospital, dimension) {
-       // var li_text = $report_tab_li.filter('.active').find('a').text();
-       var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
-           'user': $.cookie('user'),
-           'hospital': hospital === '' ? undefined : hospital,
-           'dimension': dimension === '' ? undefined : dimension
-       }));
-       var $zone = $('#' + phase_switch('allot-report-cycle', text));
-
-       f.ajaxModule.baseCall('report/queryaloot', json, 'POST', function(r) {
-           if(r.status === 'ok') {
-               var html = r.result.data.allotreport;
-               $zone.find('div[name="allot"]').empty().html(html);
-               var $tds = $zone.find('.num-format');
-               $.each($tds, function(i, v) {
-                   var $td = $(v);
-                   $td.text(f.thousandsModule.formatNum($td.text()));
-               });
-               allot_select_change(hospital, dimension);
-           }else {
-               $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
-           }
-       });
-
-   }
-    
-    function sales_customer(text, hospital, product) {
-        // var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
-            'user': $.cookie('user'),
-            'hospital': hospital === '' ? undefined : hospital,
-            'product': product === '' ? undefined : product
-        }));
-        var $zone = $('#' + phase_switch('sales-details-cycle', text));
-
-        f.ajaxModule.baseCall('report/querysalsecustomer', json, 'POST', function(r) {
-            if(r.status === 'ok') {
-                var html = r.result.data.salescustomerreport;
-                $zone.find('div[name="sales-customer"]').empty().html(html);
-                var $tds = $zone.find('.num-format');
-                $.each($tds, function(i, v) {
-                    var $td = $(v);
-                    $td.text(f.thousandsModule.formatNum($td.text().split('%')[0]));
-                });
-                sales_customer_select_change(hospital, product);
-            }else {
-                $zone.find('div[name="allot"]').empty().html('<h4 style="">暂无数据！</h4>')
-            }
-        });
-    }
-
-    function sales_deputy(text, people, product) {
-        // var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text,
-            'user': $.cookie('user'),
-            'people': people === '' ? undefined : people,
-            'product': product === '' ? undefined : product
-        }));
-        var $zone = $('#' + phase_switch('sales-details-cycle', text));
-
-        f.ajaxModule.baseCall('report/querysalsedeputy', json, 'POST', function(r) {
-            if(r.status === 'ok') {
-                var html = r.result.data.salesdeputyreport;
-                $zone.find('div[name="sales-deputy"]').empty().html(html);
-                var $tds = $zone.find('.num-format');
-                $.each($tds, function(i, v) {
-                    var $td = $(v);
-                    $td.text(f.thousandsModule.formatNum($td.text().split('%')[0]));
-                });
-                sales_deputy_select_change(people, product);
-            }else {
-                $zone.find('div[name="sales-deputy"]').find("table").empty();
-            }
-        });
-    }
-
-    function sales_product(text) {
-        // var li_text = $report_tab_li.filter('.active').find('a').text();
-        var json = JSON.stringify(f.parameterPrefixModule.conditions({'cycle': text, 'user': $.cookie('user')}));
-        var $zone = $('#' + phase_switch('sales-details-cycle', text));
-
-        f.ajaxModule.baseCall('report/querysalseproduct', json, 'POST', function(r) {
-            if(r.status === 'ok') {
-                var html = r.result.data.salesproductreport;
-                $zone.find('div[name="sales-porduct"]').empty().html(html);
-                var $tds = $zone.find('.num-format');
-                $.each($tds, function(i, v) {
-                    var $td = $(v);
-                    $td.text(f.thousandsModule.formatNum($td.text().split('%')[0]));
-                });
-            }else {
-                $zone.find('div[name="sales-porduct"]').empty().html('<h4 style="">暂无数据！</h4>')
-            }
-        });
-    }
-
 
 })(jQuery, window);

@@ -1,27 +1,65 @@
-/**
- * Created by yym on 12/11/17.
+
+/**邮箱正则表达式
+ * 格式为：xxx@x.com
  */
-var arranged_time=/^.*_arranged_time_of_.*$/;
+let emailzz = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-var arranged_promotional_budget = /^.*arranged_promotional_budget*$/;
+/**办公电话验证
+ * 格式为：000-0000000或13100001111
+ */
+let phonezz = /((\d{4})?-?[1-9][0-9]{6,7})|([1-9][34578]\d{9})/;
 
-var arranged_person_hospital = /^.*_sr_hosp.*$/;
+/**固定电话+手机验证
+ * 格式为：0000-00000000或18900000000
+ */
+let newphonezz = /^((0\d{2,3}-\d{7,8})|(1[35874]\d{9}))$/;
 
-var pro_budget_hosp = /^.*promotional_budget_hosp.*$/;
+/**性别验证
+ * 格式为：男|女
+ */
+let patternzz = /^['男'|'女']$/ ;
 
-var hosp_sales_target = /^.*hosp\d{1,2}_sales_target.*$/;
+/**年龄验证
+ * 格式为：0-120岁
+ */
+let agezz = /^([1-9]\d|\d)$/;
 
-var hosp_worktime = /^.*hosp\d{1,2}_worktime.*$/;
+/**
+ * 数字
+ * 格式为：必须为数字
+ */
+let numberzz = /^([+-]?)\d*\.?\d+$/;
 
-var hospR = /^hosp\d{1,2}$/;
+/**
+ * 只为正整数数字
+ * 格式为：必须为数字
+ */
+let numberzzs = /^\d+$/;
 
-var regexTest = function (rgx , str) {
-    var res = rgx.test(str);
-    return res;
+/**
+ * 实数
+ * 格式为：必须为数字
+ */
+let numberzzss = /^\d*\.?\d+$/;
+
+/**
+ *
+ * @param reg 正则表达式
+ * @param value 实际value
+ * @return Boolean
+ */
+const regexExce = function(reg, value) {
+    return reg.test(value);
 };
 
-var regexTestSome = function (rgxArr, str) {
-    return rgxArr.some(function (rgx, index, arr) {
-        return rgx.test(str);
-    })
-}
+/**
+ *
+ * @param reg 正则表达式
+ * @param array 一维数组，如：[1, 2, 3] 不包含Object
+ * @return Boolean
+ */
+const regexArrayExce = function(reg, array) {
+    array.some(function(elem, index, array){
+        return reg.test(elem);
+    });
+};
